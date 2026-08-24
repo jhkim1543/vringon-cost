@@ -224,3 +224,19 @@ R4 에서 부피가 pitch 1.0, 1.5, 2.0 mm 에 대해 38, 60, 82 cm3 로 거의 
   `--https` 는 ACM 발급 인증서를 찾아 443 리스너를 붙이고 Route53 에 CNAME 을 쓴다.
   도메인을 덮는 인증서가 없으면 ACM 에서 먼저 요청·DNS 검증해야 한다.
 - 운영에서는 `/api/debug/capture` 가 닫힌다 (EB 가 주는 PORT 로 판정).
+
+## 사내 GPU 서버 부착 (2026-08-24 실배포)
+
+EB 대신(AWS 세션 만료) 사내 GPU 서버의 jhkim 계정 영역에 백엔드를 실제로 올렸다.
+다른 서비스와 완전히 분리: 전용 디렉터리, 전용 venv, 전용 고포트, sudo 불사용.
+
+- 위치: `plushgpu:/data/jhkim/vringon-cost-svc/` (app=번들 전개, venv, env(0600), run.sh)
+- 기동: `run.sh` 가 재시작 루프로 uvicorn 을 돌리고, crontab `@reboot` 에 등록
+  (기존 vringon-cad 항목은 보존). 죽이면: `pkill -u jhkim -f "[u]vicorn server.app:app"`
+- 갱신: 로컬에서 `python deploy/eb_bundle.py` 후 bundle.zip 을 scp 로 올려 app/ 재전개,
+  프로세스 재기동. 키·공급자 주소는 서버의 env 파일에만 있다 (리포·번들엔 없음).
+- 주소는 HTTP 고포트라 https 인 GitHub Pages 페이지에 붙이면 mixed content 로
+  차단된다. 그래서 공개 페이지 연결(`deploy/backend.json`) 대신 **서버 주소로 직접
+  접속**하는 것이 라이브 데모다 (같은 오리진이라 업로드·생성·재계산 전부 동작).
+  주소 자체는 공개 리포에 적지 않는다.
+- EB 절차(위 절)는 그대로 유효하다. https 도메인이 필요해지면 EB 로 올리면 된다.
