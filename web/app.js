@@ -659,6 +659,10 @@ function stepCost(el) {
       <div><label>공급사 마진 %</label>
         <input type="number" id="sm" value="${sc.supplier_margin_pct}" step="0.5"></div>
     </div>
+    ${partial ? `<div class="note"><b>지금은 이 두 값이 결과를 바꾸지 않습니다.</b>
+      주문 수량은 금형 상각에, 마진은 FOB 에 쓰이는데 둘 다 차단 상태입니다.
+      소재비는 켤레당 계산이라 수량과 무관합니다. 수량 할인 단가표가 들어오고
+      노무·금형이 확정되면 그때부터 두 값이 결과를 움직입니다.</div>` : ''}
 
     <div class="stat">
       <div class="lbl">표시 중인 값: 가격 확정된 BOM ${cov.priced_lines}/${cov.bom_lines}라인의 소재·부자재 소계 (켤레당)</div>
