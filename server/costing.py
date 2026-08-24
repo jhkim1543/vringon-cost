@@ -26,6 +26,40 @@ def _mul(qty, price):
     return None if (qty is None or price is None) else qty * price
 
 
+# 성형 파트의 한 짝 기준 타당 부피 범위 (cm3). 260~300mm 러닝화 문헌·실측 통상치.
+# CV(해상도 안정성)와 폭 비율, 총질량 게이트가 다 통과해도 파트 하나가
+# 3배 부풀 수 있다는 것을 QA 에서 확인했다. 파트 단위로 자릿수를 잡는다.
+PART_VOLUME_RANGE_CM3 = {
+    "Midsole Carrier": (100, 350),
+    "Outsole Rubber": (30, 130),
+    "Midsole Insert": (3, 80),
+    "Rubber Pod": (3, 60),
+    "TPU Cage/Heel Clip": (3, 60),
+}
+
+
+def volume_warnings(line):
+    """성형 라인의 부피가 통상 범위를 벗어나면 경고를 만든다.
+
+    차단이 아니라 경고다. 복원 3D 의 한계로 생기는 과대·과소를 사용자와
+    등급 게이트가 볼 수 있게 남기는 것이 목적이다.
+    """
+    cp = line.get("canonical_part")
+    rng = PART_VOLUME_RANGE_CM3.get(cp)
+    net = (line.get("consumption") or {}).get("net")
+    sp = catalog.material_specs().get(line.get("material_spec")) or {}
+    if not rng or not net or sp.get("form") != "molded":
+        return []
+    vol = float(net) * 1e6
+    lo, hi = rng
+    if vol > hi:
+        return [f"{cp} 부피 {vol:.0f} cm3/짝가 통상 상한 {hi} 을 {vol / hi:.1f}배 초과. "
+                "복원 3D 과대(내부 공간 포함) 의심, 승인 sole CAD 필요"]
+    if vol < lo:
+        return [f"{cp} 부피 {vol:.0f} cm3/짝가 통상 하한 {lo} 미만. 과소 복원 의심"]
+    return []
+
+
 def cost_lines(bom, quarter, supplier_quotes=None):
     """BOM -> 원가 라인. 각 라인에 근거와 차단 사유를 붙인다."""
     out = []
@@ -87,6 +121,8 @@ def cost_lines(bom, quarter, supplier_quotes=None):
             "price": price,
             "cost_p10": c10, "cost_p50": c50, "cost_p90": c90,
             "blocked": sorted(set(b for b in blocked if b)),
+            "warnings": volume_warnings(line if "consumption" in line else
+                                        {**line, "consumption": cons}),
             "status": "calculated" if c50 is not None else "blocked",
             "max_class": _min_class(line.get("max_class"), price.get("max_class")),
             "assumptions": cons.get("assumptions", []),
@@ -343,8 +379,10 @@ def roll_up(lines, scenario):
         status = "PARTIAL"
 
     priced = [l for l in lines if l["status"] == "calculated"]
+    sanity = [w for l in lines for w in (l.get("warnings") or [])]
     return {
         "cost_status": status,
+        "sanity_warnings": sanity,
         "material_breakdown": bucket_breakdown(lines),
         "buckets": buckets,
         "known_cost_subtotal": known,

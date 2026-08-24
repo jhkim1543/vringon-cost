@@ -95,6 +95,9 @@
    "blocked": [
     "복구본 사용 (seg_01 메시 완성 후 복셀 3해상도 평균, 해상도 CV 4.5% 판정 ok). 승인 sole CAD 로 대체 권장"
    ],
+   "warnings": [
+    "Midsole Carrier 부피 389 cm3/짝가 통상 상한 350 을 1.1배 초과. 복원 3D 과대(내부 공간 포함) 의심, 승인 sole CAD 필요"
+   ],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -196,6 +199,7 @@
    "blocked": [
     "복구본 사용 (seg_02 메시 완성 후 복셀 3해상도 평균, 해상도 CV 8.0% 판정 needs_review; seg_00 메시 완성 후 복셀 3해상도 평균, 해상도 CV 9.9% 판정 needs_review). 승인 sole CAD 로 대체 권장"
    ],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -296,6 +300,7 @@
    "blocked": [
     "복구본 사용 (seg_07 메시 완성 후 복셀 3해상도 평균, 해상도 CV 5.0% 판정 ok). 승인 sole CAD 로 대체 권장"
    ],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -411,6 +416,7 @@
    "cost_p50": 0.05019614205419078,
    "cost_p90": 0.05019614205419078,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -533,6 +539,7 @@
     "MAT-ADH-PU.transfer_efficiency 는 공장 확인 필요 (C2 차단)",
     "MAT-ADH-PU.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)"
    ],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -648,6 +655,7 @@
     "MAT-CLEANER.transfer_efficiency 는 공장 확인 필요 (C2 차단)",
     "MAT-CLEANER.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)"
    ],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -769,6 +777,7 @@
     "MAT-PRIMER.transfer_efficiency 는 공장 확인 필요 (C2 차단)",
     "MAT-PRIMER.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)"
    ],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -864,6 +873,7 @@
    "cost_p50": 0.006575,
    "cost_p90": 0.00735,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -939,6 +949,7 @@
    "cost_p50": 1.15,
    "cost_p90": 2.0,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": []
@@ -1015,6 +1026,7 @@
    "cost_p50": 0.005489999999999999,
    "cost_p90": 0.007559999999999999,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -1124,6 +1136,7 @@
    "cost_p50": 0.06179674953546398,
    "cost_p90": 0.06317001063625206,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -1251,6 +1264,7 @@
    "cost_p50": 0.015314194324128146,
    "cost_p90": 0.015654509753553213,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -1378,6 +1392,7 @@
    "cost_p50": 0.2407658172441223,
    "cost_p90": 0.26574593514803785,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -1504,6 +1519,7 @@
    "cost_p50": 0.07220710519950393,
    "cost_p90": 0.1155313683192063,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -1632,6 +1648,7 @@
    "cost_p50": 0.00644159983886844,
    "cost_p90": 0.00751519981201318,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -1758,6 +1775,7 @@
    "cost_p50": 0.021041070307407442,
    "cost_p90": 0.035068450512345736,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -1850,6 +1868,7 @@
    "cost_p50": 0.3,
    "cost_p90": 0.38,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": []
@@ -1917,6 +1936,7 @@
    "blocked": [
     "Webbing/Pull Tab: 길이 없음"
    ],
+   "warnings": [],
    "status": "blocked",
    "max_class": "C1",
    "assumptions": []
@@ -2016,6 +2036,7 @@
    "cost_p50": 0.12285812685259724,
    "cost_p90": 0.21707799569759606,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -2140,6 +2161,7 @@
    "cost_p50": 0.04772432116364247,
    "cost_p90": 0.052675851173998305,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -2226,6 +2248,7 @@
     "단가 stale (소재 미배정)",
     "단가 없음: (소재 미배정)"
    ],
+   "warnings": [],
    "status": "blocked",
    "max_class": "C1",
    "assumptions": []
@@ -2325,6 +2348,7 @@
    "cost_p50": 0.057987743045073814,
    "cost_p90": 0.07248467880634227,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -2452,6 +2476,7 @@
    "cost_p50": 0.015545820752529176,
    "cost_p90": 0.02213303293580425,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -2580,6 +2605,7 @@
    "cost_p50": 0.15545820752529177,
    "cost_p90": 0.2213303293580425,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -2612,6 +2638,9 @@
  ],
  "rollup": {
   "cost_status": "PARTIAL",
+  "sanity_warnings": [
+   "Midsole Carrier 부피 389 cm3/짝가 통상 상한 350 을 1.1배 초과. 복원 3D 과대(내부 공간 포함) 의심, 승인 sole CAD 필요"
+  ],
   "material_breakdown": {
    "Sole": {
     "p10": 1.0515569730589025,
@@ -3181,5 +3210,5 @@
   "verdict": "fail_over_estimate",
   "note": "완제품 질량은 순질량 기준이다. 부피 파트는 부피 x 밀도, 면적 파트는 순면적 x 면밀도, 접착제는 건조 고형분 50%, 포장재는 제외. 질량 미산정 3건이 남았는데 이미 목표의 112%다. 부피 과대추정."
  },
- "computed_at": "2026-08-24T09:40:01Z"
+ "computed_at": "2026-08-24T11:10:42Z"
 }

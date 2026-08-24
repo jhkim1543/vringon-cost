@@ -77,6 +77,7 @@
     "Midsole Carrier: 부피 계산 차단 (blocked:not watertight (열린 경계 존재))",
     "not watertight (열린 경계 존재)"
    ],
+   "warnings": [],
    "status": "blocked",
    "max_class": "C1",
    "assumptions": []
@@ -146,6 +147,7 @@
     "Outsole Rubber: 부피 계산 차단 (blocked:not watertight (열린 경계 존재))",
     "not watertight (열린 경계 존재)"
    ],
+   "warnings": [],
    "status": "blocked",
    "max_class": "C1",
    "assumptions": []
@@ -248,6 +250,7 @@
    "cost_p50": 0.04278049908889178,
    "cost_p90": 0.04278049908889178,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -370,6 +373,7 @@
     "MAT-ADH-PU.transfer_efficiency 는 공장 확인 필요 (C2 차단)",
     "MAT-ADH-PU.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)"
    ],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -485,6 +489,7 @@
     "MAT-CLEANER.transfer_efficiency 는 공장 확인 필요 (C2 차단)",
     "MAT-CLEANER.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)"
    ],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -606,6 +611,7 @@
     "MAT-PRIMER.transfer_efficiency 는 공장 확인 필요 (C2 차단)",
     "MAT-PRIMER.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)"
    ],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -701,6 +707,7 @@
    "cost_p50": 0.006575,
    "cost_p90": 0.00735,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -776,6 +783,7 @@
    "cost_p50": 1.15,
    "cost_p90": 2.0,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": []
@@ -852,6 +860,7 @@
    "cost_p50": 0.005489999999999999,
    "cost_p90": 0.007559999999999999,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -961,6 +970,7 @@
    "cost_p50": 0.005614133558514712,
    "cost_p90": 0.005738892082037261,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -1088,6 +1098,7 @@
    "cost_p50": 0.037233971542020676,
    "cost_p90": 0.038061393131843355,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -1215,6 +1226,7 @@
    "cost_p50": 0.09198973369643852,
    "cost_p90": 0.10153392240225002,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -1341,6 +1353,7 @@
    "cost_p50": 0.033139564986197856,
    "cost_p90": 0.053023303977916575,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -1469,6 +1482,7 @@
    "cost_p50": 0.00014880344782336504,
    "cost_p90": 0.00017360402246059252,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -1595,6 +1609,7 @@
    "cost_p50": 0.014479826404444007,
    "cost_p90": 0.02413304400740668,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -1687,6 +1702,7 @@
    "cost_p50": 0.3,
    "cost_p90": 0.38,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": []
@@ -1754,6 +1770,7 @@
    "blocked": [
     "Webbing/Pull Tab: 길이 없음"
    ],
+   "warnings": [],
    "status": "blocked",
    "max_class": "C1",
    "assumptions": []
@@ -1853,6 +1870,7 @@
    "cost_p50": 0.0011894989967768297,
    "cost_p90": 0.0013129127999744255,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -1977,6 +1995,7 @@
    "cost_p50": 0.07402486430633953,
    "cost_p90": 0.1307945154876582,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -2101,6 +2120,7 @@
    "cost_p50": 0.023629002698248386,
    "cost_p90": 0.029536253372810482,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -2228,6 +2248,7 @@
    "cost_p50": 0.037797133511950486,
    "cost_p90": 0.05381286805091255,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -2352,6 +2373,7 @@
    "cost_p50": 0.09539734031778334,
    "cost_p90": 0.13581994214735255,
    "blocked": [],
+   "warnings": [],
    "status": "calculated",
    "max_class": "C1",
    "assumptions": [
@@ -2384,6 +2406,7 @@
  ],
  "rollup": {
   "cost_status": "PARTIAL",
+  "sanity_warnings": [],
   "material_breakdown": {
    "Sole": {
     "p10": 0.04278049908889178,
@@ -2957,5 +2980,5 @@
   "verdict": "suspect_missing_bom",
   "note": "완제품 질량은 순질량 기준이다. 부피 파트는 부피 x 밀도, 면적 파트는 순면적 x 면밀도, 접착제는 건조 고형분 50%, 포장재는 제외."
  },
- "computed_at": "2026-08-24T10:21:08Z"
+ "computed_at": "2026-08-24T11:10:42Z"
 }

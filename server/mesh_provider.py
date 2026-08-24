@@ -29,6 +29,27 @@ TERMINAL_FAIL = ("failed", "cancelled", "banned", "expired", "error")
 
 
 class MeshProvider:
+    def _req(self, method, url, **kw):
+        """일시 오류 재시도. 연결 리셋 한 번에 몇 분짜리 작업이 죽으면 안 된다.
+
+        재시도 대상: 연결 오류, 타임아웃, 5xx. 4xx 는 재시도하지 않는다
+        (같은 요청은 같은 이유로 또 거절된다).
+        """
+        import time as _t
+        last = None
+        for wait in (0, 2, 5, 10):
+            if wait:
+                _t.sleep(wait)
+            try:
+                r = self.s.request(method, url, **kw)
+                if r.status_code >= 500:
+                    last = MeshProviderError(f"http {r.status_code}")
+                    continue
+                return r
+            except (requests.ConnectionError, requests.Timeout) as e:
+                last = e
+        raise MeshProviderError(f"재시도 소진: {last}")
+
     def __init__(self, api_key=None, timeout=60):
         self.key = api_key or provider_api_key()
         if not self.key:
@@ -49,7 +70,7 @@ class MeshProvider:
 
     # ── 계정 ──────────────────────────────────────────────────────────
     def balance(self):
-        r = self.s.get(f"{PROVIDER_BASE}/account/balance", timeout=self.timeout)
+        r = self._req('GET', f"{PROVIDER_BASE}/account/balance", timeout=self.timeout)
         return self._unwrap(r, "balance")
 
     # ── 업로드 ─────────────────────────────────────────────────────────
@@ -61,7 +82,7 @@ class MeshProvider:
             ".webp": "image/webp", ".glb": "model/gltf-binary",
         }.get(p.suffix.lower(), "application/octet-stream")
         with p.open("rb") as f:
-            r = self.s.post(f"{PROVIDER_BASE}/files",
+            r = self._req('POST', f"{PROVIDER_BASE}/files",
                             files={"file": (p.name, f, mime)}, timeout=180)
         d = self._unwrap(r, "upload")
         tok = d.get("file_token") or d.get("token") or d.get("image_token")
@@ -87,7 +108,7 @@ class MeshProvider:
             body["generate_parts"] = True
         if extra:
             body.update(extra)
-        r = self.s.post(f"{PROVIDER_BASE}/generation/image-to-model",
+        r = self._req('POST', f"{PROVIDER_BASE}/generation/image-to-model",
                         json=body, timeout=self.timeout)
         d = self._unwrap(r, "image-to-model")
         tid = d.get("task_id") or d.get("id")
@@ -110,7 +131,7 @@ class MeshProvider:
         body = {"files": files, "model": model or PROVIDER_MODEL, "texture": bool(texture)}
         if extra:
             body.update(extra)
-        r = self.s.post(f"{PROVIDER_BASE}/generation/multiview-to-model",
+        r = self._req('POST', f"{PROVIDER_BASE}/generation/multiview-to-model",
                         json=body, timeout=self.timeout)
         d = self._unwrap(r, "multiview-to-model")
         tid = d.get("task_id") or d.get("id")
@@ -129,7 +150,7 @@ class MeshProvider:
             body["mode"] = mode
         if extra:
             body.update(extra)
-        r = self.s.post(f"{PROVIDER_BASE}/mesh/complete", json=body, timeout=self.timeout)
+        r = self._req('POST', f"{PROVIDER_BASE}/mesh/complete", json=body, timeout=self.timeout)
         d = self._unwrap(r, "mesh/complete")
         tid = d.get("task_id") or d.get("id")
         if not tid:
@@ -146,7 +167,7 @@ class MeshProvider:
             if granularity:
                 body["segmentation_granularity"] = granularity
             body["split_by_connectivity"] = bool(split_by_connectivity)
-        r = self.s.post(f"{PROVIDER_BASE}/mesh/segment", json=body, timeout=self.timeout)
+        r = self._req('POST', f"{PROVIDER_BASE}/mesh/segment", json=body, timeout=self.timeout)
         d = self._unwrap(r, "mesh/segment")
         tid = d.get("task_id") or d.get("id")
         if not tid:
@@ -155,7 +176,7 @@ class MeshProvider:
 
     # ── 폴링 ──────────────────────────────────────────────────────────
     def task(self, task_id):
-        r = self.s.get(f"{PROVIDER_BASE}/tasks/{task_id}", timeout=self.timeout)
+        r = self._req('GET', f"{PROVIDER_BASE}/tasks/{task_id}", timeout=self.timeout)
         return self._unwrap(r, f"task {task_id}")
 
     def wait(self, task_id, timeout_sec=900, poll=3.0, on_progress=None):
@@ -194,8 +215,21 @@ class MeshProvider:
             out = task_data.get("output") or {}
             raise MeshProviderError(f"모델 URL 없음. output 키: {list(out.keys())}")
         # 서명 URL이므로 Authorization 헤더 없이 받는다.
-        r = requests.get(url, timeout=600)
-        r.raise_for_status()
+        # 서명 URL 다운로드도 재시도. 5분 유효라 실패하면 기회가 없다.
+        import time as _t
+        last = None
+        for wait in (0, 2, 5):
+            if wait:
+                _t.sleep(wait)
+            try:
+                r = requests.get(url, timeout=600)
+                r.raise_for_status()
+                break
+            except (requests.ConnectionError, requests.Timeout,
+                    requests.HTTPError) as e:
+                last = e
+        else:
+            raise MeshProviderError(f"다운로드 재시도 소진: {last}")
         out_path = Path(out_path)
         out_path.parent.mkdir(parents=True, exist_ok=True)
         out_path.write_bytes(r.content)

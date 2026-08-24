@@ -646,6 +646,9 @@ function stepCost(el) {
       <li>공장 Routing 과 SAM</li><li>Loaded Labor Rate</li>
       <li>Machine Rate</li><li>Midsole, Outsole 금형 견적</li></ul></div>` : ''}
 
+    ${(r.sanity_warnings || []).length ? `<div class="note">
+      <b>부피 타당성 경고 ${r.sanity_warnings.length}건</b><br>
+      ${r.sanity_warnings.join('<br>')}</div>` : ''}
     ${mb ? `<div class="note ${mb.verdict === 'ok' ? 'ok' : ''}">
       <b>질량 정합성</b> 완제품 ${(mb.finished_pair_mass_g ?? mb.known_mass_g).toFixed(0)} g
       / 구매 투입 ${(mb.purchased_input_mass_g ?? 0).toFixed(0)} g
@@ -758,6 +761,9 @@ function renderEvidence() {
     if (line.assumptions?.length) h += `<h4>가정</h4>` + line.assumptions.map(a =>
       `<div class="note"><b>${a.param} = ${a.value}</b> <span class="tag proxy">${a.source}</span>
        ${a.note ? `<br>${a.note}` : ''}</div>`).join('');
+
+    if (line.warnings?.length) h += `<h4>타당성 경고</h4>` +
+      line.warnings.map(w => `<div class="note">${w}</div>`).join('');
 
     if (line.blocked?.length) h += `<h4>차단</h4>` +
       line.blocked.map(b => `<div class="note bad">${b}</div>`).join('');

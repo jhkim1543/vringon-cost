@@ -31,7 +31,7 @@
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-24T09:40:01Z",
+   "at": "2026-08-24T11:10:42Z",
    "grade": "C1",
    "fob": "산출 불가"
   }
@@ -56,7 +56,7 @@
   "volume_parts_validated": true
  },
  "input_image": "DEMO-RUN-001.jpg",
- "updated_at": "2026-08-24T09:59:21Z",
+ "updated_at": "2026-08-24T11:10:42Z",
  "landmarks": {
   "axis": [
    0.09468265172295515,
@@ -1906,6 +1906,9 @@
  "cost": {
   "rollup": {
    "cost_status": "PARTIAL",
+   "sanity_warnings": [
+    "Midsole Carrier 부피 389 cm3/짝가 통상 상한 350 을 1.1배 초과. 복원 3D 과대(내부 공간 포함) 의심, 승인 sole CAD 필요"
+   ],
    "material_breakdown": {
     "Sole": {
      "p10": 1.0515569730589025,
@@ -2418,7 +2421,7 @@
    },
    "downgraded_from": "C2"
   },
-  "computed_at": "2026-08-24T09:40:01Z"
+  "computed_at": "2026-08-24T11:10:42Z"
  },
  "mapping_summary": {
   "input_segments": 10,

@@ -27,7 +27,7 @@
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-24T10:21:08Z",
+   "at": "2026-08-24T11:10:42Z",
    "grade": "C1",
    "fob": "산출 불가"
   }
@@ -52,7 +52,7 @@
   "volume_parts_validated": false
  },
  "input_image": "DEMO-SEM-001.jpg",
- "updated_at": "2026-08-24T10:21:08Z",
+ "updated_at": "2026-08-24T11:10:42Z",
  "landmarks": {
   "axis": [
    0.08599203391453152,
@@ -1402,6 +1402,7 @@
  "cost": {
   "rollup": {
    "cost_status": "PARTIAL",
+   "sanity_warnings": [],
    "material_breakdown": {
     "Sole": {
      "p10": 0.04278049908889178,
@@ -1917,6 +1918,6 @@
    },
    "downgraded_from": "C2"
   },
-  "computed_at": "2026-08-24T10:21:08Z"
+  "computed_at": "2026-08-24T11:10:42Z"
  }
 }

@@ -531,3 +531,21 @@ def test_viewer_parts_share_vertex_normals():
             checked += 1
         assert checked > 100, f"{pid}: 공유 정점이 너무 적다 ({checked})"
         assert worst < 1.0, f"{pid}: 경계 법선 불일치 {worst:.1f}도"
+
+
+def test_volume_plausibility_warning():
+    """QA 회귀: 미드솔 802 cm3/짝(통상 3배)가 CV·폭·총질량 게이트를 모두
+    통과했다. 파트 단위 부피 자릿수 게이트가 잡아야 한다."""
+    line = {"canonical_part": "Midsole Carrier", "material_spec": "MAT-EVA-COMP",
+            "consumption": {"net": 8.02e-4}}       # 802 cm3/짝
+    w = costing.volume_warnings(line)
+    assert len(w) == 1 and "2.3배" in w[0]
+
+    ok_line = {"canonical_part": "Midsole Carrier", "material_spec": "MAT-EVA-COMP",
+               "consumption": {"net": 2.0e-4}}     # 200 cm3 -> 통상 범위
+    assert costing.volume_warnings(ok_line) == []
+
+    # 성형이 아닌 파트는 대상 아님
+    roll = {"canonical_part": "Vamp", "material_spec": "MAT-MESH-POLY",
+            "consumption": {"net": 8.02e-4}}
+    assert costing.volume_warnings(roll) == []

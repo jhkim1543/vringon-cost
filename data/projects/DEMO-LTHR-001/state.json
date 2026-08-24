@@ -37,7 +37,7 @@
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-24T10:12:04Z",
+   "at": "2026-08-24T11:10:42Z",
    "grade": "C1",
    "fob": "산출 불가"
   }
@@ -62,7 +62,7 @@
   "volume_parts_validated": true
  },
  "input_image": "DEMO-LTHR-001.jpg",
- "updated_at": "2026-08-24T10:12:04Z",
+ "updated_at": "2026-08-24T11:10:42Z",
  "landmarks": {
   "axis": [
    -0.046449447112688245,
@@ -2440,6 +2440,9 @@
  "cost": {
   "rollup": {
    "cost_status": "PARTIAL",
+   "sanity_warnings": [
+    "Midsole Insert 부피 161 cm3/짝가 통상 상한 80 을 2.0배 초과. 복원 3D 과대(내부 공간 포함) 의심, 승인 sole CAD 필요"
+   ],
    "material_breakdown": {
     "Sole": {
      "p10": 0.7008540955850591,
@@ -2952,6 +2955,6 @@
    },
    "downgraded_from": "C2"
   },
-  "computed_at": "2026-08-24T10:12:04Z"
+  "computed_at": "2026-08-24T11:10:42Z"
  }
 }
