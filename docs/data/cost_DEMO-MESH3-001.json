@@ -31,6 +31,8 @@
    "rule_id": null,
    "rule_condition": null,
    "rule_parameters": null,
+   "thickness_mm_override": null,
+   "rule_params_ignored": null,
    "rule_evidence": null,
    "approval_role": null,
    "factory_inputs_required": null,
@@ -134,6 +136,8 @@
    "rule_id": null,
    "rule_condition": null,
    "rule_parameters": null,
+   "thickness_mm_override": null,
+   "rule_params_ignored": null,
    "rule_evidence": null,
    "approval_role": null,
    "factory_inputs_required": null,
@@ -204,6 +208,8 @@
    "rule_id": null,
    "rule_condition": null,
    "rule_parameters": null,
+   "thickness_mm_override": null,
+   "rule_params_ignored": null,
    "rule_evidence": null,
    "approval_role": null,
    "factory_inputs_required": null,
@@ -311,6 +317,137 @@
    ]
   },
   {
+   "line_id": "H-S-001",
+   "part_id": "BT-004",
+   "canonical_part": "Sockliner Foam",
+   "assembly": "Bottom",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "material_spec": "MAT-PUFOAM-OPEN",
+   "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "formula_family": "foam_sheet",
+   "rule_id": "S-001",
+   "rule_condition": "always",
+   "rule_parameters": {
+    "allowance": 1.02,
+    "yield": 0.88
+   },
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
+   "rule_evidence": "업계 표준 구성 (워크북 규칙표 외 보완)",
+   "approval_role": "Engineer",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed",
+   "geometry": {
+    "surface_area_m2": 0.028246913045972384,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "proxy",
+    "source": "솔 평면투영 볼록껍질",
+    "note": "실제 라스트 바닥은 볼록하지 않아 약간 과대 · 규칙 S-001 배율 allowance=1.02"
+   },
+   "consumption": {
+    "gross_qty": 0.0549245531449463,
+    "uom": "m",
+    "net": 0.028246913045972384,
+    "steps": [
+     "순 표면적 = 0.028247 m²  [proxy]",
+     "패턴 여유 = 1.12  [assumption]",
+     "유효 폭(m) = 1.5  [assumption]",
+     "네스팅 수율 = 0.8  [assumption]",
+     "공정 수율 = 0.96  [assumption]",
+     "패턴 면적 = 0.028247 × 1.12 = 0.031637 m²",
+     "총 소요 = 0.031637 / (1.5 × 0.8 × 0.96) = 0.027462 m",
+     "켤레 환산 = 0.027462 × 2 = 0.054925 m"
+    ],
+    "assumptions": [
+     {
+      "param": "pattern_factor",
+      "value": 1.12,
+      "source": "assumption",
+      "note": null
+     },
+     {
+      "param": "usable_width_m",
+      "value": 1.5,
+      "source": "assumption",
+      "note": null
+     },
+     {
+      "param": "nesting_yield",
+      "value": 0.8,
+      "source": "assumption",
+      "note": null
+     },
+     {
+      "param": "process_yield",
+      "value": 0.96,
+      "source": "assumption",
+      "note": null
+     }
+    ],
+    "blocked": [],
+    "pair_factor": 2.0
+   },
+   "price": {
+    "spec_id": "MAT-PUFOAM-OPEN",
+    "p10": 1.1,
+    "p50": 1.125,
+    "p90": 1.15,
+    "currency": "USD",
+    "uom": "m",
+    "basis": "quarterly_snapshot",
+    "basis_rank": 4,
+    "eligibility": "Concept only",
+    "max_class": "C1",
+    "confidence": "C",
+    "stale": false,
+    "quarter": "2026Q3",
+    "region": "China",
+    "price_basis": "Public listing",
+    "source_url": "https://www.alibaba.com/product-detail/Shoes-insole-materials-breathable-ortholaite-foam_1600929816875.html",
+    "note": null
+   },
+   "cost_p10": 0.06041700845944093,
+   "cost_p50": 0.06179012228806459,
+   "cost_p90": 0.06316323611668824,
+   "blocked": [],
+   "warnings": [],
+   "status": "calculated",
+   "max_class": "C1",
+   "assumptions": [
+    {
+     "param": "pattern_factor",
+     "value": 1.12,
+     "source": "assumption",
+     "note": null
+    },
+    {
+     "param": "usable_width_m",
+     "value": 1.5,
+     "source": "assumption",
+     "note": null
+    },
+    {
+     "param": "nesting_yield",
+     "value": 0.8,
+     "source": "assumption",
+     "note": null
+    },
+    {
+     "param": "process_yield",
+     "value": 0.96,
+     "source": "assumption",
+     "note": null
+    }
+   ]
+  },
+  {
    "line_id": "H-R-001",
    "part_id": "BT-001",
    "canonical_part": "Strobel",
@@ -330,31 +467,33 @@
     "allowance": 1.05,
     "yield": 0.85
    },
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
    "rule_evidence": "construction template",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
    "geometry": {
-    "surface_area_m2": 0.027693052005855277,
+    "surface_area_m2": 0.02907770460614804,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
     "method": "proxy",
     "source": "솔 평면투영 볼록껍질",
-    "note": "실제 라스트 바닥은 볼록하지 않아 약간 과대"
+    "note": "실제 라스트 바닥은 볼록하지 않아 약간 과대 · 규칙 R-001 배율 allowance=1.05"
    },
    "consumption": {
-    "gross_qty": 0.0752036614692575,
+    "gross_qty": 0.07896384454272036,
     "uom": "sheet",
-    "net": 0.027693052005855277,
+    "net": 0.02907770460614804,
     "steps": [
-     "순 표면적 = 0.027693 m²  [proxy]",
+     "순 표면적 = 0.029078 m²  [proxy]",
      "패턴 여유 = 1.08  [assumption]",
      "시트 면적(m²) = 1.0  [assumption]",
      "네스팅 수율 = 0.82  [assumption]",
      "공정 수율 = 0.97  [assumption]",
-     "총 소요 = (0.027693 × 1.08) / (1.0 × 0.82 × 0.97) = 0.037602 sheet",
-     "켤레 환산 = 0.037602 × 2 = 0.075204 sheet"
+     "총 소요 = (0.029078 × 1.08) / (1.0 × 0.82 × 0.97) = 0.039482 sheet",
+     "켤레 환산 = 0.039482 × 2 = 0.078964 sheet"
     ],
     "assumptions": [
      {
@@ -404,9 +543,9 @@
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Strobel_Insole_Board.html",
     "note": null
    },
-   "cost_p10": 0.0451221968815545,
-   "cost_p50": 0.0451221968815545,
-   "cost_p90": 0.0451221968815545,
+   "cost_p10": 0.047378306725632216,
+   "cost_p50": 0.047378306725632216,
+   "cost_p90": 0.047378306725632216,
    "blocked": [],
    "warnings": [],
    "status": "calculated",
@@ -458,6 +597,8 @@
     "coats": 2.0,
     "transfer": "factory"
    },
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
    "rule_evidence": "factory chemical recipe",
    "approval_role": "Factory",
    "factory_inputs_required": [
@@ -568,6 +709,8 @@
    "rule_parameters": {
     "coat_kg_m2": "factory"
    },
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
    "rule_evidence": "factory chemical recipe",
    "approval_role": "Factory",
    "factory_inputs_required": [
@@ -672,6 +815,125 @@
    ]
   },
   {
+   "line_id": "H-R-015",
+   "part_id": "CH-004",
+   "canonical_part": "Hardener",
+   "assembly": "Chemical",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "material_spec": "MAT-HARDENER",
+   "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": null,
+   "quantity_basis": "per_shoe",
+   "formula_family": "recipe_ratio",
+   "rule_id": "R-015",
+   "rule_condition": "adhesive_requires_hardener",
+   "rule_parameters": {
+    "ratio": "factory_recipe"
+   },
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
+   "rule_evidence": "supplier TDS",
+   "approval_role": "Factory",
+   "factory_inputs_required": [
+    "ratio"
+   ],
+   "approval_status": "rule_proposed",
+   "geometry": {
+    "surface_area_m2": 0.03585216938949329,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "proxy",
+    "source": "라스트 바닥 + 둘레×12mm 물림",
+    "note": "승인 pattern 이 있으면 실제 접합면으로 대체"
+   },
+   "consumption": {
+    "gross_qty": 0.0009560578503864877,
+    "uom": "kg",
+    "net": 0.03585216938949329,
+    "steps": [
+     "도포 면적 = 0.035852 m²  [proxy]",
+     "습도포량(kg/m²) = 0.006  [factory_required]",
+     "도포 횟수 = 2  [assumption]",
+     "전이 효율 = 0.9  [factory_required]",
+     "총 소요 = 0.035852 × 0.006 × 2 / 0.9 = 0.000478 kg",
+     "켤레 환산 = 0.000478 × 2 = 0.000956 kg"
+    ],
+    "assumptions": [
+     {
+      "param": "wet_coat_kg_m2",
+      "value": 0.006,
+      "source": "factory_required",
+      "note": "접착제 도포량의 5% 도징. 실제 비율은 공장 레시피"
+     },
+     {
+      "param": "coats",
+      "value": 2,
+      "source": "assumption",
+      "note": "접착제와 같은 횟수"
+     },
+     {
+      "param": "transfer_efficiency",
+      "value": 0.9,
+      "source": "factory_required",
+      "note": null
+     }
+    ],
+    "blocked": [
+     "MAT-HARDENER.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)",
+     "MAT-HARDENER.transfer_efficiency 는 공장 확인 필요 (C2 차단)"
+    ],
+    "pair_factor": 2.0
+   },
+   "price": {
+    "spec_id": "MAT-HARDENER",
+    "p10": null,
+    "p50": null,
+    "p90": null,
+    "basis": "missing",
+    "eligibility": "None",
+    "max_class": null,
+    "confidence": "F",
+    "stale": true,
+    "note": "2026Q3 및 이전 분기에 단가 없음 -> RFQ 필요"
+   },
+   "cost_p10": null,
+   "cost_p50": null,
+   "cost_p90": null,
+   "blocked": [
+    "MAT-HARDENER.transfer_efficiency 는 공장 확인 필요 (C2 차단)",
+    "MAT-HARDENER.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)",
+    "단가 stale (2026Q3 및 이전 분기에 단가 없음 -> RFQ 필요)",
+    "단가 없음: MAT-HARDENER"
+   ],
+   "warnings": [],
+   "status": "blocked",
+   "max_class": "C1",
+   "assumptions": [
+    {
+     "param": "wet_coat_kg_m2",
+     "value": 0.006,
+     "source": "factory_required",
+     "note": "접착제 도포량의 5% 도징. 실제 비율은 공장 레시피"
+    },
+    {
+     "param": "coats",
+     "value": 2,
+     "source": "assumption",
+     "note": "접착제와 같은 횟수"
+    },
+    {
+     "param": "transfer_efficiency",
+     "value": 0.9,
+     "source": "factory_required",
+     "note": null
+    }
+   ]
+  },
+  {
    "line_id": "H-R-013",
    "part_id": "CH-002",
    "canonical_part": "Primer",
@@ -690,6 +952,8 @@
    "rule_parameters": {
     "coat_kg_m2": "factory"
    },
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
    "rule_evidence": "factory chemical recipe",
    "approval_role": "Factory",
    "factory_inputs_required": [
@@ -810,6 +1074,8 @@
    "rule_id": "R-021",
    "rule_condition": "market_requires_polybag",
    "rule_parameters": {},
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
    "rule_evidence": "market requirement",
    "approval_role": "Sourcing",
    "factory_inputs_required": [],
@@ -894,6 +1160,8 @@
    "rule_id": "R-019",
    "rule_condition": "always",
    "rule_parameters": {},
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
    "rule_evidence": "packaging standard",
    "approval_role": "Sourcing",
    "factory_inputs_required": [],
@@ -963,6 +1231,8 @@
    "rule_id": "R-020",
    "rule_condition": "always",
    "rule_parameters": {},
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
    "rule_evidence": "packaging standard",
    "approval_role": "Sourcing",
    "factory_inputs_required": [],
@@ -1049,6 +1319,8 @@
    "rule_parameters": {
     "thickness_mm": 6.0
    },
+   "thickness_mm_override": 6.0,
+   "rule_params_ignored": [],
    "rule_evidence": "construction template",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
@@ -1177,6 +1449,8 @@
    "rule_parameters": {
     "thickness_mm": 4.0
    },
+   "thickness_mm_override": 4.0,
+   "rule_params_ignored": [],
    "rule_evidence": "style requirement",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
@@ -1305,32 +1579,34 @@
    "rule_parameters": {
     "coverage": 1.15
    },
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
    "rule_evidence": "manufacturing rule",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
    "geometry": {
-    "surface_area_m2": 0.045276979776666455,
+    "surface_area_m2": 0.05206852674316642,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
     "method": "measured",
     "source": "upper 길이 0.34–0.84 구간 (eyelet/lacing)",
-    "note": null
+    "note": "규칙 R-008 배율 coverage=1.15"
    },
    "consumption": {
-    "gross_qty": 0.09328970029484898,
+    "gross_qty": 0.10728315533907631,
     "uom": "m",
-    "net": 0.045276979776666455,
+    "net": 0.05206852674316642,
     "steps": [
-     "순 표면적 = 0.045277 m²  [measured]",
+     "순 표면적 = 0.052069 m²  [measured]",
      "패턴 여유 = 1.15  [assumption]",
      "유효 폭(m) = 1.37  [assumption]",
      "네스팅 수율 = 0.84  [assumption]",
      "공정 수율 = 0.97  [assumption]",
-     "패턴 면적 = 0.045277 × 1.15 = 0.052069 m²",
-     "총 소요 = 0.052069 / (1.37 × 0.84 × 0.97) = 0.046645 m",
-     "켤레 환산 = 0.046645 × 2 = 0.093290 m"
+     "패턴 면적 = 0.052069 × 1.15 = 0.059879 m²",
+     "총 소요 = 0.059879 / (1.37 × 0.84 × 0.97) = 0.053642 m",
+     "켤레 환산 = 0.053642 × 2 = 0.107283 m"
     ],
     "assumptions": [
      {
@@ -1380,9 +1656,9 @@
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Wholesale_Men%2527s_Shoes_Leather.html",
     "note": null
    },
-   "cost_p10": 0.3787561831970868,
-   "cost_p50": 0.4226023423356659,
-   "cost_p90": 0.4664485014742449,
+   "cost_p10": 0.4355696106766498,
+   "cost_p50": 0.4859926936860157,
+   "cost_p90": 0.5364157766953815,
    "blocked": [],
    "warnings": [],
    "status": "calculated",
@@ -1433,31 +1709,33 @@
    "rule_parameters": {
     "coverage": 0.8
    },
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
    "rule_evidence": "performance requirement",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
    "geometry": {
-    "surface_area_m2": 0.021572879408910964,
+    "surface_area_m2": 0.01725830352712877,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
     "method": "measured",
     "source": "upper 길이 0.00–0.30 구간 (heel)",
-    "note": null
+    "note": "규칙 R-007 배율 coverage=0.8"
    },
    "consumption": {
-    "gross_qty": 0.043823023730013046,
+    "gross_qty": 0.03505841898401043,
     "uom": "sheet",
-    "net": 0.021572879408910964,
+    "net": 0.01725830352712877,
     "steps": [
-     "순 표면적 = 0.021573 m²  [measured]",
+     "순 표면적 = 0.017258 m²  [measured]",
      "패턴 여유 = 1.1  [assumption]",
      "시트 면적(m²) = 1.5  [assumption]",
      "네스팅 수율 = 0.76  [assumption]",
      "공정 수율 = 0.95  [assumption]",
-     "총 소요 = (0.021573 × 1.1) / (1.5 × 0.76 × 0.95) = 0.021912 sheet",
-     "켤레 환산 = 0.021912 × 2 = 0.043823 sheet"
+     "총 소요 = (0.017258 × 1.1) / (1.5 × 0.76 × 0.95) = 0.017529 sheet",
+     "켤레 환산 = 0.017529 × 2 = 0.035058 sheet"
     ],
     "assumptions": [
      {
@@ -1507,9 +1785,9 @@
     "source_url": "https://wodetex.en.made-in-china.com/product/zmxrevbBbtcO/China-Thermoplastic-Sheet-Ping-Pong-Hot-Melt-Sheet-for-Shoes-Stifener-Toe-Puff-and-Counter-Protection.html",
     "note": null
    },
-   "cost_p10": 0.021911511865006523,
-   "cost_p50": 0.054778779662516305,
-   "cost_p90": 0.08764604746002609,
+   "cost_p10": 0.017529209492005215,
+   "cost_p50": 0.04382302373001304,
+   "cost_p90": 0.07011683796802086,
    "blocked": [],
    "warnings": [],
    "status": "calculated",
@@ -1561,6 +1839,8 @@
     "pattern": 1.08,
     "yield": 0.82
    },
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
    "rule_evidence": "manufacturing rule",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
@@ -1689,31 +1969,33 @@
    "rule_parameters": {
     "coverage": 0.65
    },
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
    "rule_evidence": "construction template",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
    "geometry": {
-    "surface_area_m2": 0.017697283858788236,
+    "surface_area_m2": 0.011503234508212353,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
     "method": "measured",
     "source": "upper 길이 0.72–1.00 구간 (toe)",
-    "note": null
+    "note": "규칙 R-006 배율 coverage=0.65"
    },
    "consumption": {
-    "gross_qty": 0.03502836211366093,
+    "gross_qty": 0.022768435373879604,
     "uom": "sheet",
-    "net": 0.017697283858788236,
+    "net": 0.011503234508212353,
     "steps": [
-     "순 표면적 = 0.017697 m²  [measured]",
+     "순 표면적 = 0.011503 m²  [measured]",
      "패턴 여유 = 1.1  [assumption]",
      "시트 면적(m²) = 1.5  [assumption]",
      "네스팅 수율 = 0.78  [assumption]",
      "공정 수율 = 0.95  [assumption]",
-     "총 소요 = (0.017697 × 1.1) / (1.5 × 0.78 × 0.95) = 0.017514 sheet",
-     "켤레 환산 = 0.017514 × 2 = 0.035028 sheet"
+     "총 소요 = (0.011503 × 1.1) / (1.5 × 0.78 × 0.95) = 0.011384 sheet",
+     "켤레 환산 = 0.011384 × 2 = 0.022768 sheet"
     ],
     "assumptions": [
      {
@@ -1763,9 +2045,9 @@
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Toe_Puff_Materials_Price.html",
     "note": "sheet size 확인"
    },
-   "cost_p10": 0.014011344845464372,
-   "cost_p50": 0.042034034536393115,
-   "cost_p90": 0.07005672422732186,
+   "cost_p10": 0.009107374149551843,
+   "cost_p50": 0.027322122448655523,
+   "cost_p90": 0.04553687074775921,
    "blocked": [],
    "warnings": [],
    "status": "calculated",
@@ -1816,6 +2098,8 @@
    "rule_id": null,
    "rule_condition": null,
    "rule_parameters": null,
+   "thickness_mm_override": null,
+   "rule_params_ignored": null,
    "rule_evidence": null,
    "approval_role": null,
    "factory_inputs_required": null,
@@ -1866,6 +2150,123 @@
    "assumptions": []
   },
   {
+   "line_id": "H-S-004",
+   "part_id": null,
+   "canonical_part": "Thread",
+   "assembly": "Trim",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "material_spec": "MAT-THREAD-POLY",
+   "segments": [],
+   "geometry_role": "curve_or_trim",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "formula_family": null,
+   "rule_id": "S-004",
+   "rule_condition": "stitched_upper",
+   "rule_parameters": {
+    "factor": 1.0
+   },
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
+   "rule_evidence": "업계 표준 구성 (워크북 규칙표 외 보완)",
+   "approval_role": "Engineer",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed",
+   "geometry": {
+    "surface_area_m2": null,
+    "length_m": 21.801224012800535,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "proxy",
+    "source": "어퍼 패널 열린경계 합",
+    "note": "실제 봉제선은 DXF 필요"
+   },
+   "consumption": {
+    "gross_qty": 0.006139224682004631,
+    "uom": "kg",
+    "net": 21.801224012800535,
+    "steps": [
+     "봉제선 길이 = 21.8012 m  [proxy]",
+     "스티치 소요 배수 = 3.2  [public_reference]",
+     "손실 계수 = 1.1  [assumption]",
+     "선밀도(tex) = 40.0  [assumption]",
+     "실 길이 = 21.8012 × 3.2 × 1.1 = 76.7403 m",
+     "질량 = 76.7403 m × 40.0 tex / 1e6 = 0.003070 kg",
+     "켤레 환산 = 0.003070 × 2 = 0.006139 kg"
+    ],
+    "assumptions": [
+     {
+      "param": "stitch_consumption_factor",
+      "value": 3.2,
+      "source": "public_reference",
+      "note": "lockstitch 봉제길이당 실 소요 배수"
+     },
+     {
+      "param": "waste_factor",
+      "value": 1.1,
+      "source": "assumption",
+      "note": null
+     },
+     {
+      "param": "linear_density_tex",
+      "value": 40.0,
+      "source": "assumption",
+      "note": "kg 환산용. tex = g/1000m"
+     }
+    ],
+    "blocked": [],
+    "pair_factor": 2.0
+   },
+   "price": {
+    "spec_id": "MAT-THREAD-POLY",
+    "p10": 3,
+    "p50": 3.075,
+    "p90": 3.15,
+    "currency": "USD",
+    "uom": "kg",
+    "basis": "quarterly_snapshot",
+    "basis_rank": 4,
+    "eligibility": "Concept only",
+    "max_class": "C1",
+    "confidence": "C",
+    "stale": false,
+    "quarter": "2026Q3",
+    "region": "China",
+    "price_basis": "Public listing midpoint",
+    "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Shoe_Sewing_Thread_Price.html",
+    "note": "denier 별도"
+   },
+   "cost_p10": 0.018417674046013893,
+   "cost_p50": 0.018878115897164243,
+   "cost_p90": 0.019338557748314587,
+   "blocked": [],
+   "warnings": [],
+   "status": "calculated",
+   "max_class": "C1",
+   "assumptions": [
+    {
+     "param": "stitch_consumption_factor",
+     "value": 3.2,
+     "source": "public_reference",
+     "note": "lockstitch 봉제길이당 실 소요 배수"
+    },
+    {
+     "param": "waste_factor",
+     "value": 1.1,
+     "source": "assumption",
+     "note": null
+    },
+    {
+     "param": "linear_density_tex",
+     "value": 40.0,
+     "source": "assumption",
+     "note": "kg 환산용. tex = g/1000m"
+    }
+   ]
+  },
+  {
    "line_id": "V-UP-013",
    "part_id": "UP-013",
    "canonical_part": "Webbing/Pull Tab",
@@ -1884,6 +2285,8 @@
    "rule_id": null,
    "rule_condition": null,
    "rule_parameters": null,
+   "thickness_mm_override": null,
+   "rule_params_ignored": null,
    "rule_evidence": null,
    "approval_role": null,
    "factory_inputs_required": null,
@@ -1952,6 +2355,8 @@
    "rule_id": null,
    "rule_condition": null,
    "rule_parameters": null,
+   "thickness_mm_override": null,
+   "rule_params_ignored": null,
    "rule_evidence": null,
    "approval_role": null,
    "factory_inputs_required": null,
@@ -2078,6 +2483,8 @@
    "rule_id": null,
    "rule_condition": null,
    "rule_parameters": null,
+   "thickness_mm_override": null,
+   "rule_params_ignored": null,
    "rule_evidence": null,
    "approval_role": null,
    "factory_inputs_required": null,
@@ -2205,6 +2612,8 @@
    "rule_id": null,
    "rule_condition": null,
    "rule_parameters": null,
+   "thickness_mm_override": null,
+   "rule_params_ignored": null,
    "rule_evidence": null,
    "approval_role": null,
    "factory_inputs_required": null,
@@ -2268,6 +2677,8 @@
    "rule_id": null,
    "rule_condition": null,
    "rule_parameters": null,
+   "thickness_mm_override": null,
+   "rule_params_ignored": null,
    "rule_evidence": null,
    "approval_role": null,
    "factory_inputs_required": null,
@@ -2393,6 +2804,8 @@
    "rule_id": null,
    "rule_condition": null,
    "rule_parameters": null,
+   "thickness_mm_override": null,
+   "rule_params_ignored": null,
    "rule_evidence": null,
    "approval_role": null,
    "factory_inputs_required": null,
@@ -2518,6 +2931,8 @@
    "rule_id": null,
    "rule_condition": null,
    "rule_parameters": null,
+   "thickness_mm_override": null,
+   "rule_params_ignored": null,
    "rule_evidence": null,
    "approval_role": null,
    "factory_inputs_required": null,
@@ -2643,6 +3058,8 @@
    "rule_parameters": {
     "ratio": 1.0
    },
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
    "rule_evidence": "construction template",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
@@ -2772,32 +3189,34 @@
     "ratio": 0.85,
     "pattern": 1.12
    },
+   "thickness_mm_override": null,
+   "rule_params_ignored": [],
    "rule_evidence": "approved similar style",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
    "geometry": {
-    "surface_area_m2": 0.07832869103478975,
+    "surface_area_m2": 0.06657938737957128,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
     "method": "measured",
     "source": "upper 세그먼트 7개 표면적 합",
-    "note": null
+    "note": "규칙 R-002 배율 ratio=0.85"
    },
    "consumption": {
-    "gross_qty": 0.147403035002468,
+    "gross_qty": 0.12529257975209782,
     "uom": "m",
-    "net": 0.07832869103478975,
+    "net": 0.06657938737957128,
     "steps": [
-     "순 표면적 = 0.078329 m²  [measured]",
+     "순 표면적 = 0.066579 m²  [measured]",
      "패턴 여유 = 1.15  [assumption]",
      "유효 폭(m) = 1.5  [assumption]",
      "네스팅 수율 = 0.84  [assumption]",
      "공정 수율 = 0.97  [assumption]",
-     "패턴 면적 = 0.078329 × 1.15 = 0.090078 m²",
-     "총 소요 = 0.090078 / (1.5 × 0.84 × 0.97) = 0.073702 m",
-     "켤레 환산 = 0.073702 × 2 = 0.147403 m"
+     "패턴 면적 = 0.066579 × 1.15 = 0.076566 m²",
+     "총 소요 = 0.076566 / (1.5 × 0.84 × 0.97) = 0.062646 m",
+     "켤레 환산 = 0.062646 × 2 = 0.125293 m"
     ],
     "assumptions": [
      {
@@ -2847,9 +3266,9 @@
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Shoes_Mesh_Fabric_Price.html",
     "note": null
    },
-   "cost_p10": 0.10023406380167825,
-   "cost_p50": 0.17393558130291226,
-   "cost_p90": 0.24763709880414625,
+   "cost_p10": 0.08519895423142652,
+   "cost_p50": 0.1478452441074754,
+   "cost_p90": 0.21049153398352433,
    "blocked": [],
    "warnings": [],
    "status": "calculated",
@@ -2889,10 +3308,10 @@
   ],
   "material_breakdown": {
    "Sole": {
-    "p10": 0.41204003229700464,
-    "p50": 0.8138360403475807,
-    "p90": 1.2156320483981566,
-    "lines": 3
+    "p10": 0.47471315060052327,
+    "p50": 0.8778822724797231,
+    "p90": 1.2810513943589226,
+    "lines": 4
    },
    "Chemical": {
     "p10": 0.06406332760325797,
@@ -2913,27 +3332,27 @@
     "lines": 2
    },
    "Upper": {
-    "p10": 0.7832877274292689,
-    "p50": 1.1059675908453912,
-    "p90": 1.4286474542615135,
+    "p10": 0.8157797722696664,
+    "p50": 1.1175999369800633,
+    "p90": 1.4194201016904602,
     "lines": 13
    },
    "Trim": {
-    "p10": 0.22,
-    "p50": 0.3,
-    "p90": 0.38,
-    "lines": 1
+    "p10": 0.23841767404601388,
+    "p50": 0.31887811589716425,
+    "p90": 0.3993385577483146,
+    "lines": 2
    }
   },
   "buckets": [
    {
     "bucket": "Material",
-    "p10": 1.7886110873295316,
-    "p50": 3.453148578704107,
-    "p90": 5.1176860700786815,
+    "p10": 1.9021939245194617,
+    "p50": 3.5477052728680856,
+    "p90": 5.19321662121671,
     "status": "Partial",
     "coverage": "Quarterly snapshot",
-    "note": "3개 라인 차단"
+    "note": "4개 라인 차단"
    },
    {
     "bucket": "Direct Labor",
@@ -2964,9 +3383,9 @@
    }
   ],
   "known_cost_subtotal": {
-   "p10": 1.7886110873295316,
-   "p50": 3.453148578704107,
-   "p90": 5.1176860700786815
+   "p10": 1.9021939245194617,
+   "p50": 3.5477052728680856,
+   "p90": 5.19321662121671
   },
   "blocked_buckets": [
    "Direct Labor",
@@ -2981,10 +3400,10 @@
   "direct_complete": false,
   "fob_status": "산출 불가",
   "coverage": {
-   "bom_lines": 26,
-   "priced_lines": 23,
-   "unpriced_lines": 3,
-   "priced_ratio": 0.8846153846153846
+   "bom_lines": 29,
+   "priced_lines": 25,
+   "unpriced_lines": 4,
+   "priced_ratio": 0.8620689655172413
   },
   "blocked": [
    "OP-001 Material Inspection: SAM/효율/rate 미입력",
@@ -3008,6 +3427,7 @@
    "TL-004 Printing Screen/Plate: 금형 견적 미입력",
    "TL-005 Last Set: 금형 견적 미입력",
    "BOM V-BT-009",
+   "BOM H-R-015",
    "BOM V-UP-013",
    "BOM V-UP-009"
   ],
@@ -3380,6 +3800,7 @@
   },
   "material_blocked_lines": [
    "V-BT-009",
+   "H-R-015",
    "V-UP-013",
    "V-UP-009"
   ]
@@ -3395,18 +3816,18 @@
     "승인 Supplier SKU 견적",
     "공장 routing·SAM 확정",
     "Tooling 견적 확정",
-    "승인 Supplier 견적이 아닌 단가 19건 (분기 스냅샷/공개 리스팅)",
+    "승인 Supplier 견적이 아닌 단가 21건 (분기 스냅샷/공개 리스팅)",
     "공장 routing, SAM, tooling 미확정",
-    "C1 상한 지오메트리 26건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
+    "C1 상한 지오메트리 29건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
    ]
   },
   "downgraded_from": "C2"
  },
  "mass_balance": {
-  "finished_pair_mass_g": 551.5766696754083,
-  "purchased_input_mass_g": 401.504859552558,
-  "known_mass_g": 551.5766696754083,
-  "lines_counted": 20,
+  "finished_pair_mass_g": 557.4735132166056,
+  "purchased_input_mass_g": 408.60014208494914,
+  "known_mass_g": 557.4735132166056,
+  "lines_counted": 23,
   "lines_without_mass": [
    "Lace",
    "Logo/Graphic",
@@ -3430,35 +3851,35 @@
     "via": "net_volume_x_density"
    },
    {
-    "canonical_part": "Heel Counter",
-    "grams": 40.98847087693083,
+    "canonical_part": "Eyelet Reinforcement",
+    "grams": 43.737562464259796,
     "via": "gsm"
    },
    {
-    "canonical_part": "Eyelet Reinforcement",
-    "grams": 38.03266301239982,
+    "canonical_part": "Heel Counter",
+    "grams": 32.790776701544665,
     "via": "gsm"
    },
    {
     "canonical_part": "Strobel",
-    "grams": 26.585329925621068,
-    "via": "gsm"
-   },
-   {
-    "canonical_part": "Toe Puff",
-    "grams": 26.545925788182355,
+    "grams": 27.914596421902118,
     "via": "gsm"
    },
    {
     "canonical_part": "Vamp/Quarter Lining",
-    "grams": 20.365459669045332,
+    "grams": 17.310640718688532,
+    "via": "gsm"
+   },
+   {
+    "canonical_part": "Toe Puff",
+    "grams": 17.25485176231853,
     "via": "gsm"
    }
   ],
   "target_pair_g": 600,
-  "coverage": 0.9192944494590138,
+  "coverage": 0.9291225220276761,
   "verdict": "ok",
   "note": "완제품 질량은 순질량 기준이다. 부피 파트는 부피 x 밀도, 면적 파트는 순면적 x 면밀도, 접착제는 건조 고형분 50%, 포장재는 제외."
  },
- "computed_at": "2026-08-24T11:21:51Z"
+ "computed_at": "2026-08-24T13:59:10Z"
 }

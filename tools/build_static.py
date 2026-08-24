@@ -75,7 +75,16 @@ def main():
         if cost.exists():
             shutil.copy2(cost, DOCS / "data" / f"cost_{pid}.json")
 
-        glb = p.viewer_glb()
+        # 뷰어 GLB 가 이미 있으면 그대로 쓴다. 원본 파트 메시가 없는
+        # 프로젝트(서버에서 생성된 것)도 정적 데모에는 실을 수 있어야 한다.
+        try:
+            glb = p.viewer_glb()
+        except Exception as e:
+            glb = p.dir / "viewer.glb"
+            if not glb.exists():
+                print(f"  skip  {pid} ({str(e)[:50]})")
+                continue
+            print(f"  note  {pid} 기존 viewer.glb 사용")
         shutil.copy2(glb, DOCS / "data" / f"{pid}.glb")
 
         img = p.state.get("input_image")

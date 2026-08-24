@@ -36,13 +36,18 @@ async function api(path, body, method) {
   } : undefined);
   const j = await r.json().catch(() => ({}));
   if (j.error) { toast(j.error, true); throw new Error(j.error); }
+  // 404 등은 {detail} 로 온다. 던지지 않으면 오류 객체가 상태에 스며들어
+  // (예: 계산 전 프로젝트의 cost) 부팅이 깨진다.
+  if (!r.ok) throw new Error(j.detail || 'HTTP ' + r.status);
   return j;
 }
 
-// img 태그는 fetch 가로채기를 거치지 않으므로, 정적 모드에서는 직접 경로를 쓴다.
-const exImgUrl = name => window.__staticDemo ? 'data/ex_' + name : '/api/examples/' + name;
+// img 태그는 fetch 가로채기를 거치지 않으므로, 정적 모드에서는 직접 경로를,
+// 실서버 연결 시(__apiBase)에는 백엔드 절대 경로를 쓴다.
+const exImgUrl = name => window.__staticDemo ? 'data/ex_' + name
+  : (window.__apiBase || '') + '/api/examples/' + name;
 const projImgUrl = pid => window.__staticDemo ? 'data/' + pid + '.jpg'
-  : `/api/project/${pid}/image`;
+  : `${window.__apiBase || ''}/api/project/${pid}/image`;
 
 // ── 3D ────────────────────────────────────────────────────────────────
 const viewer = new Viewer($('#viewer'));
@@ -336,23 +341,41 @@ function stepDesign(el) {
   };
 }
 
+// 3D 의 raw 길이는 신발 바깥 껍데기 길이다. 그래서 외부 outsole 길이만
+// 그대로 쓸 수 있다. 인솔·라스트 길이는 브랜드별 여유량이 있어야 외부
+// 길이로 바뀌는데 그 값이 없으면 추측하지 않고 막는다.
+const MEASURE_TYPES = [
+  { key: 'external_outsole', label: 'External outsole toe-to-heel', usable: true },
+  { key: 'insole', label: '인솔(깔창) 길이', usable: false },
+  { key: 'last', label: '라스트(발) 길이', usable: false },
+];
+
 function stepScale(el) {
   const cal = S.state.calibration, lm = S.state.landmarks || {};
+  const mt = S.state.scenario.length_measure_type || 'external_outsole';
+  const mtOk = (MEASURE_TYPES.find(t => t.key === mt) || {}).usable;
   el.innerHTML = `
     <p class="muted"><b>사이즈 260 은 외부 길이가 아닙니다.</b> 브랜드·모델별 실제
     외부 outsole 앞코–뒤꿈치 길이(mm)를 넣어야 metric scale 이 맞습니다.</p>
     <label>표시 사이즈</label>
     <input type="number" id="sizeLabel" value="${S.state.scenario.reference_size_label}">
     <label>측정 유형</label>
-    <select id="mtype"><option>External outsole toe-to-heel</option></select>
+    <select id="mtype">
+      ${MEASURE_TYPES.map(t => `<option value="${t.key}"
+        ${t.key === mt ? 'selected' : ''}>${t.label}</option>`).join('')}
+    </select>
     <label>실제 외부 길이 (mm)</label>
     <input type="number" id="targetLen" value="${cal?.target_length_mm || 300}" step="1">
     <p class="muted" style="margin-top:6px">참고: 러닝화 260 라벨의 외부 outsole 길이는
       브랜드에 따라 통상 285 에서 300mm 입니다. 정확한 값은 실물 실측이 필요하며,
       라벨 값 260 을 그대로 넣으면 모든 면적·부피가 작게 나옵니다.</p>
+    ${mtOk ? '' : `<div class="note bad"><b>이 측정 유형으로는 확정할 수 없습니다.</b>
+      3D 의 길이는 신발 바깥 껍데기 기준입니다. 인솔이나 라스트 길이를 외부
+      길이로 바꾸려면 브랜드·라스트별 여유량이 필요하고, 그 값이 없으면
+      임의로 더하지 않습니다. 외부 outsole 길이를 실측해 넣으세요.</div>`}
     <div class="row">
       <button class="btn" id="proposeBtn">landmark 자동 제안</button>
-      <button class="btn primary" id="calBtn">이 길이로 확정</button>
+      <button class="btn primary" id="calBtn" ${mtOk ? '' : 'disabled'}>이 길이로 확정</button>
     </div>
     ${cal ? `<h4>결과</h4><dl class="kv">
       <dt>raw 길이</dt><dd>${fmt(cal.raw_length, 4)} model unit</dd>
@@ -370,11 +393,25 @@ function stepScale(el) {
       비균일 scale 하지 않습니다.</div>`;
 
   $('#proposeBtn').onclick = async () => {
-    await api(`/project/${S.pid}/landmarks`);
+    await api(`/project/${S.pid}/landmarks`, null, 'POST');
     await reload();
     toast('앞코·뒤꿈치 후보를 표시했습니다. 3D에서 확인하세요.');
   };
+  // 사이즈·측정 유형은 기록으로 남는다. 무엇을 재서 넣은 값인지 모르면
+  // 나중에 이 scale 을 검증할 수 없다.
+  const saveDeclared = () => api(`/project/${S.pid}/scenario`, {
+    reference_size_label: Number($('#sizeLabel').value),
+    length_measure_type: $('#mtype').value,
+  });
+  $('#sizeLabel').onchange = async () => { await saveDeclared(); await reload(); };
+  $('#mtype').onchange = async () => { await saveDeclared(); await reload(); };
+
   const doCalibrate = async () => {
+    if (!mtOk) {
+      toast('외부 outsole 길이가 아니면 확정할 수 없습니다', true);
+      throw new Error('측정 유형 미지원');
+    }
+    await saveDeclared();
     await api(`/project/${S.pid}/calibrate`, {
       target_length_mm: Number($('#targetLen').value),
       toe: lm.toe, heel: lm.heel, confirmed: true,
@@ -385,7 +422,9 @@ function stepScale(el) {
   $('#calBtn').onclick = doCalibrate;
   wizardNav(el, {
     nextLabel: '길이 확정하고 세그먼트로',
-    hint: '3D 의 앞코·뒤꿈치 점을 확인한 뒤 넘어가세요',
+    hint: mtOk ? '3D 의 앞코·뒤꿈치 점을 확인한 뒤 넘어가세요'
+      : '측정 유형을 외부 outsole 길이로 바꿔야 넘어갈 수 있습니다',
+    disabled: !mtOk,
     onNext: doCalibrate,
   });
   renderLandmarkBar();
@@ -429,6 +468,7 @@ function stepSegment(el) {
       <button class="btn" id="segPropose">다시 제안</button>
       <button class="btn primary" id="segConfirm">전부 확정</button>
       <button class="btn" id="repairBtn">부피 막힌 파트 복구</button>
+      <span class="muted" style="font-size:11.5px">완성본이 없으면 메시 완성을 먼저 실행합니다 (50 크레딧, 2 에서 4분)</span>
     </div>
     <table style="margin-top:12px"><thead><tr>
       <th>세그먼트</th><th>Canonical Part</th><th class="num">면적%</th>
@@ -459,14 +499,14 @@ function stepSegment(el) {
     toast(`${s.dataset.seg}  다음  ${s.value} 로 확정`);
   });
   $('#segPropose').onclick = async () => {
-    await api(`/project/${S.pid}/segment/propose`); await reload();
+    await api(`/project/${S.pid}/segment/propose`, null, 'POST'); await reload();
   };
   $('#segConfirm').onclick = async () => {
     await api(`/project/${S.pid}/segment/confirm`, { confirm_all: true });
     await reload(); toast('매핑을 확정했습니다.');
   };
   $('#repairBtn').onclick = async () => {
-    toast('복구 중. 수십 초 걸립니다');
+    toast('복구 중. 완성본을 만들 때는 몇 분 걸립니다');
     await api(`/project/${S.pid}/repair`, {});
     await api(`/project/${S.pid}/bom`, {});
     await reload(); toast('복구 완료. 부피가 열린 파트를 닫았습니다.');
@@ -477,7 +517,7 @@ function stepSegment(el) {
     onNext: async () => {
       await api(`/project/${S.pid}/segment/confirm`, { confirm_all: true });
       await api(`/project/${S.pid}/bom`, {});
-      await api(`/project/${S.pid}/cost`);
+      await api(`/project/${S.pid}/cost`, null, 'POST');
       await reload();
     },
   });
@@ -581,7 +621,7 @@ function stepPricing(el) {
   wireBomRows(el);
   $('#qtr').onchange = async e => {
     await api(`/project/${S.pid}/scenario`, { quarter: e.target.value });
-    await api(`/project/${S.pid}/cost`); await reload();
+    await api(`/project/${S.pid}/cost`, null, 'POST'); await reload();
   };
   wizardNav(el, { nextLabel: '단가 확인, 원가로' });
   $('#snapBtn').onclick = async () => {
@@ -595,14 +635,14 @@ function stepPricing(el) {
 function stepCost(el) {
   if (!S.cost) {
     el.innerHTML = `<div class="row"><button class="btn primary" id="calc">원가 계산</button></div>`;
-    $('#calc').onclick = async () => { await api(`/project/${S.pid}/cost`); await reload(); };
+    $('#calc').onclick = async () => { await api(`/project/${S.pid}/cost`, null, 'POST'); await reload(); };
     return;
   }
   const r = S.cost.rollup, g = S.cost.grade, sc = S.cost.scenario;
   if (!r.known_cost_subtotal) {
     el.innerHTML = `<div class="note bad">원가 결과가 예전 형식입니다. 다시 계산하세요.</div>
       <div class="row"><button class="btn primary" id="recalc">원가 재계산</button></div>`;
-    $('#recalc').onclick = async () => { await api(`/project/${S.pid}/cost`); await reload(); };
+    $('#recalc').onclick = async () => { await api(`/project/${S.pid}/cost`, null, 'POST'); await reload(); };
     return;
   }
   const partial = r.cost_status !== 'COMPLETE';
@@ -619,6 +659,10 @@ function stepCost(el) {
       <div><label>공급사 마진 %</label>
         <input type="number" id="sm" value="${sc.supplier_margin_pct}" step="0.5"></div>
     </div>
+    ${partial ? `<div class="note"><b>지금은 이 두 값이 결과를 바꾸지 않습니다.</b>
+      주문 수량은 금형 상각에, 마진은 FOB 에 쓰이는데 둘 다 차단 상태입니다.
+      소재비는 켤레당 계산이라 수량과 무관합니다. 수량 할인 단가표가 들어오고
+      노무·금형이 확정되면 그때부터 두 값이 결과를 움직입니다.</div>` : ''}
 
     <div class="stat">
       <div class="lbl">표시 중인 값: 가격 확정된 BOM ${cov.priced_lines}/${cov.bom_lines}라인의 소재·부자재 소계 (켤레당)</div>
@@ -688,9 +732,27 @@ function stepCost(el) {
       order_quantity: Number($('#oq').value),
       supplier_margin_pct: Number($('#sm').value),
     });
-    await api(`/project/${S.pid}/cost`); await reload();
+    await api(`/project/${S.pid}/cost`, null, 'POST'); await reload();
   };
   $('#oq').onchange = push; $('#sm').onchange = push;
+
+  // 마지막 단계라 '다음'은 없지만 '이전'과 재계산은 있어야 한다.
+  // 이것이 없으면 앞 단계에서 무엇을 바꾸든 여기서 반영할 방법이 없다.
+  const bar = document.createElement('div');
+  bar.className = 'wizard-nav';
+  bar.innerHTML = `<span class="wz-hint">앞 단계를 고쳤다면 다시 계산하세요</span>
+    <button class="btn" id="wzPrev">이전</button>
+    <button class="btn primary" id="costRecalc">원가 다시 계산</button>`;
+  el.appendChild(bar);
+  bar.querySelector('#wzPrev').onclick = () => {
+    S.step = STEP_ORDER[STEP_ORDER.indexOf('cost') - 1]; render();
+  };
+  bar.querySelector('#costRecalc').onclick = async () => {
+    toast('다시 계산 중');
+    await api(`/project/${S.pid}/cost`, null, 'POST');
+    await reload();
+    toast('원가를 다시 계산했습니다');
+  };
 }
 
 // ── 근거 패널 ──────────────────────────────────────────────────────────
