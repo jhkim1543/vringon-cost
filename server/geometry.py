@@ -29,6 +29,7 @@ GEOMETRY_ROLES = (
     "thin_shell",             # 얇은 껍질. 면적과 자재 두께로 부피 추정
     "solid_component",        # 닫힌 솔리드. 검사 통과 시 부피 사용
     "curve_or_trim",          # 끈, 테이프 등 선형
+    "fixed_quantity",         # 박스·택·폴리백 등 개수 고정. 지오메트리와 무관
     "repaired_volume_proxy",  # 복구로 만든 부피. C1 전용
     "approved_cad_solid",     # 승인 CAD. C2 가능
 )
@@ -39,6 +40,8 @@ ROLE_MAX_CLASS = {
     "thin_shell": "C1",
     "solid_component": "C2",
     "curve_or_trim": "C1",
+    # 개수 고정 품목은 지오메트리 불확실성이 없다. 단가 자격만 갖추면 C2 가능.
+    "fixed_quantity": "C2",
     "repaired_volume_proxy": "C1",
     "approved_cad_solid": "C2",
 }
@@ -229,6 +232,34 @@ def calibration(target_length_mm, toe, heel, target_width_mm=None, raw_width=Non
         "toe": [float(v) for v in toe],
         "heel": [float(v) for v in heel],
     }
+
+
+# 카테고리별 폭/길이 비율 통상 범위. 벗어나면 한 장 이미지 복원의
+# 좌우 팽창을 의심해야 한다 (외부 검토 지적: 측면 사진 한 장은 폭 정보가 없다).
+WIDTH_RATIO_RANGE = {"running": (0.32, 0.42)}
+
+
+def width_check(mesh, category="running"):
+    """정규 프레임에서 잰 폭/길이 비율을 통상 범위와 대조한다.
+
+    자동으로 줄이지 않는다. 측정하지 않은 값을 고치는 것은 또 다른 조작이다.
+    벗어나면 경고를 남기고 부피 파트 신뢰를 낮추는 근거로만 쓴다.
+    """
+    import numpy as np
+    axis, up, side, c = shoe_frame(mesh)
+    V = np.asarray(mesh.vertices) - c
+    L = float((V @ axis).max() - (V @ axis).min())
+    W = float((V @ side).max() - (V @ side).min())
+    ratio = W / max(L, 1e-9)
+    lo, hi = WIDTH_RATIO_RANGE.get(category, (0.30, 0.45))
+    verdict = "ok" if lo <= ratio <= hi else (
+        "too_wide" if ratio > hi else "too_narrow")
+    return {"width_over_length": round(ratio, 4),
+            "expected_range": [lo, hi], "category": category,
+            "verdict": verdict,
+            "note": (None if verdict == "ok" else
+                     "한 장 이미지 복원의 좌우 팽창 또는 수축 의심. "
+                     "부피 파트 결과를 검토로 낮춘다.")}
 
 
 def to_si(raw_value, kind, cal):

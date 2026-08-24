@@ -165,9 +165,6 @@ def build(mapping, geo_ctx, cal, parts, flags=None, construction="Strobel Cement
     # (예: R-016 has_laces -> Lace 는 Lace 세그먼트가 있으면 건너뛴다)
     measured_parts = set(seen)
 
-    # 세그멘테이션에서 이미 잡힌 파트를 규칙이 또 넣으면 이중계상이 된다.
-    measured_parts = set(seen)
-
     for rule in catalog.recipes():
         if rule["construction"] != construction:
             continue
@@ -175,8 +172,6 @@ def build(mapping, geo_ctx, cal, parts, flags=None, construction="Strobel Cement
         if not ok:
             continue
         cp = rule["add_part"]
-        if cp in measured_parts:
-            continue
         if cp in measured_parts:
             continue
         # 레시피 표기와 BOM 마스터 표기가 조금 다른 경우가 있다.
@@ -210,9 +205,12 @@ def build(mapping, geo_ctx, cal, parts, flags=None, construction="Strobel Cement
                 "note": meas.get("note"),
             },
             "qa_blocked": [],
-            "geometry_role": ("curve_or_trim" if meas["unit"] == "m"
+            # 박스·폴리백처럼 개수로 사는 품목에 표면 역할을 붙이면
+            # 지오메트리 불확실성이 없는 라인까지 C1 로 눌린다 (외부 검토 지적).
+            "geometry_role": ("fixed_quantity" if rule["qty_method"] == "count"
+                              else "curve_or_trim" if meas["unit"] == "m"
                               else "surface_region"),
-            "max_class": "C1",
+            "max_class": ("C2" if rule["qty_method"] == "count" else "C1"),
             "quantity_basis": ("per_pair" if rule["qty_method"] == "count"
                                else "per_shoe"),
             "rule_id": rule["rule_id"],

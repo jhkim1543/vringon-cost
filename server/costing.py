@@ -150,47 +150,104 @@ def tooling(order_qty):
     }
 
 
-def mass_balance(lines, target_pair_g=None):
-    """BOM 질량 합계를 실제 신발 무게와 대조한다.
+PACKAGING_ASSEMBLIES = {"Packaging"}
+CHEMICAL_ASSEMBLIES = {"Chemical"}
 
-    원가가 낮게 나오는 원인은 단가보다 누락인 경우가 많다. 반대로 아직 질량에
-    안 들어간 라인이 많은데도 이미 목표에 근접했다면 부피 과대추정 신호다.
-    원가와 무게를 동시에 보는 값싼 점검이다.
+
+def mass_balance(lines, target_pair_g=None):
+    """완제품 질량과 구매 투입 질량을 분리해 검증한다 (외부 검토 반영).
+
+    이전 구현의 오류 두 가지를 고친다.
+    1. 투입 질량(수율 나눔 포함)을 완제품 질량 검증에 썼다. 완제품에는
+       순질량(부피 x 밀도)을 써야 한다. 수율 손실분은 신발에 남지 않는다.
+    2. 포장재(박스·티슈)와 접착제 습량을 완제품 질량에 섞었다. 목표 무게가
+       신발 켤레 무게라면 포장은 제외하고, 접착제는 건조 고형분만 남는다.
     """
-    total_g, by_line, unknown = 0.0, [], []
+    finished_g, purchased_g = 0.0, 0.0
+    by_line, unknown, excluded = [], [], []
+
     for l in lines:
         c = l.get("consumption") or {}
         q, uom = c.get("gross_qty"), c.get("uom")
+        spec = l.get("material_spec")
+        sp = catalog.material_specs().get(spec) or {}
+        form = sp.get("form")
+        assembly = l.get("assembly") or ""
+        part = l["canonical_part"]
+
         if q is None:
-            unknown.append(l["canonical_part"])
+            unknown.append(part)
+            continue
+
+        # 구매 투입 질량 (kg 라인은 그대로)
+        if uom == "kg":
+            purchased_g += q * 1000.0
+
+        # 완제품 질량
+        if assembly in PACKAGING_ASSEMBLIES:
+            excluded.append({"canonical_part": part, "reason": "포장재"})
+            continue
+        if form == "chemical" or assembly in CHEMICAL_ASSEMBLIES:
+            # 습도포량이 아니라 건조 고형분만 남는다. 고형분비는 공장값이라
+            # 보수적으로 50% 를 쓰고 근거를 남긴다.
+            if uom == "kg":
+                g = q * 1000.0 * 0.5
+                finished_g += g
+                by_line.append({"canonical_part": part, "grams": g,
+                                "via": "chemical_dry_solids_50pct"})
+            continue
+        if form == "molded":
+            # 완제품에는 순질량. consumption.net 은 한 짝 부피(m3)다.
+            net_vol = c.get("net")
+            dens = sp.get("molded_density_kg_m3")
+            dv = dens["value"] if isinstance(dens, dict) else dens
+            if net_vol and dv:
+                g = float(net_vol) * float(dv) * 1000.0 * 2.0
+                finished_g += g
+                by_line.append({"canonical_part": part, "grams": g,
+                                "via": "net_volume_x_density"})
+            else:
+                unknown.append(part)
             continue
         if uom == "kg":
-            g = q * 1000.0
-            total_g += g
-            by_line.append({"canonical_part": l["canonical_part"], "grams": g})
+            finished_g += q * 1000.0
+            by_line.append({"canonical_part": part, "grams": q * 1000.0,
+                            "via": "kg"})
+            continue
+        # 면적 소재: 순면적 x 면밀도(GSM) x 2짝
+        gsm = sp.get("areal_density_gsm")
+        gv = gsm["value"] if isinstance(gsm, dict) else gsm
+        net = (l.get("geometry") or {}).get("surface_area_m2")
+        if gv and net:
+            g = float(net) * float(gv) * 2.0
+            finished_g += g
+            by_line.append({"canonical_part": part, "grams": g, "via": "gsm"})
         else:
-            # 면적 기준 소재는 면밀도(GSM)가 없어 질량으로 바꿀 수 없다.
-            unknown.append(l["canonical_part"])
+            unknown.append(part)
 
     out = {
-        "known_mass_g": total_g,
+        "finished_pair_mass_g": finished_g,
+        "purchased_input_mass_g": purchased_g,
+        "known_mass_g": finished_g,          # 하위 호환
         "lines_counted": len(by_line),
         "lines_without_mass": sorted(set(unknown)),
+        "excluded_packaging": excluded,
         "top": sorted(by_line, key=lambda d: -d["grams"])[:6],
         "target_pair_g": target_pair_g,
         "coverage": None,
         "verdict": "no_target",
-        "note": ("면적 기준 소재는 면밀도가 없어 질량에 넣지 못했다. "
-                 "따라서 이 값은 하한이다."),
+        "note": ("완제품 질량은 순질량 기준이다. 부피 파트는 부피 x 밀도, "
+                 "면적 파트는 순면적 x 면밀도, 접착제는 건조 고형분 50%, "
+                 "포장재는 제외."),
     }
     if target_pair_g:
-        cov = total_g / float(target_pair_g)
+        cov = finished_g / float(target_pair_g)
         out["coverage"] = cov
         many_uncounted = len(out["lines_without_mass"]) >= 5
-        if cov > 1.0 or (cov > 0.75 and many_uncounted):
-            out["verdict"] = "suspect_over_estimate"
-            out["note"] += (f" 질량 미산정 {len(out['lines_without_mass'])}건이 남았는데 "
-                            f"이미 목표의 {cov:.0%}다. 복구 부피 과대추정을 의심할 것.")
+        if cov > 1.05 or (cov > 0.85 and many_uncounted):
+            out["verdict"] = "fail_over_estimate"
+            out["note"] += (f" 질량 미산정 {len(out['lines_without_mass'])}건이 "
+                            f"남았는데 이미 목표의 {cov:.0%}다. 부피 과대추정.")
         elif cov >= 0.55:
             out["verdict"] = "ok"
         elif cov >= 0.3:
@@ -198,6 +255,26 @@ def mass_balance(lines, target_pair_g=None):
         else:
             out["verdict"] = "suspect_missing_bom"
     return out
+
+
+def bucket_breakdown(lines):
+    """소재 소계를 조립군별로 쪼갠다 (외부 검토: 포장이 소재비의 31% 를
+    차지하는데 한 덩어리로 보이면 소재비가 왜곡돼 보인다)."""
+    groups = {}
+    for l in lines:
+        if l.get("cost_p50") is None:
+            continue
+        a = l.get("assembly") or "기타"
+        key = ("Packaging" if a in PACKAGING_ASSEMBLIES else
+               "Chemical" if a in CHEMICAL_ASSEMBLIES else
+               "Sole" if a == "Bottom" else
+               "Upper" if a.startswith("Upper") or a in ("Padding", "Reinforcement", "Waterproof") else
+               "Trim" if a == "Trim" else "기타")
+        g = groups.setdefault(key, {"p10": 0.0, "p50": 0.0, "p90": 0.0, "lines": 0})
+        for k in ("p10", "p50", "p90"):
+            g[k] += l.get(f"cost_{k}") or 0.0
+        g["lines"] += 1
+    return groups
 
 
 # 전체 제조원가를 내려면 반드시 채워져야 하는 버킷.
@@ -268,6 +345,7 @@ def roll_up(lines, scenario):
     priced = [l for l in lines if l["status"] == "calculated"]
     return {
         "cost_status": status,
+        "material_breakdown": bucket_breakdown(lines),
         "buckets": buckets,
         "known_cost_subtotal": known,
         "blocked_buckets": blocked_buckets,

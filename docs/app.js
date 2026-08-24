@@ -149,49 +149,121 @@ function render() {
 
 function stepDesign(el) {
   const st = S.state.steps || {};
-  const gen = S.state.generate_meta || {};
+  const isStatic = !!window.__staticDemo;
+
+  // 정적 배포본에서는 업로드가 원래 안 된다. 끝까지 가서 실패하게 두지 말고
+  // 처음부터 무엇이 되는지, 어디서 되는지 알려준다.
+  const uploadPanel = isStatic ? `
+    <h4>내 디자인으로 실행</h4>
+    <div class="note info"><b>이 공개 데모는 미리 계산된 결과를 보는 화면입니다.</b><br>
+      새 이미지 업로드와 3D 생성은 로컬 실행에서만 동작합니다.<br><br>
+      로컬 실행 방법<br>
+      1. 저장소를 받고 <code>run.cmd</code> 실행<br>
+      2. 브라우저에서 <code>127.0.0.1:5270</code> 접속<br>
+      3. 이 화면에서 이미지를 올리면 3 에서 6분 뒤 결과가 나옵니다</div>` : `
+    <h4>내 디자인으로 실행</h4>
+    <div class="dropzone" id="dz">
+      <div class="dz-icon">🖼</div>
+      <div class="dz-main">신발 이미지를 여기에 끌어다 놓거나 클릭해서 선택</div>
+      <div class="dz-sub">정측면(옆모습) 사진 한 장이면 됩니다</div>
+      <div class="dz-req">
+        <span>측면 뷰</span><span>배경 단색 권장</span>
+        <span>신발 전체가 프레임 안에</span><span>긴 변 1024px 이상</span>
+        <span>JPG PNG WEBP</span>
+      </div>
+    </div>
+    <input type="file" id="imgFile" accept="image/jpeg,image/png,image/webp" style="display:none">
+    <label>프로젝트 ID <span class="muted">(결과를 구분하는 이름표입니다)</span></label>
+    <input type="text" id="newPid" value="RUN-${Date.now().toString().slice(-6)}">
+    <div class="row">
+      <button class="btn primary" id="genBtn" disabled>이미지를 먼저 선택하세요</button>
+      <span class="muted" id="genStatus"></span>
+    </div>
+    <div class="note">실제 생성 엔진을 호출하며 크레딧이 소모됩니다.
+      생성 30, 세그멘테이션 40 크레딧이고 3 에서 6분 걸립니다. 완료되면
+      새 프로젝트 화면으로 자동 이동합니다.</div>`;
+
   el.innerHTML = `
-    <p class="muted">디자인 이미지를 3D 로 만들고 이어서 파트 세그멘테이션을 돌립니다.
-    생성 결과 URL 은 짧게만 유효해서 성공 즉시 내부 저장소로 내려받습니다.</p>
-    ${S.state.input_image ? `<img src="/api/project/${S.pid}/image" style="width:100%;border-radius:8px;border:1px solid var(--line);margin:8px 0">` : ''}
+    <p class="muted">이미지 한 장에서 3D 를 만들고 파트를 나눈 뒤,
+    실측 길이로 보정해 소재 소요량과 원가까지 계산합니다.</p>
     <dl class="kv">
       <dt>프로젝트</dt><dd>${S.pid}</dd>
       <dt>3D 생성</dt><dd>${st.generate3d?.status || '없음'}</dd>
       <dt>세그멘테이션</dt><dd>${st.segment3d?.status || '없음'}</dd>
       <dt>파트 수</dt><dd>${(S.state.mapping || []).length || '없음'}</dd>
     </dl>
-    <h4>새 이미지로 실행</h4>
-    <input type="file" id="imgFile" accept="image/*">
-    <label>프로젝트 ID</label>
-    <input type="text" id="newPid" value="RUN-${Date.now().toString().slice(-6)}">
-    <div class="row">
-      <button class="btn primary" id="genBtn">3D 생성과 세그멘테이션 실행</button>
-      <span class="muted" id="genStatus"></span>
-    </div>
-    <div class="note">실제 생성 엔진을 호출하며 크레딧이 소모됩니다.
-      생성 30, 세그멘테이션 40 크레딧이고 3 에서 6분 걸립니다.</div>`;
+    ${S.state.input_image ? `<h4>이 프로젝트의 입력 이미지</h4>
+      <img src="/api/project/${S.pid}/image" alt="입력 디자인"
+        style="width:100%;border-radius:8px;border:1px solid var(--line);margin:4px 0 8px">` : ''}
+    ${uploadPanel}`;
 
-  $('#genBtn').onclick = async () => {
-    const f = $('#imgFile').files[0];
-    if (!f) return toast('이미지를 선택하세요', true);
+  if (isStatic) return;
+
+  // ── 드래그 앤 드롭 + 미리보기 + 검증 ─────────────────────────────
+  const dz = $('#dz'), fileInput = $('#imgFile'), btn = $('#genBtn');
+  let picked = null;
+
+  const accept = f => {
+    if (!f) return;
+    if (!/^image\/(jpeg|png|webp)$/.test(f.type)) {
+      toast('JPG, PNG, WEBP 이미지만 받을 수 있습니다', true); return;
+    }
+    if (f.size > 20 * 1024 * 1024) {
+      toast('20MB 이하 이미지를 사용하세요', true); return;
+    }
+    picked = f;
+    const url = URL.createObjectURL(f);
+    const img = new Image();
+    img.onload = () => {
+      const small = Math.max(img.width, img.height) < 512;
+      dz.classList.add('haspic');
+      dz.innerHTML = `<img src="${url}" alt="선택한 이미지">
+        <div class="dz-meta"><b>${f.name}</b>
+          <div class="dim">${img.width} x ${img.height}px ·
+            ${(f.size / 1024 / 1024).toFixed(1)}MB · 클릭하면 다른 이미지로 바꿉니다</div>
+          ${small ? '<div class="dim" style="color:var(--on-tint)">해상도가 낮습니다. 결과 품질이 떨어질 수 있습니다.</div>' : ''}
+        </div>`;
+      btn.disabled = false;
+      btn.textContent = '3D 생성과 세그멘테이션 실행';
+    };
+    img.src = url;
+  };
+
+  dz.onclick = () => fileInput.click();
+  fileInput.onchange = () => accept(fileInput.files[0]);
+  ['dragenter', 'dragover'].forEach(ev => dz.addEventListener(ev, e => {
+    e.preventDefault(); dz.classList.add('drag');
+  }));
+  ['dragleave', 'drop'].forEach(ev => dz.addEventListener(ev, e => {
+    e.preventDefault(); dz.classList.remove('drag');
+  }));
+  dz.addEventListener('drop', e => accept(e.dataTransfer.files[0]));
+
+  btn.onclick = async () => {
+    if (!picked) return;
     const fd = new FormData();
-    fd.append('image', f);
+    fd.append('image', picked);
     fd.append('project_id', $('#newPid').value.trim());
     fd.append('segment', 'true');
-    $('#genBtn').disabled = true;
+    btn.disabled = true;
+    btn.textContent = '실행 중';
     const r = await fetch('/api/mesh/generate', { method: 'POST', body: fd }).then(x => x.json());
     const pid = r.project_id;
     const tick = setInterval(async () => {
       const j = await fetch('/api/mesh/job/' + pid).then(x => x.json());
+      const label = { generate: '3D 생성', segment: '파트 분리', upload: '업로드' }[j.stage] || j.stage;
       $('#genStatus').innerHTML = j.stage === 'error'
-        ? `<span style="color:var(--bad)">${j.error}</span>`
-        : `<span class="spinner"></span>${j.stage} ${j.status} ${j.progress || 0}%`;
+        ? `<span style="color:var(--on-tint)">${j.error}</span>`
+        : `<span class="spinner"></span>${label} ${j.progress || 0}%`;
       if (j.stage === 'done') {
         clearInterval(tick);
         toast('생성 완료. 새 프로젝트로 이동합니다.');
         location.search = '?p=' + pid;
       }
-      if (j.stage === 'error') { clearInterval(tick); $('#genBtn').disabled = false; }
+      if (j.stage === 'error') {
+        clearInterval(tick); btn.disabled = false;
+        btn.textContent = '3D 생성과 세그멘테이션 실행';
+      }
     }, 2500);
   };
 }
@@ -218,7 +290,11 @@ function stepScale(el) {
       <dt>부피 계수 s³</dt><dd>${fmt(cal.volume_scale, 1)}</dd>
       <dt>신뢰도</dt><dd>${cal.confidence} ${cal.confidence === 'B' ? '(길이만 입력)' : ''}</dd>
       <dt>확정</dt><dd>${cal.confirmed ? '예' : '아니오'}</dd>
-    </dl>` : ''}
+    </dl>
+    ${cal.width_check && cal.width_check.verdict !== 'ok' ? `<div class="note">
+      <b>폭 비율 경고</b> 폭/길이 = ${cal.width_check.width_over_length}
+      (통상 ${cal.width_check.expected_range[0]} 에서 ${cal.width_check.expected_range[1]}).
+      ${cal.width_check.note}</div>` : ''}` : ''}
     <div class="note">길이만 입력하면 uniform scale 을 씁니다. 폭·높이를 AI로 임의 보정해
       비균일 scale 하지 않습니다.</div>`;
 
@@ -261,6 +337,9 @@ function stepSegment(el) {
     <p class="muted">세그멘테이션 결과는 BOM 이 아닙니다. 기하 특징으로 canonical part 를
     <b>제안</b>할 뿐이며, 확정 전에는 원가 계산에 쓰지 않습니다.</p>
     <div class="note info">
+      ${S.state.segmentation_source?.kind === 'internal_model'
+        ? `세그멘테이션 출처: <b>사내 신발 파트 모델</b> (display 파트 ${S.state.segmentation_source.display_parts_merged}개를 클래스로 병합, face 커버리지 ${((S.state.segmentation_source.face_coverage||0)*100).toFixed(0)}%)`
+        : '세그멘테이션 출처: 기하 특징 추정 (모델 라벨 없음)'}<br>
       정답 데이터가 없으므로 아래는 <b>정확도가 아니라 배정 커버리지</b>입니다.
       <div class="kv" style="margin:8px 0 0">
         <dt>입력 세그먼트</dt><dd>${sum.input_segments ?? '없음'}</dd>
@@ -442,11 +521,15 @@ function stepCost(el) {
     </div>
 
     <div class="stat">
-      <div class="lbl">확인된 소재비 소계 (켤레당)</div>
+      <div class="lbl">표시 중인 값: 가격 확정된 BOM ${cov.priced_lines}/${cov.bom_lines}라인의 소재·부자재 소계 (켤레당)</div>
       <div class="big">${usd(r.known_cost_subtotal.p50)}</div>
       <div class="sub">P10 ${usd(r.known_cost_subtotal.p10)} · P90 ${usd(r.known_cost_subtotal.p90)}</div>
+      ${r.material_breakdown ? `<div class="sub" style="margin-top:8px">${
+        Object.entries(r.material_breakdown).map(([k, v]) =>
+          `${({Upper:'어퍼',Sole:'솔',Chemical:'접착·화학',Packaging:'포장',Trim:'부자재'})[k] || k} ${usd(v.p50)}`
+        ).join(' · ')}</div>` : ''}
       <div class="bar"><i style="width:${((cov.priced_ratio || 0) * 100).toFixed(0)}%"></i></div>
-      <div class="sub">BOM ${cov.priced_lines}/${cov.bom_lines} 라인 가격 확정</div>
+      <div class="sub">라인 가격 커버리지 ${((cov.priced_ratio||0)*100).toFixed(0)}% (전체 원가 커버리지와는 다릅니다. 노무·기계·금형 제외)</div>
     </div>
 
     <div class="stat unavail">
@@ -464,9 +547,10 @@ function stepCost(el) {
       <li>Machine Rate</li><li>Midsole, Outsole 금형 견적</li></ul></div>` : ''}
 
     ${mb ? `<div class="note ${mb.verdict === 'ok' ? 'ok' : ''}">
-      <b>질량 정합성</b> ${mb.known_mass_g.toFixed(0)} g 대비 목표 ${mb.target_pair_g} g
-      (${((mb.coverage || 0) * 100).toFixed(0)}%) 판정 ${mb.verdict}<br>
-      ${mb.note}</div>` : ''}
+      <b>질량 정합성</b> 완제품 ${(mb.finished_pair_mass_g ?? mb.known_mass_g).toFixed(0)} g
+      / 구매 투입 ${(mb.purchased_input_mass_g ?? 0).toFixed(0)} g
+      / 목표 ${mb.target_pair_g} g (${((mb.coverage || 0) * 100).toFixed(0)}%)
+      판정 ${mb.verdict}<br>${mb.note}</div>` : ''}
 
     <table class="buckets"><thead><tr><th>버킷</th><th class="num">P10</th>
       <th class="num">P50</th><th class="num">P90</th></tr></thead><tbody>
@@ -591,7 +675,23 @@ async function reload() {
 
 window.__vringon = { S, viewer };
 
+async function renderProjectSwitcher() {
+  try {
+    const r = await api('/projects', null, 'GET');
+    const pids = (r.projects || []).map(p => p.project_id).filter(Boolean);
+    if (pids.length < 2) return;
+    const host = document.querySelector('.topright');
+    const sel = document.createElement('select');
+    sel.style.cssText = 'width:auto;font-size:12px;padding:4px 8px';
+    sel.innerHTML = pids.map(p =>
+      `<option ${p === S.pid ? 'selected' : ''}>${p}</option>`).join('');
+    sel.onchange = () => { location.search = '?p=' + sel.value; };
+    host.prepend(sel);
+  } catch (e) { /* 프로젝트 목록이 없으면 그냥 넘어간다 */ }
+}
+
 (async function boot() {
+  renderProjectSwitcher();
   S.catalog = await api('/catalog', null, 'GET');
   $('#viewMode').querySelectorAll('button').forEach(b => b.onclick = () => {
     S.viewMode = b.dataset.mode;

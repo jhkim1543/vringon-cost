@@ -801,8 +801,8 @@
    "origin": "construction_rule",
    "material_spec": "MAT-LDPE",
    "segments": [],
-   "geometry_role": "surface_region",
-   "geometry_max_class": "C1",
+   "geometry_role": "fixed_quantity",
+   "geometry_max_class": "C2",
    "price_max_class": "C1",
    "quantity_basis": "per_pair",
    "formula_family": null,
@@ -884,8 +884,8 @@
    "origin": "construction_rule",
    "material_spec": "MAT-BOX",
    "segments": [],
-   "geometry_role": "surface_region",
-   "geometry_max_class": "C1",
+   "geometry_role": "fixed_quantity",
+   "geometry_max_class": "C2",
    "price_max_class": "C1",
    "quantity_basis": "per_pair",
    "formula_family": "count",
@@ -952,8 +952,8 @@
    "origin": "construction_rule",
    "material_spec": "MAT-PAPERBOARD",
    "segments": [],
-   "geometry_role": "surface_region",
-   "geometry_max_class": "C1",
+   "geometry_role": "fixed_quantity",
+   "geometry_max_class": "C2",
    "price_max_class": "C1",
    "quantity_basis": "per_pair",
    "formula_family": "count",
@@ -2612,6 +2612,44 @@
  ],
  "rollup": {
   "cost_status": "PARTIAL",
+  "material_breakdown": {
+   "Sole": {
+    "p10": 1.0515569730589025,
+    "p50": 1.318190920592093,
+    "p90": 1.5848248681252834,
+    "lines": 4
+   },
+   "Chemical": {
+    "p10": 0.07032162142784071,
+    "p50": 0.07824322700370419,
+    "p90": 0.08616483257956768,
+    "lines": 3
+   },
+   "기타": {
+    "p10": 0.0058,
+    "p50": 0.006575,
+    "p90": 0.00735,
+    "lines": 1
+   },
+   "Packaging": {
+    "p10": 0.30341999999999997,
+    "p50": 1.15549,
+    "p90": 2.00756,
+    "lines": 2
+   },
+   "Upper": {
+    "p10": 0.5458941494240657,
+    "p50": 0.8171407557886288,
+    "p90": 1.0883873621531919,
+    "lines": 11
+   },
+   "Trim": {
+    "p10": 0.22,
+    "p50": 0.3,
+    "p90": 0.38,
+    "lines": 1
+   }
+  },
   "buckets": [
    {
     "bucket": "Material",
@@ -3087,56 +3125,61 @@
   "downgraded_from": "C2"
  },
  "mass_balance": {
-  "known_mass_g": 579.9814321192921,
-  "lines_counted": 8,
+  "finished_pair_mass_g": 672.7709031515711,
+  "purchased_input_mass_g": 579.9814321192921,
+  "known_mass_g": 672.7709031515711,
+  "lines_counted": 19,
   "lines_without_mass": [
-   "Collar Foam",
-   "Collar Shell",
-   "Eyelet Reinforcement",
-   "Heel Counter",
-   "Heel Overlay",
-   "Hot-melt Backing/Film",
    "Lace",
    "Logo/Graphic",
-   "Shoe Box",
-   "Strobel",
-   "Toe Puff",
-   "Tongue Foam",
-   "Tongue Lining",
-   "Vamp",
-   "Vamp/Quarter Lining",
    "Webbing/Pull Tab"
+  ],
+  "excluded_packaging": [
+   {
+    "canonical_part": "Shoe Box",
+    "reason": "포장재"
+   },
+   {
+    "canonical_part": "Tissue/Stuffing",
+    "reason": "포장재"
+   }
   ],
   "top": [
    {
     "canonical_part": "Outsole Rubber",
-    "grams": 310.11988432655033
+    "grams": 266.7031005208333,
+    "via": "net_volume_x_density"
    },
    {
     "canonical_part": "Midsole Carrier",
-    "grams": 194.39921354166668
+    "grams": 171.07130791666665,
+    "via": "net_volume_x_density"
    },
    {
-    "canonical_part": "Cement/Adhesive",
-    "grams": 20.989087121529618
+    "canonical_part": "Heel Counter",
+    "grams": 54.02929467964336,
+    "via": "gsm"
    },
    {
-    "canonical_part": "Midsole Insert",
-    "grams": 20.670040522875816
+    "canonical_part": "Strobel",
+    "grams": 29.57482325178025,
+    "via": "gsm"
    },
    {
-    "canonical_part": "Tissue/Stuffing",
-    "grams": 18.0
+    "canonical_part": "Eyelet Reinforcement",
+    "grams": 21.66804173763316,
+    "via": "gsm"
    },
    {
-    "canonical_part": "Primer",
-    "grams": 5.5559348262872525
+    "canonical_part": "Collar Shell",
+    "grams": 21.469956410035486,
+    "via": "gsm"
    }
   ],
   "target_pair_g": 600,
-  "coverage": 0.9666357201988202,
-  "verdict": "suspect_over_estimate",
-  "note": "면적 기준 소재는 면밀도가 없어 질량에 넣지 못했다. 따라서 이 값은 하한이다. 질량 미산정 16건이 남았는데 이미 목표의 97%다. 복구 부피 과대추정을 의심할 것."
+  "coverage": 1.121284838585952,
+  "verdict": "fail_over_estimate",
+  "note": "완제품 질량은 순질량 기준이다. 부피 파트는 부피 x 밀도, 면적 파트는 순면적 x 면밀도, 접착제는 건조 고형분 50%, 포장재는 제외. 질량 미산정 3건이 남았는데 이미 목표의 112%다. 부피 과대추정."
  },
- "computed_at": "2026-08-24T08:39:30Z"
+ "computed_at": "2026-08-24T09:40:01Z"
 }

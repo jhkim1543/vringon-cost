@@ -8,7 +8,7 @@
  let manifest = null;
  const ready = REAL('data/index.json', { cache: 'no-store' })
     .then(r => r.ok ? r.json() : null)
-    .then(j => { manifest = j; return j; })
+    .then(j => { manifest = j; window.__staticDemo = !!j; return j; })
     .catch(() => null);
 
   const json = obj => new Response(JSON.stringify(obj),

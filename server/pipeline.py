@@ -177,6 +177,12 @@ class Project:
         heel = heel or lm["heel"]
         cal = geo.calibration(target_length_mm, toe, heel)
         cal["confirmed"] = bool(confirmed)
+        # 측면 한 장 복원은 폭 정보가 없다. 폭/길이 비율이 통상 범위를
+        # 벗어나면 경고하고 부피 파트 신뢰를 낮춘다. 자동 축소는 하지 않는다.
+        try:
+            cal["width_check"] = geo.width_check(self._whole())
+        except Exception:
+            pass
         self.state["calibration"] = cal
         self.state["landmarks"] = {**lm, "toe": toe, "heel": heel,
                                    "confirmed": bool(confirmed)}
@@ -186,12 +192,45 @@ class Project:
         return cal
 
     # ── 4) Segment -> Canonical ──────────────────────────────────────
+    def _model_mapping(self):
+        """사내 세그멘테이션 모델의 매핑이 있으면 그것을 쓴다.
+
+        기하 추정은 라벨이 없을 때의 폴백이다. 모델은 클래스명과 신뢰도를
+        직접 주므로 배정이 훨씬 안정적이다 (신발 도메인 mAP 0.47).
+        """
+        f = self.dir / "model_mapping.json"
+        if not f.exists():
+            return None
+        d = json.loads(f.read_text(encoding="utf-8"))
+        parts = self._parts()
+        total_area = sum(m.area for m in parts.values()) or 1.0
+        out = []
+        for item in d["mapping"]:
+            mesh = parts.get(item["segment_id"])
+            if mesh is None:
+                continue
+            out.append({
+                **item,
+                "score": item["confidence"],
+                "margin": None,
+                "alternatives": [],
+                "features": {"area_share": float(mesh.area) / total_area},
+            })
+        self.state["segmentation_source"] = {
+            "kind": "internal_model",
+            "face_coverage": d.get("face_coverage"),
+            "display_parts_merged": d.get("display_parts"),
+        }
+        return out
+
     def propose_mapping(self):
         lm = self.state.get("landmarks")
         parts = self._parts()
-        m = canonical.propose(parts,
-                              toe=lm.get("toe") if lm else None,
-                              heel=lm.get("heel") if lm else None)
+        m = self._model_mapping()
+        if m is None:
+            m = canonical.propose(parts,
+                                  toe=lm.get("toe") if lm else None,
+                                  heel=lm.get("heel") if lm else None)
         # 파트별 QA 를 함께 실어 UI 가 부피 가능 여부를 바로 보여줄 수 있게 한다.
         cal = self.state.get("calibration")
         for item in m:

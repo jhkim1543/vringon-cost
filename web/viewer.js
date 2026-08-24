@@ -149,6 +149,9 @@ export class Viewer {
         color, roughness: 0.72, metalness: 0.02,
         transparent: opacity < 1, opacity,
         depthWrite: opacity > 0.6,
+        // 세그먼트 파트는 열린 껍질이라 앞면만 그리면 뒷면 자리가 뚫려
+        // 배경색 균열이 무수히 보인다. 양면을 그려야 면이 닫혀 보인다.
+        side: THREE.DoubleSide,
       });
       i++;
     }

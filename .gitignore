@@ -6,3 +6,5 @@ data/projects/*/segmented.glb
 data/projects/*/viewer.glb
 data/assets/
 .env
+data/projects/*/segmodel/shoe_proxy.glb
+data/projects/*/segmodel/source_segmented_vertexcolor.glb

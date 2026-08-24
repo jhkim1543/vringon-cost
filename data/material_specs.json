@@ -8,179 +8,591 @@
  },
  "specs": {
   "MAT-MESH-POLY": {
-   "form": "roll", "description": "Polyester knitted shoe mesh",
-   "usable_width_m": {"value": 1.5, "source": "assumption", "note": "58-60인치 통상 폭. 공급사 확인 필요"},
-   "thickness_mm": {"value": 1.6, "source": "public_reference"},
-   "pattern_factor": {"value": 1.18, "source": "assumption", "note": "3D 표면적 -> 재단 패턴 면적 proxy"},
-   "nesting_yield": {"value": 0.82, "source": "assumption", "note": "실제는 marker/DXF 필요"},
-   "process_yield": {"value": 0.97, "source": "assumption"}
+   "form": "roll",
+   "description": "Polyester knitted shoe mesh",
+   "usable_width_m": {
+    "value": 1.5,
+    "source": "assumption",
+    "note": "58-60인치 통상 폭. 공급사 확인 필요"
+   },
+   "thickness_mm": {
+    "value": 1.6,
+    "source": "public_reference"
+   },
+   "pattern_factor": {
+    "value": 1.18,
+    "source": "assumption",
+    "note": "3D 표면적 -> 재단 패턴 면적 proxy"
+   },
+   "nesting_yield": {
+    "value": 0.82,
+    "source": "assumption",
+    "note": "실제는 marker/DXF 필요"
+   },
+   "process_yield": {
+    "value": 0.97,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 250,
+    "source": "public_reference",
+    "note": "통상 면밀도. 질량 정합성 검사용이며 공급사 TDS 로 대체할 것"
+   }
   },
   "MAT-MESH-3D": {
-   "form": "roll", "description": "3D spacer / air mesh",
-   "usable_width_m": {"value": 1.5, "source": "assumption"},
-   "thickness_mm": {"value": 3.0, "source": "workbook", "note": "대표사양 2-5mm 중앙"},
-   "pattern_factor": {"value": 1.18, "source": "assumption"},
-   "nesting_yield": {"value": 0.80, "source": "assumption"},
-   "process_yield": {"value": 0.97, "source": "assumption"}
+   "form": "roll",
+   "description": "3D spacer / air mesh",
+   "usable_width_m": {
+    "value": 1.5,
+    "source": "assumption"
+   },
+   "thickness_mm": {
+    "value": 3.0,
+    "source": "workbook",
+    "note": "대표사양 2-5mm 중앙"
+   },
+   "pattern_factor": {
+    "value": 1.18,
+    "source": "assumption"
+   },
+   "nesting_yield": {
+    "value": 0.8,
+    "source": "assumption"
+   },
+   "process_yield": {
+    "value": 0.97,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 380,
+    "source": "public_reference",
+    "note": "통상 면밀도. 질량 정합성 검사용이며 공급사 TDS 로 대체할 것"
+   }
   },
   "MAT-MICROFIBER": {
-   "form": "roll", "description": "Footwear microfiber synthetic",
-   "usable_width_m": {"value": 1.37, "source": "assumption", "note": "54인치 통상"},
-   "thickness_mm": {"value": 1.2, "source": "public_reference"},
-   "pattern_factor": {"value": 1.15, "source": "assumption"},
-   "nesting_yield": {"value": 0.84, "source": "assumption"},
-   "process_yield": {"value": 0.97, "source": "assumption"}
+   "form": "roll",
+   "description": "Footwear microfiber synthetic",
+   "usable_width_m": {
+    "value": 1.37,
+    "source": "assumption",
+    "note": "54인치 통상"
+   },
+   "thickness_mm": {
+    "value": 1.2,
+    "source": "public_reference"
+   },
+   "pattern_factor": {
+    "value": 1.15,
+    "source": "assumption"
+   },
+   "nesting_yield": {
+    "value": 0.84,
+    "source": "assumption"
+   },
+   "process_yield": {
+    "value": 0.97,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 420,
+    "source": "public_reference",
+    "note": "통상 면밀도. 질량 정합성 검사용이며 공급사 TDS 로 대체할 것"
+   }
   },
   "MAT-TPU-FILM": {
-   "form": "roll", "description": "Waterproof / no-sew TPU film",
-   "usable_width_m": {"value": 1.4, "source": "assumption"},
-   "thickness_mm": {"value": 0.15, "source": "public_reference"},
-   "pattern_factor": {"value": 1.10, "source": "assumption"},
-   "nesting_yield": {"value": 0.85, "source": "assumption"},
-   "process_yield": {"value": 0.95, "source": "assumption"}
+   "form": "roll",
+   "description": "Waterproof / no-sew TPU film",
+   "usable_width_m": {
+    "value": 1.4,
+    "source": "assumption"
+   },
+   "thickness_mm": {
+    "value": 0.15,
+    "source": "public_reference"
+   },
+   "pattern_factor": {
+    "value": 1.1,
+    "source": "assumption"
+   },
+   "nesting_yield": {
+    "value": 0.85,
+    "source": "assumption"
+   },
+   "process_yield": {
+    "value": 0.95,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 170,
+    "source": "public_reference",
+    "note": "통상 면밀도. 질량 정합성 검사용이며 공급사 TDS 로 대체할 것"
+   }
   },
   "MAT-REFLECTIVE": {
-   "form": "roll", "description": "Reflective upper fabric",
-   "usable_width_m": {"value": 1.37, "source": "assumption"},
-   "pattern_factor": {"value": 1.15, "source": "assumption"},
-   "nesting_yield": {"value": 0.80, "source": "assumption"},
-   "process_yield": {"value": 0.96, "source": "assumption"}
+   "form": "roll",
+   "description": "Reflective upper fabric",
+   "usable_width_m": {
+    "value": 1.37,
+    "source": "assumption"
+   },
+   "pattern_factor": {
+    "value": 1.15,
+    "source": "assumption"
+   },
+   "nesting_yield": {
+    "value": 0.8,
+    "source": "assumption"
+   },
+   "process_yield": {
+    "value": 0.96,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 300,
+    "source": "public_reference",
+    "note": "통상 면밀도. 질량 정합성 검사용이며 공급사 TDS 로 대체할 것"
+   }
   },
   "MAT-LINING-MESH": {
-   "form": "roll", "description": "Lining mesh / tricot",
-   "usable_width_m": {"value": 1.5, "source": "assumption"},
-   "thickness_mm": {"value": 1.2, "source": "public_reference"},
-   "pattern_factor": {"value": 1.15, "source": "assumption"},
-   "nesting_yield": {"value": 0.84, "source": "assumption"},
-   "process_yield": {"value": 0.97, "source": "assumption"}
+   "form": "roll",
+   "description": "Lining mesh / tricot",
+   "usable_width_m": {
+    "value": 1.5,
+    "source": "assumption"
+   },
+   "thickness_mm": {
+    "value": 1.2,
+    "source": "public_reference"
+   },
+   "pattern_factor": {
+    "value": 1.15,
+    "source": "assumption"
+   },
+   "nesting_yield": {
+    "value": 0.84,
+    "source": "assumption"
+   },
+   "process_yield": {
+    "value": 0.97,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 130,
+    "source": "public_reference",
+    "note": "통상 면밀도. 질량 정합성 검사용이며 공급사 TDS 로 대체할 것"
+   }
   },
   "MAT-TOEPUFF": {
-   "form": "sheet", "description": "Thermoplastic toe puff sheet",
-   "sheet_area_m2": {"value": 1.5, "source": "assumption", "note": "1.0 x 1.5 m 통상 규격. MOQ·두께별 상이"},
-   "thickness_mm": {"value": 1.0, "source": "public_reference"},
-   "pattern_factor": {"value": 1.10, "source": "assumption"},
-   "nesting_yield": {"value": 0.78, "source": "assumption"},
-   "process_yield": {"value": 0.95, "source": "assumption"}
+   "form": "sheet",
+   "description": "Thermoplastic toe puff sheet",
+   "sheet_area_m2": {
+    "value": 1.5,
+    "source": "assumption",
+    "note": "1.0 x 1.5 m 통상 규격. MOQ·두께별 상이"
+   },
+   "thickness_mm": {
+    "value": 1.0,
+    "source": "public_reference"
+   },
+   "pattern_factor": {
+    "value": 1.1,
+    "source": "assumption"
+   },
+   "nesting_yield": {
+    "value": 0.78,
+    "source": "assumption"
+   },
+   "process_yield": {
+    "value": 0.95,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 750,
+    "source": "public_reference",
+    "note": "통상 면밀도. 질량 정합성 검사용이며 공급사 TDS 로 대체할 것"
+   }
   },
   "MAT-COUNTER": {
-   "form": "sheet", "description": "Thermoplastic heel counter sheet",
-   "sheet_area_m2": {"value": 1.5, "source": "assumption"},
-   "thickness_mm": {"value": 1.4, "source": "public_reference"},
-   "pattern_factor": {"value": 1.10, "source": "assumption"},
-   "nesting_yield": {"value": 0.76, "source": "assumption"},
-   "process_yield": {"value": 0.95, "source": "assumption"}
+   "form": "sheet",
+   "description": "Thermoplastic heel counter sheet",
+   "sheet_area_m2": {
+    "value": 1.5,
+    "source": "assumption"
+   },
+   "thickness_mm": {
+    "value": 1.4,
+    "source": "public_reference"
+   },
+   "pattern_factor": {
+    "value": 1.1,
+    "source": "assumption"
+   },
+   "nesting_yield": {
+    "value": 0.76,
+    "source": "assumption"
+   },
+   "process_yield": {
+    "value": 0.95,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 950,
+    "source": "public_reference",
+    "note": "통상 면밀도. 질량 정합성 검사용이며 공급사 TDS 로 대체할 것"
+   }
   },
   "MAT-PUFOAM-OPEN": {
-   "form": "roll", "description": "Open-cell PU sockliner foam",
-   "usable_width_m": {"value": 1.5, "source": "assumption"},
-   "thickness_mm": {"value": 4.0, "source": "assumption"},
-   "pattern_factor": {"value": 1.12, "source": "assumption"},
-   "nesting_yield": {"value": 0.80, "source": "assumption"},
-   "process_yield": {"value": 0.96, "source": "assumption"}
+   "form": "roll",
+   "description": "Open-cell PU sockliner foam",
+   "usable_width_m": {
+    "value": 1.5,
+    "source": "assumption"
+   },
+   "thickness_mm": {
+    "value": 4.0,
+    "source": "assumption"
+   },
+   "pattern_factor": {
+    "value": 1.12,
+    "source": "assumption"
+   },
+   "nesting_yield": {
+    "value": 0.8,
+    "source": "assumption"
+   },
+   "process_yield": {
+    "value": 0.96,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 170,
+    "source": "public_reference",
+    "note": "통상 면밀도. 질량 정합성 검사용이며 공급사 TDS 로 대체할 것"
+   }
   },
   "MAT-PUFOAM-MEM": {
-   "form": "sheet_m2", "description": "Memory PU foam (가격 UOM 이 m²)",
-   "thickness_mm": {"value": 6.0, "source": "assumption"},
-   "pattern_factor": {"value": 1.12, "source": "assumption"},
-   "nesting_yield": {"value": 0.80, "source": "assumption"},
-   "process_yield": {"value": 0.96, "source": "assumption"}
+   "form": "sheet_m2",
+   "description": "Memory PU foam (가격 UOM 이 m²)",
+   "thickness_mm": {
+    "value": 6.0,
+    "source": "assumption"
+   },
+   "pattern_factor": {
+    "value": 1.12,
+    "source": "assumption"
+   },
+   "nesting_yield": {
+    "value": 0.8,
+    "source": "assumption"
+   },
+   "process_yield": {
+    "value": 0.96,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 280,
+    "source": "public_reference",
+    "note": "통상 면밀도. 질량 정합성 검사용이며 공급사 TDS 로 대체할 것"
+   }
   },
   "MAT-STROBEL": {
-   "form": "sheet", "description": "Strobel board / nonwoven",
-   "sheet_area_m2": {"value": 1.0, "source": "assumption"},
-   "pattern_factor": {"value": 1.08, "source": "assumption"},
-   "nesting_yield": {"value": 0.82, "source": "assumption"},
-   "process_yield": {"value": 0.97, "source": "assumption"}
+   "form": "sheet",
+   "description": "Strobel board / nonwoven",
+   "sheet_area_m2": {
+    "value": 1.0,
+    "source": "assumption"
+   },
+   "pattern_factor": {
+    "value": 1.08,
+    "source": "assumption"
+   },
+   "nesting_yield": {
+    "value": 0.82,
+    "source": "assumption"
+   },
+   "process_yield": {
+    "value": 0.97,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 480,
+    "source": "public_reference",
+    "note": "통상 면밀도. 질량 정합성 검사용이며 공급사 TDS 로 대체할 것"
+   }
   },
   "MAT-INSOLEBOARD": {
-   "form": "sheet", "description": "Insole board",
-   "sheet_area_m2": {"value": 1.0, "source": "assumption"},
-   "pattern_factor": {"value": 1.08, "source": "assumption"},
-   "nesting_yield": {"value": 0.80, "source": "assumption"},
-   "process_yield": {"value": 0.97, "source": "assumption"}
+   "form": "sheet",
+   "description": "Insole board",
+   "sheet_area_m2": {
+    "value": 1.0,
+    "source": "assumption"
+   },
+   "pattern_factor": {
+    "value": 1.08,
+    "source": "assumption"
+   },
+   "nesting_yield": {
+    "value": 0.8,
+    "source": "assumption"
+   },
+   "process_yield": {
+    "value": 0.97,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 1250,
+    "source": "public_reference",
+    "note": "통상 면밀도. 질량 정합성 검사용이며 공급사 TDS 로 대체할 것"
+   }
   },
   "MAT-EVA-COMP": {
-   "form": "molded", "description": "EVA midsole compound",
-   "molded_density_kg_m3": {"value": 220.0, "source": "public_reference", "note": "발포 후 완성 미드솔 밀도 0.15-0.30 g/cm3 의 중앙. 펠릿 밀도(0.95)가 아님"},
-   "process_yield": {"value": 0.88, "source": "assumption", "note": "trim/flash 손실 포함"}
+   "form": "molded",
+   "description": "EVA midsole compound",
+   "molded_density_kg_m3": {
+    "value": 220.0,
+    "source": "public_reference",
+    "note": "발포 후 완성 미드솔 밀도 0.15-0.30 g/cm3 의 중앙. 펠릿 밀도(0.95)가 아님"
+   },
+   "process_yield": {
+    "value": 0.88,
+    "source": "assumption",
+    "note": "trim/flash 손실 포함"
+   }
   },
   "MAT-PEBA": {
-   "form": "molded", "description": "PEBA foam midsole",
-   "molded_density_kg_m3": {"value": 160.0, "source": "public_reference"},
-   "process_yield": {"value": 0.85, "source": "assumption"}
+   "form": "molded",
+   "description": "PEBA foam midsole",
+   "molded_density_kg_m3": {
+    "value": 160.0,
+    "source": "public_reference"
+   },
+   "process_yield": {
+    "value": 0.85,
+    "source": "assumption"
+   }
   },
   "MAT-TPU-PELLET": {
-   "form": "molded", "description": "TPU (solid, cage/plate)",
-   "molded_density_kg_m3": {"value": 1200.0, "source": "public_reference"},
-   "process_yield": {"value": 0.92, "source": "assumption"}
+   "form": "molded",
+   "description": "TPU (solid, cage/plate)",
+   "molded_density_kg_m3": {
+    "value": 1200.0,
+    "source": "public_reference"
+   },
+   "process_yield": {
+    "value": 0.92,
+    "source": "assumption"
+   }
   },
   "MAT-NR": {
-   "form": "molded", "description": "Natural rubber outsole compound",
-   "molded_density_kg_m3": {"value": 1150.0, "source": "public_reference", "note": "가황 완성 컴파운드 1.05-1.30 g/cm3"},
-   "process_yield": {"value": 0.86, "source": "assumption"}
+   "form": "molded",
+   "description": "Natural rubber outsole compound",
+   "molded_density_kg_m3": {
+    "value": 1150.0,
+    "source": "public_reference",
+    "note": "가황 완성 컴파운드 1.05-1.30 g/cm3"
+   },
+   "process_yield": {
+    "value": 0.86,
+    "source": "assumption"
+   }
   },
   "MAT-SBR": {
-   "form": "molded", "description": "SBR outsole compound",
-   "molded_density_kg_m3": {"value": 1180.0, "source": "public_reference"},
-   "process_yield": {"value": 0.86, "source": "assumption"}
+   "form": "molded",
+   "description": "SBR outsole compound",
+   "molded_density_kg_m3": {
+    "value": 1180.0,
+    "source": "public_reference"
+   },
+   "process_yield": {
+    "value": 0.86,
+    "source": "assumption"
+   }
   },
   "MAT-CF-PREPREG": {
-   "form": "sheet_m2", "description": "Carbon prepreg plate",
-   "thickness_mm": {"value": 1.0, "source": "assumption"},
-   "pattern_factor": {"value": 1.20, "source": "assumption"},
-   "nesting_yield": {"value": 0.70, "source": "assumption"},
-   "process_yield": {"value": 0.90, "source": "assumption"}
+   "form": "sheet_m2",
+   "description": "Carbon prepreg plate",
+   "thickness_mm": {
+    "value": 1.0,
+    "source": "assumption"
+   },
+   "pattern_factor": {
+    "value": 1.2,
+    "source": "assumption"
+   },
+   "nesting_yield": {
+    "value": 0.7,
+    "source": "assumption"
+   },
+   "process_yield": {
+    "value": 0.9,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 1600,
+    "source": "public_reference",
+    "note": "통상 면밀도. 질량 정합성 검사용이며 공급사 TDS 로 대체할 것"
+   }
   },
   "MAT-ADH-PU": {
-   "form": "chemical", "description": "Water-based PU cement",
-   "wet_coat_kg_m2": {"value": 0.12, "source": "factory_required", "note": "레시피 R-014 의 coat_kg_m2=factory"},
-   "coats": {"value": 2, "source": "workbook", "note": "레시피 R-014 coats=2"},
-   "transfer_efficiency": {"value": 0.90, "source": "factory_required"}
+   "form": "chemical",
+   "description": "Water-based PU cement",
+   "wet_coat_kg_m2": {
+    "value": 0.12,
+    "source": "factory_required",
+    "note": "레시피 R-014 의 coat_kg_m2=factory"
+   },
+   "coats": {
+    "value": 2,
+    "source": "workbook",
+    "note": "레시피 R-014 coats=2"
+   },
+   "transfer_efficiency": {
+    "value": 0.9,
+    "source": "factory_required"
+   }
   },
   "MAT-CLEANER": {
-   "form": "chemical", "description": "Cleaner / solvent",
-   "wet_coat_kg_m2": {"value": 0.05, "source": "factory_required"},
-   "coats": {"value": 1, "source": "assumption"},
-   "transfer_efficiency": {"value": 0.75, "source": "factory_required"},
-   "price_proxy": {"spec": "MAT-ADH-PU", "ratio": 0.45, "source": "assumption", "note": "워크북에 별도 분기단가 없음"}
+   "form": "chemical",
+   "description": "Cleaner / solvent",
+   "wet_coat_kg_m2": {
+    "value": 0.05,
+    "source": "factory_required"
+   },
+   "coats": {
+    "value": 1,
+    "source": "assumption"
+   },
+   "transfer_efficiency": {
+    "value": 0.75,
+    "source": "factory_required"
+   },
+   "price_proxy": {
+    "spec": "MAT-ADH-PU",
+    "ratio": 0.45,
+    "source": "assumption",
+    "note": "워크북에 별도 분기단가 없음"
+   }
   },
   "MAT-PRIMER": {
-   "form": "chemical", "description": "Primer",
-   "wet_coat_kg_m2": {"value": 0.06, "source": "factory_required"},
-   "coats": {"value": 1, "source": "assumption"},
-   "transfer_efficiency": {"value": 0.85, "source": "factory_required"},
-   "price_proxy": {"spec": "MAT-ADH-PU", "ratio": 0.80, "source": "assumption"}
+   "form": "chemical",
+   "description": "Primer",
+   "wet_coat_kg_m2": {
+    "value": 0.06,
+    "source": "factory_required"
+   },
+   "coats": {
+    "value": 1,
+    "source": "assumption"
+   },
+   "transfer_efficiency": {
+    "value": 0.85,
+    "source": "factory_required"
+   },
+   "price_proxy": {
+    "spec": "MAT-ADH-PU",
+    "ratio": 0.8,
+    "source": "assumption"
+   }
   },
   "MAT-THREAD-POLY": {
-   "form": "thread", "description": "Polyester sewing thread",
-   "stitch_consumption_factor": {"value": 3.2, "source": "public_reference", "note": "lockstitch 봉제길이당 실 소요 배수"},
-   "waste_factor": {"value": 1.10, "source": "assumption"},
-   "linear_density_tex": {"value": 40.0, "source": "assumption", "note": "kg 환산용. tex = g/1000m"}
+   "form": "thread",
+   "description": "Polyester sewing thread",
+   "stitch_consumption_factor": {
+    "value": 3.2,
+    "source": "public_reference",
+    "note": "lockstitch 봉제길이당 실 소요 배수"
+   },
+   "waste_factor": {
+    "value": 1.1,
+    "source": "assumption"
+   },
+   "linear_density_tex": {
+    "value": 40.0,
+    "source": "assumption",
+    "note": "kg 환산용. tex = g/1000m"
+   }
   },
-  "MAT-LACE-POLY": {"form": "count", "description": "Lace (pair)", "uom": "pair"},
-  "MAT-ELASTIC": {"form": "length", "description": "Elastic webbing", "uom": "m"},
-  "MAT-ZIPPER": {"form": "count", "description": "Zipper", "uom": "piece"},
-  "MAT-SHANK-STEEL": {"form": "count", "description": "Steel shank", "uom": "pair"},
-  "MAT-SHANK-NYLON": {"form": "count", "description": "Nylon shank", "uom": "pair"},
-  "MAT-SHANK-FG": {"form": "count", "description": "Fiberglass shank", "uom": "pair"},
+  "MAT-LACE-POLY": {
+   "form": "count",
+   "description": "Lace (pair)",
+   "uom": "pair"
+  },
+  "MAT-ELASTIC": {
+   "form": "length",
+   "description": "Elastic webbing",
+   "uom": "m"
+  },
+  "MAT-ZIPPER": {
+   "form": "count",
+   "description": "Zipper",
+   "uom": "piece"
+  },
+  "MAT-SHANK-STEEL": {
+   "form": "count",
+   "description": "Steel shank",
+   "uom": "pair"
+  },
+  "MAT-SHANK-NYLON": {
+   "form": "count",
+   "description": "Nylon shank",
+   "uom": "pair"
+  },
+  "MAT-SHANK-FG": {
+   "form": "count",
+   "description": "Fiberglass shank",
+   "uom": "pair"
+  },
   "MAT-SHANKBOARD": {
-   "form": "sheet", "description": "Shank board",
-   "sheet_area_m2": {"value": 1.0, "source": "assumption"},
-   "pattern_factor": {"value": 1.05, "source": "assumption"},
-   "nesting_yield": {"value": 0.85, "source": "assumption"},
-   "process_yield": {"value": 0.97, "source": "assumption"}
+   "form": "sheet",
+   "description": "Shank board",
+   "sheet_area_m2": {
+    "value": 1.0,
+    "source": "assumption"
+   },
+   "pattern_factor": {
+    "value": 1.05,
+    "source": "assumption"
+   },
+   "nesting_yield": {
+    "value": 0.85,
+    "source": "assumption"
+   },
+   "process_yield": {
+    "value": 0.97,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 1300,
+    "source": "public_reference",
+    "note": "통상 면밀도. 질량 정합성 검사용이며 공급사 TDS 로 대체할 것"
+   }
   },
-  "MAT-BOX": {"form": "count", "description": "Shoe box", "uom": "piece"},
+  "MAT-BOX": {
+   "form": "count",
+   "description": "Shoe box",
+   "uom": "piece"
+  },
   "MAT-PAPERBOARD": {
-   "form": "mass", "description": "Paperboard feedstock (tissue/hangtag)", "uom": "kg",
-   "mass_per_pair_kg": {"value": 0.018, "source": "assumption", "note": "티슈 2장 + 행택 약 18g. kg 단가에 켤레당 1kg 을 곱하면 원가가 70배 부풀어 오른다"}
+   "form": "mass",
+   "description": "Paperboard feedstock (tissue/hangtag)",
+   "uom": "kg",
+   "mass_per_pair_kg": {
+    "value": 0.018,
+    "source": "assumption",
+    "note": "티슈 2장 + 행택 약 18g. kg 단가에 켤레당 1kg 을 곱하면 원가가 70배 부풀어 오른다"
+   }
   },
   "MAT-LDPE": {
-   "form": "mass", "description": "LDPE polybag resin", "uom": "kg",
-   "mass_per_pair_kg": {"value": 0.005, "source": "assumption", "note": "신발 폴리백 1장 약 5g"}
+   "form": "mass",
+   "description": "LDPE polybag resin",
+   "uom": "kg",
+   "mass_per_pair_kg": {
+    "value": 0.005,
+    "source": "assumption",
+    "note": "신발 폴리백 1장 약 5g"
+   }
   }
  },
-
  "_part_defaults_note": "Strobel Cemented + mesh upper MVP 의 파트->소재 기본 배정. 사용자가 UI에서 바꿀 수 있고, 바꾸면 근거가 user_override 로 기록된다.",
  "part_defaults": {
   "Vamp": "MAT-MESH-POLY",

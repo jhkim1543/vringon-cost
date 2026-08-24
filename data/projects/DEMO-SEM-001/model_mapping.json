@@ -1,0 +1,127 @@
+{
+ "source": "internal_shoe_seg_v4pure",
+ "classes": 8,
+ "display_parts": 42,
+ "unassigned_faces": 78675,
+ "face_coverage": 0.7190178571428572,
+ "mapping": [
+  {
+   "segment_id": "seg_00",
+   "model_class": "outsole",
+   "canonical_part": "Outsole Rubber",
+   "confidence": 0.897,
+   "components": 1,
+   "provenance": [
+    "detected"
+   ],
+   "status": "model_detected",
+   "confirmed": false,
+   "source": "internal_shoe_seg_v4pure",
+   "unmapped_class": false
+  },
+  {
+   "segment_id": "seg_01",
+   "model_class": "lining",
+   "canonical_part": "Vamp/Quarter Lining",
+   "confidence": 0.824,
+   "components": 11,
+   "provenance": [
+    "detected",
+    "recovered"
+   ],
+   "status": "model_detected",
+   "confirmed": false,
+   "source": "internal_shoe_seg_v4pure",
+   "unmapped_class": false
+  },
+  {
+   "segment_id": "seg_02",
+   "model_class": "quarter-fabric",
+   "canonical_part": "Vamp",
+   "confidence": 0.966,
+   "components": 1,
+   "provenance": [
+    "detected"
+   ],
+   "status": "model_detected",
+   "confirmed": false,
+   "source": "internal_shoe_seg_v4pure",
+   "unmapped_class": false
+  },
+  {
+   "segment_id": "seg_03",
+   "model_class": "midsole",
+   "canonical_part": "Midsole Carrier",
+   "confidence": 0.923,
+   "components": 3,
+   "provenance": [
+    "detected"
+   ],
+   "status": "model_detected",
+   "confirmed": false,
+   "source": "internal_shoe_seg_v4pure",
+   "unmapped_class": false
+  },
+  {
+   "segment_id": "seg_04",
+   "model_class": "tongue",
+   "canonical_part": "Tongue Shell",
+   "confidence": 0.838,
+   "components": 17,
+   "provenance": [
+    "detected",
+    "propagated",
+    "recovered"
+   ],
+   "status": "model_detected",
+   "confirmed": false,
+   "source": "internal_shoe_seg_v4pure",
+   "unmapped_class": false
+  },
+  {
+   "segment_id": "seg_05",
+   "model_class": "laces",
+   "canonical_part": "Lace",
+   "confidence": 0.859,
+   "components": 6,
+   "provenance": [
+    "detected",
+    "prior",
+    "propagated",
+    "recovered"
+   ],
+   "status": "model_detected",
+   "confirmed": false,
+   "source": "internal_shoe_seg_v4pure",
+   "unmapped_class": false
+  },
+  {
+   "segment_id": "seg_06",
+   "model_class": "loop",
+   "canonical_part": "Webbing/Pull Tab",
+   "confidence": 0.849,
+   "components": 1,
+   "provenance": [
+    "detected"
+   ],
+   "status": "model_detected",
+   "confirmed": false,
+   "source": "internal_shoe_seg_v4pure",
+   "unmapped_class": false
+  },
+  {
+   "segment_id": "seg_07",
+   "model_class": "heeltap",
+   "canonical_part": "Heel Overlay",
+   "confidence": 0.666,
+   "components": 1,
+   "provenance": [
+    "detected"
+   ],
+   "status": "needs_review",
+   "confirmed": false,
+   "source": "internal_shoe_seg_v4pure",
+   "unmapped_class": false
+  }
+ ]
+}

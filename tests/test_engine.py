@@ -378,16 +378,20 @@ def test_voxel_cv_gate_rejects_open_shell_repair():
 def test_mass_balance_flags_over_estimate():
     """질량 미산정 라인이 많은데 목표에 근접하면 과대추정으로 본다."""
     lines = [
-        {"canonical_part": "Outsole Rubber", "material_spec": "MAT-NR",
-         "consumption": {"gross_qty": 0.31, "uom": "kg"}},
-        {"canonical_part": "Midsole Carrier", "material_spec": "MAT-EVA-COMP",
-         "consumption": {"gross_qty": 0.19, "uom": "kg"}},
-    ] + [{"canonical_part": f"Panel{i}", "material_spec": "MAT-MESH-POLY",
-          "consumption": {"gross_qty": 0.1, "uom": "m"}} for i in range(6)]
+        {"canonical_part": "Outsole Rubber", "assembly": "Bottom",
+         "material_spec": "MAT-NR", "geometry": {},
+         "consumption": {"gross_qty": 0.31, "uom": "kg", "net": 2.32e-4}},
+        {"canonical_part": "Midsole Carrier", "assembly": "Bottom",
+         "material_spec": "MAT-EVA-COMP", "geometry": {},
+         "consumption": {"gross_qty": 0.19, "uom": "kg", "net": 1.2e-3}},
+    ] + [{"canonical_part": f"Panel{i}", "assembly": "Upper External",
+          "material_spec": "MAT-ZIPPER", "geometry": {},
+          "consumption": {"gross_qty": 1, "uom": "piece"}} for i in range(6)]
     m = costing.mass_balance(lines, target_pair_g=600)
-    assert m["known_mass_g"] == pytest.approx(500.0)
+    # 순질량 = (2.32e-4*1150 + 1.2e-3*220) x 1000 x 2 = 1061.6 g -> 목표 초과
+    assert m["finished_pair_mass_g"] == pytest.approx(1061.6, abs=1.0)
     assert len(m["lines_without_mass"]) == 6
-    assert m["verdict"] == "suspect_over_estimate"
+    assert m["verdict"] == "fail_over_estimate"
 
 
 def test_mass_balance_flags_missing_bom():
@@ -403,3 +407,68 @@ def test_min_class_takes_the_lower_cap():
     assert costing._min_class("C1", "C2") == "C1"
     assert costing._min_class("C2", "C2") == "C2"
     assert costing._min_class(None, "C1") == "C1"
+
+
+# ── 외부 검토 2차 반영분 ───────────────────────────────────────────────
+def test_finished_mass_uses_net_not_charged():
+    """회귀: 완제품 질량에 투입질량(수율 나눔 포함)을 쓰면 과대평가된다."""
+    lines = [{
+        "canonical_part": "Midsole Carrier", "assembly": "Bottom",
+        "material_spec": "MAT-EVA-COMP",
+        "geometry": {"surface_area_m2": None},
+        "consumption": {"gross_qty": 0.19440, "uom": "kg", "net": 1.944e-4},
+    }]
+    m = costing.mass_balance(lines, target_pair_g=600)
+    # 순질량 = 1.944e-4 m3 x 220 kg/m3 x 1000 x 2짝 = 85.5g
+    assert m["finished_pair_mass_g"] == pytest.approx(85.5, abs=0.5)
+    # 구매 투입은 gross 그대로 194.4g
+    assert m["purchased_input_mass_g"] == pytest.approx(194.4, abs=0.5)
+    assert m["finished_pair_mass_g"] < m["purchased_input_mass_g"]
+
+
+def test_packaging_excluded_from_finished_mass():
+    """회귀: 티슈 18g 이 신발 무게에 들어가 있었다."""
+    lines = [{
+        "canonical_part": "Tissue/Stuffing", "assembly": "Packaging",
+        "material_spec": "MAT-PAPERBOARD", "geometry": {},
+        "consumption": {"gross_qty": 0.018, "uom": "kg", "net": 1},
+    }]
+    m = costing.mass_balance(lines, target_pair_g=600)
+    assert m["finished_pair_mass_g"] == 0.0
+    assert m["purchased_input_mass_g"] == pytest.approx(18.0)
+    assert m["excluded_packaging"][0]["canonical_part"] == "Tissue/Stuffing"
+
+
+def test_adhesive_counts_dry_solids_only():
+    lines = [{
+        "canonical_part": "Cement/Adhesive", "assembly": "Chemical",
+        "material_spec": "MAT-ADH-PU", "geometry": {},
+        "consumption": {"gross_qty": 0.020, "uom": "kg", "net": 0.04},
+    }]
+    m = costing.mass_balance(lines, target_pair_g=600)
+    assert m["finished_pair_mass_g"] == pytest.approx(10.0)   # 습량의 50%
+
+
+def test_fixed_quantity_role_for_count_rules():
+    """회귀: Shoe Box 에 surface_region 이 붙어 있었다."""
+    assert geo.ROLE_MAX_CLASS["fixed_quantity"] == "C2"
+
+
+def test_width_check_flags_inflation():
+    box = trimesh.creation.box((1.0, 0.30, 0.50))   # 길이 1, 폭 0.5 -> 0.5 비율
+    r = geo.width_check(box)
+    assert r["verdict"] == "too_wide"
+    box2 = trimesh.creation.box((1.0, 0.30, 0.37))
+    assert geo.width_check(box2)["verdict"] == "ok"
+
+
+def test_bucket_breakdown_separates_packaging():
+    lines = [
+        {"canonical_part": "Vamp", "assembly": "Upper External",
+         "cost_p10": 0.02, "cost_p50": 0.03, "cost_p90": 0.04},
+        {"canonical_part": "Shoe Box", "assembly": "Packaging",
+         "cost_p10": 0.3, "cost_p50": 1.15, "cost_p90": 2.0},
+    ]
+    b = costing.bucket_breakdown(lines)
+    assert b["Packaging"]["p50"] == pytest.approx(1.15)
+    assert b["Upper"]["p50"] == pytest.approx(0.03)
