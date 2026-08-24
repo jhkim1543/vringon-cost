@@ -77,6 +77,8 @@ v2(`api.PROVIDER_HOST/v2/openapi`)는 **2026-11-01 종료**. v3는 호스트가 
 | 폴리백이 켤레당 1 kg | `count` 로 세고 kg 단가를 곱함 → 소재비의 40%가 포장재 | `test_packaging_is_not_one_kilogram` |
 | 레이스 이중계상 | 세그먼트 Lace + 규칙 R-016 Lace 둘 다 삽입 | `test_no_duplicate_lace_line` |
 | 소재비가 딱 절반 | **3D 는 한 짝, 원가는 켤레.** 기하 유래 수량은 ×2 | `test_roll_consumption_and_pair_factor` |
+| 3D 표면에 검은 선이 그어짐 | 파트를 따로 내보내면 각자 자기 면만으로 정점 법선을 평균한다. 경계에서 법선이 중앙값 23도, 최대 140도 벌어져 조명이 튄다. 기하는 붙어 있으므로 구멍이 아니라 셰이딩 문제 | `test_viewer_parts_share_vertex_normals` |
+| 파트별 데시메이션이 만든 실제 틈 | 파트마다 따로 줄이면 경계 정점이 제각각 움직인다. 전체를 허용오차 병합 후 한 번에 줄이고 라벨을 이전한다 | `test_viewer_glb_has_no_part_seam_gaps` |
 
 ---
 
