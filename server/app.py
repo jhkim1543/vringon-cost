@@ -22,12 +22,12 @@ from fastapi.staticfiles import StaticFiles
 import catalog
 import canonical
 import pricing
-from config import WEB, STORE, ASSETS, tripo_api_key
-from pipeline import Project, import_tripo_outputs
+from config import WEB, STORE, ASSETS, provider_api_key
+from pipeline import Project, import_mesh_provider_outputs
 
 app = FastAPI(title="VRINGON Cost — 신발 Design-to-Should-Cost")
 
-# 백그라운드 작업 진행 상황 (Tripo 생성은 3~5분 걸린다)
+# 백그라운드 작업 진행 상황 (3D 생성은 3~5분 걸린다)
 JOBS = {}
 
 
@@ -50,7 +50,7 @@ def get_catalog():
         "tooling": catalog.tooling(),
         "quarters": sorted({q for (q, _s) in catalog.quarterly_prices()}),
         "part_material_map": catalog.part_material_map(),
-        "tripo_key_present": bool(tripo_api_key()),
+        "mesh_provider_key_present": bool(provider_api_key()),
     }
 
 
@@ -84,6 +84,11 @@ def list_projects():
 @app.get("/api/project/{pid}")
 def get_project(pid: str):
     p = Project(pid)
+    # 예전 상태 파일에는 요약이 없다. 읽을 때 채워준다.
+    if p.state.get("mapping") and not p.state.get("mapping_summary"):
+        from pipeline import mapping_summary
+        p.state["mapping_summary"] = mapping_summary(p.state["mapping"])
+        p.save()
     return p.state
 
 
@@ -194,23 +199,23 @@ def get_cost(pid: str):
     return json.loads(f.read_text(encoding="utf-8"))
 
 
-# ── Tripo 실호출 ──────────────────────────────────────────────────────
-@app.get("/api/tripo/balance")
-def tripo_balance():
+# ── 3D 생성 엔진 실호출 ──────────────────────────────────────────────────────
+@app.get("/api/mesh/balance")
+def provider_balance():
     try:
-        from tripo_v3 import TripoV3
-        return TripoV3().balance()
+        from mesh_provider import MeshProvider
+        return MeshProvider().balance()
     except Exception as e:
         return _err(e)
 
 
-@app.post("/api/tripo/generate")
-async def tripo_generate(image: UploadFile = File(...),
+@app.post("/api/mesh/generate")
+async def provider_generate(image: UploadFile = File(...),
                          project_id: str = Form(...),
                          segment: str = Form("true")):
     """이미지 -> 3D -> (선택) 세그멘테이션. 오래 걸려서 백그라운드로 돈다."""
     try:
-        from tripo_v3 import TripoV3
+        from mesh_provider import MeshProvider
     except Exception as e:
         return _err(e)
 
@@ -224,7 +229,7 @@ async def tripo_generate(image: UploadFile = File(...),
 
     def run():
         try:
-            c = TripoV3()
+            c = MeshProvider()
             p = Project(pid)
             p.state["input_image"] = dst.name
             p.save()
@@ -233,7 +238,7 @@ async def tripo_generate(image: UploadFile = File(...),
             res = c.image_to_glb(
                 dst, p.dir / "raw_model.glb",
                 on_progress=lambda s, pr: job.update(status=s, progress=pr))
-            (p.dir / "tripo_generate_task.json").write_text(
+            (p.dir / "generate_task.json").write_text(
                 json.dumps(res["raw"], ensure_ascii=False, indent=1), encoding="utf-8")
             p._mark("generate3d", "done", task_id=res["task_id"])
 
@@ -242,7 +247,7 @@ async def tripo_generate(image: UploadFile = File(...),
                 seg = c.segment_to_glb(
                     res["task_id"], p.dir / "segmented.glb",
                     on_progress=lambda s, pr: job.update(status=s, progress=pr))
-                (p.dir / "tripo_segment_task.json").write_text(
+                (p.dir / "segment_task.json").write_text(
                     json.dumps(seg["raw"], ensure_ascii=False, indent=1), encoding="utf-8")
                 p._mark("segment3d", "done", task_id=seg["task_id"])
 
@@ -256,8 +261,8 @@ async def tripo_generate(image: UploadFile = File(...),
     return {"project_id": pid, "job": job}
 
 
-@app.get("/api/tripo/job/{pid}")
-def tripo_job(pid: str):
+@app.get("/api/mesh/job/{pid}")
+def provider_job(pid: str):
     return JOBS.get(pid, {"status": "unknown"})
 
 

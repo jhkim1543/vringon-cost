@@ -15,9 +15,9 @@ const STEPS = [
   ['cost', '원가·승인'],
 ];
 
-const fmt = (v, d = 3) => v == null ? '—' : Number(v).toLocaleString('en-US',
+const fmt = (v, d = 3) => v == null ? '없음' : Number(v).toLocaleString('en-US',
   { minimumFractionDigits: d, maximumFractionDigits: d });
-const usd = v => v == null ? '—' : '$' + fmt(v, 3);
+const usd = v => v == null ? '없음' : '$' + fmt(v, 3);
 
 let toastTimer;
 function toast(msg, bad) {
@@ -61,7 +61,7 @@ function colorMap() {
     mapping.forEach(m => {
       const repaired = S.state.repairs?.[m.segment_id]?.ok;
       map[m.segment_id] = {
-        color: m.qa?.is_volume ? 0x4fbf7d : repaired ? 0xe0a33a : 0xe05c5c,
+        color: m.qa?.is_volume ? 0x60a5fa : repaired ? 0x2563eb : 0x475569,
         opacity: 0.95,
       };
     });
@@ -73,15 +73,11 @@ function colorMap() {
     const max = Math.max(...Object.values(byPart).filter(v => v), 1e-9);
     mapping.forEach(m => {
       const v = byPart[m.segment_id];
-      if (v == null) { map[m.segment_id] = { color: 0x2a323d, opacity: 0.35 }; return; }
+      if (v == null) { map[m.segment_id] = { color: 0x22262c, opacity: 0.35 }; return; }
+      // 기여가 클수록 밝은 파랑. 색상은 하나만 쓰고 명도로 크기를 표현한다.
       const t = Math.sqrt(v / max);
-      map[m.segment_id] = {
-        color: new (window.__THREE_COLOR__ || Object)(),
-        opacity: 0.95,
-      };
-      // 값이 클수록 붉게
-      const r = Math.round(40 + 190 * t), g = Math.round(180 - 120 * t), b = Math.round(150 - 90 * t);
-      map[m.segment_id].color = (r << 16) | (g << 8) | b;
+      const r = Math.round(20 + 140 * t), g = Math.round(58 + 130 * t), b = Math.round(110 + 145 * t);
+      map[m.segment_id] = { color: (r << 16) | (g << 8) | b, opacity: 0.95 };
     });
   } else {
     mapping.forEach((m, i) => {
@@ -94,13 +90,13 @@ function colorMap() {
 function renderLegend() {
   const el = $('#legend');
   if (S.viewMode === 'qa') {
-    el.innerHTML = `<span><i style="background:#4fbf7d"></i>watertight (부피 사용 가능)</span>
-      <span><i style="background:#e0a33a"></i>복구본</span>
-      <span><i style="background:#e05c5c"></i>열린 메시 (부피 차단)</span>`;
+    el.innerHTML = `<span><i style="background:#60a5fa"></i>닫힌 메시, 부피 사용 가능</span>
+      <span><i style="background:#2563eb"></i>복구본, C1 한정</span>
+      <span><i style="background:#475569"></i>열린 메시, 부피 차단</span>`;
   } else if (S.viewMode === 'cost') {
-    el.innerHTML = `<span><i style="background:#28b496"></i>낮은 기여</span>
-      <span><i style="background:#e63c3c"></i>높은 기여</span>
-      <span><i style="background:#2a323d"></i>원가 없음/차단</span>`;
+    el.innerHTML = `<span><i style="background:#143a6e"></i>낮은 기여</span>
+      <span><i style="background:#a0c8ff"></i>높은 기여</span>
+      <span><i style="background:#22262c"></i>원가 없음 또는 차단</span>`;
   } else {
     el.innerHTML = (S.state?.mapping || []).map((m, i) =>
       `<span><i style="background:#${PALETTE[i % PALETTE.length].toString(16).padStart(6, '0')}"></i>${m.canonical_part}</span>`
@@ -118,7 +114,7 @@ function renderFlow() {
     bom: st.bom ? 'done' : '',
     consumption: st.bom ? 'done' : '',
     pricing: st.cost ? 'done' : '',
-    cost: S.cost ? (S.cost.rollup.fob_status === 'Calculated' ? 'done' : 'blocked') : '',
+    cost: S.cost ? (S.cost.rollup.cost_status === 'COMPLETE' ? 'done' : 'blocked') : '',
   };
   $('#flow').innerHTML = STEPS.map(([k, label]) =>
     `<button data-step="${k}" class="${S.step === k ? 'on' : ''}">
@@ -128,12 +124,13 @@ function renderFlow() {
 
   const g = S.cost?.grade?.class;
   const gc = $('#gradeChip');
-  gc.textContent = '등급 ' + (g || '—');
+  gc.textContent = '등급 ' + (g || '확인중');
   gc.className = 'chip ' + (g === 'C2' ? 'ok' : g === 'C1' ? 'warn' : '');
-  const f = S.cost?.rollup?.fob_status;
+  const cs = S.cost?.rollup?.cost_status;
   const fc = $('#fobChip');
-  fc.textContent = f ? 'FOB ' + f : 'FOB —';
-  fc.className = 'chip ' + (f === 'Calculated' ? 'ok' : f ? 'bad' : '');
+  fc.textContent = cs === 'COMPLETE' ? '원가 산출됨'
+    : cs === 'PARTIAL' ? '부분 원가, FOB 불가' : '원가 상태 확인중';
+  fc.className = 'chip ' + (cs === 'COMPLETE' ? 'ok' : cs ? 'warn' : '');
 }
 
 // ── 단계 본문 ──────────────────────────────────────────────────────────
@@ -142,9 +139,9 @@ function render() {
   renderLegend();
   viewer.applyColors(colorMap());
   const body = $('#stepBody');
-  const title = { design: '1 · 디자인 → 3D', scale: '2 · Metric Calibration',
-    segment: '3 · 세그먼트 → Canonical Part', bom: '4 · Manufacturing BOM',
-    consumption: '5 · 소요량', pricing: '6 · 단가', cost: '7 · 원가 · 승인' }[S.step];
+  const title = { design: '1 디자인에서 3D', scale: '2 Metric Calibration',
+    segment: '3 세그먼트를 Canonical Part 로', bom: '4 Manufacturing BOM',
+    consumption: '5 소요량', pricing: '6 단가', cost: '7 원가와 승인' }[S.step];
   $('#stepTitle').textContent = title;
   ({ design: stepDesign, scale: stepScale, segment: stepSegment, bom: stepBom,
      consumption: stepConsumption, pricing: stepPricing, cost: stepCost }[S.step])(body);
@@ -152,27 +149,27 @@ function render() {
 
 function stepDesign(el) {
   const st = S.state.steps || {};
-  const gen = S.state.tripo_generate || {};
+  const gen = S.state.generate_meta || {};
   el.innerHTML = `
-    <p class="muted">디자인 이미지를 Tripo v3 로 3D 화하고, 이어서 파트 세그멘테이션을 돌립니다.
-    생성 결과 URL은 5분만 유효해서 성공 즉시 내부 저장소로 내려받습니다.</p>
+    <p class="muted">디자인 이미지를 3D 로 만들고 이어서 파트 세그멘테이션을 돌립니다.
+    생성 결과 URL 은 짧게만 유효해서 성공 즉시 내부 저장소로 내려받습니다.</p>
     ${S.state.input_image ? `<img src="/api/project/${S.pid}/image" style="width:100%;border-radius:8px;border:1px solid var(--line);margin:8px 0">` : ''}
     <dl class="kv">
       <dt>프로젝트</dt><dd>${S.pid}</dd>
-      <dt>3D 생성</dt><dd>${st.generate3d?.status || '—'}</dd>
-      <dt>세그멘테이션</dt><dd>${st.segment3d?.status || (st.generate3d ? '—' : '—')}</dd>
-      <dt>파트 수</dt><dd>${(S.state.mapping || []).length || '—'}</dd>
+      <dt>3D 생성</dt><dd>${st.generate3d?.status || '없음'}</dd>
+      <dt>세그멘테이션</dt><dd>${st.segment3d?.status || '없음'}</dd>
+      <dt>파트 수</dt><dd>${(S.state.mapping || []).length || '없음'}</dd>
     </dl>
     <h4>새 이미지로 실행</h4>
     <input type="file" id="imgFile" accept="image/*">
     <label>프로젝트 ID</label>
     <input type="text" id="newPid" value="RUN-${Date.now().toString().slice(-6)}">
     <div class="row">
-      <button class="btn primary" id="genBtn">Tripo 생성 + 세그멘테이션</button>
+      <button class="btn primary" id="genBtn">3D 생성과 세그멘테이션 실행</button>
       <span class="muted" id="genStatus"></span>
     </div>
-    <div class="note">실제 API 를 호출하며 크레딧이 소모됩니다 (생성 30 + 세그멘테이션 40).
-      3~6분 걸립니다.</div>`;
+    <div class="note">실제 생성 엔진을 호출하며 크레딧이 소모됩니다.
+      생성 30, 세그멘테이션 40 크레딧이고 3 에서 6분 걸립니다.</div>`;
 
   $('#genBtn').onclick = async () => {
     const f = $('#imgFile').files[0];
@@ -182,10 +179,10 @@ function stepDesign(el) {
     fd.append('project_id', $('#newPid').value.trim());
     fd.append('segment', 'true');
     $('#genBtn').disabled = true;
-    const r = await fetch('/api/tripo/generate', { method: 'POST', body: fd }).then(x => x.json());
+    const r = await fetch('/api/mesh/generate', { method: 'POST', body: fd }).then(x => x.json());
     const pid = r.project_id;
     const tick = setInterval(async () => {
-      const j = await fetch('/api/tripo/job/' + pid).then(x => x.json());
+      const j = await fetch('/api/mesh/job/' + pid).then(x => x.json());
       $('#genStatus').innerHTML = j.stage === 'error'
         ? `<span style="color:var(--bad)">${j.error}</span>`
         : `<span class="spinner"></span>${j.stage} ${j.status} ${j.progress || 0}%`;
@@ -259,9 +256,19 @@ function stepSegment(el) {
   const mapping = S.state.mapping || [];
   const parts = S.catalog.signature_parts.concat(
     S.catalog.canonical_parts.filter(p => !S.catalog.signature_parts.includes(p)));
+  const sum = S.state.mapping_summary || {};
   el.innerHTML = `
     <p class="muted">세그멘테이션 결과는 BOM 이 아닙니다. 기하 특징으로 canonical part 를
     <b>제안</b>할 뿐이며, 확정 전에는 원가 계산에 쓰지 않습니다.</p>
+    <div class="note info">
+      정답 데이터가 없으므로 아래는 <b>정확도가 아니라 배정 커버리지</b>입니다.
+      <div class="kv" style="margin:8px 0 0">
+        <dt>입력 세그먼트</dt><dd>${sum.input_segments ?? '없음'}</dd>
+        <dt>배정됨</dt><dd>${sum.assigned_segments ?? '없음'}</dd>
+        <dt>자동 채택</dt><dd>${sum.auto_accepted ?? '없음'}</dd>
+        <dt>검토 필요</dt><dd>${sum.needs_review ?? '없음'} (${((sum.review_rate||0)*100).toFixed(0)}%)</dd>
+        <dt>엔지니어 확정</dt><dd>${sum.engineer_confirmed ?? '없음'}</dd>
+      </div></div>
     <div class="row">
       <button class="btn" id="segPropose">다시 제안</button>
       <button class="btn primary" id="segConfirm">전부 확정</button>
@@ -272,8 +279,8 @@ function stepSegment(el) {
       <th class="num">신뢰</th><th>Mesh QA</th></tr></thead><tbody>
     ${mapping.map(m => {
       const rep = S.state.repairs?.[m.segment_id];
-      const qa = m.qa?.is_volume ? '<span class="tag ok">watertight</span>'
-        : rep?.ok ? `<span class="tag warn">복구 ${fmt(rep.volume_cm3, 1)}cm³</span>`
+      const qa = m.qa?.is_volume ? '<span class="tag ok">닫힌 메시</span>'
+        : rep?.ok ? `<span class="tag warn">복구 ${fmt(rep.volume_cm3, 1)}cm³ ${rep.sensitivity?.verdict || ''}</span>`
         : '<span class="tag bad">열린 메시</span>';
       return `<tr data-seg="${m.segment_id}" class="${S.selected === m.segment_id ? 'sel' : ''}">
         <td>${m.segment_id}</td>
@@ -293,7 +300,7 @@ function stepSegment(el) {
     await api(`/project/${S.pid}/segment/confirm`,
       { overrides: { [s.dataset.seg]: s.value } });
     await reload();
-    toast(`${s.dataset.seg} → ${s.value} 로 확정`);
+    toast(`${s.dataset.seg}  다음  ${s.value} 로 확정`);
   });
   $('#segPropose').onclick = async () => {
     await api(`/project/${S.pid}/segment/propose`); await reload();
@@ -324,9 +331,9 @@ function bomTable(lines, showCost) {
         <td>${l.origin === 'construction_rule'
           ? `<span class="tag rule">${l.rule_id}</span>` : '<span class="tag">측정</span>'}</td>
         <td class="num">${c.gross_qty == null ? '<span class="blocked-cell">차단</span>' : fmt(c.gross_qty, 5)}</td>
-        <td>${c.uom || '—'}</td>
+        <td>${c.uom || ' '}</td>
         ${showCost
-          ? `<td class="num">${l.cost_p50 == null ? '<span class="blocked-cell">—</span>' : fmt(l.cost_p50, 4)}</td>`
+          ? `<td class="num">${l.cost_p50 == null ? '<span class="blocked-cell"> </span>' : fmt(l.cost_p50, 4)}</td>`
           : `<td>${l.material_spec || '<span class="tag bad">미배정</span>'}</td>`}
       </tr>`;
     }).join('')}</tbody></table>`;
@@ -373,7 +380,7 @@ function stepConsumption(el) {
 function stepPricing(el) {
   const lines = S.cost?.lines || [];
   const byBasis = {};
-  lines.forEach(l => { const b = l.price?.basis || '—'; byBasis[b] = (byBasis[b] || 0) + 1; });
+  lines.forEach(l => { const b = l.price?.basis || ' '; byBasis[b] = (byBasis[b] || 0) + 1; });
   el.innerHTML = `
     <p class="muted">공개 리스팅 가격은 자동으로 Engineering 단가로 승격되지 않습니다.
     새 분기에 데이터가 없으면 stale 로 이관하고 C2 를 막습니다.</p>
@@ -389,9 +396,9 @@ function stepPricing(el) {
       ${[...new Map(lines.filter(l => l.material_spec)
         .map(l => [l.material_spec, l])).values()].map(l => `<tr data-line="${l.line_id}">
         <td>${l.material_spec}</td><td class="num">${fmt(l.price?.p50, 3)}</td>
-        <td>${l.price?.uom || '—'}</td>
-        <td><span class="tag ${l.price?.eligibility === 'Engineering' ? 'ok' : 'warn'}">${l.price?.eligibility || '—'}</span></td>
-        <td>${l.price?.confidence || '—'}${l.price?.stale ? ' <span class="tag bad">stale</span>' : ''}</td>
+        <td>${l.price?.uom || ' '}</td>
+        <td><span class="tag ${l.price?.eligibility === 'Engineering' ? 'ok' : 'warn'}">${l.price?.eligibility || ' '}</span></td>
+        <td>${l.price?.confidence || ' '}${l.price?.stale ? ' <span class="tag bad">stale</span>' : ''}</td>
       </tr>`).join('')}</tbody></table>`;
   wireBomRows(el);
   $('#qtr').onchange = async e => {
@@ -401,7 +408,7 @@ function stepPricing(el) {
   $('#snapBtn').onclick = async () => {
     const r = await api('/prices/snapshot', { quarter: '2026Q4' });
     $('#snapOut').innerHTML = `<div class="note">2026Q4 에 신규 관측이 없다고 가정:
-      fresh ${r.fresh}건, <b>stale 이관 ${r.stale}건</b> → 전부 Concept only / 신뢰도 D 로
+      fresh ${r.fresh}건, <b>stale 이관 ${r.stale}건</b>  다음  전부 Concept only / 신뢰도 D 로
       떨어지고 C2 계산이 차단됩니다.</div>`;
   };
 }
@@ -413,9 +420,18 @@ function stepCost(el) {
     return;
   }
   const r = S.cost.rollup, g = S.cost.grade, sc = S.cost.scenario;
-  const row = (label, o, cls = '') => `<tr class="${cls}"><td>${label}</td>
+  if (!r.known_cost_subtotal) {
+    el.innerHTML = `<div class="note bad">원가 결과가 예전 형식입니다. 다시 계산하세요.</div>
+      <div class="row"><button class="btn primary" id="recalc">원가 재계산</button></div>`;
+    $('#recalc').onclick = async () => { await api(`/project/${S.pid}/cost`); await reload(); };
+    return;
+  }
+  const partial = r.cost_status !== 'COMPLETE';
+  const cov = r.coverage || {};
+  const mb = S.cost.mass_balance;
+  const row = (label, o, cls = '') => o ? `<tr class="${cls}"><td>${label}</td>
     <td class="num">${usd(o.p10)}</td><td class="num">${usd(o.p50)}</td>
-    <td class="num">${usd(o.p90)}</td></tr>`;
+    <td class="num">${usd(o.p90)}</td></tr>` : '';
 
   el.innerHTML = `
     <div class="grid2">
@@ -424,23 +440,51 @@ function stepCost(el) {
       <div><label>공급사 마진 %</label>
         <input type="number" id="sm" value="${sc.supplier_margin_pct}" step="0.5"></div>
     </div>
+
+    <div class="stat">
+      <div class="lbl">확인된 소재비 소계 (켤레당)</div>
+      <div class="big">${usd(r.known_cost_subtotal.p50)}</div>
+      <div class="sub">P10 ${usd(r.known_cost_subtotal.p10)} · P90 ${usd(r.known_cost_subtotal.p90)}</div>
+      <div class="bar"><i style="width:${((cov.priced_ratio || 0) * 100).toFixed(0)}%"></i></div>
+      <div class="sub">BOM ${cov.priced_lines}/${cov.bom_lines} 라인 가격 확정</div>
+    </div>
+
+    <div class="stat unavail">
+      <div class="lbl">전체 제조원가와 FOB</div>
+      <div class="big">${partial ? '계산 불가' : usd(r.fob.p50)}</div>
+      <div class="sub">${partial ? '차단: ' + r.blocked_buckets.join(', ')
+        : 'Manufacturing Should Cost ' + usd(r.manufacturing_should_cost.p50)}</div>
+    </div>
+
+    ${partial ? `<div class="note bad"><b>부분 원가입니다.</b> 소재비 소계에
+      간접비와 마진을 곱해 총액을 만들지 않습니다. 그 비율의 기준은 전체 제조비인데
+      분자만 소재비면 숫자가 조용히 왜곡됩니다.<br><br>
+      원가를 완성하려면 필요한 것<ul style="margin:6px 0 0 16px;padding:0">
+      <li>공장 Routing 과 SAM</li><li>Loaded Labor Rate</li>
+      <li>Machine Rate</li><li>Midsole, Outsole 금형 견적</li></ul></div>` : ''}
+
+    ${mb ? `<div class="note ${mb.verdict === 'ok' ? 'ok' : ''}">
+      <b>질량 정합성</b> ${mb.known_mass_g.toFixed(0)} g 대비 목표 ${mb.target_pair_g} g
+      (${((mb.coverage || 0) * 100).toFixed(0)}%) 판정 ${mb.verdict}<br>
+      ${mb.note}</div>` : ''}
+
     <table class="buckets"><thead><tr><th>버킷</th><th class="num">P10</th>
       <th class="num">P50</th><th class="num">P90</th></tr></thead><tbody>
       ${r.buckets.map(b => b.p50 == null
         ? `<tr><td>${b.bucket}<div class="muted" style="font-size:11px">${b.coverage}</div></td>
-           <td class="num blocked-cell" colspan="3">Blocked — ${b.note || b.coverage}</td></tr>`
+           <td class="num blocked-cell" colspan="3">차단. ${b.note || b.coverage}</td></tr>`
         : row(b.bucket, b)).join('')}
-      ${row('Direct Subtotal', r.direct_subtotal)}
+      ${row('확인된 소계', r.known_cost_subtotal, 'total-row')}
       ${row('Reject Allowance', r.reject_allowance)}
       ${row('Factory Overhead', r.factory_overhead)}
-      ${row('Manufacturing Should-Cost', r.manufacturing_should_cost)}
+      ${row('Manufacturing Should Cost', r.manufacturing_should_cost)}
       ${row('Supplier Margin', r.supplier_margin)}
-      ${row('Provisional Total', r.provisional_total, 'total-row')}
+      ${row('FOB', r.fob, 'total-row')}
     </tbody></table>
 
-    <div class="note ${r.fob_status === 'Calculated' ? 'ok' : 'bad'}">
-      <b>${r.fob_status}</b> — 노무·기계·금형 입력이 없으면 0 으로 감추지 않고 차단합니다.
-      ${r.blocked.length ? `<br>차단 ${r.blocked.length}건: ${r.blocked.slice(0, 3).join('; ')}…` : ''}
+    <div class="note ${partial ? '' : 'ok'}">
+      <b>${r.fob_status}</b> 노무, 기계, 금형 입력이 없으면 0 으로 감추지 않고 차단합니다.
+      ${r.blocked.length ? `<br>차단 ${r.blocked.length}건. ${r.blocked.slice(0, 3).join('; ')}` : ''}
     </div>
 
     <h4>등급 ${g.class}</h4>
@@ -479,17 +523,23 @@ function renderEvidence() {
       <dl class="kv">
         <dt>신뢰도</dt><dd>${fmt(seg.confidence, 2)} (점수 ${fmt(seg.score, 2)}, 2위 격차 ${fmt(seg.margin, 2)})</dd>
         <dt>면적 비중</dt><dd>${(f.area_share * 100).toFixed(1)}%</dd>
-        <dt>길이 위치</dt><dd>${fmt(f.len_lo, 2)} – ${fmt(f.len_hi, 2)} (0=뒤꿈치)</dd>
-        <dt>높이 위치</dt><dd>${fmt(f.hgt_lo, 2)} – ${fmt(f.hgt_hi, 2)} (0=접지면)</dd>
+        <dt>길이 위치</dt><dd>${fmt(f.len_lo, 2)} ${fmt(f.len_hi, 2)} (0=뒤꿈치)</dd>
+        <dt>높이 위치</dt><dd>${fmt(f.hgt_lo, 2)} ${fmt(f.hgt_hi, 2)} (0=접지면)</dd>
         <dt>폭 비중</dt><dd>${fmt(f.wid_span, 2)}</dd>
         <dt>watertight</dt><dd>${seg.qa?.watertight ? '예' : '아니오'}</dd>
-        <dt>면 수</dt><dd>${seg.qa?.faces?.toLocaleString?.() || '—'}</dd>
+        <dt>면 수</dt><dd>${seg.qa?.faces?.toLocaleString?.() || ' '}</dd>
       </dl>
       <h4>대안 후보</h4>
       <div class="steps">${(seg.alternatives || []).map(a =>
         `${a.canonical_part.padEnd(24, ' ')} ${fmt(a.score, 2)}`).join('\n')}</div>`;
-    if (rep?.ok) h += `<div class="note"><b>복구본 사용</b><br>${rep.method}<br>
-      부피 ${fmt(rep.volume_cm3, 1)} cm³<br>${rep.note}</div>`;
+    if (rep?.ok) {
+      const sn = rep.sensitivity || {};
+      h += `<div class="note"><b>복구본 사용 (실측 아님)</b><br>${rep.method}<br>
+        부피 ${fmt(rep.volume_cm3, 1)} cm³ · 상한 등급 ${rep.max_class || 'C1'}<br>
+        ${sn.cv != null ? `해상도 민감도 CV ${(sn.cv * 100).toFixed(1)}% 판정 <b>${sn.verdict}</b><br>
+          ${(sn.results || []).filter(x => x.volume).map(x => `pitch ${x.pitch_mm}mm`).join(' · ')}<br>` : ''}
+        ${rep.note}</div>`;
+    }
     else if (seg.qa && !seg.qa.is_volume) h += `<div class="note bad">
       부피 계산 차단: ${(seg.qa.blocked_reasons || []).join('; ')}</div>`;
   }
@@ -499,19 +549,21 @@ function renderEvidence() {
     h += `${seg ? '<hr style="border:0;border-top:1px solid var(--line);margin:16px 0">' : ''}
       <div class="ev-h">${line.canonical_part}</div>
       <div class="ev-sub">${line.line_id} · ${line.assembly} ·
-        ${line.origin === 'construction_rule' ? `규칙 ${line.rule_id}` : '측정'}</div>`;
+        ${line.origin === 'construction_rule' ? `규칙 ${line.rule_id}` : '측정'}
+        ${line.geometry_role ? ` · <span class="tag ${line.max_class === 'C2' ? '' : 'proxy'}">${line.geometry_role} 최대 ${line.max_class || 'C1'}</span>` : ''}
+        ${line.quantity_basis ? ` · ${line.quantity_basis}` : ''}</div>`;
 
     if (line.rule_condition) h += `<div class="note">
       <b>규칙 ${line.rule_id}</b><br>조건: <code>${line.rule_condition}</code><br>
       파라미터: <code>${JSON.stringify(line.rule_parameters)}</code><br>
-      근거: ${line.rule_evidence || '—'} · 승인: ${line.approval_role || '—'}</div>`;
+      근거: ${line.rule_evidence || ' '} · 승인: ${line.approval_role || ' '}</div>`;
 
     if (c.steps?.length) h += `<h4>소요량 계산</h4><div class="steps">${c.steps.join('\n')}</div>`;
 
     if (p.p50 != null) h += `<h4>단가</h4><dl class="kv">
       <dt>P10/P50/P90</dt><dd>${fmt(p.p10, 3)} / ${fmt(p.p50, 3)} / ${fmt(p.p90, 3)} ${p.currency || ''}/${p.uom || ''}</dd>
       <dt>근거</dt><dd>${p.basis}</dd>
-      <dt>자격</dt><dd>${p.eligibility} (최대 ${p.max_class || '—'})</dd>
+      <dt>자격</dt><dd>${p.eligibility} (최대 ${p.max_class || ' '})</dd>
       <dt>신뢰도</dt><dd>${p.confidence}${p.stale ? ' · stale' : ''}</dd>
       ${p.source_url ? `<dt>출처</dt><dd><a href="${p.source_url}" target="_blank" rel="noopener">링크</a></dd>` : ''}
     </dl>${p.note ? `<div class="muted" style="font-size:11.5px">${p.note}</div>` : ''}`;
@@ -536,6 +588,8 @@ async function reload() {
   try { S.cost = await api(`/project/${S.pid}/cost`, null, 'GET'); } catch { S.cost = null; }
   render(); renderEvidence(); renderLandmarkBar();
 }
+
+window.__vringon = { S, viewer };
 
 (async function boot() {
   S.catalog = await api('/catalog', null, 'GET');

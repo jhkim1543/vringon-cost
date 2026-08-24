@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VRINGON Cost — 신발 Design-to-Should-Cost</title>
+<title>VRINGON Cost 신발 Design to Should Cost</title>
 <link rel="stylesheet" href="styles.css">
 <script type="importmap">
 { "imports": {
@@ -18,48 +18,46 @@
   <div class="brand">VRING<span>:</span>ON <b>Cost</b></div>
   <nav class="flow" id="flow"></nav>
   <div class="topright">
-    <span class="chip" id="gradeChip">등급 —</span>
-    <span class="chip" id="fobChip">FOB —</span>
-  </div>
+    <span class="chip" id="gradeChip">등급 확인중</span>
+ <span class="chip" id="fobChip">원가 상태 확인중</span>
+ </div>
 </header>
 
 <main class="layout">
 
-  <!-- 좌: 3D -->
   <section class="pane pane-3d">
     <div class="pane-head">
-      <h2>3D · 파트</h2>
-      <div class="seg-toggle" id="viewMode">
+ <h2>3D 파트</h2>
+ <div class="seg-toggle" id="viewMode">
         <button data-mode="parts" class="on">파트</button>
-        <button data-mode="qa">Mesh QA</button>
-        <button data-mode="cost">원가 기여</button>
-      </div>
-    </div>
-    <div id="viewer"></div>
+ <button data-mode="qa">메시 검사</button>
+ <button data-mode="cost">원가 기여</button>
+ </div>
+ </div>
+ <div id="viewer"></div>
     <div class="viewer-foot">
       <div id="landmarkBar" class="landmark-bar"></div>
       <div class="legend" id="legend"></div>
     </div>
   </section>
 
-  <!-- 중: 단계 -->
   <section class="pane pane-mid">
-    <div class="pane-head"><h2 id="stepTitle">1 · 프로젝트</h2></div>
-    <div class="pane-body" id="stepBody"></div>
+    <div class="pane-head"><h2 id="stepTitle">프로젝트</h2></div>
+ <div class="pane-body" id="stepBody"></div>
   </section>
 
-  <!-- 우: 근거 -->
   <section class="pane pane-right">
     <div class="pane-head"><h2>근거</h2></div>
-    <div class="pane-body" id="evidence">
+ <div class="pane-body" id="evidence">
       <p class="muted">BOM 행이나 파트를 선택하면 계산 근거가 여기에 표시됩니다.</p>
-    </div>
-  </section>
+ </div>
+ </section>
 
 </main>
 
 <div id="toast" class="toast"></div>
 
+<script src="static-api.js"></script>
 <script src="static-api.js"></script>
 <script type="module" src="app.js"></script>
 </body>

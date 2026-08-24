@@ -10,6 +10,16 @@ Tooling 상각, 수율·불량·간접비를 순서대로 더한다.
 import catalog
 import consumption
 import pricing
+import units
+
+_CLASS_ORDER = {"C0": 0, "C1": 1, "C2": 2, "C3": 3, "C4": 4}
+
+
+def _min_class(*classes):
+    """여러 상한 중 가장 낮은 등급. None 은 무시한다."""
+    vals = [c for c in classes if c in _CLASS_ORDER]
+    return min(vals, key=lambda c: _CLASS_ORDER[c]) if vals else None
+
 
 
 def _mul(qty, price):
@@ -37,9 +47,16 @@ def cost_lines(bom, quarter, supplier_quotes=None):
 
         ok_uom, uom_note = (True, None)
         if cons.get("gross_qty") is not None and price.get("p50") is not None:
-            ok_uom, uom_note = pricing.uom_match(price.get("uom"), cons.get("uom"))
+            # 차원 검사. 모르는 단위는 통과시키지 않는다.
+            ok_uom, uom_note = units.check_multiply(cons.get("uom"), price.get("uom"))
             if not ok_uom:
                 blocked.append(uom_note)
+            else:
+                sp = catalog.material_specs().get(spec) or {}
+                ok_f, f_note = units.check_formula(sp.get("form"), cons.get("uom"))
+                if not ok_f:
+                    ok_uom = False
+                    blocked.append(f_note)
 
         qty = cons.get("gross_qty") if ok_uom else None
         c10, c50, c90 = (_mul(qty, price.get("p10")),
@@ -51,6 +68,10 @@ def cost_lines(bom, quarter, supplier_quotes=None):
                                     "assembly", "visibility", "origin")},
             "material_spec": spec,
             "segments": line.get("segments", []),
+            "geometry_role": line.get("geometry_role"),
+            "geometry_max_class": line.get("max_class"),
+            "price_max_class": price.get("max_class"),
+            "quantity_basis": line.get("quantity_basis"),
             "formula_family": line.get("formula_family"),
             # 규칙 근거는 UI 근거 패널의 핵심이다. 여기서 빠뜨리면
             # "왜 이 파트가 BOM 에 있는가"를 화면에서 설명할 수 없다.
@@ -67,7 +88,7 @@ def cost_lines(bom, quarter, supplier_quotes=None):
             "cost_p10": c10, "cost_p50": c50, "cost_p90": c90,
             "blocked": sorted(set(b for b in blocked if b)),
             "status": "calculated" if c50 is not None else "blocked",
-            "max_class": price.get("max_class"),
+            "max_class": _min_class(line.get("max_class"), price.get("max_class")),
             "assumptions": cons.get("assumptions", []),
         })
     return out
@@ -129,8 +150,68 @@ def tooling(order_qty):
     }
 
 
+def mass_balance(lines, target_pair_g=None):
+    """BOM 질량 합계를 실제 신발 무게와 대조한다.
+
+    원가가 낮게 나오는 원인은 단가보다 누락인 경우가 많다. 반대로 아직 질량에
+    안 들어간 라인이 많은데도 이미 목표에 근접했다면 부피 과대추정 신호다.
+    원가와 무게를 동시에 보는 값싼 점검이다.
+    """
+    total_g, by_line, unknown = 0.0, [], []
+    for l in lines:
+        c = l.get("consumption") or {}
+        q, uom = c.get("gross_qty"), c.get("uom")
+        if q is None:
+            unknown.append(l["canonical_part"])
+            continue
+        if uom == "kg":
+            g = q * 1000.0
+            total_g += g
+            by_line.append({"canonical_part": l["canonical_part"], "grams": g})
+        else:
+            # 면적 기준 소재는 면밀도(GSM)가 없어 질량으로 바꿀 수 없다.
+            unknown.append(l["canonical_part"])
+
+    out = {
+        "known_mass_g": total_g,
+        "lines_counted": len(by_line),
+        "lines_without_mass": sorted(set(unknown)),
+        "top": sorted(by_line, key=lambda d: -d["grams"])[:6],
+        "target_pair_g": target_pair_g,
+        "coverage": None,
+        "verdict": "no_target",
+        "note": ("면적 기준 소재는 면밀도가 없어 질량에 넣지 못했다. "
+                 "따라서 이 값은 하한이다."),
+    }
+    if target_pair_g:
+        cov = total_g / float(target_pair_g)
+        out["coverage"] = cov
+        many_uncounted = len(out["lines_without_mass"]) >= 5
+        if cov > 1.0 or (cov > 0.75 and many_uncounted):
+            out["verdict"] = "suspect_over_estimate"
+            out["note"] += (f" 질량 미산정 {len(out['lines_without_mass'])}건이 남았는데 "
+                            f"이미 목표의 {cov:.0%}다. 복구 부피 과대추정을 의심할 것.")
+        elif cov >= 0.55:
+            out["verdict"] = "ok"
+        elif cov >= 0.3:
+            out["verdict"] = "needs_review"
+        else:
+            out["verdict"] = "suspect_missing_bom"
+    return out
+
+
+# 전체 제조원가를 내려면 반드시 채워져야 하는 버킷.
+REQUIRED_BUCKETS = ("Material", "Direct Labor", "Machine", "Tooling Amortization")
+
+
 def roll_up(lines, scenario):
-    """소재 + 노무 + 기계 + 금형 -> Should-Cost. 없는 것은 없다고 표시한다."""
+    """소재, 노무, 기계, 금형을 합산한다.
+
+    부분 원가를 총원가처럼 내보내지 않는다. 노무, 기계, 금형 중 하나라도
+    막혀 있으면 전체 제조원가와 FOB 는 None 이다. 소재비만 아는 상태에서
+    간접비와 마진을 곱하면 그 비율의 기준이 전체 제조비인데 분모가
+    소재비뿐이라 숫자가 조용히 왜곡된다.
+    """
     order_qty = scenario.get("order_quantity") or 0
     mat = {k: sum(l[f"cost_{k}"] or 0.0 for l in lines) for k in ("p10", "p50", "p90")}
     mat_blocked = [l["line_id"] for l in lines if l["status"] == "blocked"]
@@ -160,38 +241,50 @@ def roll_up(lines, scenario):
                note="; ".join(tl["blocked"][:2]) if tl["blocked"] else None),
     ]
 
-    # Direct subtotal 은 계산된 것만 더한다. 차단된 항목은 0 으로 치지 않는다.
-    def s(k):
-        return sum(b[k] for b in buckets if b[k] is not None)
+    blocked_buckets = [b["bucket"] for b in buckets
+                       if b["bucket"] in REQUIRED_BUCKETS and b["p50"] is None]
+    complete = not blocked_buckets
 
-    direct = {k: s(k) for k in ("p10", "p50", "p90")}
-    direct_complete = all(b[k] is not None for b in buckets for k in ("p50",))
+    # 아는 것만 더한 소계. 총원가가 아니라는 이름을 쓴다.
+    known = {k: sum(b[k] for b in buckets if b[k] is not None)
+             for k in ("p10", "p50", "p90")}
 
     rej = scenario.get("reject_allowance_pct", 3.0) / 100.0
     ovh = scenario.get("factory_overhead_pct", 8.0) / 100.0
     mar = scenario.get("supplier_margin_pct", 10.0) / 100.0
 
-    reject = {k: direct[k] * rej for k in direct}
-    overhead = {k: direct[k] * ovh for k in direct}
-    mfg = {k: direct[k] + reject[k] + overhead[k] for k in direct}
-    margin = {k: mfg[k] * mar for k in mfg}
-    total = {k: mfg[k] + margin[k] for k in mfg}
+    if complete:
+        reject = {k: known[k] * rej for k in known}
+        overhead = {k: known[k] * ovh for k in known}
+        mfg = {k: known[k] + reject[k] + overhead[k] for k in known}
+        margin = {k: mfg[k] * mar for k in mfg}
+        fob = {k: mfg[k] + margin[k] for k in mfg}
+        status = "COMPLETE"
+    else:
+        # 부분 상태에서는 비율 항목을 아예 계산하지 않는다.
+        reject = overhead = mfg = margin = fob = None
+        status = "PARTIAL"
 
-    blocked_all = lm["blocked"] + tl["blocked"] + \
-        [f"BOM {lid}" for lid in mat_blocked]
-
+    priced = [l for l in lines if l["status"] == "calculated"]
     return {
+        "cost_status": status,
         "buckets": buckets,
-        "direct_subtotal": direct,
+        "known_cost_subtotal": known,
+        "blocked_buckets": blocked_buckets,
         "reject_allowance": reject,
         "factory_overhead": overhead,
         "manufacturing_should_cost": mfg,
         "supplier_margin": margin,
-        "provisional_total": total,
-        "direct_complete": direct_complete,
-        # 완전하지 않으면 FOB 로 내보내지 않는다.
-        "fob_status": "Calculated" if direct_complete else "Blocked as FOB",
-        "blocked": blocked_all,
+        "fob": fob,
+        "direct_complete": complete,
+        "fob_status": "Calculated" if complete else "산출 불가",
+        "coverage": {
+            "bom_lines": len(lines),
+            "priced_lines": len(priced),
+            "unpriced_lines": len(mat_blocked),
+            "priced_ratio": (len(priced) / len(lines)) if lines else 0.0,
+        },
+        "blocked": lm["blocked"] + tl["blocked"] + [f"BOM {i}" for i in mat_blocked],
         "labor_machine": lm,
         "tooling": tl,
         "material_blocked_lines": mat_blocked,
@@ -219,7 +312,15 @@ def grade(lines, rollup, gates):
         reasons["C2"].append(
             f"승인 Supplier 견적이 아닌 단가 {len(non_eng)}건 (분기 스냅샷/공개 리스팅)")
     if not rollup["direct_complete"]:
-        reasons["C2"].append("공장 routing·SAM·tooling 미확정")
+        reasons["C2"].append("공장 routing, SAM, tooling 미확정")
+
+    # 복구 부피나 표면 proxy 로 잡힌 라인은 C2 로 올라갈 수 없다.
+    capped = sorted({l["canonical_part"] for l in lines
+                     if (l.get("max_class") or "C2") != "C2"})
+    if capped:
+        reasons["C2"].append(
+            f"C1 상한 지오메트리 {len(capped)}건 (복구 부피 또는 표면 proxy): "
+            + ", ".join(capped[:4]) + ("…" if len(capped) > 4 else ""))
 
     if not reasons["C1"]:
         cls = "C2" if not reasons["C2"] else "C1"

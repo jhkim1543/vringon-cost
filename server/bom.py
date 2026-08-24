@@ -11,7 +11,8 @@
 import re
 
 import catalog
-from geometry import VOLUME_ALLOWED_PARTS, part_metrics
+from geometry import (VOLUME_ALLOWED_PARTS, ROLE_MAX_CLASS,
+                      classify_role, part_metrics)
 
 # 조건식에 쓸 수 있는 플래그. 워크북 R-001..R-021 의 Condition Expression 에서 뽑았다.
 CONSTRUCTION_FLAGS = {
@@ -153,6 +154,9 @@ def build(mapping, geo_ctx, cal, parts, flags=None, construction="Strobel Cement
     # (예: R-016 has_laces -> Lace 는 Lace 세그먼트가 있으면 건너뛴다)
     measured_parts = set(seen)
 
+    # 세그멘테이션에서 이미 잡힌 파트를 규칙이 또 넣으면 이중계상이 된다.
+    measured_parts = set(seen)
+
     for rule in catalog.recipes():
         if rule["construction"] != construction:
             continue
@@ -160,6 +164,8 @@ def build(mapping, geo_ctx, cal, parts, flags=None, construction="Strobel Cement
         if not ok:
             continue
         cp = rule["add_part"]
+        if cp in measured_parts:
+            continue
         if cp in measured_parts:
             continue
         # 레시피 표기와 BOM 마스터 표기가 조금 다른 경우가 있다.
@@ -193,6 +199,11 @@ def build(mapping, geo_ctx, cal, parts, flags=None, construction="Strobel Cement
                 "note": meas.get("note"),
             },
             "qa_blocked": [],
+            "geometry_role": ("curve_or_trim" if meas["unit"] == "m"
+                              else "surface_region"),
+            "max_class": "C1",
+            "quantity_basis": ("per_pair" if rule["qty_method"] == "count"
+                               else "per_shoe"),
             "rule_id": rule["rule_id"],
             "rule_condition": rule["condition"],
             "rule_parameters": rule["parameters"],

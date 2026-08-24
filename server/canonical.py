@@ -2,7 +2,7 @@
 """Visual Segment -> Canonical Part 매핑.
 
 계획서 §7.1의 핵심: 세그멘테이션 결과는 BOM이 아니다.
-Tripo mesh_segmentation 은 기하 기반이라 라벨이 tripo_mesh_N 뿐이므로,
+메시 세그멘테이션 은 기하 기반이라 라벨이 seg_N 뿐이므로,
 정규 프레임에서 뽑은 기하 특징으로 canonical part 후보를 제안한다.
 
 제안은 어디까지나 ai_proposed 이며 사용자가 확정하기 전에는

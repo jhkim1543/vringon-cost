@@ -27,6 +27,28 @@ def _now():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def mapping_summary(mapping):
+    """매핑 지표를 정직하게 센다.
+
+    "8/8 일치" 는 정확도가 아니다. 정답 데이터가 없으면 그건 후보를 전부
+    어떤 class 에 배정했다는 배정 커버리지일 뿐이다.
+    """
+    auto = [m for m in mapping if m.get("status") == "ai_proposed"]
+    review = [m for m in mapping if m.get("status") == "needs_review"]
+    confirmed = [m for m in mapping if m.get("confirmed")]
+    assigned = sum(1 for m in mapping if m.get("canonical_part"))
+    return {
+        "input_segments": len(mapping),
+        "assigned_segments": assigned,
+        "auto_accepted": len(auto),
+        "needs_review": len(review),
+        "engineer_confirmed": len(confirmed),
+        "assignment_coverage": (assigned / len(mapping)) if mapping else 0.0,
+        "review_rate": (len(review) / len(mapping)) if mapping else 0.0,
+        "note": "정답 데이터가 없으므로 정확도가 아니라 배정 커버리지다",
+    }
+
+
 def _decimate(mesh, budget):
     if mesh.faces.shape[0] <= budget:
         return mesh
@@ -67,6 +89,8 @@ class Project:
                 "reject_allowance_pct": 3.0,
                 "factory_overhead_pct": 8.0,
                 "supplier_margin_pct": 10.0,
+                # 질량 정합성 검사용. 실제 샘플 무게를 넣으면 정확해진다.
+                "target_pair_weight_g": 600,
             },
             "gates": {},
         }
@@ -93,6 +117,28 @@ class Project:
     def _whole(self):
         return trimesh.util.concatenate(list(self._parts().values()))
 
+    def _completed_parts(self):
+        """메시 완성 결과. 세그먼트와 인덱스가 1대1 로 대응한다.
+
+        완성본은 안팎 양면을 가진 닫힌 껍질이라 복셀 부피가 해상도에 훨씬
+        덜 민감하다. 실측으로 CV 28% 에서 2에서 10% 로 떨어졌다.
+        """
+        glb = self.dir / "completed.glb"
+        if not glb.exists():
+            return {}
+        if not hasattr(self, "_completed_cache"):
+            done = geo.scene_parts(geo.load_scene(glb))
+            segs = self._parts()
+            # 이름 접두사는 생성기마다 다르므로 끝자리 인덱스로 맞춘다.
+            by_idx = {n.rsplit("_", 1)[-1]: m for n, m in done.items()}
+            out = {}
+            for sid in segs:
+                m = by_idx.get(sid.rsplit("_", 1)[-1])
+                if m is not None:
+                    out[sid] = m
+            self._completed_cache = out
+        return self._completed_cache
+
     # ── 뷰어용 경량 GLB ───────────────────────────────────────────────
     def viewer_glb(self, face_budget=160_000, force=False):
         """브라우저용 경량 GLB. 파트 이름과 배치를 그대로 보존한다.
@@ -111,7 +157,10 @@ class Project:
                 continue
             share = m.faces.shape[0] / max(total_faces, 1)
             budget = max(600, int(face_budget * share))
-            scene.add_geometry(_decimate(m, budget), geom_name=name, node_name=name)
+            d = _decimate(m, budget)
+            # 법선을 실어 보내지 않으면 브라우저에서 조명이 먹지 않아 검게 나온다.
+            d.vertex_normals
+            scene.add_geometry(d, geom_name=name, node_name=name)
         scene.export(out)
         return out
 
@@ -152,6 +201,7 @@ class Project:
                 item["metrics"] = geo.part_metrics(mesh, cal, item["canonical_part"])
         self.state["mapping"] = m
         self.state["gates"]["segmented"] = True
+        self.state["mapping_summary"] = mapping_summary(m)
         self._mark("segment", "ai_proposed", segments=len(m))
         return m
 
@@ -168,6 +218,7 @@ class Project:
                 item["status"] = "engineer_confirmed"
                 item["confirmed"] = True
         self.state["mapping"] = m
+        self.state["mapping_summary"] = mapping_summary(m)
         done = all(i.get("confirmed") for i in m)
         self.state["gates"]["construction_set"] = True
         self._mark("segment", "confirmed" if done else "needs_review",
@@ -197,15 +248,43 @@ class Project:
                 continue
             if item.get("qa", {}).get("is_volume"):
                 continue                      # 이미 닫혀 있으면 건드리지 않는다
+            completed = self._completed_parts().get(sid)
+            if completed is not None:
+                # 완성본을 우선 쓴다. 복셀로 임의로 채운 것이 아니라 모델이
+                # 내부 면을 만들어 낸 것이라 해상도에 훨씬 덜 민감하다.
+                sens = rp.volume_sensitivity(completed, scale_mm_per_unit=cal["scale"])
+                if sens.get("mean"):
+                    vol_m3 = geo.to_si(sens["mean"], "volume", cal)
+                    out[sid] = {
+                        "ok": True, "canonical_part": cp, "tier": "R3",
+                        "method": "메시 완성 후 복셀 3해상도 평균",
+                        "geometry_role": "repaired_volume_proxy",
+                        "max_class": geo.ROLE_MAX_CLASS["repaired_volume_proxy"],
+                        "volume_m3": vol_m3, "volume_cm3": vol_m3 * 1e6,
+                        "sensitivity": sens,
+                        "usable": sens["verdict"] != "blocked",
+                        "note": ("파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부"
+                                 " 구조를 보장하지 않으므로 C1 proxy 로만 쓴다."),
+                        "confidence_penalty": 2,
+                    }
+                    continue
+
             r = rp.repair_to_solid(parts[sid])
             if r["ok"]:
                 vol_m3 = geo.to_si(r["raw_volume"], "volume", cal)
+                sens = rp.volume_sensitivity(parts[sid], scale_mm_per_unit=cal["scale"])
                 out[sid] = {
-                    "ok": True, "canonical_part": cp, "method": r["method"],
+                    "ok": True, "canonical_part": cp, "tier": "R4",
+                    "method": r["method"],
+                    "geometry_role": "repaired_volume_proxy",
+                    "max_class": geo.ROLE_MAX_CLASS["repaired_volume_proxy"],
                     "volume_m3": vol_m3, "volume_cm3": vol_m3 * 1e6,
+                    "sensitivity": sens,
+                    "usable": sens["verdict"] != "blocked",
                     "note": r["note"], "confidence_penalty": r["confidence_penalty"],
                 }
-                self._parts_cache[sid + "__repaired"] = r["mesh"]
+                if sens["verdict"] != "blocked":
+                    self._parts_cache[sid + "__repaired"] = r["mesh"]
             else:
                 out[sid] = {"ok": False, "canonical_part": cp, "note": r["note"],
                             "steps": r["steps"][-3:]}
@@ -254,8 +333,9 @@ class Project:
                                 self.state.get("supplier_quotes"))
         rollup = costing.roll_up(cl, sc)
         gr = costing.grade(cl, rollup, self.state.get("gates", {}))
+        mass = costing.mass_balance(cl, sc.get("target_pair_weight_g"))
         result = {"scenario": sc, "lines": cl, "rollup": rollup, "grade": gr,
-                  "computed_at": _now()}
+                  "mass_balance": mass, "computed_at": _now()}
         self.state["cost"] = {"rollup": rollup, "grade": gr,
                               "computed_at": result["computed_at"]}
         (self.dir / "cost.json").write_text(
@@ -265,13 +345,13 @@ class Project:
         return result
 
 
-def import_tripo_outputs(pid, raw_glb=None, segmented_glb=None,
+def import_mesh_provider_outputs(pid, raw_glb=None, segmented_glb=None,
                          generate_task=None, segment_task=None, image=None):
-    """이미 만들어둔 Tripo 산출물을 프로젝트로 들인다 (재과금 없이 검증용)."""
+    """이미 만들어둔 3D 생성 엔진 산출물을 프로젝트로 들인다 (재과금 없이 검증용)."""
     p = Project(pid)
     for src, name in ((raw_glb, "raw_model.glb"), (segmented_glb, "segmented.glb"),
-                      (generate_task, "tripo_generate_task.json"),
-                      (segment_task, "tripo_segment_task.json")):
+                      (generate_task, "generate_task.json"),
+                      (segment_task, "segment_task.json")):
         if src and Path(src).resolve() != (p.dir / name).resolve():
             shutil.copy2(src, p.dir / name)
     if image:

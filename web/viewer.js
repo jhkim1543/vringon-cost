@@ -3,9 +3,10 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+// 단일 색상 축: 파랑. 파트 구분은 색상이 아니라 명도로 한다.
 const PALETTE = [
-  0x4ea9d8, 0xe2a03f, 0x59c08a, 0xd45f5f, 0x9b7fd4,
-  0xd39ab8, 0x6fc6c0, 0xc7b45a, 0x7f95d6, 0xb0705a,
+  0x1d4ed8, 0x2563eb, 0x3b82f6, 0x60a5fa, 0x93c5fd,
+  0x1e40af, 0x38699e, 0x5b8fc7, 0x7fb0e0, 0xa9cbee,
 ];
 
 export class Viewer {
@@ -23,7 +24,7 @@ export class Viewer {
   _init() {
     const w = this.el.clientWidth || 600, h = this.el.clientHeight || 400;
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x0e1116);
+    this.scene.background = new THREE.Color(0x0e0e13);
 
     this.camera = new THREE.PerspectiveCamera(38, w / h, 0.01, 200);
     this.camera.position.set(2.2, 1.4, 2.2);
@@ -36,11 +37,11 @@ export class Viewer {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
 
-    this.scene.add(new THREE.HemisphereLight(0xdfe9f5, 0x1a2029, 1.5));
+    this.scene.add(new THREE.HemisphereLight(0xe4e6f5, 0x16161d, 1.6));
     const key = new THREE.DirectionalLight(0xffffff, 1.5);
     key.position.set(3, 5, 2);
     this.scene.add(key);
-    const rim = new THREE.DirectionalLight(0x9fc4e8, 0.7);
+    const rim = new THREE.DirectionalLight(0x8ab4e8, 0.8);
     rim.position.set(-3, 2, -3);
     this.scene.add(rim);
 
@@ -105,6 +106,9 @@ export class Viewer {
     gltf.scene.traverse(o => {
       if (!o.isMesh) return;
       const name = o.name || `part_${this.parts.size}`;
+      // 경량화한 GLB 에는 법선이 없을 수 있다. 그대로 두면 조명을 못 받아
+      // 새까맣게 렌더된다.
+      if (!o.geometry.getAttribute('normal')) o.geometry.computeVertexNormals();
       const mesh = new THREE.Mesh(o.geometry, null);
       mesh.name = name;
       o.updateWorldMatrix(true, false);
@@ -127,6 +131,9 @@ export class Viewer {
     this.applyColors({});
     this.controls.target.set(0, 0, 0);
     this.camera.position.set(1.9, 1.15, 1.9);
+    // 스크린샷 자동화가 이 시점을 기다린다.
+    window.dispatchEvent(new CustomEvent('vringon-viewer-ready',
+      { detail: { parts: this.parts.size } }));
     return [...this.parts.keys()];
   }
 
@@ -152,7 +159,7 @@ export class Viewer {
     this.selected = name;
     for (const [n, mesh] of this.parts) {
       const on = n === name;
-      mesh.material.emissive?.setHex(on ? 0x1f5f52 : 0x000000);
+      mesh.material.emissive?.setHex(on ? 0x123253 : 0x000000);
       if (mesh.material.emissiveIntensity !== undefined)
         mesh.material.emissiveIntensity = on ? 1 : 0;
     }
@@ -179,11 +186,11 @@ export class Viewer {
       this.marks.add(s);
       return world;
     };
-    const a = mk(toe, 0x28c7a8), b = mk(heel, 0xe0a33a);
+    const a = mk(toe, 0x60a5fa), b = mk(heel, 0x1d4ed8);
     if (a && b) {
       const g = new THREE.BufferGeometry().setFromPoints([a, b]);
       this.marks.add(new THREE.Line(g, new THREE.LineDashedMaterial({
-        color: 0x67748a, dashSize: 0.05, gapSize: 0.03,
+        color: 0x63657a, dashSize: 0.05, gapSize: 0.03,
       })).computeLineDistances());
     }
   }

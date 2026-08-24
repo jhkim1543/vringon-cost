@@ -3,11 +3,11 @@
 
     python tools/build_static.py [project_id ...]
 
-이 데모는 파이썬 백엔드(trimesh 기하 연산 + Tripo 호출)에 의존한다.
+이 데모는 파이썬 백엔드(trimesh 기하 연산 + 생성 엔진 호출)에 의존한다.
 GitHub Pages 에는 백엔드가 없으므로, 계산 결과를 JSON 으로 구워두고
 fetch('/api/...') 를 그 파일들로 가로챈다. 결과는 읽기 전용 데모다.
 
-정적 모드에서 빠지는 것: Tripo 신규 생성, 재계산(시나리오 변경), 매핑 확정,
+정적 모드에서 빠지는 것: 3D 생성 엔진 신규 생성, 재계산(시나리오 변경), 매핑 확정,
 메시 복구. 화면에 그렇다고 표시한다.
 """
 import json
@@ -38,7 +38,7 @@ def build_catalog():
         "tooling": catalog.tooling(),
         "quarters": sorted({q for (q, _s) in catalog.quarterly_prices()}),
         "part_material_map": catalog.part_material_map(),
-        "tripo_key_present": False,
+        "mesh_provider_key_present": False,
         "static_mode": True,
     }
 

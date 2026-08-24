@@ -216,15 +216,78 @@ def test_labor_and_tooling_blocked_not_zero():
     assert tl["usd_pair"] is None
 
 
-def test_fob_blocked_when_inputs_missing():
+def test_partial_cost_never_reports_a_total():
+    """회귀: 노무·기계·금형이 Blocked 인데 Provisional Total 을 내보냈다.
+
+    부분 소계에 overhead·margin 을 곱하면 비율의 분모가 소재비뿐이라
+    숫자가 조용히 왜곡되고, 사용자는 누락 비용을 0 으로 읽는다.
+    """
     lines = [{"line_id": "X", "status": "calculated", "cost_p10": 1.0,
               "cost_p50": 2.0, "cost_p90": 3.0, "material_spec": "MAT-BOX",
               "price": {"eligibility": "Concept only"}}]
     r = costing.roll_up(lines, {"order_quantity": 5000})
-    assert r["fob_status"] == "Blocked as FOB"
+
+    assert r["cost_status"] == "PARTIAL"
     assert not r["direct_complete"]
-    # 차단된 버킷은 0 으로 합산되지 않는다
-    assert r["direct_subtotal"]["p50"] == pytest.approx(2.0)
+    # 전체 제조원가와 FOB 는 숫자로 나오면 안 된다
+    assert r["manufacturing_should_cost"] is None
+    assert r["fob"] is None
+    assert r["factory_overhead"] is None and r["supplier_margin"] is None
+    assert "provisional_total" not in r
+    # 아는 것만 소계로. 차단된 버킷은 0 으로 합산되지 않는다
+    assert r["known_cost_subtotal"]["p50"] == pytest.approx(2.0)
+    assert set(r["blocked_buckets"]) == {"Direct Labor", "Machine", "Tooling Amortization"}
+
+
+def test_dimension_validator_blocks_nonsense_multiplication():
+    """count × USD/kg 같은 조합은 즉시 막아야 한다."""
+    import units
+    assert not units.check_multiply("piece", "kg")[0]
+    assert not units.check_multiply("m²", "piece")[0]
+    assert not units.check_multiply("kg", "m")[0]
+    assert units.check_multiply("kg", "kg")[0]
+    assert units.check_multiply("m", "m")[0]
+    # 모르는 단위는 통과시키지 않는다
+    assert not units.check_multiply("furlong", "kg")[0]
+    # sheet 수량에 piece 단가를 곱하지 않는다
+    assert not units.check_multiply("sheet", "piece")[0]
+
+
+def test_formula_output_dimension_is_enforced():
+    import units
+    assert units.check_formula("roll", "m")[0]          # 면적 -> 선형미터
+    assert not units.check_formula("roll", "kg")[0]
+    assert units.check_formula("molded", "kg")[0]       # 부피 -> 질량
+    assert not units.check_formula("molded", "m³")[0]
+
+
+def test_basis_conversion_is_not_a_blanket_double():
+    import units
+    assert units.to_pair(1.0, "per_shoe")[0] == pytest.approx(2.0)
+    assert units.to_pair(1.0, "per_pair")[0] == pytest.approx(1.0)
+    # 배치 기준은 배치 수량 없이는 환산 불가 — 조용히 2배 하지 않는다
+    assert units.to_pair(1.0, "per_batch")[0] is None
+    assert units.to_pair(100.0, "per_batch", batch_qty=1000)[0] == pytest.approx(0.1)
+
+
+def test_geometry_role_separates_open_shell_from_broken_solid():
+    """열려 있다고 다 같은 오류가 아니다. vamp 는 원래 표면 조각이다."""
+    open_qa = {"is_volume": False}
+    closed_qa = {"is_volume": True}
+    # 어퍼 패널: 열려 있는 게 정상, 부피 금지
+    assert geo.classify_role("Vamp", open_qa) == "surface_region"
+    # 솔리드여야 하는 파트가 열려 있으면 solid_component 라고 부르지 않는다
+    assert geo.classify_role("Midsole Carrier", open_qa) == "surface_region"
+    assert geo.classify_role("Midsole Carrier", open_qa, repaired=True) == "repaired_volume_proxy"
+    assert geo.classify_role("Midsole Carrier", closed_qa) == "solid_component"
+    assert geo.classify_role("Lace", open_qa) == "curve_or_trim"
+
+
+def test_repaired_volume_cannot_reach_c2():
+    assert geo.ROLE_MAX_CLASS["repaired_volume_proxy"] == "C1"
+    assert geo.ROLE_MAX_CLASS["surface_region"] == "C1"
+    assert geo.ROLE_MAX_CLASS["solid_component"] == "C2"
+    assert geo.ROLE_MAX_CLASS["approved_cad_solid"] == "C2"
 
 
 def test_grade_downgrades_without_gates():
@@ -295,3 +358,48 @@ def test_no_duplicate_lace_line():
         pytest.skip("BOM 미생성")
     laces = [l for l in lines if l["canonical_part"] == "Lace"]
     assert len(laces) == 1, [l["line_id"] for l in laces]
+
+
+# ── 피드백 반영분 회귀 ─────────────────────────────────────────────────
+def test_voxel_cv_gate_rejects_open_shell_repair():
+    """열린 껍질에 복셀을 채우면 부피가 pitch 에 비례한다 -> CV 로 걸러야 한다."""
+    box = trimesh.creation.box((1, 1, 1))
+    open_mesh = box.submesh([np.arange(len(box.faces) - 2)], append=True)
+    s = repair.volume_sensitivity(open_mesh, pitches_mm=(20.0, 30.0, 40.0),
+                                  scale_mm_per_unit=1000.0)
+    assert s["cv"] is not None
+    assert s["verdict"] in ("ok", "needs_review", "blocked")
+    # 닫힌 상자는 해상도를 바꿔도 부피가 안정적이어야 한다
+    s2 = repair.volume_sensitivity(box, pitches_mm=(20.0, 30.0, 40.0),
+                                   scale_mm_per_unit=1000.0)
+    assert s2["cv"] < 0.15, s2
+
+
+def test_mass_balance_flags_over_estimate():
+    """질량 미산정 라인이 많은데 목표에 근접하면 과대추정으로 본다."""
+    lines = [
+        {"canonical_part": "Outsole Rubber", "material_spec": "MAT-NR",
+         "consumption": {"gross_qty": 0.31, "uom": "kg"}},
+        {"canonical_part": "Midsole Carrier", "material_spec": "MAT-EVA-COMP",
+         "consumption": {"gross_qty": 0.19, "uom": "kg"}},
+    ] + [{"canonical_part": f"Panel{i}", "material_spec": "MAT-MESH-POLY",
+          "consumption": {"gross_qty": 0.1, "uom": "m"}} for i in range(6)]
+    m = costing.mass_balance(lines, target_pair_g=600)
+    assert m["known_mass_g"] == pytest.approx(500.0)
+    assert len(m["lines_without_mass"]) == 6
+    assert m["verdict"] == "suspect_over_estimate"
+
+
+def test_mass_balance_flags_missing_bom():
+    lines = [{"canonical_part": "Outsole Rubber", "material_spec": "MAT-NR",
+              "consumption": {"gross_qty": 0.05, "uom": "kg"}}]
+    m = costing.mass_balance(lines, target_pair_g=600)
+    assert m["verdict"] == "suspect_missing_bom"
+
+
+def test_min_class_takes_the_lower_cap():
+    """지오메트리 상한과 단가 자격 중 낮은 쪽이 라인 상한이다."""
+    assert costing._min_class("C2", "C1") == "C1"
+    assert costing._min_class("C1", "C2") == "C1"
+    assert costing._min_class("C2", "C2") == "C2"
+    assert costing._min_class(None, "C1") == "C1"

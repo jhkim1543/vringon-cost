@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Mesh completion / repair — 계획서 §5.5 의 fallback.
 
-Tripo 세그멘테이션 결과는 파트가 열린 껍질이라 부피가 나오지 않는다.
+메시 세그멘테이션 결과는 파트가 열린 껍질이라 부피가 나오지 않는다.
 그래도 midsole·outsole 은 부피 없이는 원가가 안 나온다. 그래서 복구 경로를 둔다.
 
 복구는 '측정'이 아니다. 어떤 방법으로 닫았는지, 부피가 얼마나 달라졌는지를
@@ -80,6 +80,45 @@ def repair_to_solid(mesh, target_voxels=110):
     return {"ok": False, "mesh": None, "method": None, "raw_volume": None,
             "note": "복구 실패. sole CAD 또는 승인 recipe 비율이 필요",
             "confidence_penalty": None, "steps": steps}
+
+
+def volume_sensitivity(mesh, pitches_mm=(1.0, 1.5, 2.0), scale_mm_per_unit=1.0):
+    """여러 복셀 해상도로 부피를 재서 변동계수(CV)를 낸다.
+
+    복셀 부피는 pitch 에 민감하다. 한 해상도의 숫자만 들고 다니면 그 값이
+    얼마나 임의적인지 알 수 없다. CV 가 곧 그 답이다. 열린 껍질을 채우면
+    부피가 pitch 에 거의 비례해 CV 가 크게 나오고, 그때는 막아야 한다.
+
+    반환 {results, mean, cv, verdict}
+      verdict: ok(CV 5% 이하) / needs_review(10% 이하) / blocked(그 이상)
+    """
+    out = []
+    for p_mm in pitches_mm:
+        pitch = p_mm / max(scale_mm_per_unit, 1e-9)
+        try:
+            solid = _try_manifold(mesh, pitch)
+        except Exception as e:
+            out.append({"pitch_mm": p_mm, "volume": None, "error": str(e)[:120]})
+            continue
+        ok = solid.is_watertight and solid.volume > 0
+        out.append({
+            "pitch_mm": p_mm,
+            "volume": float(solid.volume) if ok else None,
+            "watertight": bool(solid.is_watertight),
+            "faces": int(solid.faces.shape[0]),
+        })
+
+    vals = [r["volume"] for r in out if r.get("volume")]
+    if len(vals) < 2:
+        return {"results": out, "mean": vals[0] if vals else None,
+                "cv": None, "verdict": "blocked",
+                "note": "두 개 이상의 해상도에서 닫히지 않아 민감도를 잴 수 없다"}
+
+    mean = float(np.mean(vals))
+    cv = float(np.std(vals) / mean) if mean else None
+    verdict = "ok" if cv <= 0.05 else ("needs_review" if cv <= 0.10 else "blocked")
+    return {"results": out, "mean": mean, "cv": cv, "verdict": verdict,
+            "note": f"{len(vals)}개 해상도, CV {cv:.1%}"}
 
 
 def shell_volume(mesh, thickness_mm, scale_mm_per_unit):

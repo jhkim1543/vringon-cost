@@ -3,7 +3,7 @@
 
     python tools/preview_parts.py <segmented.glb> <out.png>
 
-파트 라벨이 tripo_mesh_N 뿐이라 canonical 매핑 규칙을 설계하려면
+파트 라벨이 seg_N 뿐이라 canonical 매핑 규칙을 설계하려면
 각 파트가 실제로 무엇인지 봐야 한다.
 """
 import sys

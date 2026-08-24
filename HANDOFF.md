@@ -1,7 +1,7 @@
 # VRINGON Cost — 신발 Design-to-Should-Cost 데모
 
 `신발_BOM_Cost_최종_개발계획_2026-08-23.md` 를 실제로 도는 코드로 구현한 것.
-디자인 이미지 → Tripo v3 3D → metric 보정 → 세그먼트 → Hidden BOM →
+디자인 이미지 → 3D 생성 엔진 3D → metric 보정 → 세그먼트 → Hidden BOM →
 소요량 → 단가 → 결정론적 P10/P50/P90 원가까지 한 줄로 이어진다.
 
 **공개 데모: https://jhkim1543.github.io/vringon-cost/**
@@ -39,13 +39,13 @@ run.cmd
 
 ---
 
-## 2. 실측 확인한 Tripo v3 스펙 (2026-08-24)
+## 2. 실측 확인한 3D 생성 엔진 스펙 (2026-08-24)
 
-v2(`api.tripo3d.ai/v2/openapi`)는 **2026-11-01 종료**. v3는 호스트가 다르다.
+v2(`api.PROVIDER_HOST/v2/openapi`)는 **2026-11-01 종료**. v3는 호스트가 다르다.
 
 | 용도 | 엔드포인트 |
 |---|---|
-| base | `https://openapi.tripo3d.ai/v3` |
+| base | `https://openapi.PROVIDER_HOST/v3` |
 | 잔액 | `GET /account/balance` |
 | 업로드 | `POST /files` (multipart 필드명 `file`) → `file_token` |
 | 이미지→3D | `POST /generation/image-to-model` |
@@ -62,7 +62,7 @@ v2(`api.tripo3d.ai/v2/openapi`)는 **2026-11-01 종료**. v3는 호스트가 다
 
 과금 실측: 생성 30 크레딧, 세그멘테이션 40 크레딧.
 
-키는 리포에 없다. `TRIPO_API_KEY` 환경변수 → 없으면 `../scripts/run_backend.cmd` 에서 읽는다.
+키는 리포에 없다. `MESH_API_KEY` 환경변수 → 없으면 `../scripts/run_backend.cmd` 에서 읽는다.
 
 ---
 
@@ -71,7 +71,7 @@ v2(`api.tripo3d.ai/v2/openapi`)는 **2026-11-01 종료**. v3는 호스트가 다
 | 증상 | 원인 | 테스트 |
 |---|---|---|
 | 파트 위치 특징이 전부 0.5 로 수렴 | `scene.graph.get(geometry_name=)` 가 trimesh 5 에서 TypeError → `except: pass` 가 삼켜서 **노드 변환 미적용**, 모든 파트가 로컬 원점에 겹침 | `test_scene_parts_apply_node_transforms` |
-| 솔이 아래로 안 옴 | glTF Y-up 가정. Tripo 결과는 월드축에 정렬돼 있지 않다 → **볼록껍질 최대 대향 면적(접지면)** 에서 up 을 뽑는다 | `test_canonical_frame_puts_sole_at_bottom` |
+| 솔이 아래로 안 옴 | glTF Y-up 가정. 생성 결과는 월드축에 정렬돼 있지 않다 → **볼록껍질 최대 대향 면적(접지면)** 에서 up 을 뽑는다 | `test_canonical_frame_puts_sole_at_bottom` |
 | toe/heel 반대 | 뒤꿈치가 더 높다는 규칙의 부호를 거꾸로 씀 | 위 테스트에 포함 |
 | 미드솔 부피 1.3억 cm³ | `VoxelGrid.marching_cubes` 는 **복셀 인덱스 좌표계** 메시를 준다. `vg.transform` 미적용 시 pitch⁻³ 배 | `test_repair_closes_open_mesh_with_sane_volume` |
 | 폴리백이 켤레당 1 kg | `count` 로 세고 kg 단가를 곱함 → 소재비의 40%가 포장재 | `test_packaging_is_not_one_kilogram` |
@@ -84,7 +84,7 @@ v2(`api.tripo3d.ai/v2/openapi`)는 **2026-11-01 종료**. v3는 호스트가 다
 
 ```
 server/
-  tripo_v3.py    v3 클라이언트 (실측 검증)
+  mesh_provider.py    v3 클라이언트 (실측 검증)
   geometry.py    shoe_frame(장축·up·toe/heel) · calibration · mesh_qa · part_metrics
   repair.py      열린 껍질 → 닫힌 솔리드 (fill_holes → 복셀 리메시)
   canonical.py   기하 특징 → canonical part 제안 (헝가리안 + 신뢰도)
@@ -121,7 +121,7 @@ UI 근거 패널이 이 출처를 그대로 보여준다. 숫자를 믿을지 �
 
 ---
 
-## 5. 현재 데모 결과 (DEMO-RUN-001, 실제 Tripo 생성물)
+## 5. 현재 데모 결과 (DEMO-RUN-001, 실제 생성 결과물)
 
 입력: `신발 디자인/매쉬1.JPG` (메시 어퍼 + EVA 미드솔 + 러버 아웃솔), 외부 길이 300 mm.
 
@@ -148,7 +148,7 @@ Provisional Total   P50 $3.298
    붙여야 C2 소요량이 된다. (`measures.py` 의 `method: proxy` 가 전부 여기 해당)
 2. **공장 데이터** — `15_공정인건비`·`17_Tooling마스터` 가 전부 TBD 라 노무·기계·금형이 막혀 있다.
    공장 operation bulletin 하나만 들어와도 FOB 가 열린다.
-3. **세그멘테이션 품질** — Tripo 기하 세그멘테이션은 라벨이 없고 제조 파트와 1:1 이 아니다.
+3. **세그멘테이션 품질** — 기하 세그멘테이션은 라벨이 없고 제조 파트와 1:1 이 아니다.
    사내 세그멘테이션 모델을 `SegmentInput` 계약(`segment_id/label/mesh_path/confidence`)에
    맞춰 `canonical.propose` 를 대체하는 것이 가장 효과가 크다.
 

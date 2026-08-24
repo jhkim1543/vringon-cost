@@ -8,7 +8,8 @@
   "quarter": "2026Q3",
   "reject_allowance_pct": 3.0,
   "factory_overhead_pct": 8.0,
-  "supplier_margin_pct": 10.0
+  "supplier_margin_pct": 10.0,
+  "target_pair_weight_g": 600
  },
  "lines": [
   {
@@ -20,8 +21,12 @@
    "origin": "segmentation",
    "material_spec": "MAT-EVA-COMP",
    "segments": [
-    "tripo_mesh_1"
+    "seg_01"
    ],
+   "geometry_role": null,
+   "geometry_max_class": null,
+   "price_max_class": "C1",
+   "quantity_basis": null,
    "formula_family": "molded",
    "rule_id": null,
    "rule_condition": null,
@@ -32,21 +37,21 @@
    "approval_status": "segment_confirmed",
    "geometry": {
     "surface_area_m2": 0.031029273788701562,
-    "volume_m3": 0.00011659990575232931,
+    "volume_m3": 0.0003887984270833333,
     "volume_status": "repaired",
     "method": "repaired"
    },
    "consumption": {
-    "gross_qty": 0.05829995287616465,
+    "gross_qty": 0.19439921354166667,
     "uom": "kg",
-    "net": 0.00011659990575232931,
+    "net": 0.0003887984270833333,
     "steps": [
-     "검증 부피 = 0.000116600 m³  [watertight QA 통과]",
+     "검증 부피 = 0.000388798 m³  [watertight QA 통과]",
      "완성 성형 밀도(kg/m³) = 220.0  [public_reference]",
      "공정 수율 = 0.88  [assumption]",
-     "순 질량 = 0.000116600 × 220.0 = 0.025652 kg",
-     "투입 질량 = 0.025652 / 0.88 = 0.029150 kg",
-     "켤레 환산 = 0.029150 × 2 = 0.058300 kg"
+     "순 질량 = 0.000388798 × 220.0 = 0.085536 kg",
+     "투입 질량 = 0.085536 / 0.88 = 0.097200 kg",
+     "켤레 환산 = 0.097200 × 2 = 0.194399 kg"
     ],
     "assumptions": [
      {
@@ -84,11 +89,11 @@
     "source_url": "https://apparel.alibaba.com/product/shoe-sole-raw-materials",
     "note": "원수지/compound 혼재"
    },
-   "cost_p10": 0.06004895146244959,
-   "cost_p50": 0.12621939797689646,
-   "cost_p90": 0.19238984449134333,
+   "cost_p10": 0.20023118994791667,
+   "cost_p50": 0.42087429731770837,
+   "cost_p90": 0.6415174046875,
    "blocked": [
-    "복구본 사용 (tripo_mesh_1: voxel_remesh(pitch=0.00965)) — 승인 sole CAD 권장"
+    "복구본 사용 (seg_01: 메시 완성 후 복셀 3해상도 평균) — 승인 sole CAD 권장"
    ],
    "status": "calculated",
    "max_class": "C1",
@@ -116,9 +121,13 @@
    "origin": "segmentation",
    "material_spec": "MAT-PEBA",
    "segments": [
-    "tripo_mesh_2",
-    "tripo_mesh_0"
+    "seg_02",
+    "seg_00"
    ],
+   "geometry_role": null,
+   "geometry_max_class": null,
+   "price_max_class": "C1",
+   "quantity_basis": null,
    "formula_family": "molded",
    "rule_id": null,
    "rule_condition": null,
@@ -129,21 +138,21 @@
    "approval_status": "segment_confirmed",
    "geometry": {
     "surface_area_m2": 0.008072117312453254,
-    "volume_m3": 2.2922389933236486e-05,
+    "volume_m3": 5.490479513888888e-05,
     "volume_status": "repaired",
     "method": "repaired"
    },
    "consumption": {
-    "gross_qty": 0.008629605621924323,
+    "gross_qty": 0.020670040522875816,
     "uom": "kg",
-    "net": 2.2922389933236486e-05,
+    "net": 5.490479513888888e-05,
     "steps": [
-     "검증 부피 = 0.000022922 m³  [watertight QA 통과]",
+     "검증 부피 = 0.000054905 m³  [watertight QA 통과]",
      "완성 성형 밀도(kg/m³) = 160.0  [public_reference]",
      "공정 수율 = 0.85  [assumption]",
-     "순 질량 = 0.000022922 × 160.0 = 0.003668 kg",
-     "투입 질량 = 0.003668 / 0.85 = 0.004315 kg",
-     "켤레 환산 = 0.004315 × 2 = 0.008630 kg"
+     "순 질량 = 0.000054905 × 160.0 = 0.008785 kg",
+     "투입 질량 = 0.008785 / 0.85 = 0.010335 kg",
+     "켤레 환산 = 0.010335 × 2 = 0.020670 kg"
     ],
     "assumptions": [
      {
@@ -181,11 +190,11 @@
     "source_url": "https://www.made-in-china.com/price/prodetail_Plastic-Materials_EgarODtVumhz.html",
     "note": "performance grade RFQ 필요"
    },
-   "cost_p10": 0.025025856303580535,
-   "cost_p50": 0.04422672881236216,
-   "cost_p90": 0.06342760132114378,
+   "cost_p10": 0.059943117516339864,
+   "cost_p50": 0.10593395767973855,
+   "cost_p90": 0.15192479784313725,
    "blocked": [
-    "복구본 사용 (tripo_mesh_2: voxel_remesh(pitch=0.00691); tripo_mesh_0: voxel_remesh(pitch=0.00653)) — 승인 sole CAD 권장"
+    "복구본 사용 (seg_02: 메시 완성 후 복셀 3해상도 평균; seg_00: 메시 완성 후 복셀 3해상도 평균) — 승인 sole CAD 권장"
    ],
    "status": "calculated",
    "max_class": "C1",
@@ -213,8 +222,12 @@
    "origin": "segmentation",
    "material_spec": "MAT-NR",
    "segments": [
-    "tripo_mesh_7"
+    "seg_07"
    ],
+   "geometry_role": null,
+   "geometry_max_class": null,
+   "price_max_class": "C1",
+   "quantity_basis": null,
    "formula_family": "molded",
    "rule_id": null,
    "rule_condition": null,
@@ -225,21 +238,21 @@
    "approval_status": "segment_confirmed",
    "geometry": {
     "surface_area_m2": 0.011369406043312743,
-    "volume_m3": 1.9996041856934066e-05,
+    "volume_m3": 0.00011595786979166666,
     "volume_status": "repaired",
     "method": "repaired"
    },
    "consumption": {
-    "gross_qty": 0.05347778636156785,
+    "gross_qty": 0.31011988432655035,
     "uom": "kg",
-    "net": 1.9996041856934066e-05,
+    "net": 0.00011595786979166666,
     "steps": [
-     "검증 부피 = 0.000019996 m³  [watertight QA 통과]",
+     "검증 부피 = 0.000115958 m³  [watertight QA 통과]",
      "완성 성형 밀도(kg/m³) = 1150.0  [public_reference]",
      "공정 수율 = 0.86  [assumption]",
-     "순 질량 = 0.000019996 × 1150.0 = 0.022995 kg",
-     "투입 질량 = 0.022995 / 0.86 = 0.026739 kg",
-     "켤레 환산 = 0.026739 × 2 = 0.053478 kg"
+     "순 질량 = 0.000115958 × 1150.0 = 0.133352 kg",
+     "투입 질량 = 0.133352 / 0.86 = 0.155060 kg",
+     "켤레 환산 = 0.155060 × 2 = 0.310120 kg"
     ],
     "assumptions": [
      {
@@ -277,11 +290,11 @@
     "source_url": "https://businessanalytiq.com/procurementanalytics/index/natural-rubber-price-index/",
     "note": "compound quote 우선"
    },
-   "cost_p10": 0.12781190940414716,
-   "cost_p50": 0.12781190940414716,
-   "cost_p90": 0.12781190940414716,
+   "cost_p10": 0.7411865235404553,
+   "cost_p50": 0.7411865235404553,
+   "cost_p90": 0.7411865235404553,
    "blocked": [
-    "복구본 사용 (tripo_mesh_7: voxel_remesh(pitch=0.00469)) — 승인 sole CAD 권장"
+    "복구본 사용 (seg_07: 메시 완성 후 복셀 3해상도 평균) — 승인 sole CAD 권장"
    ],
    "status": "calculated",
    "max_class": "C1",
@@ -309,6 +322,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-STROBEL",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_shoe",
    "formula_family": "roll_sheet",
    "rule_id": "R-001",
    "rule_condition": "always",
@@ -321,7 +338,7 @@
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
    "geometry": {
-    "surface_area_m2": 0.030421189474473958,
+    "surface_area_m2": 0.03080710755393776,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -330,17 +347,17 @@
     "note": "실제 라스트 바닥은 볼록하지 않아 약간 과대"
    },
    "consumption": {
-    "gross_qty": 0.0826122319145886,
+    "gross_qty": 0.08366023675698464,
     "uom": "sheet",
-    "net": 0.030421189474473958,
+    "net": 0.03080710755393776,
     "steps": [
-     "순 표면적 = 0.030421 m²  [proxy]",
+     "순 표면적 = 0.030807 m²  [proxy]",
      "패턴 여유 = 1.08  [assumption]",
      "시트 면적(m²) = 1.0  [assumption]",
      "네스팅 수율 = 0.82  [assumption]",
      "공정 수율 = 0.97  [assumption]",
-     "총 소요 = (0.030421 × 1.08) / (1.0 × 0.82 × 0.97) = 0.041306 sheet",
-     "켤레 환산 = 0.041306 × 2 = 0.082612 sheet"
+     "총 소요 = (0.030807 × 1.08) / (1.0 × 0.82 × 0.97) = 0.041830 sheet",
+     "켤레 환산 = 0.041830 × 2 = 0.083660 sheet"
     ],
     "assumptions": [
      {
@@ -390,9 +407,9 @@
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Strobel_Insole_Board.html",
     "note": null
    },
-   "cost_p10": 0.04956733914875316,
-   "cost_p50": 0.04956733914875316,
-   "cost_p90": 0.04956733914875316,
+   "cost_p10": 0.05019614205419078,
+   "cost_p50": 0.05019614205419078,
+   "cost_p90": 0.05019614205419078,
    "blocked": [],
    "status": "calculated",
    "max_class": "C1",
@@ -432,6 +449,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-ADH-PU",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_shoe",
    "formula_family": "chemical_coating",
    "rule_id": "R-014",
    "rule_condition": "cemented_sole==true",
@@ -446,7 +467,7 @@
    ],
    "approval_status": "rule_proposed",
    "geometry": {
-    "surface_area_m2": 0.03896285171515846,
+    "surface_area_m2": 0.03935453835286804,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -455,16 +476,16 @@
     "note": "승인 pattern 이 있으면 실제 접합면으로 대체"
    },
    "consumption": {
-    "gross_qty": 0.020780187581417843,
+    "gross_qty": 0.02098908712152962,
     "uom": "kg",
-    "net": 0.03896285171515846,
+    "net": 0.03935453835286804,
     "steps": [
-     "도포 면적 = 0.038963 m²  [proxy]",
+     "도포 면적 = 0.039355 m²  [proxy]",
      "습도포량(kg/m²) = 0.12  [factory_required]",
      "도포 횟수 = 2  [workbook]",
      "전이 효율 = 0.9  [factory_required]",
-     "총 소요 = 0.038963 × 0.12 × 2 / 0.9 = 0.010390 kg",
-     "켤레 환산 = 0.010390 × 2 = 0.020780 kg"
+     "총 소요 = 0.039355 × 0.12 × 2 / 0.9 = 0.010495 kg",
+     "켤레 환산 = 0.010495 × 2 = 0.020989 kg"
     ],
     "assumptions": [
      {
@@ -505,9 +526,9 @@
     "source_url": "https://cnmaydos.en.made-in-china.com/product-group/beiJZNCMkYUo/PU-adhesive-1.html",
     "note": "primer/hardener 별도"
    },
-   "cost_p10": 0.05257387458098714,
-   "cost_p50": 0.058496228041691224,
-   "cost_p90": 0.06441858150239531,
+   "cost_p10": 0.05310239041746993,
+   "cost_p50": 0.05908428024710588,
+   "cost_p90": 0.06506617007674183,
    "blocked": [
     "MAT-ADH-PU.transfer_efficiency 는 공장 확인 필요 (C2 차단)",
     "MAT-ADH-PU.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)"
@@ -538,6 +559,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-CLEANER",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_shoe",
    "formula_family": "chemical_coating",
    "rule_id": "R-012",
    "rule_condition": "cemented_sole==true",
@@ -551,7 +576,7 @@
    ],
    "approval_status": "rule_proposed",
    "geometry": {
-    "surface_area_m2": 0.03896285171515846,
+    "surface_area_m2": 0.03935453835286804,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -560,16 +585,16 @@
     "note": "승인 pattern 이 있으면 실제 접합면으로 대체"
    },
    "consumption": {
-    "gross_qty": 0.005195046895354462,
+    "gross_qty": 0.005247271780382406,
     "uom": "kg",
-    "net": 0.03896285171515846,
+    "net": 0.03935453835286804,
     "steps": [
-     "도포 면적 = 0.038963 m²  [proxy]",
+     "도포 면적 = 0.039355 m²  [proxy]",
      "습도포량(kg/m²) = 0.05  [factory_required]",
      "도포 횟수 = 1  [assumption]",
      "전이 효율 = 0.75  [factory_required]",
-     "총 소요 = 0.038963 × 0.05 × 1 / 0.75 = 0.002598 kg",
-     "켤레 환산 = 0.002598 × 2 = 0.005195 kg"
+     "총 소요 = 0.039355 × 0.05 × 1 / 0.75 = 0.002624 kg",
+     "켤레 환산 = 0.002624 × 2 = 0.005247 kg"
     ],
     "assumptions": [
      {
@@ -616,9 +641,9 @@
     "source_url": "https://cnmaydos.en.made-in-china.com/product-group/beiJZNCMkYUo/PU-adhesive-1.html",
     "note": "MAT-ADH-PU 단가 × 0.45 (자체 단가 없음, 워크북에 별도 분기단가 없음)"
    },
-   "cost_p10": 0.005914560890361054,
-   "cost_p50": 0.006580825654690265,
-   "cost_p90": 0.007247090419019474,
+   "cost_p10": 0.005974018921965368,
+   "cost_p50": 0.006646981527799412,
+   "cost_p90": 0.007319944133633456,
    "blocked": [
     "MAT-CLEANER.transfer_efficiency 는 공장 확인 필요 (C2 차단)",
     "MAT-CLEANER.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)"
@@ -655,6 +680,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-PRIMER",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_shoe",
    "formula_family": "chemical_coating",
    "rule_id": "R-013",
    "rule_condition": "cemented_sole==true",
@@ -668,7 +697,7 @@
    ],
    "approval_status": "rule_proposed",
    "geometry": {
-    "surface_area_m2": 0.03896285171515846,
+    "surface_area_m2": 0.03935453835286804,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -677,16 +706,16 @@
     "note": "승인 pattern 이 있으면 실제 접합면으로 대체"
    },
    "consumption": {
-    "gross_qty": 0.005500637889198841,
+    "gross_qty": 0.005555934826287252,
     "uom": "kg",
-    "net": 0.03896285171515846,
+    "net": 0.03935453835286804,
     "steps": [
-     "도포 면적 = 0.038963 m²  [proxy]",
+     "도포 면적 = 0.039355 m²  [proxy]",
      "습도포량(kg/m²) = 0.06  [factory_required]",
      "도포 횟수 = 1  [assumption]",
      "전이 효율 = 0.85  [factory_required]",
-     "총 소요 = 0.038963 × 0.06 × 1 / 0.85 = 0.002750 kg",
-     "켤레 환산 = 0.002750 × 2 = 0.005501 kg"
+     "총 소요 = 0.039355 × 0.06 × 1 / 0.85 = 0.002778 kg",
+     "켤레 환산 = 0.002778 × 2 = 0.005556 kg"
     ],
     "assumptions": [
      {
@@ -733,9 +762,9 @@
     "source_url": "https://cnmaydos.en.made-in-china.com/product-group/beiJZNCMkYUo/PU-adhesive-1.html",
     "note": "MAT-ADH-PU 단가 × 0.8 (자체 단가 없음, )"
    },
-   "cost_p10": 0.011133291087738455,
-   "cost_p50": 0.012387436526475792,
-   "cost_p90": 0.01364158196521313,
+   "cost_p10": 0.011245212088405399,
+   "cost_p50": 0.012511965228798893,
+   "cost_p90": 0.013778718369192389,
    "blocked": [
     "MAT-PRIMER.transfer_efficiency 는 공장 확인 필요 (C2 차단)",
     "MAT-PRIMER.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)"
@@ -772,6 +801,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-LDPE",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_pair",
    "formula_family": null,
    "rule_id": "R-021",
    "rule_condition": "market_requires_polybag",
@@ -851,6 +884,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-BOX",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_pair",
    "formula_family": "count",
    "rule_id": "R-019",
    "rule_condition": "always",
@@ -915,6 +952,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-PAPERBOARD",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_pair",
    "formula_family": "count",
    "rule_id": "R-020",
    "rule_condition": "always",
@@ -994,6 +1035,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-PUFOAM-OPEN",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_shoe",
    "formula_family": "foam_sheet",
    "rule_id": "R-005",
    "rule_condition": "has_collar",
@@ -1117,6 +1162,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-PUFOAM-OPEN",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_shoe",
    "formula_family": "foam_sheet",
    "rule_id": "R-004",
    "rule_condition": "has_tongue",
@@ -1240,6 +1289,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-MICROFIBER",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_shoe",
    "formula_family": "roll_sheet",
    "rule_id": "R-008",
    "rule_condition": "has_eyelets && lightweight_upper",
@@ -1251,7 +1304,7 @@
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
    "geometry": {
-    "surface_area_m2": 0.025582504931809236,
+    "surface_area_m2": 0.02579528778289661,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -1260,18 +1313,18 @@
     "note": null
    },
    "consumption": {
-    "gross_qty": 0.052710764491184295,
+    "gross_qty": 0.053149187029607546,
     "uom": "m",
-    "net": 0.025582504931809236,
+    "net": 0.02579528778289661,
     "steps": [
-     "순 표면적 = 0.025583 m²  [measured]",
+     "순 표면적 = 0.025795 m²  [measured]",
      "패턴 여유 = 1.15  [assumption]",
      "유효 폭(m) = 1.37  [assumption]",
      "네스팅 수율 = 0.84  [assumption]",
      "공정 수율 = 0.97  [assumption]",
-     "패턴 면적 = 0.025583 × 1.15 = 0.029420 m²",
-     "총 소요 = 0.029420 / (1.37 × 0.84 × 0.97) = 0.026355 m",
-     "켤레 환산 = 0.026355 × 2 = 0.052711 m"
+     "패턴 면적 = 0.025795 × 1.15 = 0.029665 m²",
+     "총 소요 = 0.029665 / (1.37 × 0.84 × 0.97) = 0.026575 m",
+     "켤레 환산 = 0.026575 × 2 = 0.053149 m"
     ],
     "assumptions": [
      {
@@ -1321,9 +1374,9 @@
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Wholesale_Men%2527s_Shoes_Leather.html",
     "note": null
    },
-   "cost_p10": 0.21400570383420822,
-   "cost_p50": 0.23877976314506486,
-   "cost_p90": 0.26355382245592146,
+   "cost_p10": 0.2157856993402066,
+   "cost_p50": 0.2407658172441222,
+   "cost_p90": 0.26574593514803774,
    "blocked": [],
    "status": "calculated",
    "max_class": "C1",
@@ -1363,6 +1416,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-COUNTER",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_shoe",
    "formula_family": "sheet_fraction",
    "rule_id": "R-007",
    "rule_condition": "heel_support_required==true",
@@ -1374,7 +1431,7 @@
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
    "geometry": {
-    "surface_area_m2": 0.028041561548917966,
+    "surface_area_m2": 0.02843647088402282,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -1383,17 +1440,17 @@
     "note": null
    },
    "consumption": {
-    "gross_qty": 0.05696346759706328,
+    "gross_qty": 0.05776568415960315,
     "uom": "sheet",
-    "net": 0.028041561548917966,
+    "net": 0.02843647088402282,
     "steps": [
-     "순 표면적 = 0.028042 m²  [measured]",
+     "순 표면적 = 0.028436 m²  [measured]",
      "패턴 여유 = 1.1  [assumption]",
      "시트 면적(m²) = 1.5  [assumption]",
      "네스팅 수율 = 0.76  [assumption]",
      "공정 수율 = 0.95  [assumption]",
-     "총 소요 = (0.028042 × 1.1) / (1.5 × 0.76 × 0.95) = 0.028482 sheet",
-     "켤레 환산 = 0.028482 × 2 = 0.056963 sheet"
+     "총 소요 = (0.028436 × 1.1) / (1.5 × 0.76 × 0.95) = 0.028883 sheet",
+     "켤레 환산 = 0.028883 × 2 = 0.057766 sheet"
     ],
     "assumptions": [
      {
@@ -1443,9 +1500,9 @@
     "source_url": "https://wodetex.en.made-in-china.com/product/zmxrevbBbtcO/China-Thermoplastic-Sheet-Ping-Pong-Hot-Melt-Sheet-for-Shoes-Stifener-Toe-Puff-and-Counter-Protection.html",
     "note": null
    },
-   "cost_p10": 0.02848173379853164,
-   "cost_p50": 0.0712043344963291,
-   "cost_p90": 0.11392693519412656,
+   "cost_p10": 0.028882842079801574,
+   "cost_p50": 0.07220710519950393,
+   "cost_p90": 0.1155313683192063,
    "blocked": [],
    "status": "calculated",
    "max_class": "C1",
@@ -1485,6 +1542,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-TPU-FILM",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_shoe",
    "formula_family": "roll_sheet",
    "rule_id": "R-009",
    "rule_condition": "has_no_sew_overlay",
@@ -1609,6 +1670,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-TOEPUFF",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_shoe",
    "formula_family": "sheet_fraction",
    "rule_id": "R-006",
    "rule_condition": "closed_toe==true",
@@ -1620,7 +1685,7 @@
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
    "geometry": {
-    "surface_area_m2": 0.008632374251445064,
+    "surface_area_m2": 0.008858768805561882,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -1629,17 +1694,17 @@
     "note": null
    },
    "consumption": {
-    "gross_qty": 0.017086120875554785,
+    "gross_qty": 0.017534225256172868,
     "uom": "sheet",
-    "net": 0.008632374251445064,
+    "net": 0.008858768805561882,
     "steps": [
-     "순 표면적 = 0.008632 m²  [measured]",
+     "순 표면적 = 0.008859 m²  [measured]",
      "패턴 여유 = 1.1  [assumption]",
      "시트 면적(m²) = 1.5  [assumption]",
      "네스팅 수율 = 0.78  [assumption]",
      "공정 수율 = 0.95  [assumption]",
-     "총 소요 = (0.008632 × 1.1) / (1.5 × 0.78 × 0.95) = 0.008543 sheet",
-     "켤레 환산 = 0.008543 × 2 = 0.017086 sheet"
+     "총 소요 = (0.008859 × 1.1) / (1.5 × 0.78 × 0.95) = 0.008767 sheet",
+     "켤레 환산 = 0.008767 × 2 = 0.017534 sheet"
     ],
     "assumptions": [
      {
@@ -1689,9 +1754,9 @@
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Toe_Puff_Materials_Price.html",
     "note": "sheet size 확인"
    },
-   "cost_p10": 0.006834448350221914,
-   "cost_p50": 0.02050334505066574,
-   "cost_p90": 0.03417224175110957,
+   "cost_p10": 0.007013690102469147,
+   "cost_p50": 0.021041070307407442,
+   "cost_p90": 0.035068450512345736,
    "blocked": [],
    "status": "calculated",
    "max_class": "C1",
@@ -1731,8 +1796,12 @@
    "origin": "segmentation",
    "material_spec": "MAT-LACE-POLY",
    "segments": [
-    "tripo_mesh_3"
+    "seg_03"
    ],
+   "geometry_role": null,
+   "geometry_max_class": null,
+   "price_max_class": "C1",
+   "quantity_basis": null,
    "formula_family": "count",
    "rule_id": null,
    "rule_condition": null,
@@ -1794,8 +1863,12 @@
    "origin": "segmentation",
    "material_spec": "MAT-ELASTIC",
    "segments": [
-    "tripo_mesh_9"
+    "seg_09"
    ],
+   "geometry_role": null,
+   "geometry_max_class": null,
+   "price_max_class": "C1",
+   "quantity_basis": null,
    "formula_family": "length",
    "rule_id": null,
    "rule_condition": null,
@@ -1857,8 +1930,12 @@
    "origin": "segmentation",
    "material_spec": "MAT-MESH-3D",
    "segments": [
-    "tripo_mesh_6"
+    "seg_06"
    ],
+   "geometry_role": null,
+   "geometry_max_class": null,
+   "price_max_class": "C1",
+   "quantity_basis": null,
    "formula_family": "roll_sheet",
    "rule_id": null,
    "rule_condition": null,
@@ -1977,8 +2054,12 @@
    "origin": "segmentation",
    "material_spec": "MAT-MICROFIBER",
    "segments": [
-    "tripo_mesh_8"
+    "seg_08"
    ],
+   "geometry_role": null,
+   "geometry_max_class": null,
+   "price_max_class": "C1",
+   "quantity_basis": null,
    "formula_family": "roll_sheet",
    "rule_id": null,
    "rule_condition": null,
@@ -2097,8 +2178,12 @@
    "origin": "segmentation",
    "material_spec": null,
    "segments": [
-    "tripo_mesh_5"
+    "seg_05"
    ],
+   "geometry_role": null,
+   "geometry_max_class": null,
+   "price_max_class": null,
+   "quantity_basis": null,
    "formula_family": "print_film_hardware",
    "rule_id": null,
    "rule_condition": null,
@@ -2154,8 +2239,12 @@
    "origin": "segmentation",
    "material_spec": "MAT-MESH-POLY",
    "segments": [
-    "tripo_mesh_4"
+    "seg_04"
    ],
+   "geometry_role": null,
+   "geometry_max_class": null,
+   "price_max_class": "C1",
+   "quantity_basis": null,
    "formula_family": "roll_sheet",
    "rule_id": null,
    "rule_condition": null,
@@ -2274,6 +2363,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-LINING-MESH",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_shoe",
    "formula_family": "roll_sheet",
    "rule_id": "R-003",
    "rule_condition": "has_tongue",
@@ -2397,6 +2490,10 @@
    "origin": "construction_rule",
    "material_spec": "MAT-LINING-MESH",
    "segments": [],
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
+   "price_max_class": "C1",
+   "quantity_basis": "per_shoe",
    "formula_family": "roll_sheet",
    "rule_id": "R-002",
    "rule_condition": "upper_contains_mesh",
@@ -2514,12 +2611,13 @@
   }
  ],
  "rollup": {
+  "cost_status": "PARTIAL",
   "buckets": [
    {
     "bucket": "Material",
-    "p10": 1.404829586762567,
-    "p50": 2.700969071294671,
-    "p90": 3.9971085558267747,
+    "p10": 2.196992743910809,
+    "p50": 3.675639903384426,
+    "p90": 5.154287062858042,
     "status": "Partial",
     "coverage": "Quarterly snapshot",
     "note": "2개 라인 차단"
@@ -2552,38 +2650,29 @@
     "note": "TL-001 Midsole Mold: 금형 견적 미입력; TL-002 Outsole Mold: 금형 견적 미입력"
    }
   ],
-  "direct_subtotal": {
-   "p10": 1.404829586762567,
-   "p50": 2.700969071294671,
-   "p90": 3.9971085558267747
+  "known_cost_subtotal": {
+   "p10": 2.196992743910809,
+   "p50": 3.675639903384426,
+   "p90": 5.154287062858042
   },
-  "reject_allowance": {
-   "p10": 0.04214488760287701,
-   "p50": 0.08102907213884013,
-   "p90": 0.11991325667480324
-  },
-  "factory_overhead": {
-   "p10": 0.11238636694100537,
-   "p50": 0.21607752570357366,
-   "p90": 0.319768684466142
-  },
-  "manufacturing_should_cost": {
-   "p10": 1.5593608413064495,
-   "p50": 2.998075669137085,
-   "p90": 4.4367904969677205
-  },
-  "supplier_margin": {
-   "p10": 0.15593608413064497,
-   "p50": 0.2998075669137085,
-   "p90": 0.4436790496967721
-  },
-  "provisional_total": {
-   "p10": 1.7152969254370944,
-   "p50": 3.2978832360507933,
-   "p90": 4.880469546664493
-  },
+  "blocked_buckets": [
+   "Direct Labor",
+   "Machine",
+   "Tooling Amortization"
+  ],
+  "reject_allowance": null,
+  "factory_overhead": null,
+  "manufacturing_should_cost": null,
+  "supplier_margin": null,
+  "fob": null,
   "direct_complete": false,
-  "fob_status": "Blocked as FOB",
+  "fob_status": "산출 불가",
+  "coverage": {
+   "bom_lines": 24,
+   "priced_lines": 22,
+   "unpriced_lines": 2,
+   "priced_ratio": 0.9166666666666666
+  },
   "blocked": [
    "OP-001 Material Inspection: SAM/효율/rate 미입력",
    "OP-002 Cutting: SAM/효율/rate 미입력",
@@ -2991,10 +3080,63 @@
     "공장 routing·SAM 확정",
     "Tooling 견적 확정",
     "승인 Supplier 견적이 아닌 단가 20건 (분기 스냅샷/공개 리스팅)",
-    "공장 routing·SAM·tooling 미확정"
+    "공장 routing, SAM, tooling 미확정",
+    "C1 상한 지오메트리 23건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
    ]
   },
   "downgraded_from": "C2"
  },
- "computed_at": "2026-08-24T03:59:49Z"
+ "mass_balance": {
+  "known_mass_g": 579.9814321192921,
+  "lines_counted": 8,
+  "lines_without_mass": [
+   "Collar Foam",
+   "Collar Shell",
+   "Eyelet Reinforcement",
+   "Heel Counter",
+   "Heel Overlay",
+   "Hot-melt Backing/Film",
+   "Lace",
+   "Logo/Graphic",
+   "Shoe Box",
+   "Strobel",
+   "Toe Puff",
+   "Tongue Foam",
+   "Tongue Lining",
+   "Vamp",
+   "Vamp/Quarter Lining",
+   "Webbing/Pull Tab"
+  ],
+  "top": [
+   {
+    "canonical_part": "Outsole Rubber",
+    "grams": 310.11988432655033
+   },
+   {
+    "canonical_part": "Midsole Carrier",
+    "grams": 194.39921354166668
+   },
+   {
+    "canonical_part": "Cement/Adhesive",
+    "grams": 20.989087121529618
+   },
+   {
+    "canonical_part": "Midsole Insert",
+    "grams": 20.670040522875816
+   },
+   {
+    "canonical_part": "Tissue/Stuffing",
+    "grams": 18.0
+   },
+   {
+    "canonical_part": "Primer",
+    "grams": 5.5559348262872525
+   }
+  ],
+  "target_pair_g": 600,
+  "coverage": 0.9666357201988202,
+  "verdict": "suspect_over_estimate",
+  "note": "면적 기준 소재는 면밀도가 없어 질량에 넣지 못했다. 따라서 이 값은 하한이다. 질량 미산정 16건이 남았는데 이미 목표의 97%다. 복구 부피 과대추정을 의심할 것."
+ },
+ "computed_at": "2026-08-24T08:31:28Z"
 }

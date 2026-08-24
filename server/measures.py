@@ -186,7 +186,7 @@ class GeometryContext:
     def seam_length(self):
         """봉제선 길이 proxy = 어퍼 패널들의 열린 경계 길이 합.
 
-        Tripo 메시는 패널이 실제로 나뉘어 있지 않아 이 값은 하한이다.
+        3D 생성 엔진 메시는 패널이 실제로 나뉘어 있지 않아 이 값은 하한이다.
         승인 DXF 가 들어오면 패턴 둘레 합으로 대체해야 한다.
         """
         ms = self.meshes_for(UPPER_PARTS)

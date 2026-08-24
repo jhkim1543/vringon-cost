@@ -21,6 +21,47 @@ VOLUME_ALLOWED_PARTS = {
     "Toe Bumper/Foxing",
 }
 
+# 지오메트리 역할. "열려 있다"가 전부 같은 오류를 뜻하지 않는다.
+# vamp 처럼 원래 표면 조각인 파트는 열려 있는 것이 정상이고 부피를 쓰면 안 된다.
+# midsole 처럼 솔리드여야 하는 파트가 열려 있으면 그건 결함이다.
+GEOMETRY_ROLES = (
+    "surface_region",         # 표면 조각. 면적만 사용, 부피 금지
+    "thin_shell",             # 얇은 껍질. 면적과 자재 두께로 부피 추정
+    "solid_component",        # 닫힌 솔리드. 검사 통과 시 부피 사용
+    "curve_or_trim",          # 끈, 테이프 등 선형
+    "repaired_volume_proxy",  # 복구로 만든 부피. C1 전용
+    "approved_cad_solid",     # 승인 CAD. C2 가능
+)
+
+# 역할별 허용 등급 상한. 복구본은 절대 C2 로 올라가지 않는다.
+ROLE_MAX_CLASS = {
+    "surface_region": "C1",
+    "thin_shell": "C1",
+    "solid_component": "C2",
+    "curve_or_trim": "C1",
+    "repaired_volume_proxy": "C1",
+    "approved_cad_solid": "C2",
+}
+
+# 선형(길이)으로 다루는 파트
+CURVE_PARTS = {"Lace", "Webbing/Pull Tab", "Elastic Gore", "Binding Tape",
+               "Seam Sealing Tape", "Thread"}
+
+
+def classify_role(canonical_part, qa, repaired=False):
+    """파트의 지오메트리 역할을 정한다.
+
+    솔리드여야 하는 파트가 열려 있으면 solid_component 라고 부르지 않는다.
+    복구했으면 repaired_volume_proxy 이지 실측이 아니다.
+    """
+    if canonical_part in CURVE_PARTS:
+        return "curve_or_trim"
+    if canonical_part in VOLUME_ALLOWED_PARTS:
+        if qa.get("is_volume"):
+            return "solid_component"
+        return "repaired_volume_proxy" if repaired else "surface_region"
+    return "surface_region"
+
 
 # ── 로딩 ──────────────────────────────────────────────────────────────────
 def load_scene(path):
@@ -31,6 +72,20 @@ def load_scene(path):
         sc.add_geometry(obj, geom_name="mesh_0")
         return sc
     return obj
+
+
+_PART_RE = __import__("re").compile(r"(\d+)\s*$")
+
+
+def normalize_part_name(raw, ordinal):
+    """노드 이름을 seg_NN 형태로 정규화한다.
+
+    끝자리 숫자가 있으면 그것을 쓰고(완성본과 세그먼트를 인덱스로 맞출 수 있다),
+    없으면 등장 순서를 쓴다.
+    """
+    m = _PART_RE.search(str(raw or ""))
+    idx = int(m.group(1)) if m else ordinal
+    return f"seg_{idx:02d}"
 
 
 def scene_parts(scene):
@@ -47,7 +102,11 @@ def scene_parts(scene):
             continue
         m = geom.copy()
         m.apply_transform(T)
-        key = gname if gname not in parts else f"{gname}@{node}"
+        # 생성기가 붙인 노드 이름을 그대로 쓰지 않는다. 화면과 저장 데이터에
+        # 공급사 흔적이 남지 않도록 역할 기준 식별자로 정규화한다.
+        key = normalize_part_name(gname, len(parts))
+        while key in parts:
+            key = f"{key}b"
         parts[key] = m
     if not parts:
         raise ValueError("씬에서 메시 노드를 찾지 못했습니다")
@@ -65,7 +124,7 @@ def combined_mesh(scene):
 def ground_up(mesh, axis):
     """접지면 법선으로 up 을 구한다.
 
-    Tripo 결과물은 월드 축에 정렬돼 있지 않다. 볼록껍질에서 장축에 직교하는
+    생성 결과물은 월드 축에 정렬돼 있지 않다. 볼록껍질에서 장축에 직교하는
     어느 방향을 향하는 면적이 최대인 쪽이 아웃솔 접지면이고 그 반대가 up 이다.
     """
     b1 = np.eye(3)[int(np.argmin(np.abs(axis)))]

@@ -8,32 +8,32 @@
   },
   "scale": {
    "status": "confirmed",
-   "at": "2026-08-24T03:52:25Z",
+   "at": "2026-08-24T08:31:16Z",
    "scale": 299.0063670599571
   },
   "segment": {
    "status": "confirmed",
-   "at": "2026-08-24T03:52:29Z",
+   "at": "2026-08-24T08:31:19Z",
    "confirmed": 10,
    "total": 10
   },
   "repair": {
    "status": "repaired",
-   "at": "2026-08-24T03:52:34Z",
+   "at": "2026-08-24T08:31:26Z",
    "repaired": 4,
    "attempted": 4
   },
   "bom": {
    "status": "built",
-   "at": "2026-08-24T03:52:37Z",
+   "at": "2026-08-24T08:31:28Z",
    "lines": 24,
    "hidden": 15
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-24T03:59:49Z",
+   "at": "2026-08-24T08:31:28Z",
    "grade": "C1",
-   "fob": "Blocked as FOB"
+   "fob": "산출 불가"
   }
  },
  "scenario": {
@@ -45,7 +45,8 @@
   "quarter": "2026Q3",
   "reject_allowance_pct": 3.0,
   "factory_overhead_pct": 8.0,
-  "supplier_margin_pct": 10.0
+  "supplier_margin_pct": 10.0,
+  "target_pair_weight_g": 600
  },
  "gates": {
   "metric_calibrated": true,
@@ -55,7 +56,7 @@
   "volume_parts_validated": true
  },
  "input_image": "DEMO-RUN-001.jpg",
- "updated_at": "2026-08-24T03:59:49Z",
+ "updated_at": "2026-08-24T08:31:28Z",
  "landmarks": {
   "axis": [
    0.09468265172295515,
@@ -104,7 +105,7 @@
  },
  "mapping": [
   {
-   "segment_id": "tripo_mesh_4",
+   "segment_id": "seg_04",
    "canonical_part": "Vamp",
    "confidence": 0.773,
    "score": 0.931,
@@ -188,7 +189,7 @@
    }
   },
   {
-   "segment_id": "tripo_mesh_1",
+   "segment_id": "seg_01",
    "canonical_part": "Midsole Carrier",
    "confidence": 0.787,
    "score": 0.89,
@@ -272,7 +273,7 @@
    }
   },
   {
-   "segment_id": "tripo_mesh_6",
+   "segment_id": "seg_06",
    "canonical_part": "Collar Shell",
    "confidence": 0.725,
    "score": 0.905,
@@ -356,7 +357,7 @@
    }
   },
   {
-   "segment_id": "tripo_mesh_3",
+   "segment_id": "seg_03",
    "canonical_part": "Lace",
    "confidence": 0.736,
    "score": 0.944,
@@ -440,7 +441,7 @@
    }
   },
   {
-   "segment_id": "tripo_mesh_7",
+   "segment_id": "seg_07",
    "canonical_part": "Outsole Rubber",
    "confidence": 0.879,
    "score": 0.968,
@@ -524,7 +525,7 @@
    }
   },
   {
-   "segment_id": "tripo_mesh_8",
+   "segment_id": "seg_08",
    "canonical_part": "Heel Overlay",
    "confidence": 0.597,
    "score": 0.824,
@@ -608,7 +609,7 @@
    }
   },
   {
-   "segment_id": "tripo_mesh_2",
+   "segment_id": "seg_02",
    "canonical_part": "Midsole Insert",
    "confidence": 0.818,
    "score": 0.972,
@@ -692,7 +693,7 @@
    }
   },
   {
-   "segment_id": "tripo_mesh_0",
+   "segment_id": "seg_00",
    "canonical_part": "Midsole Insert",
    "confidence": 0.812,
    "score": 0.972,
@@ -776,7 +777,7 @@
    }
   },
   {
-   "segment_id": "tripo_mesh_9",
+   "segment_id": "seg_09",
    "canonical_part": "Webbing/Pull Tab",
    "confidence": 0.691,
    "score": 0.951,
@@ -860,7 +861,7 @@
    }
   },
   {
-   "segment_id": "tripo_mesh_5",
+   "segment_id": "seg_05",
    "canonical_part": "Logo/Graphic",
    "confidence": 0.471,
    "score": 0.856,
@@ -945,40 +946,160 @@
   }
  ],
  "repairs": {
-  "tripo_mesh_1": {
+  "seg_01": {
    "ok": true,
    "canonical_part": "Midsole Carrier",
-   "method": "voxel_remesh(pitch=0.00965)",
-   "volume_m3": 0.00011659990575232931,
-   "volume_cm3": 116.5999057523293,
-   "note": "복셀 리메시로 닫은 솔리드. 얇은 껍질이 두께를 얻어 실제 소재 부피보다 클 수 있음. 승인 sole CAD 로 대체 권장",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 0.0003887984270833333,
+   "volume_cm3": 388.7984270833333,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 0.013741905622706671,
+      "watertight": true,
+      "faces": 170452
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 0.014541142979380556,
+      "watertight": true,
+      "faces": 76492
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 0.015348883528524341,
+      "watertight": true,
+      "faces": 43230
+     }
+    ],
+    "mean": 0.014543977376870522,
+    "cv": 0.04510795274956306,
+    "verdict": "ok",
+    "note": "3개 해상도, CV 4.5%"
+   },
+   "usable": true,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
    "confidence_penalty": 2
   },
-  "tripo_mesh_7": {
+  "seg_07": {
    "ok": true,
    "canonical_part": "Outsole Rubber",
-   "method": "voxel_remesh(pitch=0.00469)",
-   "volume_m3": 1.9996041856934066e-05,
-   "volume_cm3": 19.996041856934067,
-   "note": "복셀 리메시로 닫은 솔리드. 얇은 껍질이 두께를 얻어 실제 소재 부피보다 클 수 있음. 승인 sole CAD 로 대체 권장",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 0.00011595786979166666,
+   "volume_cm3": 115.95786979166665,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 0.004069385858387607,
+      "watertight": true,
+      "faces": 58208
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 0.004344730974959156,
+      "watertight": true,
+      "faces": 25716
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 0.004598965402389418,
+      "watertight": true,
+      "faces": 14296
+     }
+    ],
+    "mean": 0.0043376940785787264,
+    "cv": 0.04985533589944702,
+    "verdict": "ok",
+    "note": "3개 해상도, CV 5.0%"
+   },
+   "usable": true,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
    "confidence_penalty": 2
   },
-  "tripo_mesh_2": {
+  "seg_02": {
    "ok": true,
    "canonical_part": "Midsole Insert",
-   "method": "voxel_remesh(pitch=0.00691)",
-   "volume_m3": 1.2575487496884085e-05,
-   "volume_cm3": 12.575487496884085,
-   "note": "복셀 리메시로 닫은 솔리드. 얇은 껍질이 두께를 얻어 실제 소재 부피보다 클 수 있음. 승인 sole CAD 로 대체 권장",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 3.0922756944444434e-05,
+   "volume_cm3": 30.922756944444433,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 0.00103990357709298,
+      "watertight": true,
+      "faces": 28884
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 0.00116266018677858,
+      "watertight": true,
+      "faces": 13452
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 0.0012676653788050163,
+      "watertight": true,
+      "faces": 7844
+     }
+    ],
+    "mean": 0.0011567430475588588,
+    "cv": 0.08046510876679805,
+    "verdict": "needs_review",
+    "note": "3개 해상도, CV 8.0%"
+   },
+   "usable": true,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
    "confidence_penalty": 2
   },
-  "tripo_mesh_0": {
+  "seg_00": {
    "ok": true,
    "canonical_part": "Midsole Insert",
-   "method": "voxel_remesh(pitch=0.00653)",
-   "volume_m3": 1.0346902436352402e-05,
-   "volume_cm3": 10.346902436352401,
-   "note": "복셀 리메시로 닫은 솔리드. 얇은 껍질이 두께를 얻어 실제 소재 부피보다 클 수 있음. 승인 sole CAD 로 대체 권장",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 2.398203819444445e-05,
+   "volume_cm3": 23.98203819444445,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 0.0007884659448213951,
+      "watertight": true,
+      "faces": 26158
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 0.0008974819222979535,
+      "watertight": true,
+      "faces": 12192
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 0.0010053764540807928,
+      "watertight": true,
+      "faces": 7114
+     }
+    ],
+    "mean": 0.0008971081070667138,
+    "cv": 0.09871022053216624,
+    "verdict": "needs_review",
+    "note": "3개 해상도, CV 9.9%"
+   },
+   "usable": true,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
    "confidence_penalty": 2
   }
  },
@@ -991,7 +1112,7 @@
    "visibility": "Visible",
    "origin": "segmentation",
    "segments": [
-    "tripo_mesh_1"
+    "seg_01"
    ],
    "qty_per_pair": 1,
    "qty_basis": "volume",
@@ -999,12 +1120,12 @@
    "material_spec": "MAT-EVA-COMP",
    "geometry": {
     "surface_area_m2": 0.031029273788701562,
-    "volume_m3": 0.00011659990575232931,
+    "volume_m3": 0.0003887984270833333,
     "volume_status": "repaired",
     "method": "repaired"
    },
    "qa_blocked": [
-    "복구본 사용 (tripo_mesh_1: voxel_remesh(pitch=0.00965)) — 승인 sole CAD 권장"
+    "복구본 사용 (seg_01: 메시 완성 후 복셀 3해상도 평균) — 승인 sole CAD 권장"
    ],
    "rule_id": null,
    "approval_status": "segment_confirmed",
@@ -1018,8 +1139,8 @@
    "visibility": "Hidden/Visible",
    "origin": "segmentation",
    "segments": [
-    "tripo_mesh_2",
-    "tripo_mesh_0"
+    "seg_02",
+    "seg_00"
    ],
    "qty_per_pair": 1,
    "qty_basis": "volume",
@@ -1027,12 +1148,12 @@
    "material_spec": "MAT-PEBA",
    "geometry": {
     "surface_area_m2": 0.008072117312453254,
-    "volume_m3": 2.2922389933236486e-05,
+    "volume_m3": 5.490479513888888e-05,
     "volume_status": "repaired",
     "method": "repaired"
    },
    "qa_blocked": [
-    "복구본 사용 (tripo_mesh_2: voxel_remesh(pitch=0.00691); tripo_mesh_0: voxel_remesh(pitch=0.00653)) — 승인 sole CAD 권장"
+    "복구본 사용 (seg_02: 메시 완성 후 복셀 3해상도 평균; seg_00: 메시 완성 후 복셀 3해상도 평균) — 승인 sole CAD 권장"
    ],
    "rule_id": null,
    "approval_status": "segment_confirmed",
@@ -1046,7 +1167,7 @@
    "visibility": "Visible",
    "origin": "segmentation",
    "segments": [
-    "tripo_mesh_7"
+    "seg_07"
    ],
    "qty_per_pair": 1,
    "qty_basis": "volume",
@@ -1054,12 +1175,12 @@
    "material_spec": "MAT-NR",
    "geometry": {
     "surface_area_m2": 0.011369406043312743,
-    "volume_m3": 1.9996041856934066e-05,
+    "volume_m3": 0.00011595786979166666,
     "volume_status": "repaired",
     "method": "repaired"
    },
    "qa_blocked": [
-    "복구본 사용 (tripo_mesh_7: voxel_remesh(pitch=0.00469)) — 승인 sole CAD 권장"
+    "복구본 사용 (seg_07: 메시 완성 후 복셀 3해상도 평균) — 승인 sole CAD 권장"
    ],
    "rule_id": null,
    "approval_status": "segment_confirmed",
@@ -1078,7 +1199,7 @@
    "formula_family": "roll_sheet",
    "material_spec": "MAT-STROBEL",
    "geometry": {
-    "surface_area_m2": 0.030421189474473958,
+    "surface_area_m2": 0.03080710755393776,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -1087,6 +1208,9 @@
     "note": "실제 라스트 바닥은 볼록하지 않아 약간 과대"
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "rule_id": "R-001",
    "rule_condition": "always",
    "rule_parameters": {
@@ -1111,7 +1235,7 @@
    "formula_family": "chemical_coating",
    "material_spec": "MAT-ADH-PU",
    "geometry": {
-    "surface_area_m2": 0.03896285171515846,
+    "surface_area_m2": 0.03935453835286804,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -1120,6 +1244,9 @@
     "note": "승인 pattern 이 있으면 실제 접합면으로 대체"
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "rule_id": "R-014",
    "rule_condition": "cemented_sole==true",
    "rule_parameters": {
@@ -1146,7 +1273,7 @@
    "formula_family": "chemical_coating",
    "material_spec": "MAT-CLEANER",
    "geometry": {
-    "surface_area_m2": 0.03896285171515846,
+    "surface_area_m2": 0.03935453835286804,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -1155,6 +1282,9 @@
     "note": "승인 pattern 이 있으면 실제 접합면으로 대체"
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "rule_id": "R-012",
    "rule_condition": "cemented_sole==true",
    "rule_parameters": {
@@ -1180,7 +1310,7 @@
    "formula_family": "chemical_coating",
    "material_spec": "MAT-PRIMER",
    "geometry": {
-    "surface_area_m2": 0.03896285171515846,
+    "surface_area_m2": 0.03935453835286804,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -1189,6 +1319,9 @@
     "note": "승인 pattern 이 있으면 실제 접합면으로 대체"
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "rule_id": "R-013",
    "rule_condition": "cemented_sole==true",
    "rule_parameters": {
@@ -1223,6 +1356,9 @@
     "note": null
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_pair",
    "rule_id": "R-021",
    "rule_condition": "market_requires_polybag",
    "rule_parameters": {},
@@ -1253,6 +1389,9 @@
     "note": null
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_pair",
    "rule_id": "R-019",
    "rule_condition": "always",
    "rule_parameters": {},
@@ -1283,6 +1422,9 @@
     "note": null
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_pair",
    "rule_id": "R-020",
    "rule_condition": "always",
    "rule_parameters": {},
@@ -1313,6 +1455,9 @@
     "note": null
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "rule_id": "R-005",
    "rule_condition": "has_collar",
    "rule_parameters": {
@@ -1345,6 +1490,9 @@
     "note": "텅 세그먼트가 없어 비율로 대체"
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "rule_id": "R-004",
    "rule_condition": "has_tongue",
    "rule_parameters": {
@@ -1368,7 +1516,7 @@
    "formula_family": "roll_sheet",
    "material_spec": "MAT-MICROFIBER",
    "geometry": {
-    "surface_area_m2": 0.025582504931809236,
+    "surface_area_m2": 0.02579528778289661,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -1377,6 +1525,9 @@
     "note": null
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "rule_id": "R-008",
    "rule_condition": "has_eyelets && lightweight_upper",
    "rule_parameters": {
@@ -1400,7 +1551,7 @@
    "formula_family": "sheet_fraction",
    "material_spec": "MAT-COUNTER",
    "geometry": {
-    "surface_area_m2": 0.028041561548917966,
+    "surface_area_m2": 0.02843647088402282,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -1409,6 +1560,9 @@
     "note": null
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "rule_id": "R-007",
    "rule_condition": "heel_support_required==true",
    "rule_parameters": {
@@ -1441,6 +1595,9 @@
     "note": null
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "rule_id": "R-009",
    "rule_condition": "has_no_sew_overlay",
    "rule_parameters": {
@@ -1465,7 +1622,7 @@
    "formula_family": "sheet_fraction",
    "material_spec": "MAT-TOEPUFF",
    "geometry": {
-    "surface_area_m2": 0.008632374251445064,
+    "surface_area_m2": 0.008858768805561882,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -1474,6 +1631,9 @@
     "note": null
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "rule_id": "R-006",
    "rule_condition": "closed_toe==true",
    "rule_parameters": {
@@ -1492,7 +1652,7 @@
    "visibility": "Visible",
    "origin": "segmentation",
    "segments": [
-    "tripo_mesh_3"
+    "seg_03"
    ],
    "qty_per_pair": 1,
    "qty_basis": "count",
@@ -1517,7 +1677,7 @@
    "visibility": "Visible",
    "origin": "segmentation",
    "segments": [
-    "tripo_mesh_9"
+    "seg_09"
    ],
    "qty_per_pair": 1,
    "qty_basis": "length",
@@ -1542,7 +1702,7 @@
    "visibility": "Visible",
    "origin": "segmentation",
    "segments": [
-    "tripo_mesh_6"
+    "seg_06"
    ],
    "qty_per_pair": 1,
    "qty_basis": "area",
@@ -1567,7 +1727,7 @@
    "visibility": "Visible",
    "origin": "segmentation",
    "segments": [
-    "tripo_mesh_8"
+    "seg_08"
    ],
    "qty_per_pair": 1,
    "qty_basis": "area",
@@ -1592,7 +1752,7 @@
    "visibility": "Visible",
    "origin": "segmentation",
    "segments": [
-    "tripo_mesh_5"
+    "seg_05"
    ],
    "qty_per_pair": 1,
    "qty_basis": "area_or_count",
@@ -1617,7 +1777,7 @@
    "visibility": "Visible",
    "origin": "segmentation",
    "segments": [
-    "tripo_mesh_4"
+    "seg_04"
    ],
    "qty_per_pair": 1,
    "qty_basis": "area",
@@ -1656,6 +1816,9 @@
     "note": "텅 세그먼트가 없어 비율로 대체"
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "rule_id": "R-003",
    "rule_condition": "has_tongue",
    "rule_parameters": {
@@ -1688,6 +1851,9 @@
     "note": null
    },
    "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "rule_id": "R-002",
    "rule_condition": "upper_contains_mesh",
    "rule_parameters": {
@@ -1702,12 +1868,13 @@
  ],
  "cost": {
   "rollup": {
+   "cost_status": "PARTIAL",
    "buckets": [
     {
      "bucket": "Material",
-     "p10": 1.404829586762567,
-     "p50": 2.700969071294671,
-     "p90": 3.9971085558267747,
+     "p10": 2.196992743910809,
+     "p50": 3.675639903384426,
+     "p90": 5.154287062858042,
      "status": "Partial",
      "coverage": "Quarterly snapshot",
      "note": "2개 라인 차단"
@@ -1740,38 +1907,29 @@
      "note": "TL-001 Midsole Mold: 금형 견적 미입력; TL-002 Outsole Mold: 금형 견적 미입력"
     }
    ],
-   "direct_subtotal": {
-    "p10": 1.404829586762567,
-    "p50": 2.700969071294671,
-    "p90": 3.9971085558267747
+   "known_cost_subtotal": {
+    "p10": 2.196992743910809,
+    "p50": 3.675639903384426,
+    "p90": 5.154287062858042
    },
-   "reject_allowance": {
-    "p10": 0.04214488760287701,
-    "p50": 0.08102907213884013,
-    "p90": 0.11991325667480324
-   },
-   "factory_overhead": {
-    "p10": 0.11238636694100537,
-    "p50": 0.21607752570357366,
-    "p90": 0.319768684466142
-   },
-   "manufacturing_should_cost": {
-    "p10": 1.5593608413064495,
-    "p50": 2.998075669137085,
-    "p90": 4.4367904969677205
-   },
-   "supplier_margin": {
-    "p10": 0.15593608413064497,
-    "p50": 0.2998075669137085,
-    "p90": 0.4436790496967721
-   },
-   "provisional_total": {
-    "p10": 1.7152969254370944,
-    "p50": 3.2978832360507933,
-    "p90": 4.880469546664493
-   },
+   "blocked_buckets": [
+    "Direct Labor",
+    "Machine",
+    "Tooling Amortization"
+   ],
+   "reject_allowance": null,
+   "factory_overhead": null,
+   "manufacturing_should_cost": null,
+   "supplier_margin": null,
+   "fob": null,
    "direct_complete": false,
-   "fob_status": "Blocked as FOB",
+   "fob_status": "산출 불가",
+   "coverage": {
+    "bom_lines": 24,
+    "priced_lines": 22,
+    "unpriced_lines": 2,
+    "priced_ratio": 0.9166666666666666
+   },
    "blocked": [
     "OP-001 Material Inspection: SAM/효율/rate 미입력",
     "OP-002 Cutting: SAM/효율/rate 미입력",
@@ -2179,11 +2337,22 @@
      "공장 routing·SAM 확정",
      "Tooling 견적 확정",
      "승인 Supplier 견적이 아닌 단가 20건 (분기 스냅샷/공개 리스팅)",
-     "공장 routing·SAM·tooling 미확정"
+     "공장 routing, SAM, tooling 미확정",
+     "C1 상한 지오메트리 23건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
     ]
    },
    "downgraded_from": "C2"
   },
-  "computed_at": "2026-08-24T03:59:49Z"
+  "computed_at": "2026-08-24T08:31:28Z"
+ },
+ "mapping_summary": {
+  "input_segments": 10,
+  "assigned_segments": 10,
+  "auto_accepted": 0,
+  "needs_review": 0,
+  "engineer_confirmed": 10,
+  "assignment_coverage": 1.0,
+  "review_rate": 0.0,
+  "note": "정답 데이터가 없으므로 정확도가 아니라 배정 커버리지다"
  }
 }
