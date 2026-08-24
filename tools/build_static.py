@@ -95,10 +95,12 @@ def main():
     # 3) 정적 모드 shim 을 app.js 앞에 끼운다
     idx = DOCS / "index.html"
     html = idx.read_text(encoding="utf-8")
-    html = html.replace(
-        '<script type="module" src="app.js"></script>',
-        '<script src="static-api.js"></script>\n'
-        '<script type="module" src="app.js"></script>')
+    # web/index.html 이 이미 shim 을 싣고 있으면 다시 넣지 않는다.
+    if "static-api.js" not in html:
+        html = html.replace(
+            '<script type="module" src="app.js"></script>',
+            '<script src="static-api.js"></script>\n'
+            '<script type="module" src="app.js"></script>')
     idx.write_text(html, encoding="utf-8")
 
     # Jekyll 이 _ 로 시작하는 경로를 먹지 않도록
