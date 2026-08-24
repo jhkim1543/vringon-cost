@@ -4,10 +4,16 @@
 디자인 이미지 → Tripo v3 3D → metric 보정 → 세그먼트 → Hidden BOM →
 소요량 → 단가 → 결정론적 P10/P50/P90 원가까지 한 줄로 이어진다.
 
+**공개 데모: https://jhkim1543.github.io/vringon-cost/**
+
 ```bash
 run.cmd
 ```
 → http://127.0.0.1:5270  (기본 프로젝트 `DEMO-RUN-001`, `?p=<id>` 로 전환)
+
+정적 배포본은 `tools/build_static.py` 가 `docs/` 를 굽고 `web/static-api.js` 가
+`fetch('/api/...')` 를 그 JSON 으로 가로챈다. 읽기 전용이며 쓰기 동작은 막는다
+(조용히 실패하면 화면이 거짓말을 한다). Pages 는 main 브랜치 `/docs`.
 
 ---
 
