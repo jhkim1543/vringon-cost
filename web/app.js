@@ -39,10 +39,12 @@ async function api(path, body, method) {
   return j;
 }
 
-// img 태그는 fetch 가로채기를 거치지 않으므로, 정적 모드에서는 직접 경로를 쓴다.
-const exImgUrl = name => window.__staticDemo ? 'data/ex_' + name : '/api/examples/' + name;
+// img 태그는 fetch 가로채기를 거치지 않으므로, 정적 모드에서는 직접 경로를,
+// 실서버 연결 시(__apiBase)에는 백엔드 절대 경로를 쓴다.
+const exImgUrl = name => window.__staticDemo ? 'data/ex_' + name
+  : (window.__apiBase || '') + '/api/examples/' + name;
 const projImgUrl = pid => window.__staticDemo ? 'data/' + pid + '.jpg'
-  : `/api/project/${pid}/image`;
+  : `${window.__apiBase || ''}/api/project/${pid}/image`;
 
 // ── 3D ────────────────────────────────────────────────────────────────
 const viewer = new Viewer($('#viewer'));

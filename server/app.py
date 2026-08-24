@@ -27,6 +27,16 @@ from pipeline import Project, import_mesh_provider_outputs
 
 app = FastAPI(title="VRINGON Cost — 신발 Design-to-Should-Cost")
 
+# 공개 정적 페이지(GitHub Pages)가 이 백엔드를 부를 수 있게 허용한다.
+# 추가 origin 은 환경변수 CORS_ORIGINS (쉼표 구분) 로 넣는다.
+from fastapi.middleware.cors import CORSMiddleware
+_origins = ["https://jhkim1543.github.io", "http://localhost:5270",
+            "http://127.0.0.1:5270"]
+_origins += [o.strip() for o in os.environ.get("CORS_ORIGINS", "").split(",")
+             if o.strip()]
+app.add_middleware(CORSMiddleware, allow_origins=_origins,
+                   allow_methods=["*"], allow_headers=["*"])
+
 # 백그라운드 작업 진행 상황 (3D 생성은 3~5분 걸린다)
 JOBS = {}
 
@@ -288,6 +298,9 @@ def provider_job(pid: str):
 # ── 개발용 뷰어 캡처 ───────────────────────────────────────────────────
 @app.post("/api/debug/capture")
 def debug_capture(payload: dict):
+    if os.environ.get("ALLOW_DEBUG") != "1" and os.environ.get("PORT"):
+        # EB 는 PORT 를 준다. 운영에서는 이 통로를 닫는다.
+        raise HTTPException(404, "운영에서는 비활성")
     """브라우저가 실제로 그린 프레임을 파일로 받는다.
 
     뷰어 렌더 문제는 서버 쪽 기하 측정만으로는 판정이 안 된다.

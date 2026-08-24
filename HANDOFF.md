@@ -198,3 +198,29 @@ R4 에서 부피가 pitch 1.0, 1.5, 2.0 mm 에 대해 38, 60, 82 cm3 로 거의 
 
 아직 반영하지 않은 것은 Gold Benchmark 구축, DXF 기반 네스팅, 시각 회귀
 테스트 자동화다. 이 셋은 실제 공장 데이터와 승인 패턴이 있어야 의미가 있다.
+
+## 백엔드 부착 (2026-08-24)
+
+공개 페이지가 정적 결과만 보여주던 것을, 실서버가 있으면 자동으로 실서버 모드로
+전환되게 했다. Elastic Beanstalk(기존 3dcad 와 같은 계정, ap-northeast-2)에 올린다.
+
+    aws login                                  콘솔 계정 인증 (브라우저)
+    python deploy/eb_bundle.py                 번들 생성 (17.7MB, 공급자명 누출 0 검증됨)
+    python deploy/eb_deploy.py --create        처음 한 번: 앱 vringon-cost, 환경 vringon-cost-prod
+    python deploy/eb_deploy.py --https --domain cost.rebuilder.ai
+    python deploy/eb_deploy.py --verify https://cost.rebuilder.ai
+
+- 생성 키(MESH_API_KEY)와 공급자 주소(MESH_API_BASE)는 로컬 관례 위치에서 읽어
+  환경 속성으로만 넘긴다. 리포·번들·화면 어디에도 남지 않는다 (번들 빌드가
+  전수 검사한다).
+- 번들에는 프로젝트별 viewer.glb, state, cost, 매핑, 입력 이미지만 들어간다.
+  원본·세그·복원 GLB(각 40MB 안팎)는 빼므로 씨앗 프로젝트의 단계 재실행 일부는
+  서버에서 안 되고, 새 업로드는 전부 된다.
+- 정적 페이지 연결: `deploy/backend.json` 에 `{"base": "https://cost.rebuilder.ai"}`
+  를 만들고 `tools/build_static.py` 를 다시 돌리면 docs/ 에 주소가 구워진다.
+  페이지가 부팅 때 그 서버를 찔러 살아있으면 실서버 모드(업로드·생성·재계산 동작),
+  죽어있으면 지금의 정적 모드로 내려앉는다.
+- HTTPS 는 필수다. Pages 가 https 라 http 백엔드는 브라우저가 차단한다(mixed content).
+  `--https` 는 ACM 발급 인증서를 찾아 443 리스너를 붙이고 Route53 에 CNAME 을 쓴다.
+  도메인을 덮는 인증서가 없으면 ACM 에서 먼저 요청·DNS 검증해야 한다.
+- 운영에서는 `/api/debug/capture` 가 닫힌다 (EB 가 주는 PORT 로 판정).

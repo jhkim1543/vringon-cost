@@ -101,6 +101,15 @@ def main():
             '<script type="module" src="app.js"></script>',
             '<script src="static-api.js"></script>\n'
             '<script type="module" src="app.js"></script>')
+    # 백엔드 주소가 있으면 구워 넣는다. shim 이 부팅 때 살아있는지 확인하고,
+    # 살아있으면 실서버 모드로, 죽어있으면 지금처럼 정적 모드로 동작한다.
+    backend = ROOT / "deploy" / "backend.json"
+    if backend.exists() and "__backendBase" not in html:
+        base = json.loads(backend.read_text(encoding="utf-8"))["base"].rstrip("/")
+        html = html.replace(
+            '<script src="static-api.js"></script>',
+            f'<script>window.__backendBase="{base}";</script>\n'
+            '<script src="static-api.js"></script>')
     idx.write_text(html, encoding="utf-8")
 
     # 예시 디자인 목록과 이미지
