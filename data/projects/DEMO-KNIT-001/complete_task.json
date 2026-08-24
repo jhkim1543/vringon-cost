@@ -1,0 +1,15 @@
+{
+ "type": "mesh_completion",
+ "status": "success",
+ "progress": 100,
+ "input": {
+  "original_model_id": "9f6b0f2f-e273-4234-b509-8ad973ddda9d"
+ },
+ "output": {
+  "model_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_e372a149484b4a4fad659f42efb3a67f/20260824/4374a5c4-f86b-4534-9e8e-4369aec86cc6/tripo_mesh_compl_4374a5c4-f86b-4534-9e8e-4369aec86cc6.glb?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfZTM3MmExNDk0ODRiNGE0ZmFkNjU5ZjQyZWZiM2E2N2YvMjAyNjA4MjQvNDM3NGE1YzQtZjg2Yi00NTM0LTllOGUtNDM2OWFlYzg2Y2M2L3RyaXBvX21lc2hfY29tcGxfNDM3NGE1YzQtZjg2Yi00NTM0LTllOGUtNDM2OWFlYzg2Y2M2LmdsYiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc4NzY1MjI0N319fV19&Signature=B0pXQytQB0WDCDgcDy1zJeUWvw3M7T9pai04-zbloZfMvMyhxft8SECMvfJhEhATLoNIq4x9Jtp0yCl~Un081hT85cusLU9Tp4cSm6s5jBAfJvdKA1-HAL~LOFmyDt0VxbAkhaMrhPbxiaLIODxMcltgkTHGNOZ~~ER85epGe5k6AkoTfg0ys18n8GGs0kCwQOGN9bh-Tkql1zuQl9hPKjO7FEgMih18dwHpSAF584qpyiD~NQ473wRgSf78UzBSL6RHCthRwM9lW84yFkI2AbkNNDTKNnTu4TiGrc5x4D2uF30INT7jX~MUvtls1uj0a-T-mbfJOFvDDXEiYxyc~A__&Key-Pair-Id=K1676C64NMVM2J"
+ },
+ "task_id": "4374a5c4-f86b-4534-9e8e-4369aec86cc6",
+ "created_at": "2026-08-24T10:02:06.158683Z",
+ "completed_at": "2026-08-24T10:04:04.368198Z",
+ "credits_consumed": 50.0
+}

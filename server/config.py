@@ -15,7 +15,26 @@ for _p in (STORE, ASSETS):
 
 # ── 3D 생성 엔진 ────────────────────────────────────────────────────────────────
 # v2 는 2026-11-01 종료. 신규는 v3 만 사용한다.
-PROVIDER_BASE = "https://openapi.PROVIDER_HOST/v3"
+def _provider_base():
+    """생성 엔진 API base. 리포에 호스트를 커밋하지 않는다.
+
+    우선순위: 환경변수 MESH_API_BASE > 리포 루트의 .provider.json (git 제외).
+    없으면 실호출 기능만 비활성화되고 나머지 데모는 동작한다.
+    """
+    v = os.environ.get("MESH_API_BASE")
+    if v:
+        return v.rstrip("/")
+    f = ROOT / ".provider.json"
+    if f.exists():
+        import json as _json
+        try:
+            return _json.loads(f.read_text(encoding="utf-8"))["base"].rstrip("/")
+        except Exception:
+            pass
+    return None
+
+
+PROVIDER_BASE = _provider_base()
 # 2026-08-24 기준 서버가 허용하는 model 값:
 #   P1-20260311, P2-20260801, v2.5-20250123, v3.0-20250812, v3.1-20260211
 # 신발은 캐릭터 특화(P계열)가 아닌 범용 최신 라인을 쓴다.
@@ -32,11 +51,15 @@ def provider_api_key():
     key = os.environ.get("MESH_API_KEY")
     if key:
         return key.strip()
+    # 폴백 파일의 변수명은 우리가 통제하지 않는다. 이름에 의존하지 말고
+    # 어떤 *_API_KEY 줄이든 값을 집는다.
+    import re
     fallback = ROOT.parent / "scripts" / "run_backend.cmd"
     if fallback.exists():
         for line in fallback.read_text(encoding="utf-8", errors="ignore").splitlines():
-            if "MESH_API_KEY" in line and "=" in line:
-                return line.split("=", 1)[1].strip()
+            m = re.search(r"[A-Z_]*API_KEY\s*=\s*(\S+)", line)
+            if m:
+                return m.group(1).strip()
     return None
 
 

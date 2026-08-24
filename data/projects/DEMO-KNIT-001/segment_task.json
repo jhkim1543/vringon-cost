@@ -1,0 +1,16 @@
+{
+ "type": "mesh_segmentation",
+ "status": "success",
+ "progress": 100,
+ "input": {
+  "original_model_id": "f2f4e942-a205-48f3-8a61-4be3f31bd390"
+ },
+ "output": {
+  "model_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_e372a149484b4a4fad659f42efb3a67f/20260824/9f6b0f2f-e273-4234-b509-8ad973ddda9d/tripo_mesh_seg_9f6b0f2f-e273-4234-b509-8ad973ddda9d.glb?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfZTM3MmExNDk0ODRiNGE0ZmFkNjU5ZjQyZWZiM2E2N2YvMjAyNjA4MjQvOWY2YjBmMmYtZTI3My00MjM0LWI1MDktOGFkOTczZGRkYTlkL3RyaXBvX21lc2hfc2VnXzlmNmIwZjJmLWUyNzMtNDIzNC1iNTA5LThhZDk3M2RkZGE5ZC5nbGIiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODc2NTIxMjB9fX1dfQ__&Signature=Qt5EbRiL9RZT4rnR5baocgPh~LE9H8eZzdXBMSgN1KKisKWO2v8rMNcPnFKYFGz-09MR5LU~V18QZZM2uZooLETNeC5~gNfEORq1nxTQ3kQIvAR2RfWH1IBOHmqg9NILzxup0fdMl1v2jM3ulnngdWus85EI3K4FjoJGRZG~i44CiymYMySJJVYZMV6DYGUbekkrLCdbE3HCF6o00l1dwh7BoyNX2ktjGVVtaWLWtwZlFSIuCqsNrlq0dtakn6s5LOZd~CGJyPYKqRYydFa2fuKLoxaon8caI5oNthEsnvbqYhQdHUQWMtamiHrIs~fioIn7TWZT5sIvs3Td4Jg--g__&Key-Pair-Id=K1676C64NMVM2J",
+  "rendered_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_e372a149484b4a4fad659f42efb3a67f/20260824/9f6b0f2f-e273-4234-b509-8ad973ddda9d/legacy_mesh.webp?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfZTM3MmExNDk0ODRiNGE0ZmFkNjU5ZjQyZWZiM2E2N2YvMjAyNjA4MjQvOWY2YjBmMmYtZTI3My00MjM0LWI1MDktOGFkOTczZGRkYTlkL2xlZ2FjeV9tZXNoLndlYnAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODc2NTIxMjB9fX1dfQ__&Signature=Z51YsGSU9thXKWcY6rI~W~8-vWTAWHg0fbK6mc3nD1bgE-pNnEssNxr35-RpD73xYZ5pCEC16g593js-fpvw7KbB~3Bpli-Rk3q5aXyFoVhpH07iKwXwucKsvVLBQDk7DSotqSyLQpkG~V5uSnSWeNV5LFi~inC5nTvBC4iZZdzktwGref-4rvmQIVHe0roGt4oxkvdQk2P-sGsEtGTmYO4FS49h5p8YbqTSTKPgpdxtM4c1q~sBQlQt4yUQJWBWKmBa6xXTyT2BPoJfyuZLROqnLRTm2csau1Caw9cduhMhwgAQHQQqHTAM9pTxsNjehouSPpzW8mvbIQvq~-gdkA__&Key-Pair-Id=K1676C64NMVM2J"
+ },
+ "task_id": "9f6b0f2f-e273-4234-b509-8ad973ddda9d",
+ "created_at": "2026-08-24T09:58:40.585421Z",
+ "completed_at": "2026-08-24T10:01:59.123212Z",
+ "credits_consumed": 40.0
+}

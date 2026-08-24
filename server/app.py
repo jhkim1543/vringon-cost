@@ -22,7 +22,7 @@ from fastapi.staticfiles import StaticFiles
 import catalog
 import canonical
 import pricing
-from config import WEB, STORE, ASSETS, provider_api_key
+from config import WEB, STORE, ASSETS, DATA, provider_api_key
 from pipeline import Project, import_mesh_provider_outputs
 
 app = FastAPI(title="VRINGON Cost — 신발 Design-to-Should-Cost")
@@ -65,6 +65,25 @@ def post_snapshot(payload: dict):
     """다음 분기 스냅샷 생성. 신규 관측이 없으면 stale 이관되는지 보여준다."""
     return pricing.make_snapshot(payload.get("quarter", "2026Q4"),
                                  payload.get("observations"))
+
+
+# ── 예시 디자인 ────────────────────────────────────────────────────────
+@app.get("/api/examples")
+def get_examples():
+    """예시 디자인 목록. 각 항목은 미리 계산된 프로젝트에 연결된다."""
+    f = DATA / "examples" / "examples.json"
+    d = json.loads(f.read_text(encoding="utf-8"))
+    for ex in d["examples"]:
+        ex["ready"] = (STORE / ex["project"] / "cost.json").exists()
+    return d
+
+
+@app.get("/api/examples/{name}")
+def get_example_image(name: str):
+    p = (DATA / "examples" / name).resolve()
+    if not str(p).startswith(str((DATA / "examples").resolve())) or not p.exists():
+        raise HTTPException(404, "예시 이미지 없음")
+    return FileResponse(p)
 
 
 # ── 프로젝트 ──────────────────────────────────────────────────────────

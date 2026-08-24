@@ -1,0 +1,29 @@
+{
+ "examples": [
+  {
+   "id": "mesh_runner",
+   "title": "메시 러너",
+   "desc": "폴리에스터 니트 메시 어퍼, EVA 미드솔, 러버 아웃솔",
+   "image": "mesh_runner.jpg",
+   "project": "DEMO-RUN-001",
+   "alt": {"project": "DEMO-SEM-001", "label": "사내 모델 세그멘테이션 버전"},
+   "length_mm": 300
+  },
+  {
+   "id": "knit_runner",
+   "title": "니트 러너",
+   "desc": "니트 어퍼 러닝화",
+   "image": "knit_runner.jpg",
+   "project": "DEMO-KNIT-001",
+   "length_mm": 300
+  },
+  {
+   "id": "leather_mesh",
+   "title": "가죽 메시",
+   "desc": "가죽과 메시 혼합 어퍼",
+   "image": "leather_mesh.jpg",
+   "project": "DEMO-LTHR-001",
+   "length_mm": 300
+  }
+ ]
+}

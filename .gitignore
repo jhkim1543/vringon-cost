@@ -8,3 +8,4 @@ data/assets/
 .env
 data/projects/*/segmodel/shoe_proxy.glb
 data/projects/*/segmodel/source_segmented_vertexcolor.glb
+.provider.json

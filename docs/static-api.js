@@ -32,6 +32,10 @@
 
     if (path === '/catalog') return REAL('data/catalog.json');
 
+    if (path === '/examples') return REAL('data/examples.json');
+    const exm = path.match(/^\/examples\/(.+)$/);
+    if (exm) return REAL('data/ex_' + exm[1]);
+
     const m = path.match(/^\/project\/([^/]+)(\/.*)?$/);
     if (m) {
       const pid = m[1], sub = m[2] || '';

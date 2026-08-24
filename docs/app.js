@@ -6,7 +6,7 @@ const PID = new URLSearchParams(location.search).get('p') || 'DEMO-RUN-001';
 
 const S = {
   pid: PID, state: null, catalog: null, cost: null,
-  step: 'scale', selected: null, viewMode: 'parts',
+  step: 'design', selected: null, viewMode: 'parts',
 };
 
 const STEPS = [
@@ -133,6 +133,35 @@ function renderFlow() {
   fc.className = 'chip ' + (cs === 'COMPLETE' ? 'ok' : cs ? 'warn' : '');
 }
 
+// ── 위저드 내비게이션 ──────────────────────────────────────────────────
+// 각 단계 하단에 이전/다음 버튼을 붙인다. '다음'은 그 단계의 확정 동작을
+// 실행한 뒤 넘어간다. 탭 클릭 이동도 계속 가능하다.
+const STEP_ORDER = STEPS.map(x => x[0]);
+
+function wizardNav(el, opts = {}) {
+  const i = STEP_ORDER.indexOf(S.step);
+  const bar = document.createElement('div');
+  bar.className = 'wizard-nav';
+  bar.innerHTML = `
+    ${opts.hint ? `<span class="wz-hint">${opts.hint}</span>` : ''}
+    ${i > 0 ? `<button class="btn" id="wzPrev">이전</button>` : ''}
+    ${opts.next === false || i >= STEP_ORDER.length - 1 ? '' :
+      `<button class="btn primary" id="wzNext" ${opts.disabled ? 'disabled' : ''}>
+         ${opts.nextLabel || '다음 단계로'}</button>`}`;
+  el.appendChild(bar);
+  const prev = bar.querySelector('#wzPrev');
+  if (prev) prev.onclick = () => { S.step = STEP_ORDER[i - 1]; render(); };
+  const next = bar.querySelector('#wzNext');
+  if (next) next.onclick = async () => {
+    next.disabled = true;
+    try {
+      if (opts.onNext) await opts.onNext();
+      S.step = STEP_ORDER[i + 1];
+      render();
+    } catch (e) { next.disabled = false; }
+  };
+}
+
 // ── 단계 본문 ──────────────────────────────────────────────────────────
 function render() {
   renderFlow();
@@ -185,7 +214,10 @@ function stepDesign(el) {
 
   el.innerHTML = `
     <p class="muted">이미지 한 장에서 3D 를 만들고 파트를 나눈 뒤,
-    실측 길이로 보정해 소재 소요량과 원가까지 계산합니다.</p>
+    실측 길이로 보정해 소재 소요량과 원가까지 계산합니다.
+    예시 디자인을 고르거나 이미지를 올려 시작하세요.</p>
+    <h4>예시 디자인으로 시작</h4>
+    <div class="ex-grid" id="exGrid"><span class="muted">불러오는 중</span></div>
     <dl class="kv">
       <dt>프로젝트</dt><dd>${S.pid}</dd>
       <dt>3D 생성</dt><dd>${st.generate3d?.status || '없음'}</dd>
@@ -196,6 +228,37 @@ function stepDesign(el) {
       <img src="/api/project/${S.pid}/image" alt="입력 디자인"
         style="width:100%;border-radius:8px;border:1px solid var(--line);margin:4px 0 8px">` : ''}
     ${uploadPanel}`;
+
+  // 예시 갤러리
+  (async () => {
+    try {
+      const d = await api('/examples', null, 'GET');
+      $('#exGrid').innerHTML = (d.examples || []).map(ex => `
+        <div class="ex-card ${ex.project === S.pid || ex.alt?.project === S.pid ? 'on' : ''}
+                    ${ex.ready ? '' : 'notready'}" data-p="${ex.ready ? ex.project : ''}">
+          <img src="/api/examples/${ex.image}" alt="${ex.title}">
+          <div class="ex-body">
+            <div class="ex-title">${ex.title}</div>
+            <div class="ex-desc">${ex.desc}${ex.ready ? '' : ' · 준비 중'}</div>
+            ${ex.alt ? `<a class="ex-alt" data-p="${ex.alt.project}">${ex.alt.label}</a>` : ''}
+          </div>
+        </div>`).join('');
+      $('#exGrid').querySelectorAll('[data-p]').forEach(n => n.onclick = e => {
+        e.stopPropagation();
+        const pid = n.dataset.p;
+        if (!pid) return;
+        if (pid === S.pid) { S.step = 'scale'; render(); return; }
+        location.search = '?p=' + pid;
+      });
+    } catch (e) { $('#exGrid').innerHTML = '<span class="muted">예시 목록을 불러오지 못했습니다</span>'; }
+  })();
+
+  const hasModel = !!(S.state.steps || {}).generate3d || (S.state.mapping || []).length;
+  wizardNav(el, {
+    nextLabel: '이 디자인으로 시작 (스케일 입력)',
+    hint: hasModel ? `현재 프로젝트: ${S.pid}` : '예시를 고르거나 이미지를 올리면 시작합니다',
+    disabled: !hasModel,
+  });
 
   if (isStatic) return;
 
@@ -279,6 +342,9 @@ function stepScale(el) {
     <select id="mtype"><option>External outsole toe-to-heel</option></select>
     <label>실제 외부 길이 (mm)</label>
     <input type="number" id="targetLen" value="${cal?.target_length_mm || 300}" step="1">
+    <p class="muted" style="margin-top:6px">참고: 러닝화 260 라벨의 외부 outsole 길이는
+      브랜드에 따라 통상 285 에서 300mm 입니다. 정확한 값은 실물 실측이 필요하며,
+      라벨 값 260 을 그대로 넣으면 모든 면적·부피가 작게 나옵니다.</p>
     <div class="row">
       <button class="btn" id="proposeBtn">landmark 자동 제안</button>
       <button class="btn primary" id="calBtn">이 길이로 확정</button>
@@ -303,14 +369,20 @@ function stepScale(el) {
     await reload();
     toast('앞코·뒤꿈치 후보를 표시했습니다. 3D에서 확인하세요.');
   };
-  $('#calBtn').onclick = async () => {
+  const doCalibrate = async () => {
     await api(`/project/${S.pid}/calibrate`, {
       target_length_mm: Number($('#targetLen').value),
       toe: lm.toe, heel: lm.heel, confirmed: true,
     });
     await reload();
-    toast('metric scale 을 확정했습니다.');
+    toast('실측 길이를 확정했습니다.');
   };
+  $('#calBtn').onclick = doCalibrate;
+  wizardNav(el, {
+    nextLabel: '길이 확정하고 세그먼트로',
+    hint: '3D 의 앞코·뒤꿈치 점을 확인한 뒤 넘어가세요',
+    onNext: doCalibrate,
+  });
   renderLandmarkBar();
 }
 
@@ -389,11 +461,21 @@ function stepSegment(el) {
     await reload(); toast('매핑을 확정했습니다.');
   };
   $('#repairBtn').onclick = async () => {
-    toast('복구 중… 수십 초 걸립니다');
+    toast('복구 중. 수십 초 걸립니다');
     await api(`/project/${S.pid}/repair`, {});
     await api(`/project/${S.pid}/bom`, {});
     await reload(); toast('복구 완료. 부피가 열린 파트를 닫았습니다.');
   };
+  wizardNav(el, {
+    nextLabel: '매핑 확정하고 BOM 으로',
+    hint: '파트 이름이 틀리면 표에서 바꾼 뒤 확정하세요',
+    onNext: async () => {
+      await api(`/project/${S.pid}/segment/confirm`, { confirm_all: true });
+      await api(`/project/${S.pid}/bom`, {});
+      await api(`/project/${S.pid}/cost`);
+      await reload();
+    },
+  });
 }
 
 function bomTable(lines, showCost) {
@@ -442,6 +524,7 @@ function stepBom(el) {
   $('#rebuild').onclick = async () => {
     await api(`/project/${S.pid}/bom`, {}); await reload(); toast('BOM 재생성');
   };
+  wizardNav(el, { nextLabel: 'BOM 확인, 소요량으로' });
 }
 
 function stepConsumption(el) {
@@ -454,6 +537,7 @@ function stepConsumption(el) {
       <dt>차단 라인</dt><dd>${lines.filter(l => l.status === 'blocked').length} / ${lines.length}</dd></dl>
     ${bomTable(lines, false)}`;
   wireBomRows(el);
+  wizardNav(el, { nextLabel: '소요량 확인, 단가로' });
 }
 
 function stepPricing(el) {
@@ -471,19 +555,30 @@ function stepPricing(el) {
     <div class="row"><button class="btn" id="snapBtn">2026Q4 스냅샷 시뮬레이션</button></div>
     <div id="snapOut"></div>
     <table style="margin-top:12px"><thead><tr><th>소재</th><th class="num">P50</th>
-      <th>UOM</th><th>자격</th><th>신뢰</th></tr></thead><tbody>
+      <th>UOM</th><th>자격</th><th>신뢰</th><th>출처</th></tr></thead><tbody>
       ${[...new Map(lines.filter(l => l.material_spec)
-        .map(l => [l.material_spec, l])).values()].map(l => `<tr data-line="${l.line_id}">
+        .map(l => [l.material_spec, l])).values()].map(l => {
+        const src = l.price?.source_url;
+        let host = '';
+        try { host = src ? new URL(src).hostname.replace(/^www\./, '') : ''; } catch (e) {}
+        return `<tr data-line="${l.line_id}">
         <td>${l.material_spec}</td><td class="num">${fmt(l.price?.p50, 3)}</td>
         <td>${l.price?.uom || ' '}</td>
         <td><span class="tag ${l.price?.eligibility === 'Engineering' ? 'ok' : 'warn'}">${l.price?.eligibility || ' '}</span></td>
         <td>${l.price?.confidence || ' '}${l.price?.stale ? ' <span class="tag bad">stale</span>' : ''}</td>
-      </tr>`).join('')}</tbody></table>`;
+        <td>${src ? `<a href="${src}" target="_blank" rel="noopener"
+              onclick="event.stopPropagation()" title="${l.price?.price_basis || ''} · 워크북 16_분기기준단가">${host}</a>`
+            : `<span class="muted">${l.price?.basis === 'price_proxy' ? '연관 소재 비율' : '워크북'}</span>`}</td>
+      </tr>`; }).join('')}</tbody></table>
+    <p class="muted" style="margin-top:8px">모든 단가는 워크북 16_분기기준단가 시트가 원본이며,
+      출처 링크는 그 시트에 기록된 공개 리스팅·시장지수 페이지입니다. 근거 패널에서
+      라인별 P10/P50/P90 과 자격도 확인할 수 있습니다.</p>`;
   wireBomRows(el);
   $('#qtr').onchange = async e => {
     await api(`/project/${S.pid}/scenario`, { quarter: e.target.value });
     await api(`/project/${S.pid}/cost`); await reload();
   };
+  wizardNav(el, { nextLabel: '단가 확인, 원가로' });
   $('#snapBtn').onclick = async () => {
     const r = await api('/prices/snapshot', { quarter: '2026Q4' });
     $('#snapOut').innerHTML = `<div class="note">2026Q4 에 신규 관측이 없다고 가정:

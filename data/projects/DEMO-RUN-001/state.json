@@ -8,12 +8,12 @@
   },
   "scale": {
    "status": "confirmed",
-   "at": "2026-08-24T08:31:16Z",
+   "at": "2026-08-24T09:59:17Z",
    "scale": 299.0063670599571
   },
   "segment": {
    "status": "confirmed",
-   "at": "2026-08-24T08:31:19Z",
+   "at": "2026-08-24T09:59:17Z",
    "confirmed": 10,
    "total": 10
   },
@@ -25,7 +25,7 @@
   },
   "bom": {
    "status": "built",
-   "at": "2026-08-24T09:40:01Z",
+   "at": "2026-08-24T09:59:21Z",
    "lines": 24,
    "hidden": 15
   },
@@ -56,7 +56,7 @@
   "volume_parts_validated": true
  },
  "input_image": "DEMO-RUN-001.jpg",
- "updated_at": "2026-08-24T09:40:01Z",
+ "updated_at": "2026-08-24T09:59:21Z",
  "landmarks": {
   "axis": [
    0.09468265172295515,
@@ -101,7 +101,17 @@
    -0.15426944196224213,
    -0.4989511966705322
   ],
-  "confirmed": true
+  "confirmed": true,
+  "width_check": {
+   "width_over_length": 0.4313,
+   "expected_range": [
+    0.32,
+    0.42
+   ],
+   "category": "running",
+   "verdict": "too_wide",
+   "note": "한 장 이미지 복원의 좌우 팽창 또는 수축 의심. 부피 파트 결과를 검토로 낮춘다."
+  }
  },
  "mapping": [
   {

@@ -103,6 +103,19 @@ def main():
             '<script type="module" src="app.js"></script>')
     idx.write_text(html, encoding="utf-8")
 
+    # 예시 디자인 목록과 이미지
+    ex_src = ROOT / "data" / "examples"
+    if (ex_src / "examples.json").exists():
+        exd = json.loads((ex_src / "examples.json").read_text(encoding="utf-8"))
+        for ex in exd["examples"]:
+            ex["ready"] = (ROOT / "data" / "projects" / ex["project"] / "cost.json").exists()
+            img = ex_src / ex["image"]
+            if img.exists():
+                shutil.copy2(img, DOCS / "data" / ("ex_" + ex["image"]))
+        (DOCS / "data" / "examples.json").write_text(
+            json.dumps(exd, ensure_ascii=False), encoding="utf-8")
+        print(f"  예시 {len(exd['examples'])}건")
+
     # Jekyll 이 _ 로 시작하는 경로를 먹지 않도록
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
 
