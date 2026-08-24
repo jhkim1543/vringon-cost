@@ -326,6 +326,27 @@ class Project:
         return m
 
     # ── 4b) Mesh repair (선택) ───────────────────────────────────────
+    def ensure_completed(self):
+        """메시 완성본(completed.glb)이 없으면 생성 엔진으로 만든다.
+
+        R4 복셀 리메시는 작은 파트에서 해상도 민감도가 커 부피가 자주 차단된다.
+        완성본이 있으면 R3 경로(민감도 실측 CV 2~10%)를 탈 수 있다. 크레딧이
+        들므로 세그멘테이션 task id 가 있을 때만, 한 번만 시도한다.
+        """
+        glb = self.dir / "completed.glb"
+        if glb.exists():
+            return True
+        tid = ((self.state.get("steps") or {}).get("segment3d") or {}).get("task_id")
+        if not tid:
+            return False
+        from mesh_provider import MeshProvider
+        c = MeshProvider()
+        ctid = c.mesh_complete(tid)
+        data = c.wait(ctid)
+        c.download_model(data, glb)
+        self._mark("mesh_complete", "done", task_id=ctid)
+        return True
+
     def repair_volumes(self, segment_ids=None):
         """부피가 막힌 솔리드 파트를 복구한다 (계획서 §5.5 fallback).
 

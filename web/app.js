@@ -36,6 +36,9 @@ async function api(path, body, method) {
   } : undefined);
   const j = await r.json().catch(() => ({}));
   if (j.error) { toast(j.error, true); throw new Error(j.error); }
+  // 404 등은 {detail} 로 온다. 던지지 않으면 오류 객체가 상태에 스며들어
+  // (예: 계산 전 프로젝트의 cost) 부팅이 깨진다.
+  if (!r.ok) throw new Error(j.detail || 'HTTP ' + r.status);
   return j;
 }
 
@@ -372,7 +375,7 @@ function stepScale(el) {
       비균일 scale 하지 않습니다.</div>`;
 
   $('#proposeBtn').onclick = async () => {
-    await api(`/project/${S.pid}/landmarks`);
+    await api(`/project/${S.pid}/landmarks`, null, 'POST');
     await reload();
     toast('앞코·뒤꿈치 후보를 표시했습니다. 3D에서 확인하세요.');
   };
@@ -431,6 +434,7 @@ function stepSegment(el) {
       <button class="btn" id="segPropose">다시 제안</button>
       <button class="btn primary" id="segConfirm">전부 확정</button>
       <button class="btn" id="repairBtn">부피 막힌 파트 복구</button>
+      <span class="muted" style="font-size:11.5px">완성본이 없으면 메시 완성을 먼저 실행합니다 (50 크레딧, 2 에서 4분)</span>
     </div>
     <table style="margin-top:12px"><thead><tr>
       <th>세그먼트</th><th>Canonical Part</th><th class="num">면적%</th>
@@ -461,14 +465,14 @@ function stepSegment(el) {
     toast(`${s.dataset.seg}  다음  ${s.value} 로 확정`);
   });
   $('#segPropose').onclick = async () => {
-    await api(`/project/${S.pid}/segment/propose`); await reload();
+    await api(`/project/${S.pid}/segment/propose`, null, 'POST'); await reload();
   };
   $('#segConfirm').onclick = async () => {
     await api(`/project/${S.pid}/segment/confirm`, { confirm_all: true });
     await reload(); toast('매핑을 확정했습니다.');
   };
   $('#repairBtn').onclick = async () => {
-    toast('복구 중. 수십 초 걸립니다');
+    toast('복구 중. 완성본을 만들 때는 몇 분 걸립니다');
     await api(`/project/${S.pid}/repair`, {});
     await api(`/project/${S.pid}/bom`, {});
     await reload(); toast('복구 완료. 부피가 열린 파트를 닫았습니다.');
@@ -479,7 +483,7 @@ function stepSegment(el) {
     onNext: async () => {
       await api(`/project/${S.pid}/segment/confirm`, { confirm_all: true });
       await api(`/project/${S.pid}/bom`, {});
-      await api(`/project/${S.pid}/cost`);
+      await api(`/project/${S.pid}/cost`, null, 'POST');
       await reload();
     },
   });
@@ -583,7 +587,7 @@ function stepPricing(el) {
   wireBomRows(el);
   $('#qtr').onchange = async e => {
     await api(`/project/${S.pid}/scenario`, { quarter: e.target.value });
-    await api(`/project/${S.pid}/cost`); await reload();
+    await api(`/project/${S.pid}/cost`, null, 'POST'); await reload();
   };
   wizardNav(el, { nextLabel: '단가 확인, 원가로' });
   $('#snapBtn').onclick = async () => {
@@ -597,14 +601,14 @@ function stepPricing(el) {
 function stepCost(el) {
   if (!S.cost) {
     el.innerHTML = `<div class="row"><button class="btn primary" id="calc">원가 계산</button></div>`;
-    $('#calc').onclick = async () => { await api(`/project/${S.pid}/cost`); await reload(); };
+    $('#calc').onclick = async () => { await api(`/project/${S.pid}/cost`, null, 'POST'); await reload(); };
     return;
   }
   const r = S.cost.rollup, g = S.cost.grade, sc = S.cost.scenario;
   if (!r.known_cost_subtotal) {
     el.innerHTML = `<div class="note bad">원가 결과가 예전 형식입니다. 다시 계산하세요.</div>
       <div class="row"><button class="btn primary" id="recalc">원가 재계산</button></div>`;
-    $('#recalc').onclick = async () => { await api(`/project/${S.pid}/cost`); await reload(); };
+    $('#recalc').onclick = async () => { await api(`/project/${S.pid}/cost`, null, 'POST'); await reload(); };
     return;
   }
   const partial = r.cost_status !== 'COMPLETE';
@@ -690,7 +694,7 @@ function stepCost(el) {
       order_quantity: Number($('#oq').value),
       supplier_margin_pct: Number($('#sm').value),
     });
-    await api(`/project/${S.pid}/cost`); await reload();
+    await api(`/project/${S.pid}/cost`, null, 'POST'); await reload();
   };
   $('#oq').onchange = push; $('#sm').onchange = push;
 }

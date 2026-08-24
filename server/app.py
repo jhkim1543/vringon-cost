@@ -181,6 +181,12 @@ def post_seg_confirm(pid: str, payload: dict):
 def post_repair(pid: str, payload: dict = None):
     try:
         p = Project(pid)
+        # 완성본이 없으면 먼저 만들어 R3 경로를 연다 (크레딧 소모, 실패해도
+        # R4 복셀 fallback 으로 계속 간다).
+        try:
+            p.ensure_completed()
+        except Exception:
+            pass
         return {"repairs": p.repair_volumes((payload or {}).get("segment_ids"))}
     except Exception as e:
         return _err(e)
