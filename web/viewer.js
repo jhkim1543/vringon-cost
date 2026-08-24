@@ -177,6 +177,9 @@ export class Viewer {
 
   /** 원본 모델 좌표를 뷰어 월드로 옮겨 landmark 구를 그린다. */
   setLandmarks(toe, heel) {
+    // 모델 로드 전에는 정규화 기준이 없다. 조용히 넘어가지 않고 확실히
+    // 아무것도 그리지 않는다 (예외를 던지면 부팅이 멈춘다).
+    if (!this._modelCenter) return;
     this.marks.clear();
     const mk = (p, hex) => {
       if (!p) return;

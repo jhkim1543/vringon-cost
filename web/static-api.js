@@ -24,7 +24,8 @@
     await ready;
     if (!manifest || !url || !url.includes('/api/')) return REAL(input, init);
 
-    const path = url.slice(url.indexOf('/api/') + 4);
+    // 캐시 무효화용 쿼리(?v=...)를 떼고 경로만 본다
+    const path = url.slice(url.indexOf('/api/') + 4).split('?')[0];
     const method = (init?.method || 'GET').toUpperCase();
 
  // 쓰기 동작은 전부 막는다. 조용히 실패하면 화면이 거짓말을 한다.

@@ -493,3 +493,41 @@ def test_viewer_glb_has_no_part_seam_gaps():
         w.merge_vertices(merge_tex=True, merge_norm=True, digits_vertex=5)
         residual = geo.open_boundary_length(w) / diag
         assert residual < 0.1, f"{pid}: 이음새 틈 {residual:.3f}"
+
+
+@has_sample
+def test_viewer_parts_share_vertex_normals():
+    """회귀: 파트를 따로 내보내면 각 파트가 자기 면만으로 정점 법선을 평균해
+    경계에서 법선이 벌어진다(실측 중앙값 23도, 최대 140도). 기하는 붙어
+    있는데 조명이 튀어 화면에 갈라진 선으로 보였다.
+
+    검증: 파일에 저장된 법선을 그대로 읽어, 파트가 공유하는 정점 위치에서
+    법선이 일치해야 한다. scene_parts 는 복사·변환 과정에서 법선을 다시
+    계산하므로 여기서는 쓰지 않는다.
+    """
+    for pid in ("DEMO-RUN-001", "DEMO-SEM-001"):
+        glb = ROOT / "data" / "projects" / pid / "viewer.glb"
+        if not glb.exists():
+            continue
+        sc = trimesh.load(glb, force="scene", process=False)
+        buckets = {}
+        for name, g in sc.geometry.items():
+            v = np.asarray(g.vertices)
+            n = np.asarray(g.vertex_normals)
+            for k, nn in zip((tuple(x) for x in np.round(v, 5)), n):
+                buckets.setdefault(k, []).append((name, nn))
+
+        worst, checked = 0.0, 0
+        for lst in buckets.values():
+            if len({p for p, _ in lst}) < 2:
+                continue
+            ns = np.array([x for _, x in lst])
+            L = np.linalg.norm(ns, axis=1)
+            if L.min() < 1e-9:      # 퇴화 법선은 건너뛴다
+                continue
+            ns = ns / L[:, None]
+            worst = max(worst, float(np.degrees(
+                np.arccos(np.clip(ns @ ns.T, -1, 1))).max()))
+            checked += 1
+        assert checked > 100, f"{pid}: 공유 정점이 너무 적다 ({checked})"
+        assert worst < 1.0, f"{pid}: 경계 법선 불일치 {worst:.1f}도"

@@ -285,7 +285,38 @@ def provider_job(pid: str):
     return JOBS.get(pid, {"status": "unknown"})
 
 
+# ── 개발용 뷰어 캡처 ───────────────────────────────────────────────────
+@app.post("/api/debug/capture")
+def debug_capture(payload: dict):
+    """브라우저가 실제로 그린 프레임을 파일로 받는다.
+
+    뷰어 렌더 문제는 서버 쪽 기하 측정만으로는 판정이 안 된다.
+    화면 픽셀을 그대로 받아서 눈으로 확인하기 위한 로컬 전용 통로다.
+    """
+    import base64
+    d = payload.get("data_url", "")
+    if "," not in d:
+        raise HTTPException(400, "data URL 형식이 아님")
+    import re as _re
+    raw = str(payload.get("name", "capture"))
+    name = _re.sub(r"[^A-Za-z0-9_.-]", "_", raw)[:64] + ".png"
+    out = DATA / "debug" / name
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_bytes(base64.b64decode(d.split(",", 1)[1]))
+    return {"saved": str(out), "bytes": out.stat().st_size}
+
+
 # ── 정적 ──────────────────────────────────────────────────────────────
+# 개발 중에는 정적 자산을 캐시하지 않는다. 캐시된 옛 스크립트를 보고
+# "고쳤는데 그대로다" 로 오판하는 일을 막는다.
+@app.middleware("http")
+async def _no_cache(request, call_next):
+    resp = await call_next(request)
+    if not request.url.path.startswith("/api/"):
+        resp.headers["Cache-Control"] = "no-store, must-revalidate"
+    return resp
+
+
 app.mount("/", StaticFiles(directory=str(WEB), html=True), name="web")
 
 

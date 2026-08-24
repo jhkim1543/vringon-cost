@@ -179,14 +179,48 @@ class Project:
         _d, idx = tree.query(dec.triangles_center, k=1, workers=-1)
         dec_labels = labels[idx]
 
+        # 파트 경계의 계단 모양을 다듬는다. 이웃 face 다수결을 몇 번 돌리면
+        # 지그재그가 줄어 화면이 깔끔해진다. 표시용 경계만 손대며,
+        # 원가에 쓰는 면적은 원본 세그멘테이션 그대로다.
+        try:
+            adj = dec.face_adjacency
+            for _ in range(3):
+                nb = {}
+                for a, b in adj:
+                    nb.setdefault(a, []).append(b)
+                    nb.setdefault(b, []).append(a)
+                new_labels = dec_labels.copy()
+                for fi, ns in nb.items():
+                    vals, cnt = _np.unique(dec_labels[ns], return_counts=True)
+                    top = vals[int(_np.argmax(cnt))]
+                    # 이웃 다수가 다른 라벨이고 그 수가 2 이상일 때만 바꾼다
+                    if top != dec_labels[fi] and cnt.max() >= 2:
+                        new_labels[fi] = top
+                if (new_labels == dec_labels).all():
+                    break
+                dec_labels = new_labels
+        except Exception:
+            pass
+
+        # 법선은 전체 메시에서 한 번만 계산해 파트들이 공유한다.
+        # 파트마다 따로 계산하면 경계에서 각자 자기 면만 평균해 법선이
+        # 벌어지고(실측 중앙값 23도, 최대 140도) 조명이 튀어 갈라진 선으로
+        # 보인다. 기하는 붙어 있으므로 이건 구멍이 아니라 셰이딩 문제다.
+        dec_normals = _np.asarray(dec.vertex_normals)
+
         scene = trimesh.Scene()
         for i, name in enumerate(names):
             fidx = _np.where(dec_labels == i)[0]
             if fidx.size == 0:
                 continue
-            sub = dec.submesh([fidx], append=True)
-            # 법선을 실어 보내지 않으면 브라우저에서 조명이 먹지 않아 검게 나온다.
-            sub.vertex_normals
+            faces = dec.faces[fidx]
+            uniq, inv = _np.unique(faces, return_inverse=True)
+            sub = trimesh.Trimesh(
+                vertices=_np.asarray(dec.vertices)[uniq],
+                faces=inv.reshape(-1, 3),
+                vertex_normals=dec_normals[uniq],
+                process=False,          # 정점을 다시 손대면 법선 대응이 깨진다
+            )
             scene.add_geometry(sub, geom_name=name, node_name=name)
         scene.export(out)
         return out

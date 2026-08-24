@@ -798,10 +798,14 @@ async function renderProjectSwitcher() {
     $('#viewMode').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
     render();
   });
+  // 상태를 먼저 받아 갱신 시각을 캐시 무효화 키로 쓴다. 이게 없으면
+  // 지오메트리를 고쳐도 브라우저가 예전 GLB 를 계속 쓴다.
+  await reload();
+  const ver = encodeURIComponent(S.state?.updated_at || '0');
   try {
-    await viewer.load(`/api/project/${S.pid}/model.glb`);
+    await viewer.load(`/api/project/${S.pid}/model.glb?v=${ver}`);
   } catch (e) {
     toast('3D 모델을 불러오지 못했습니다: ' + e.message, true);
   }
-  await reload();
+  render();
 })();
