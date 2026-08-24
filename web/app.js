@@ -39,6 +39,11 @@ async function api(path, body, method) {
   return j;
 }
 
+// img 태그는 fetch 가로채기를 거치지 않으므로, 정적 모드에서는 직접 경로를 쓴다.
+const exImgUrl = name => window.__staticDemo ? 'data/ex_' + name : '/api/examples/' + name;
+const projImgUrl = pid => window.__staticDemo ? 'data/' + pid + '.jpg'
+  : `/api/project/${pid}/image`;
+
 // ── 3D ────────────────────────────────────────────────────────────────
 const viewer = new Viewer($('#viewer'));
 viewer.onPick = name => { S.selected = name; renderEvidence(); render(); };
@@ -225,7 +230,7 @@ function stepDesign(el) {
       <dt>파트 수</dt><dd>${(S.state.mapping || []).length || '없음'}</dd>
     </dl>
     ${S.state.input_image ? `<h4>이 프로젝트의 입력 이미지</h4>
-      <img src="/api/project/${S.pid}/image" alt="입력 디자인"
+      <img src="${projImgUrl(S.pid)}" alt="입력 디자인"
         style="width:100%;border-radius:8px;border:1px solid var(--line);margin:4px 0 8px">` : ''}
     ${uploadPanel}`;
 
@@ -236,7 +241,7 @@ function stepDesign(el) {
       $('#exGrid').innerHTML = (d.examples || []).map(ex => `
         <div class="ex-card ${ex.project === S.pid || ex.alt?.project === S.pid ? 'on' : ''}
                     ${ex.ready ? '' : 'notready'}" data-p="${ex.ready ? ex.project : ''}">
-          <img src="/api/examples/${ex.image}" alt="${ex.title}">
+          <img src="${exImgUrl(ex.image)}" alt="${ex.title}">
           <div class="ex-body">
             <div class="ex-title">${ex.title}</div>
             <div class="ex-desc">${ex.desc}${ex.ready ? '' : ' · 준비 중'}</div>
