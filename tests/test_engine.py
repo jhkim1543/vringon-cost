@@ -472,3 +472,24 @@ def test_bucket_breakdown_separates_packaging():
     b = costing.bucket_breakdown(lines)
     assert b["Packaging"]["p50"] == pytest.approx(1.15)
     assert b["Upper"]["p50"] == pytest.approx(0.03)
+
+
+@has_sample
+def test_viewer_glb_has_no_part_seam_gaps():
+    """회귀: 파트별 개별 데시메이션이 경계 정점을 제각각 움직여 화면에
+    갈라진 선이 보였다. 전체 병합 후 데시메이션 + 라벨 이전으로 고쳤다.
+
+    검증: viewer.glb 의 파트들을 합치고 허용오차 병합하면 열린 경계가
+    거의 남지 않아야 한다 (원본 생성 모델은 완전히 닫힌 메시다).
+    """
+    for pid in ("DEMO-RUN-001", "DEMO-SEM-001"):
+        glb = ROOT / "data" / "projects" / pid / "viewer.glb"
+        if not glb.exists():
+            continue
+        parts = geo.scene_parts(geo.load_scene(glb))
+        whole = trimesh.util.concatenate(list(parts.values()))
+        diag = float(np.linalg.norm(whole.bounds[1] - whole.bounds[0]))
+        w = whole.copy()
+        w.merge_vertices(merge_tex=True, merge_norm=True, digits_vertex=5)
+        residual = geo.open_boundary_length(w) / diag
+        assert residual < 0.1, f"{pid}: 이음새 틈 {residual:.3f}"

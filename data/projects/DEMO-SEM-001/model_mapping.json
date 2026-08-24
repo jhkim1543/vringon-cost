@@ -2,11 +2,28 @@
  "source": "internal_shoe_seg_v4pure",
  "classes": 8,
  "display_parts": 42,
- "unassigned_faces": 78675,
- "face_coverage": 0.7190178571428572,
+ "unassigned_faces_before_fill": 78675,
+ "detected_coverage": 0.7190178571428572,
+ "face_coverage": 1.0,
+ "fill_note": "미배정 face 는 최근접 라벨로 전파해 구멍을 없앰",
  "mapping": [
   {
    "segment_id": "seg_00",
+   "model_class": "lining",
+   "canonical_part": "Vamp/Quarter Lining",
+   "confidence": 0.851,
+   "components": 11,
+   "provenance": [
+    "detected",
+    "recovered"
+   ],
+   "status": "model_detected",
+   "confirmed": false,
+   "source": "internal_shoe_seg_v4pure",
+   "unmapped_class": false
+  },
+  {
+   "segment_id": "seg_01",
    "model_class": "outsole",
    "canonical_part": "Outsole Rubber",
    "confidence": 0.897,
@@ -20,13 +37,14 @@
    "unmapped_class": false
   },
   {
-   "segment_id": "seg_01",
-   "model_class": "lining",
-   "canonical_part": "Vamp/Quarter Lining",
-   "confidence": 0.824,
-   "components": 11,
+   "segment_id": "seg_02",
+   "model_class": "tongue",
+   "canonical_part": "Tongue Shell",
+   "confidence": 0.882,
+   "components": 17,
    "provenance": [
     "detected",
+    "propagated",
     "recovered"
    ],
    "status": "model_detected",
@@ -35,7 +53,7 @@
    "unmapped_class": false
   },
   {
-   "segment_id": "seg_02",
+   "segment_id": "seg_03",
    "model_class": "quarter-fabric",
    "canonical_part": "Vamp",
    "confidence": 0.966,
@@ -49,29 +67,13 @@
    "unmapped_class": false
   },
   {
-   "segment_id": "seg_03",
+   "segment_id": "seg_04",
    "model_class": "midsole",
    "canonical_part": "Midsole Carrier",
    "confidence": 0.923,
    "components": 3,
    "provenance": [
     "detected"
-   ],
-   "status": "model_detected",
-   "confirmed": false,
-   "source": "internal_shoe_seg_v4pure",
-   "unmapped_class": false
-  },
-  {
-   "segment_id": "seg_04",
-   "model_class": "tongue",
-   "canonical_part": "Tongue Shell",
-   "confidence": 0.838,
-   "components": 17,
-   "provenance": [
-    "detected",
-    "propagated",
-    "recovered"
    ],
    "status": "model_detected",
    "confirmed": false,

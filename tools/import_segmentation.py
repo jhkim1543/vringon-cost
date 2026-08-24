@@ -58,7 +58,22 @@ def main():
     # display part id -> (클래스, 신뢰도, provenance)
     info = {p["display_part_id_1based"]: p for p in sem["parts"]}
 
-    # 클래스별 face 모으기 (0 은 미배정)
+    total_faces = int(mesh.faces.shape[0])
+    unassigned = int((labels == 0).sum())
+
+    # 미배정 face 를 버리면 메시에 구멍이 나고(화면의 갈라짐) 파트 면적도
+    # 그만큼 과소계상된다. 최근접 라벨 face 로 전파해 커버리지를 100% 로 만든다.
+    if unassigned:
+        from scipy.spatial import cKDTree
+        centers = mesh.triangles_center
+        lab_idx = np.where(labels != 0)[0]
+        un_idx = np.where(labels == 0)[0]
+        tree = cKDTree(centers[lab_idx])
+        _d, nn = tree.query(centers[un_idx], k=1, workers=-1)
+        labels = labels.copy()
+        labels[un_idx] = labels[lab_idx[nn]]
+
+    # 클래스별 face 모으기 (미배정은 위에서 전파 완료)
     faces_by_class = defaultdict(list)
     stats = defaultdict(lambda: {"area_w_conf": 0.0, "area": 0.0,
                                  "components": 0, "provenance": set()})
@@ -78,9 +93,6 @@ def main():
         st["area"] += a
         st["components"] += 1
         st["provenance"].add(p["provenance"])
-
-    unassigned = int((labels == 0).sum())
-    total_faces = int(mesh.faces.shape[0])
 
     out_scene = trimesh.Scene()
     mapping = []
@@ -114,13 +126,16 @@ def main():
         "source": "internal_shoe_seg_v4pure",
         "classes": len(faces_by_class),
         "display_parts": len(sem["parts"]),
-        "unassigned_faces": unassigned,
-        "face_coverage": 1.0 - unassigned / total_faces,
+        "unassigned_faces_before_fill": unassigned,
+        "detected_coverage": 1.0 - unassigned / total_faces,
+        "face_coverage": 1.0,
+        "fill_note": "미배정 face 는 최근접 라벨로 전파해 구멍을 없앰",
         "mapping": mapping,
     }, ensure_ascii=False, indent=1), encoding="utf-8")
 
     print(f"클래스 {len(faces_by_class)}개 (display part {len(sem['parts'])}개를 병합)")
-    print(f"face 커버리지 {1 - unassigned / total_faces:.1%} (미배정 {unassigned})")
+    print(f"검출 커버리지 {1 - unassigned / total_faces:.1%}, "
+          f"미배정 {unassigned}건은 최근접 라벨로 전파 (최종 100%)")
     for m in mapping:
         tag = "" if not m["unmapped_class"] else "  [매핑 없음]"
         print(f"  {m['segment_id']}  {m['model_class']:16s} -> "

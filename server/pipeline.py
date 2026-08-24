@@ -143,24 +143,51 @@ class Project:
     def viewer_glb(self, face_budget=160_000, force=False):
         """브라우저용 경량 GLB. 파트 이름과 배치를 그대로 보존한다.
 
-        원본은 40MB가 넘어 그대로 내려보내면 뷰어가 버틴다 해도 느리다.
-        파트별 면적 비중에 비례해 예산을 나눠 형상을 고르게 남긴다.
+        파트별로 따로 데시메이션하면 인접 파트의 경계 정점이 제각각 움직여
+        실제 기하 틈(화면의 갈라진 선)이 생긴다. 그래서 전체 메시를 한 번에
+        데시메이션한 뒤, 원본 face 최근접으로 파트 라벨을 이전해 다시 쪼갠다.
+        경계 양쪽이 같은 데시메이션 정점을 공유하므로 틈이 없다.
         """
         out = self.dir / "viewer.glb"
         if out.exists() and not force:
             return out
         parts = self._parts()
-        total_faces = sum(m.faces.shape[0] for m in parts.values())
+        names = list(parts.keys())
+
+        # 원본 face -> 파트 라벨 (concatenate 는 face 순서를 보존한다)
+        import numpy as _np
+        whole = trimesh.util.concatenate([parts[n] for n in names])
+        labels = _np.concatenate([
+            _np.full(parts[n].faces.shape[0], i, dtype=_np.int32)
+            for i, n in enumerate(names)])
+
+        # 파트 이음새의 좌표 일치 정점을 먼저 병합한다. 안 하면 데시메이터가
+        # 이음새를 열린 경계로 보고 양쪽을 제각각 움직여 틈을 새로 만든다.
+        # 세그멘테이션 전 원본은 완전히 닫힌 메시다(열린경계 0). 지금 보이는
+        # 틈은 전부 세그멘테이션이 만든 1e-8 수준의 정점 불일치이므로,
+        # 허용오차 병합(소수 5자리)으로 이음새를 닫은 뒤 데시메이션한다.
+        merged = whole.copy()
+        merged.merge_vertices(merge_tex=True, merge_norm=True, digits_vertex=5)
+
+        dec = _decimate(merged, face_budget)
+        if dec is merged:
+            dec = merged.copy()
+
+        # 데시메이션 face 중심 -> 최근접 원본 face 중심의 라벨
+        from scipy.spatial import cKDTree
+        tree = cKDTree(whole.triangles_center)
+        _d, idx = tree.query(dec.triangles_center, k=1, workers=-1)
+        dec_labels = labels[idx]
+
         scene = trimesh.Scene()
-        for name, m in parts.items():
-            if name.endswith("__repaired"):
+        for i, name in enumerate(names):
+            fidx = _np.where(dec_labels == i)[0]
+            if fidx.size == 0:
                 continue
-            share = m.faces.shape[0] / max(total_faces, 1)
-            budget = max(600, int(face_budget * share))
-            d = _decimate(m, budget)
+            sub = dec.submesh([fidx], append=True)
             # 법선을 실어 보내지 않으면 브라우저에서 조명이 먹지 않아 검게 나온다.
-            d.vertex_normals
-            scene.add_geometry(d, geom_name=name, node_name=name)
+            sub.vertex_normals
+            scene.add_geometry(sub, geom_name=name, node_name=name)
         scene.export(out)
         return out
 
