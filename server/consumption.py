@@ -139,7 +139,12 @@ def _compute_one(line, price_uom=None):
     if form == "chemical":
         area = geo.get("surface_area_m2")
         if not area:
-            return _blocked(f"{line['canonical_part']}: 도포 면적 없음", uom="kg")
+            # 지오메트리가 왜 없는지까지 말해준다. '면적 없음' 만으로는
+            # 산식 미구현인지 세그먼트 부재인지 구분이 안 된다.
+            why = geo.get("note") or (
+                f"산식 '{geo.get('source')}' 미구현" if geo.get("method") == "blocked"
+                and geo.get("source") else "도포 면적 없음")
+            return _blocked(f"{line['canonical_part']}: {why}", uom="kg")
         steps.append(f"도포 면적 = {area:.6f} m²  [{geo.get('method','?')}]")
         wc = take("wet_coat_kg_m2", 0.10, "습도포량(kg/m²)")
         co = take("coats", 1, "도포 횟수")

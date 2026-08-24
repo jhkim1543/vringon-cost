@@ -41,9 +41,21 @@ def bom_master():
 
 @lru_cache(maxsize=1)
 def recipes():
-    """Construction rule -> 리스트 (우선순위 순)."""
+    """Construction rule -> 리스트 (우선순위 순).
+
+    워크북 규칙표(construction_recipes.json)에 보완 규칙 파일을 이어 붙인다.
+    보완 규칙은 워크북에 없는, 그러나 모든 신발에 실재하는 숨은 파트를 위한
+    것이다 (깔창·안감·봉제사처럼 3D 외형에 안 보여 세그멘테이션도 못 잡고
+    워크북 규칙표에도 빠진 것들). 출처를 섞지 않으려고 파일을 나눠 두었고
+    각 라인의 근거에 워크북 규칙인지 보완 규칙인지 그대로 표시된다.
+    """
     out = []
-    for r in _load("construction_recipes.json"):
+    rows = list(_load("construction_recipes.json"))
+    try:
+        rows += list(_load("construction_recipes_supplement.json"))
+    except FileNotFoundError:
+        pass
+    for r in rows:
         out.append({
             "rule_id": r["Rule_ID"],
             "construction": r["Construction"],
@@ -57,6 +69,8 @@ def recipes():
             "priority": r.get("Priority"),
             "evidence": r.get("Evidence Source"),
             "approval_role": r.get("Approval"),
+            # BOM 마스터에 없는 파트(예: 봉제사)는 규칙이 조립군을 들고 온다.
+            "assembly": r.get("Assembly"),
         })
     return out
 

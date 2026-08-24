@@ -31,13 +31,13 @@
   },
   "bom": {
    "status": "built",
-   "at": "2026-08-24T10:12:04Z",
-   "lines": 26,
-   "hidden": 15
+   "at": "2026-08-24T13:58:58Z",
+   "lines": 29,
+   "hidden": 18
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-24T11:10:42Z",
+   "at": "2026-08-24T13:58:58Z",
    "grade": "C1",
    "fob": "산출 불가"
   }
@@ -62,7 +62,7 @@
   "volume_parts_validated": true
  },
  "input_image": "DEMO-LTHR-001.jpg",
- "updated_at": "2026-08-24T11:10:42Z",
+ "updated_at": "2026-08-24T13:58:58Z",
  "landmarks": {
   "axis": [
    -0.046449447112688245,
@@ -1710,6 +1710,44 @@
    "needs_confirm": []
   },
   {
+   "line_id": "H-S-001",
+   "part_id": "BT-004",
+   "canonical_part": "Sockliner Foam",
+   "assembly": "Bottom",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "area_or_volume",
+   "formula_family": "foam_sheet",
+   "material_spec": "MAT-PUFOAM-OPEN",
+   "geometry": {
+    "surface_area_m2": 0.0318578652041357,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "proxy",
+    "source": "솔 평면투영 볼록껍질",
+    "note": "실제 라스트 바닥은 볼록하지 않아 약간 과대 · 규칙 S-001 배율 allowance=1.02"
+   },
+   "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "S-001",
+   "rule_condition": "always",
+   "rule_parameters": {
+    "allowance": 1.02,
+    "yield": 0.88
+   },
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
+   "rule_evidence": "업계 표준 구성 (워크북 규칙표 외 보완)",
+   "approval_role": "Engineer",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed"
+  },
+  {
    "line_id": "H-R-001",
    "part_id": "BT-001",
    "canonical_part": "Strobel",
@@ -1722,13 +1760,13 @@
    "formula_family": "roll_sheet",
    "material_spec": "MAT-STROBEL",
    "geometry": {
-    "surface_area_m2": 0.031233201180525194,
+    "surface_area_m2": 0.03279486123955146,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
     "method": "proxy",
     "source": "솔 평면투영 볼록껍질",
-    "note": "실제 라스트 바닥은 볼록하지 않아 약간 과대"
+    "note": "실제 라스트 바닥은 볼록하지 않아 약간 과대 · 규칙 R-001 배율 allowance=1.05"
    },
    "qa_blocked": [],
    "geometry_role": "surface_region",
@@ -1740,6 +1778,8 @@
     "allowance": 1.05,
     "yield": 0.85
    },
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
    "rule_evidence": "construction template",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
@@ -1776,6 +1816,8 @@
     "coats": 2.0,
     "transfer": "factory"
    },
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
    "rule_evidence": "factory chemical recipe",
    "approval_role": "Factory",
    "factory_inputs_required": [
@@ -1813,10 +1855,51 @@
    "rule_parameters": {
     "coat_kg_m2": "factory"
    },
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
    "rule_evidence": "factory chemical recipe",
    "approval_role": "Factory",
    "factory_inputs_required": [
     "coat_kg_m2"
+   ],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "H-R-015",
+   "part_id": "CH-004",
+   "canonical_part": "Hardener",
+   "assembly": "Chemical",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "recipe_ratio",
+   "formula_family": "recipe_ratio",
+   "material_spec": "MAT-HARDENER",
+   "geometry": {
+    "surface_area_m2": 0.039883500938285014,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "proxy",
+    "source": "라스트 바닥 + 둘레×12mm 물림",
+    "note": "승인 pattern 이 있으면 실제 접합면으로 대체"
+   },
+   "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "R-015",
+   "rule_condition": "adhesive_requires_hardener",
+   "rule_parameters": {
+    "ratio": "factory_recipe"
+   },
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
+   "rule_evidence": "supplier TDS",
+   "approval_role": "Factory",
+   "factory_inputs_required": [
+    "ratio"
    ],
    "approval_status": "rule_proposed"
   },
@@ -1850,6 +1933,8 @@
    "rule_parameters": {
     "coat_kg_m2": "factory"
    },
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
    "rule_evidence": "factory chemical recipe",
    "approval_role": "Factory",
    "factory_inputs_required": [
@@ -1885,6 +1970,8 @@
    "rule_id": "R-021",
    "rule_condition": "market_requires_polybag",
    "rule_parameters": {},
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
    "rule_evidence": "market requirement",
    "approval_role": "Sourcing",
    "factory_inputs_required": [],
@@ -1918,6 +2005,8 @@
    "rule_id": "R-019",
    "rule_condition": "always",
    "rule_parameters": {},
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
    "rule_evidence": "packaging standard",
    "approval_role": "Sourcing",
    "factory_inputs_required": [],
@@ -1951,6 +2040,8 @@
    "rule_id": "R-020",
    "rule_condition": "always",
    "rule_parameters": {},
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
    "rule_evidence": "packaging standard",
    "approval_role": "Sourcing",
    "factory_inputs_required": [],
@@ -1986,6 +2077,8 @@
    "rule_parameters": {
     "thickness_mm": 6.0
    },
+   "rule_params_ignored": [],
+   "thickness_mm_override": 6.0,
    "rule_evidence": "construction template",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
@@ -2021,6 +2114,8 @@
    "rule_parameters": {
     "thickness_mm": 4.0
    },
+   "rule_params_ignored": [],
+   "thickness_mm_override": 4.0,
    "rule_evidence": "style requirement",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
@@ -2039,13 +2134,13 @@
    "formula_family": "roll_sheet",
    "material_spec": "MAT-MICROFIBER",
    "geometry": {
-    "surface_area_m2": 0.015735290661245835,
+    "surface_area_m2": 0.018095584260432708,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
     "method": "measured",
     "source": "upper 길이 0.41–0.70 구간 (eyelet/lacing)",
-    "note": null
+    "note": "규칙 R-008 배율 coverage=1.15"
    },
    "qa_blocked": [],
    "geometry_role": "surface_region",
@@ -2056,6 +2151,8 @@
    "rule_parameters": {
     "coverage": 1.15
    },
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
    "rule_evidence": "manufacturing rule",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
@@ -2074,13 +2171,13 @@
    "formula_family": "sheet_fraction",
    "material_spec": "MAT-COUNTER",
    "geometry": {
-    "surface_area_m2": 0.023037321179235903,
+    "surface_area_m2": 0.018429856943388723,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
     "method": "measured",
     "source": "upper 길이 0.00–0.30 구간 (heel)",
-    "note": null
+    "note": "규칙 R-007 배율 coverage=0.8"
    },
    "qa_blocked": [],
    "geometry_role": "surface_region",
@@ -2091,6 +2188,8 @@
    "rule_parameters": {
     "coverage": 0.8
    },
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
    "rule_evidence": "performance requirement",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
@@ -2127,6 +2226,8 @@
     "pattern": 1.08,
     "yield": 0.82
    },
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
    "rule_evidence": "manufacturing rule",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
@@ -2145,13 +2246,13 @@
    "formula_family": "sheet_fraction",
    "material_spec": "MAT-TOEPUFF",
    "geometry": {
-    "surface_area_m2": 0.00848625734229858,
+    "surface_area_m2": 0.005516067272494078,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
     "method": "measured",
     "source": "upper 길이 0.72–1.00 구간 (toe)",
-    "note": null
+    "note": "규칙 R-006 배율 coverage=0.65"
    },
    "qa_blocked": [],
    "geometry_role": "surface_region",
@@ -2162,6 +2263,8 @@
    "rule_parameters": {
     "coverage": 0.65
    },
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
    "rule_evidence": "construction template",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
@@ -2194,6 +2297,43 @@
    "rule_id": null,
    "approval_status": "segment_confirmed",
    "needs_confirm": []
+  },
+  {
+   "line_id": "H-S-004",
+   "part_id": null,
+   "canonical_part": "Thread",
+   "assembly": "Trim",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "seam_length",
+   "formula_family": null,
+   "material_spec": "MAT-THREAD-POLY",
+   "geometry": {
+    "surface_area_m2": null,
+    "length_m": 17.584433815213497,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "proxy",
+    "source": "어퍼 패널 열린경계 합",
+    "note": "실제 봉제선은 DXF 필요"
+   },
+   "qa_blocked": [],
+   "geometry_role": "curve_or_trim",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "S-004",
+   "rule_condition": "stitched_upper",
+   "rule_parameters": {
+    "factor": 1.0
+   },
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
+   "rule_evidence": "업계 표준 구성 (워크북 규칙표 외 보완)",
+   "approval_role": "Engineer",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed"
   },
   {
    "line_id": "V-UP-013",
@@ -2395,6 +2535,8 @@
    "rule_parameters": {
     "ratio": 1.0
    },
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
    "rule_evidence": "construction template",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
@@ -2413,13 +2555,13 @@
    "formula_family": "roll_sheet",
    "material_spec": "MAT-LINING-MESH",
    "geometry": {
-    "surface_area_m2": 0.06230468267795562,
+    "surface_area_m2": 0.05295898027626228,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
     "method": "measured",
     "source": "upper 세그먼트 6개 표면적 합",
-    "note": null
+    "note": "규칙 R-002 배율 ratio=0.85"
    },
    "qa_blocked": [],
    "geometry_role": "surface_region",
@@ -2431,6 +2573,8 @@
     "ratio": 0.85,
     "pattern": 1.12
    },
+   "rule_params_ignored": [],
+   "thickness_mm_override": null,
    "rule_evidence": "approved similar style",
    "approval_role": "Engineer",
    "factory_inputs_required": [],
@@ -2445,10 +2589,10 @@
    ],
    "material_breakdown": {
     "Sole": {
-     "p10": 0.7008540955850591,
-     "p50": 0.9694182568614568,
-     "p90": 1.2379824181378545,
-     "lines": 5
+     "p10": 0.7715390497811793,
+     "p50": 1.041651857282778,
+     "p90": 1.3117646647843768,
+     "lines": 6
     },
     "Chemical": {
      "p10": 0.07126681118836227,
@@ -2469,27 +2613,27 @@
      "lines": 2
     },
     "Upper": {
-     "p10": 0.4259482860459675,
-     "p50": 0.6814541908154256,
-     "p90": 0.9369600955848836,
+     "p10": 0.4267022109181805,
+     "p50": 0.6639773868984933,
+     "p90": 0.9012525628788061,
      "lines": 12
     },
     "Trim": {
-     "p10": 0.22,
-     "p50": 0.3,
-     "p90": 0.38,
-     "lines": 1
+     "p10": 0.23485532968709236,
+     "p50": 0.3152267129292697,
+     "p90": 0.395598096171447,
+     "lines": 2
     }
    },
    "buckets": [
     {
      "bucket": "Material",
-     "p10": 1.7272891928193888,
-     "p50": 3.192232338386463,
-     "p90": 4.657175483953537,
+     "p10": 1.8135834015748142,
+     "p50": 3.262215847820122,
+     "p90": 4.710848294065429,
      "status": "Partial",
      "coverage": "Quarterly snapshot",
-     "note": "2개 라인 차단"
+     "note": "3개 라인 차단"
     },
     {
      "bucket": "Direct Labor",
@@ -2520,9 +2664,9 @@
     }
    ],
    "known_cost_subtotal": {
-    "p10": 1.7272891928193888,
-    "p50": 3.192232338386463,
-    "p90": 4.657175483953537
+    "p10": 1.8135834015748142,
+    "p50": 3.262215847820122,
+    "p90": 4.710848294065429
    },
    "blocked_buckets": [
     "Direct Labor",
@@ -2537,10 +2681,10 @@
    "direct_complete": false,
    "fob_status": "산출 불가",
    "coverage": {
-    "bom_lines": 26,
-    "priced_lines": 24,
-    "unpriced_lines": 2,
-    "priced_ratio": 0.9230769230769231
+    "bom_lines": 29,
+    "priced_lines": 26,
+    "unpriced_lines": 3,
+    "priced_ratio": 0.896551724137931
    },
    "blocked": [
     "OP-001 Material Inspection: SAM/효율/rate 미입력",
@@ -2563,6 +2707,7 @@
     "TL-003 Cutting Die Set: 금형 견적 미입력",
     "TL-004 Printing Screen/Plate: 금형 견적 미입력",
     "TL-005 Last Set: 금형 견적 미입력",
+    "BOM H-R-015",
     "BOM V-UP-013",
     "BOM V-UP-009"
    ],
@@ -2934,6 +3079,7 @@
     "status": "blocked"
    },
    "material_blocked_lines": [
+    "H-R-015",
     "V-UP-013",
     "V-UP-009"
    ]
@@ -2948,13 +3094,13 @@
      "승인 Supplier SKU 견적",
      "공장 routing·SAM 확정",
      "Tooling 견적 확정",
-     "승인 Supplier 견적이 아닌 단가 20건 (분기 스냅샷/공개 리스팅)",
+     "승인 Supplier 견적이 아닌 단가 22건 (분기 스냅샷/공개 리스팅)",
      "공장 routing, SAM, tooling 미확정",
-     "C1 상한 지오메트리 26건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
+     "C1 상한 지오메트리 29건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
     ]
    },
    "downgraded_from": "C2"
   },
-  "computed_at": "2026-08-24T11:10:42Z"
+  "computed_at": "2026-08-24T13:58:58Z"
  }
 }

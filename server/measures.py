@@ -216,6 +216,9 @@ class GeometryContext:
         "print_area": "print_area",
         "coated_area": "coated_area",
         "bond_area": "bond_area",
+        # 워크북 R-015 하드너. 하드너는 접착제에 섞여 같은 접착 면적에 발린다.
+        # 도징 비율은 소재 스펙의 wet_coat_kg_m2 가 들고 있으므로 면적만 준다.
+        "adhesive_mass": "bond_area",
         "seam_length": "seam_length",
     }
 

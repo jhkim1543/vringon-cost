@@ -27,7 +27,13 @@ CONSTRUCTION_FLAGS = {
     "has_no_sew_overlay": True,
     "waterproof": False,
     "cemented_sole": True,
-    "adhesive_requires_hardener": False,
+    # 신발용 PU 접착제는 통상 2액형이라 하드너가 실재한다. 워크북에 하드너
+    # 단가가 없어(RFQ) 라인은 차단으로 뜨지만, 0 으로 숨기는 것보다 낫다.
+    "adhesive_requires_hardener": True,
+    # 봉제 어퍼면 봉제사가 든다. 완전 무봉제(니트 일체형)면 꺼야 한다.
+    "stitched_upper": True,
+    # 메시 러닝화는 보통 원단 아일렛이라 금속 하드웨어가 없다.
+    "has_metal_eyelets": False,
     "has_laces": True,
     "has_print": False,
     "midsole_is_painted": False,
@@ -35,6 +41,48 @@ CONSTRUCTION_FLAGS = {
 }
 
 _TOKEN = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+
+
+
+# 레시피의 기하 배율. 워크북 "Default Parameter" 의 coverage/ratio/allowance/factor
+# 는 "측정한 면적 중 이 파트가 실제로 덮는 비율"이다. 이것을 안 쓰면 토퍼프가
+# 앞코 전체를, 안감이 어퍼 전체를 덮는 것으로 계산된다 (과대계상).
+#
+# pattern/yield 는 여기서 쓰지 않는다. 그 둘은 소재 스펙의 pattern_factor·
+# nesting_yield·process_yield 가 이미 들고 있어서 겹쳐 곱하면 이중 적용이 된다.
+GEOMETRY_SCALE_KEYS = ("coverage", "ratio", "allowance", "factor")
+
+
+def apply_rule_scale(meas, rule):
+    """레시피 파라미터의 기하 배율을 측정값에 반영한다."""
+    if meas.get("method") in ("blocked", "count"):
+        return meas
+    scale, used = 1.0, []
+    for k in GEOMETRY_SCALE_KEYS:
+        v = (rule.get("parameters") or {}).get(k)
+        if isinstance(v, (int, float)) and v > 0:
+            scale *= float(v)
+            used.append(f"{k}={v}")
+    if not used or abs(scale - 1.0) < 1e-12:
+        return meas
+    out = dict(meas)
+    out["value"] = meas["value"] * scale
+    note = f"규칙 {rule['rule_id']} 배율 {' x '.join(used)}"
+    out["note"] = f"{meas.get('note')} · {note}" if meas.get("note") else note
+    return out
+
+
+# 소재 스펙이 이미 들고 있어 규칙 쪽 값을 쓰지 않는 키. 겹쳐 곱하면 이중 적용.
+SPEC_OWNED_KEYS = ("pattern", "yield", "coats", "transfer")
+# 개수 규칙에서 켤레 환산에 쓰는 키.
+COUNT_KEYS = ("per_shoe",)
+
+
+def unhandled_params(rule):
+    """규칙에 적혔지만 계산에 반영되지 않는 숫자 파라미터를 찾는다."""
+    known = GEOMETRY_SCALE_KEYS + SPEC_OWNED_KEYS + COUNT_KEYS
+    return sorted(k for k, v in (rule.get("parameters") or {}).items()
+                  if isinstance(v, (int, float)) and k not in known)
 
 
 def eval_condition(expr, flags):
@@ -181,17 +229,30 @@ def build(mapping, geo_ctx, cal, parts, flags=None, construction="Strobel Cement
                   else "blocked", "source": rule["qty_method"], "note": None}
 
         # 파라미터에 'factory' 가 있으면 공장 입력 없이는 확정 불가.
+        meas = apply_rule_scale(meas, rule)
+
         factory_needed = [k for k, v in rule["parameters"].items() if isinstance(v, str)]
+        # 개수 규칙의 per_shoe 는 켤레 환산이 필요하다 (아일렛 12개/짝 = 24/켤레).
+        per_shoe = rule["parameters"].get("per_shoe")
+        qty_per_pair = (float(per_shoe) * 2 if isinstance(per_shoe, (int, float))
+                        and rule["qty_method"] == "count" else 1)
+        # 규칙에 숫자를 적어 뒀는데 아무 데서도 안 쓰이면 조용히 틀린다.
+        # (실제로 coverage·ratio 가 통째로 무시되고 있었다.)
+        ignored = unhandled_params(rule)
+        # 규칙이 파트별 두께를 지정하면 그것이 이 디자인의 실제 두께다.
+        # 소재 스펙의 두께는 그 소재의 대표값이라 파트마다 다를 수 있다.
+        rule_thk = rule["parameters"].get("thickness_mm")
+        thk_override = float(rule_thk) if isinstance(rule_thk, (int, float)) else None
 
         lines.append({
             "line_id": f"H-{rule['rule_id']}",
             "part_id": info.get("part_id"),
             "canonical_part": cp,
-            "assembly": info.get("assembly", "Hidden"),
+            "assembly": info.get("assembly") or rule.get("assembly") or "Hidden",
             "visibility": info.get("visibility", "Hidden"),
             "origin": "construction_rule",
             "segments": [],
-            "qty_per_pair": 1,
+            "qty_per_pair": qty_per_pair,
             "qty_basis": info.get("qty_basis") or rule["qty_method"],
             "formula_family": info.get("formula_family"),
             "material_spec": defaults.get(cp) or defaults.get(cp.split("/")[0]),
@@ -216,6 +277,9 @@ def build(mapping, geo_ctx, cal, parts, flags=None, construction="Strobel Cement
             "rule_id": rule["rule_id"],
             "rule_condition": rule["condition"],
             "rule_parameters": rule["parameters"],
+            # 규칙에 적혔지만 계산에 안 쓰인 파라미터. 비어 있어야 정상이다.
+            "rule_params_ignored": [k for k in ignored if k != "thickness_mm"],
+            "thickness_mm_override": thk_override,
             "rule_evidence": rule["evidence"],
             "approval_role": rule["approval_role"],
             "factory_inputs_required": factory_needed,

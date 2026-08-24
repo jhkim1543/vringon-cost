@@ -201,6 +201,12 @@ def audit(pid):
         else:
             gsm = sp.get("areal_density_gsm")
             gv = gsm["value"] if isinstance(gsm, dict) else gsm
+            # 규칙이 파트 두께를 지정했으면 면밀도를 그 비율로 맞춘다
+            thk = l.get("thickness_mm_override")
+            bt = sp.get("thickness_mm")
+            bt = bt["value"] if isinstance(bt, dict) else bt
+            if gv and thk and bt and bt > 0:
+                gv = gv * thk / bt
             if gv and g.get("surface_area_m2"):
                 got += g["surface_area_m2"] * gv * 2
     check(abs(got - mb.get("finished_pair_mass_g", -1)) < 0.5,

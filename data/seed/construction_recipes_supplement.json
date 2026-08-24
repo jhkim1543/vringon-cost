@@ -1,0 +1,62 @@
+[
+ {
+  "Rule_ID": "S-001",
+  "Construction": "Strobel Cemented",
+  "Condition Expression": "always",
+  "Add BOM Part": "Sockliner Foam",
+  "Material Role": "sockliner foam",
+  "Qty Method": "last_bottom_area",
+  "Default Parameter": "allowance=1.02; yield=0.88",
+  "Required": "Yes",
+  "Priority": "P0",
+  "Evidence Source": "업계 표준 구성 (워크북 규칙표 외 보완)",
+  "Approval": "Engineer",
+  "설명": "깔창 폼. 모든 신발에 있으나 3D 외형에 안 보여 세그멘테이션으로 안 잡힌다.",
+  "Assembly": "Bottom"
+ },
+ {
+  "Rule_ID": "S-002",
+  "Construction": "Strobel Cemented",
+  "Condition Expression": "always",
+  "Add BOM Part": "Sockliner Cover",
+  "Material Role": "sockliner cover textile",
+  "Qty Method": "last_bottom_area",
+  "Default Parameter": "allowance=1.05; yield=0.85",
+  "Required": "Yes",
+  "Priority": "P0",
+  "Evidence Source": "업계 표준 구성 (워크북 규칙표 외 보완)",
+  "Approval": "Engineer",
+  "설명": "깔창 표피.",
+  "Assembly": "Bottom"
+ },
+ {
+  "Rule_ID": "S-004",
+  "Construction": "Strobel Cemented",
+  "Condition Expression": "stitched_upper",
+  "Add BOM Part": "Thread",
+  "Material Role": "sewing thread",
+  "Qty Method": "seam_length",
+  "Default Parameter": "factor=1.0",
+  "Required": "Yes",
+  "Priority": "P0",
+  "Evidence Source": "업계 표준 구성 (워크북 규칙표 외 보완)",
+  "Approval": "Engineer",
+  "설명": "봉제사. 봉제선 길이는 3D 에서 하한 proxy 라 승인 DXF 가 오면 대체해야 한다.",
+  "Assembly": "Trim"
+ },
+ {
+  "Rule_ID": "S-005",
+  "Construction": "Strobel Cemented",
+  "Condition Expression": "has_metal_eyelets",
+  "Add BOM Part": "Eyelet/Lace Loop",
+  "Material Role": "eyelet hardware",
+  "Qty Method": "count",
+  "Default Parameter": "per_shoe=12",
+  "Required": "No",
+  "Priority": "P0",
+  "Evidence Source": "업계 표준 구성 (워크북 규칙표 외 보완)",
+  "Approval": "Engineer",
+  "설명": "금속 아일렛. 메시 러닝화는 보통 원단 아일렛이라 기본값은 꺼져 있다.",
+  "Assembly": "Trim"
+ }
+]

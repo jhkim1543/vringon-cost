@@ -39,14 +39,14 @@ UPPER_FABRIC_FACTOR = 4.0
 UPPER_SPECS = {"MAT-MESH-POLY", "MAT-MESH-3D", "MAT-MICROFIBER"}
 
 # 규칙에는 있으나 이 디자인에서 라인이 안 나온 필수 부자재의 통상 단가
+# 깔창·봉제사는 규칙을 추가해 이제 계산에 들어간다. 다만 우리 값은 원료
+# 단가라서 부품 구매가와 차이가 남는다 (깔창 유닛 $0.30~0.80 대 원료 $0.14).
 MISSING_USD_PAIR = {
-    "Sockliner Foam + Cover (깔창)": 0.60,
-    "Collar Lining": 0.15,
-    "Eyelet/Lace Loop": 0.20,
-    "Hardener": 0.05,
-    "Labels/Hangtag": 0.15,
-    "Insole Board": 0.10,
-    "Master Carton 분담": 0.10,
+    "깔창을 원료에서 성형 유닛 단가로": 0.35,
+    "Eyelet/Lace Loop (RFQ 대기)": 0.20,
+    "Hardener (RFQ 대기)": 0.05,
+    "Labels/Hangtag (소재 스펙 필요)": 0.15,
+    "Master Carton 분담 (스펙 필요)": 0.10,
 }
 # 신발 상자: 우리 $1.15 는 소매 고급 박스급이다. 기준 코스트시트의 포장 전체가
 # $0.90 이므로 상자만 $1.15 는 과대하다. 통상 벌크 박스로 되돌린다.

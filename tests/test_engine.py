@@ -549,3 +549,94 @@ def test_volume_plausibility_warning():
     roll = {"canonical_part": "Vamp", "material_spec": "MAT-MESH-POLY",
             "consumption": {"net": 8.02e-4}}
     assert costing.volume_warnings(roll) == []
+
+
+# ── 보완 규칙: 3D 에 안 보이는 필수 파트가 BOM 에 실제로 들어오는가 ──────────
+def test_hidden_universal_parts_are_in_bom():
+    """깔창·안감·봉제사는 모든 신발에 있지만 외형 3D 에는 안 보인다.
+
+    세그멘테이션으로도 워크북 규칙표로도 안 잡혀 통째로 빠져 있었다.
+    보완 규칙이 이것을 메운다. 빠지면 소재비가 조용히 낮아진다.
+    """
+    import catalog
+    import bom as bom_mod
+    parts = set()
+    for r in catalog.recipes():
+        ok, _ = bom_mod.eval_condition(r["condition"], bom_mod.CONSTRUCTION_FLAGS)
+        if ok:
+            parts.add(r["add_part"])
+    for need in ("Sockliner Foam", "Sockliner Cover", "Thread"):
+        assert need in parts, f"{need} 규칙이 실행되지 않는다"
+
+
+def test_collar_lining_is_not_double_counted():
+    """칼라 안감을 따로 넣으면 안 된다.
+
+    워크북 R-002(Vamp/Quarter Lining)의 측정 기준 upper_proxy_area 에
+    Collar Shell 이 포함돼 있어, 칼라 안감을 별도 라인으로 더하면 같은
+    면적을 두 번 산다. 워크북 소유자가 R-002 의 ratio=0.85 가 칼라를
+    제외한 값이라고 확인해 주면 그때 되살린다.
+    """
+    import catalog
+    import bom as bom_mod
+    from measures import UPPER_PARTS
+    assert "Collar Shell" in UPPER_PARTS
+    fired = {r["add_part"] for r in catalog.recipes()
+             if bom_mod.eval_condition(r["condition"], bom_mod.CONSTRUCTION_FLAGS)[0]}
+    assert "Collar Lining" not in fired
+
+
+def test_supplement_rules_keep_their_provenance():
+    """보완 규칙은 워크북 규칙과 근거가 구분돼야 한다."""
+    import catalog
+    sup = [r for r in catalog.recipes() if r["rule_id"].startswith("S-")]
+    assert sup, "보완 규칙이 로드되지 않았다"
+    for r in sup:
+        assert "워크북" in (r["evidence"] or ""), r["rule_id"]
+
+
+def test_unimplemented_qty_method_says_so():
+    """산식이 없어서 막힌 것을 '면적 없음' 으로 뭉뚱그리면 원인을 못 찾는다."""
+    import consumption
+    line = {"canonical_part": "테스트", "material_spec": "MAT-ADH-PU",
+            "geometry": {"surface_area_m2": None, "method": "blocked",
+                         "source": "없는산식"},
+            "quantity_basis": "per_shoe", "qty_per_pair": 1}
+    out = consumption.compute(line)
+    assert any("없는산식" in b for b in out["blocked"]), out["blocked"]
+
+
+def test_hardener_quantity_computes_but_price_blocks():
+    """하드너는 수량이 나오고 단가만 RFQ 로 막혀야 한다 (0 으로 숨기지 않는다)."""
+    import json
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    d = json.loads((root / "data" / "projects" / "DEMO-RUN-001" / "cost.json")
+                   .read_text(encoding="utf-8"))
+    hard = [l for l in d["lines"] if l["canonical_part"] == "Hardener"]
+    assert hard, "하드너 라인이 없다"
+    h = hard[0]
+    assert h["consumption"]["gross_qty"] > 0, "수량이 계산돼야 한다"
+    assert h["cost_p50"] is None and h["status"] == "blocked"
+
+
+def test_rule_geometry_scale_is_applied():
+    """워크북 규칙의 coverage/ratio 가 실제 소요량에 반영돼야 한다.
+
+    이 값들이 무시되면 토퍼프가 앞코 전체를, 안감이 어퍼 전체를 덮는
+    것으로 계산돼 소재비가 조용히 부풀려진다.
+    """
+    import bom as bom_mod
+    meas = {"value": 1.0, "unit": "m2", "method": "measured", "source": "t"}
+    out = bom_mod.apply_rule_scale(meas, {"rule_id": "R-006",
+                                          "parameters": {"coverage": 0.65}})
+    assert abs(out["value"] - 0.65) < 1e-12
+    assert "R-006" in out["note"]
+    # pattern/yield 는 소재 스펙이 이미 들고 있으므로 여기서 곱하지 않는다
+    out2 = bom_mod.apply_rule_scale(meas, {"rule_id": "R-009",
+                                           "parameters": {"pattern": 1.08, "yield": 0.82}})
+    assert out2["value"] == 1.0
+    # 차단된 측정값은 배율을 적용하지 않는다
+    blocked = {"value": 0.0, "unit": "", "method": "blocked", "source": "x"}
+    assert bom_mod.apply_rule_scale(blocked, {"rule_id": "R-1",
+                                              "parameters": {"coverage": 0.5}}) is blocked

@@ -112,6 +112,9 @@ def cost_lines(bom, quarter, supplier_quotes=None):
             "rule_id": line.get("rule_id"),
             "rule_condition": line.get("rule_condition"),
             "rule_parameters": line.get("rule_parameters"),
+            # 규칙이 지정한 파트 두께. 질량 계산이 이 값을 쓴다.
+            "thickness_mm_override": line.get("thickness_mm_override"),
+            "rule_params_ignored": line.get("rule_params_ignored"),
             "rule_evidence": line.get("rule_evidence"),
             "approval_role": line.get("approval_role"),
             "factory_inputs_required": line.get("factory_inputs_required"),
@@ -253,6 +256,13 @@ def mass_balance(lines, target_pair_g=None):
         # 면적 소재: 순면적 x 면밀도(GSM) x 2짝
         gsm = sp.get("areal_density_gsm")
         gv = gsm["value"] if isinstance(gsm, dict) else gsm
+        # 규칙이 이 파트의 두께를 따로 지정했으면 면밀도를 그 비율로 맞춘다.
+        # (예: 칼라 폼은 6mm 인데 소재 스펙 대표값은 4mm 였다.)
+        thk = l.get("thickness_mm_override")
+        base_thk = sp.get("thickness_mm")
+        bt = base_thk["value"] if isinstance(base_thk, dict) else base_thk
+        if gv and thk and bt and bt > 0 and abs(thk - bt) > 1e-9:
+            gv = float(gv) * float(thk) / float(bt)
         net = (l.get("geometry") or {}).get("surface_area_m2")
         if gv and net:
             g = float(net) * float(gv) * 2.0

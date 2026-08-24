@@ -591,6 +591,25 @@
     "source": "assumption",
     "note": "신발 폴리백 1장 약 5g"
    }
+  },
+  "MAT-HARDENER": {
+   "form": "chemical",
+   "description": "PU 접착제 경화제 (2액형 B액)",
+   "wet_coat_kg_m2": {
+    "value": 0.006,
+    "source": "factory_required",
+    "note": "접착제 도포량의 5% 도징. 실제 비율은 공장 레시피"
+   },
+   "coats": {
+    "value": 2,
+    "source": "assumption",
+    "note": "접착제와 같은 횟수"
+   },
+   "transfer_efficiency": {
+    "value": 0.9,
+    "source": "factory_required"
+   },
+   "_price_note": "워크북 part·material 표에서 RFQ 로 단가 미정. 프록시를 쓰지 않는다."
   }
  },
  "_part_defaults_note": "Strobel Cemented + mesh upper MVP 의 파트->소재 기본 배정. 사용자가 UI에서 바꿀 수 있고, 바꾸면 근거가 user_override 로 기록된다.",
@@ -641,6 +660,7 @@
   "Tissue/Stuffing": "MAT-PAPERBOARD",
   "Polybag": "MAT-LDPE",
   "Polybag/Dust Bag": "MAT-LDPE",
-  "Labels/Hangtag": "MAT-PAPERBOARD"
+  "Labels/Hangtag": "MAT-PAPERBOARD",
+  "Hardener": "MAT-HARDENER"
  }
 }
