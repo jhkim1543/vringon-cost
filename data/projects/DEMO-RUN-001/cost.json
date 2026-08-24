@@ -23,10 +23,10 @@
    "segments": [
     "seg_01"
    ],
-   "geometry_role": null,
-   "geometry_max_class": null,
+   "geometry_role": "repaired_volume_proxy",
+   "geometry_max_class": "C1",
    "price_max_class": "C1",
-   "quantity_basis": null,
+   "quantity_basis": "per_shoe",
    "formula_family": "molded",
    "rule_id": null,
    "rule_condition": null,
@@ -93,7 +93,7 @@
    "cost_p50": 0.42087429731770837,
    "cost_p90": 0.6415174046875,
    "blocked": [
-    "복구본 사용 (seg_01: 메시 완성 후 복셀 3해상도 평균) — 승인 sole CAD 권장"
+    "복구본 사용 (seg_01 메시 완성 후 복셀 3해상도 평균, 해상도 CV 4.5% 판정 ok). 승인 sole CAD 로 대체 권장"
    ],
    "status": "calculated",
    "max_class": "C1",
@@ -124,10 +124,10 @@
     "seg_02",
     "seg_00"
    ],
-   "geometry_role": null,
-   "geometry_max_class": null,
+   "geometry_role": "repaired_volume_proxy",
+   "geometry_max_class": "C1",
    "price_max_class": "C1",
-   "quantity_basis": null,
+   "quantity_basis": "per_shoe",
    "formula_family": "molded",
    "rule_id": null,
    "rule_condition": null,
@@ -194,7 +194,7 @@
    "cost_p50": 0.10593395767973855,
    "cost_p90": 0.15192479784313725,
    "blocked": [
-    "복구본 사용 (seg_02: 메시 완성 후 복셀 3해상도 평균; seg_00: 메시 완성 후 복셀 3해상도 평균) — 승인 sole CAD 권장"
+    "복구본 사용 (seg_02 메시 완성 후 복셀 3해상도 평균, 해상도 CV 8.0% 판정 needs_review; seg_00 메시 완성 후 복셀 3해상도 평균, 해상도 CV 9.9% 판정 needs_review). 승인 sole CAD 로 대체 권장"
    ],
    "status": "calculated",
    "max_class": "C1",
@@ -224,10 +224,10 @@
    "segments": [
     "seg_07"
    ],
-   "geometry_role": null,
-   "geometry_max_class": null,
+   "geometry_role": "repaired_volume_proxy",
+   "geometry_max_class": "C1",
    "price_max_class": "C1",
-   "quantity_basis": null,
+   "quantity_basis": "per_shoe",
    "formula_family": "molded",
    "rule_id": null,
    "rule_condition": null,
@@ -294,7 +294,7 @@
    "cost_p50": 0.7411865235404553,
    "cost_p90": 0.7411865235404553,
    "blocked": [
-    "복구본 사용 (seg_07: 메시 완성 후 복셀 3해상도 평균) — 승인 sole CAD 권장"
+    "복구본 사용 (seg_07 메시 완성 후 복셀 3해상도 평균, 해상도 CV 5.0% 판정 ok). 승인 sole CAD 로 대체 권장"
    ],
    "status": "calculated",
    "max_class": "C1",
@@ -1304,7 +1304,7 @@
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
    "geometry": {
-    "surface_area_m2": 0.02579528778289661,
+    "surface_area_m2": 0.02579528778289662,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -1313,9 +1313,9 @@
     "note": null
    },
    "consumption": {
-    "gross_qty": 0.053149187029607546,
+    "gross_qty": 0.05314918702960757,
     "uom": "m",
-    "net": 0.02579528778289661,
+    "net": 0.02579528778289662,
     "steps": [
      "순 표면적 = 0.025795 m²  [measured]",
      "패턴 여유 = 1.15  [assumption]",
@@ -1374,9 +1374,9 @@
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Wholesale_Men%2527s_Shoes_Leather.html",
     "note": null
    },
-   "cost_p10": 0.2157856993402066,
-   "cost_p50": 0.2407658172441222,
-   "cost_p90": 0.26574593514803774,
+   "cost_p10": 0.2157856993402067,
+   "cost_p50": 0.2407658172441223,
+   "cost_p90": 0.26574593514803785,
    "blocked": [],
    "status": "calculated",
    "max_class": "C1",
@@ -1798,10 +1798,10 @@
    "segments": [
     "seg_03"
    ],
-   "geometry_role": null,
-   "geometry_max_class": null,
+   "geometry_role": "curve_or_trim",
+   "geometry_max_class": "C1",
    "price_max_class": "C1",
-   "quantity_basis": null,
+   "quantity_basis": "per_shoe",
    "formula_family": "count",
    "rule_id": null,
    "rule_condition": null,
@@ -1865,10 +1865,10 @@
    "segments": [
     "seg_09"
    ],
-   "geometry_role": null,
-   "geometry_max_class": null,
+   "geometry_role": "curve_or_trim",
+   "geometry_max_class": "C1",
    "price_max_class": "C1",
-   "quantity_basis": null,
+   "quantity_basis": "per_shoe",
    "formula_family": "length",
    "rule_id": null,
    "rule_condition": null,
@@ -1932,10 +1932,10 @@
    "segments": [
     "seg_06"
    ],
-   "geometry_role": null,
-   "geometry_max_class": null,
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
    "price_max_class": "C1",
-   "quantity_basis": null,
+   "quantity_basis": "per_shoe",
    "formula_family": "roll_sheet",
    "rule_id": null,
    "rule_condition": null,
@@ -2056,10 +2056,10 @@
    "segments": [
     "seg_08"
    ],
-   "geometry_role": null,
-   "geometry_max_class": null,
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
    "price_max_class": "C1",
-   "quantity_basis": null,
+   "quantity_basis": "per_shoe",
    "formula_family": "roll_sheet",
    "rule_id": null,
    "rule_condition": null,
@@ -2180,10 +2180,10 @@
    "segments": [
     "seg_05"
    ],
-   "geometry_role": null,
-   "geometry_max_class": null,
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
    "price_max_class": null,
-   "quantity_basis": null,
+   "quantity_basis": "per_shoe",
    "formula_family": "print_film_hardware",
    "rule_id": null,
    "rule_condition": null,
@@ -2227,7 +2227,7 @@
     "단가 없음: (소재 미배정)"
    ],
    "status": "blocked",
-   "max_class": null,
+   "max_class": "C1",
    "assumptions": []
   },
   {
@@ -2241,10 +2241,10 @@
    "segments": [
     "seg_04"
    ],
-   "geometry_role": null,
-   "geometry_max_class": null,
+   "geometry_role": "surface_region",
+   "geometry_max_class": "C1",
    "price_max_class": "C1",
-   "quantity_basis": null,
+   "quantity_basis": "per_shoe",
    "formula_family": "roll_sheet",
    "rule_id": null,
    "rule_condition": null,
@@ -3081,7 +3081,7 @@
     "Tooling 견적 확정",
     "승인 Supplier 견적이 아닌 단가 20건 (분기 스냅샷/공개 리스팅)",
     "공장 routing, SAM, tooling 미확정",
-    "C1 상한 지오메트리 23건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
+    "C1 상한 지오메트리 24건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
    ]
   },
   "downgraded_from": "C2"
@@ -3138,5 +3138,5 @@
   "verdict": "suspect_over_estimate",
   "note": "면적 기준 소재는 면밀도가 없어 질량에 넣지 못했다. 따라서 이 값은 하한이다. 질량 미산정 16건이 남았는데 이미 목표의 97%다. 복구 부피 과대추정을 의심할 것."
  },
- "computed_at": "2026-08-24T08:31:28Z"
+ "computed_at": "2026-08-24T08:39:30Z"
 }

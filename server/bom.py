@@ -112,14 +112,22 @@ def build(mapping, geo_ctx, cal, parts, flags=None, construction="Strobel Cement
             sid = g[0]["segment_id"]
             if g[1]["volume_m3"] is not None:
                 vols.append(g[1]["volume_m3"])
-            elif repairs.get(sid, {}).get("ok"):
+            elif repairs.get(sid, {}).get("ok") and repairs[sid].get("usable", True):
                 vols.append(repairs[sid]["volume_m3"])
                 geo_method = "repaired"
-                repair_notes.append(f"{sid}: {repairs[sid]['method']}")
+                sens = repairs[sid].get("sensitivity") or {}
+                cv = sens.get("cv")
+                repair_notes.append(
+                    f"{sid} {repairs[sid]['method']}"
+                    + (f", 해상도 CV {cv:.1%} 판정 {sens.get('verdict')}"
+                       if cv is not None else ""))
         vol = sum(vols) if vols else None
+        role = classify_role(cp, group[0][1]["qa"],
+                             repaired=(geo_method == "repaired"))
         if geo_method == "repaired":
-            # 복구본은 측정이 아니다. QA 차단 사유를 지우지 않고 남긴다.
-            qa_block = [f"복구본 사용 ({'; '.join(repair_notes)}) — 승인 sole CAD 권장"]
+            # 복구본은 실측이 아니다. 검사 차단 사유를 지우지 않고 남긴다.
+            qa_block = ["복구본 사용 (" + "; ".join(repair_notes)
+                        + "). 승인 sole CAD 로 대체 권장"]
         unconfirmed = [g[0]["segment_id"] for g in group if not g[0].get("confirmed")]
 
         lines.append({
@@ -134,6 +142,9 @@ def build(mapping, geo_ctx, cal, parts, flags=None, construction="Strobel Cement
             "qty_basis": info.get("qty_basis"),
             "formula_family": info.get("formula_family"),
             "material_spec": defaults.get(cp),
+            "geometry_role": role,
+            "max_class": ROLE_MAX_CLASS.get(role, "C1"),
+            "quantity_basis": "per_shoe",
             "geometry": {
                 "surface_area_m2": area,
                 "volume_m3": vol,

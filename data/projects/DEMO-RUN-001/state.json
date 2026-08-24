@@ -25,13 +25,13 @@
   },
   "bom": {
    "status": "built",
-   "at": "2026-08-24T08:31:28Z",
+   "at": "2026-08-24T08:39:30Z",
    "lines": 24,
    "hidden": 15
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-24T08:31:28Z",
+   "at": "2026-08-24T08:39:30Z",
    "grade": "C1",
    "fob": "산출 불가"
   }
@@ -56,7 +56,7 @@
   "volume_parts_validated": true
  },
  "input_image": "DEMO-RUN-001.jpg",
- "updated_at": "2026-08-24T08:31:28Z",
+ "updated_at": "2026-08-24T08:39:30Z",
  "landmarks": {
   "axis": [
    0.09468265172295515,
@@ -1118,6 +1118,9 @@
    "qty_basis": "volume",
    "formula_family": "molded",
    "material_spec": "MAT-EVA-COMP",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "geometry": {
     "surface_area_m2": 0.031029273788701562,
     "volume_m3": 0.0003887984270833333,
@@ -1125,7 +1128,7 @@
     "method": "repaired"
    },
    "qa_blocked": [
-    "복구본 사용 (seg_01: 메시 완성 후 복셀 3해상도 평균) — 승인 sole CAD 권장"
+    "복구본 사용 (seg_01 메시 완성 후 복셀 3해상도 평균, 해상도 CV 4.5% 판정 ok). 승인 sole CAD 로 대체 권장"
    ],
    "rule_id": null,
    "approval_status": "segment_confirmed",
@@ -1146,6 +1149,9 @@
    "qty_basis": "volume",
    "formula_family": "molded",
    "material_spec": "MAT-PEBA",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "geometry": {
     "surface_area_m2": 0.008072117312453254,
     "volume_m3": 5.490479513888888e-05,
@@ -1153,7 +1159,7 @@
     "method": "repaired"
    },
    "qa_blocked": [
-    "복구본 사용 (seg_02: 메시 완성 후 복셀 3해상도 평균; seg_00: 메시 완성 후 복셀 3해상도 평균) — 승인 sole CAD 권장"
+    "복구본 사용 (seg_02 메시 완성 후 복셀 3해상도 평균, 해상도 CV 8.0% 판정 needs_review; seg_00 메시 완성 후 복셀 3해상도 평균, 해상도 CV 9.9% 판정 needs_review). 승인 sole CAD 로 대체 권장"
    ],
    "rule_id": null,
    "approval_status": "segment_confirmed",
@@ -1173,6 +1179,9 @@
    "qty_basis": "volume",
    "formula_family": "molded",
    "material_spec": "MAT-NR",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "geometry": {
     "surface_area_m2": 0.011369406043312743,
     "volume_m3": 0.00011595786979166666,
@@ -1180,7 +1189,7 @@
     "method": "repaired"
    },
    "qa_blocked": [
-    "복구본 사용 (seg_07: 메시 완성 후 복셀 3해상도 평균) — 승인 sole CAD 권장"
+    "복구본 사용 (seg_07 메시 완성 후 복셀 3해상도 평균, 해상도 CV 5.0% 판정 ok). 승인 sole CAD 로 대체 권장"
    ],
    "rule_id": null,
    "approval_status": "segment_confirmed",
@@ -1516,7 +1525,7 @@
    "formula_family": "roll_sheet",
    "material_spec": "MAT-MICROFIBER",
    "geometry": {
-    "surface_area_m2": 0.02579528778289661,
+    "surface_area_m2": 0.02579528778289662,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -1658,6 +1667,9 @@
    "qty_basis": "count",
    "formula_family": "count",
    "material_spec": "MAT-LACE-POLY",
+   "geometry_role": "curve_or_trim",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "geometry": {
     "surface_area_m2": 0.011423935629927837,
     "volume_m3": null,
@@ -1683,6 +1695,9 @@
    "qty_basis": "length",
    "formula_family": "length",
    "material_spec": "MAT-ELASTIC",
+   "geometry_role": "curve_or_trim",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "geometry": {
     "surface_area_m2": 0.0026655915619050205,
     "volume_m3": null,
@@ -1708,6 +1723,9 @@
    "qty_basis": "area",
    "formula_family": "roll_sheet",
    "material_spec": "MAT-MESH-3D",
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "geometry": {
     "surface_area_m2": 0.028249942644783536,
     "volume_m3": null,
@@ -1733,6 +1751,9 @@
    "qty_basis": "area",
    "formula_family": "roll_sheet",
    "material_spec": "MAT-MICROFIBER",
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "geometry": {
     "surface_area_m2": 0.005113112038704881,
     "volume_m3": null,
@@ -1758,6 +1779,9 @@
    "qty_basis": "area_or_count",
    "formula_family": "print_film_hardware",
    "material_spec": null,
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "geometry": {
     "surface_area_m2": 0.000403727823295703,
     "volume_m3": null,
@@ -1783,6 +1807,9 @@
    "qty_basis": "area",
    "formula_family": "roll_sheet",
    "material_spec": "MAT-MESH-POLY",
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
    "geometry": {
     "surface_area_m2": 0.03664469079824024,
     "volume_m3": null,
@@ -2338,12 +2365,12 @@
      "Tooling 견적 확정",
      "승인 Supplier 견적이 아닌 단가 20건 (분기 스냅샷/공개 리스팅)",
      "공장 routing, SAM, tooling 미확정",
-     "C1 상한 지오메트리 23건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
+     "C1 상한 지오메트리 24건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
     ]
    },
    "downgraded_from": "C2"
   },
-  "computed_at": "2026-08-24T08:31:28Z"
+  "computed_at": "2026-08-24T08:39:30Z"
  },
  "mapping_summary": {
   "input_segments": 10,
