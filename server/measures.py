@@ -130,7 +130,9 @@ class GeometryContext:
         """레이스 주변 띠. 끈 세그먼트의 길이 범위를 그대로 쓴다."""
         laces = self.meshes_for({"Lace"})
         if laces:
-            n = np.vstack([self._norm(m)[:, 0] for m in laces])
+            # 끈 세그먼트가 여럿이면 정점 수가 제각각이라 vstack 이 못 쌓는다.
+            # 1차원 값(정규화 길이)이므로 이어붙이면 된다.
+            n = np.concatenate([self._norm(m)[:, 0] for m in laces])
             lo, hi = float(n.min()), float(n.max())
         else:
             lo, hi = 0.35, 0.72
