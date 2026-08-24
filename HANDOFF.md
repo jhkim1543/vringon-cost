@@ -233,8 +233,12 @@ EB 대신(AWS 세션 만료) 사내 GPU 서버의 jhkim 계정 영역에 백엔�
 - 위치: `plushgpu:/data/jhkim/vringon-cost-svc/` (app=번들 전개, venv, env(0600), run.sh)
 - 기동: `run.sh` 가 재시작 루프로 uvicorn 을 돌리고, crontab `@reboot` 에 등록
   (기존 vringon-cad 항목은 보존). 죽이면: `pkill -u jhkim -f "[u]vicorn server.app:app"`
-- 갱신: 로컬에서 `python deploy/eb_bundle.py` 후 bundle.zip 을 scp 로 올려 app/ 재전개,
-  프로세스 재기동. 키·공급자 주소는 서버의 env 파일에만 있다 (리포·번들엔 없음).
+- 갱신: `python deploy/gpu_deploy.py` 한 줄이면 번들 생성부터 전개·재기동·검증까지
+  한다. 서버에서 만들어진 프로젝트와 원본 메시는 보존한다(안 그러면 라이브 생성
+  결과가 배포마다 사라진다). 원본 파트 메시까지 맞추려면 `--meshes` (410MB, 느림).
+  키·공급자 주소는 서버의 env 파일에만 있다 (리포·번들엔 없음).
+- 원본 파트 메시(segmented/completed)가 없으면 예시는 **보기만** 되고 다시 계산이
+  안 된다. 실제로 이것 때문에 예시에서 '매핑 확정하고 BOM 으로' 가 막혔었다.
 - 주소는 HTTP 고포트라 https 인 GitHub Pages 페이지에 붙이면 mixed content 로
   차단된다. 그래서 공개 페이지 연결(`deploy/backend.json`) 대신 **서버 주소로 직접
   접속**하는 것이 라이브 데모다 (같은 오리진이라 업로드·생성·재계산 전부 동작).

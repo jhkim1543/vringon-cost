@@ -108,7 +108,14 @@ class Project:
     def _parts(self):
         glb = self.dir / "segmented.glb"
         if not glb.exists():
-            raise FileNotFoundError("segmented.glb 가 없습니다. 세그멘테이션을 먼저 실행하세요.")
+            # 이미 세그멘테이션을 돌린 프로젝트인데 파일만 없는 경우가 있다
+            # (원본 메시를 뺀 배포본). 둘을 구분해 줘야 사용자가 헛수고를 안 한다.
+            if (self.state.get("steps") or {}).get("segment3d"):
+                raise FileNotFoundError(
+                    "이 서버에는 원본 파트 메시가 없어 다시 계산할 수 없습니다. "
+                    "미리 계산된 결과는 볼 수 있습니다.")
+            raise FileNotFoundError(
+                "파트 메시가 없습니다. 세그멘테이션을 먼저 실행하세요.")
         if not hasattr(self, "_parts_cache"):
             sc = geo.load_scene(glb)
             self._parts_cache = geo.scene_parts(sc)

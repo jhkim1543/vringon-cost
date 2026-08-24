@@ -1,0 +1,4799 @@
+{
+ "project_id": "LIVE-H100-001",
+ "created_at": "2026-08-24T12:28:23Z",
+ "steps": {
+  "generate3d": {
+   "status": "done",
+   "at": "2026-08-24T12:30:48Z",
+   "task_id": "6da1c749-8466-4020-af83-7394a8066985"
+  },
+  "segment3d": {
+   "status": "done",
+   "at": "2026-08-24T12:34:10Z",
+   "task_id": "caf7c99e-2939-454a-aa43-ea12999b1f11"
+  },
+  "scale": {
+   "status": "confirmed",
+   "at": "2026-08-24T12:41:18Z",
+   "scale": 299.2392268181105
+  },
+  "segment": {
+   "status": "confirmed",
+   "at": "2026-08-24T12:52:04Z",
+   "confirmed": 33,
+   "total": 33
+  },
+  "repair": {
+   "status": "repaired",
+   "at": "2026-08-24T12:51:41Z",
+   "repaired": 12,
+   "attempted": 12
+  },
+  "mesh_complete": {
+   "status": "done",
+   "at": "2026-08-24T12:51:30Z",
+   "task_id": "c15199ea-0053-4219-a351-a368743e8327"
+  },
+  "bom": {
+   "status": "built",
+   "at": "2026-08-24T12:53:02Z",
+   "lines": 27,
+   "hidden": 15
+  },
+  "cost": {
+   "status": "calculated",
+   "at": "2026-08-24T12:53:03Z",
+   "grade": "C1",
+   "fob": "산출 불가"
+  }
+ },
+ "scenario": {
+  "style_id": "LIVE-H100-001",
+  "construction": "Strobel Cemented",
+  "reference_size_label": 260,
+  "order_quantity": 5000,
+  "currency": "USD",
+  "quarter": "2026Q3",
+  "reject_allowance_pct": 3.0,
+  "factory_overhead_pct": 8.0,
+  "supplier_margin_pct": 10.0,
+  "target_pair_weight_g": 600
+ },
+ "gates": {
+  "metric_calibrated": true,
+  "segmented": true,
+  "construction_set": true,
+  "mbom_built": true,
+  "volume_parts_validated": false
+ },
+ "input_image": "LIVE-H100-001.jpg",
+ "updated_at": "2026-08-24T12:53:03Z",
+ "landmarks": {
+  "axis": [
+   -0.02431963935677898,
+   -0.06472602445943576,
+   0.9976066844700033
+  ],
+  "up": [
+   1.831073173896513e-16,
+   0.9979018300703584,
+   0.0647451738914164
+  ],
+  "toe": [
+   -0.027877547312527895,
+   -0.07145021855831146,
+   0.49991602450609207
+  ],
+  "heel": [
+   0.0021335198543965816,
+   -0.1387089490890503,
+   -0.4999173507094383
+  ],
+  "raw_length": 1.0025423577984043,
+  "auto": true,
+  "confirmed": true
+ },
+ "calibration": {
+  "target_length_mm": 300.0,
+  "raw_length": 1.0025423577984043,
+  "scale": 299.2392268181105,
+  "area_scale": 89544.11486670059,
+  "volume_scale": 26795111.698823564,
+  "measurement_type": "External outsole toe-to-heel",
+  "confidence": "B",
+  "anisotropic": null,
+  "toe": [
+   -0.027877547312527895,
+   -0.07145021855831146,
+   0.49991602450609207
+  ],
+  "heel": [
+   0.0021335198543965816,
+   -0.1387089490890503,
+   -0.4999173507094383
+  ],
+  "confirmed": true,
+  "width_check": {
+   "width_over_length": 0.4004,
+   "expected_range": [
+    0.32,
+    0.42
+   ],
+   "category": "running",
+   "verdict": "ok",
+   "note": null
+  }
+ },
+ "mapping": [
+  {
+   "segment_id": "seg_16",
+   "canonical_part": "Vamp",
+   "confidence": 0.905,
+   "score": 0.96,
+   "margin": 0.218,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Vamp",
+     "score": 0.96
+    },
+    {
+     "canonical_part": "Collar Shell",
+     "score": 0.75
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.707
+    },
+    {
+     "canonical_part": "Tongue Shell",
+     "score": 0.606
+    },
+    {
+     "canonical_part": "Midsole Carrier",
+     "score": 0.489
+    }
+   ],
+   "features": {
+    "area_share": 0.2737404025324073,
+    "len_lo": 0.09204737512846695,
+    "len_hi": 0.9054019570758945,
+    "len_span": 0.8133545819474276,
+    "len_center": 0.49872466610218075,
+    "hgt_lo": 0.2741987013209866,
+    "hgt_hi": 1.0,
+    "hgt_span": 0.7258012986790134,
+    "hgt_center": 0.6370993506604933,
+    "wid_span": 0.8153310803101439,
+    "wid_offset": 0.033160611553547215,
+    "thinness": 0.3589151243516331,
+    "fill": 0.40555241713350404
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.4792574527846892,
+    "faces": 300753,
+    "vertices": 157683,
+    "euler_number": 149,
+    "body_count": 206,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.4792574527846892,
+     "faces": 300753,
+     "vertices": 157683,
+     "euler_number": 149,
+     "body_count": 206,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.04291468440287455,
+    "bbox_mm": [
+     97.71891701245468,
+     92.6133104231349,
+     241.77975667677669
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_11",
+   "canonical_part": "Midsole Carrier",
+   "confidence": 0.816,
+   "score": 0.867,
+   "margin": 0.217,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Midsole Carrier",
+     "score": 0.867
+    },
+    {
+     "canonical_part": "Vamp",
+     "score": 0.679
+    },
+    {
+     "canonical_part": "Sockliner Cover",
+     "score": 0.675
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.557
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.45
+    }
+   ],
+   "features": {
+    "area_share": 0.24688203391311334,
+    "len_lo": 0.0,
+    "len_hi": 1.0,
+    "len_span": 1.0,
+    "len_center": 0.5,
+    "hgt_lo": 0.0,
+    "hgt_hi": 0.5203770531720122,
+    "hgt_span": 0.5203770531720122,
+    "hgt_center": 0.2601885265860061,
+    "wid_span": 1.0,
+    "wid_offset": 0.0,
+    "thinness": 0.20930137118981976,
+    "fill": 0.3155331486631204
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.43223453175675963,
+    "faces": 371548,
+    "vertices": 193830,
+    "euler_number": 178,
+    "body_count": 287,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.43223453175675963,
+     "faces": 371548,
+     "vertices": 193830,
+     "euler_number": 178,
+     "body_count": 287,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.03870405856098183,
+    "bbox_mm": [
+     119.63718135598415,
+     48.18633943863619,
+     299.23923573613445
+    ],
+    "volume_m3": null,
+    "volume_status": "blocked:not watertight (열린 경계 존재)"
+   }
+  },
+  {
+   "segment_id": "seg_21",
+   "canonical_part": "Heel Overlay",
+   "confidence": 0.507,
+   "score": 0.801,
+   "margin": 0.046,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.801
+    },
+    {
+     "canonical_part": "Collar Shell",
+     "score": 0.765
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.709
+    },
+    {
+     "canonical_part": "Vamp",
+     "score": 0.664
+    },
+    {
+     "canonical_part": "Tongue Shell",
+     "score": 0.586
+    }
+   ],
+   "features": {
+    "area_share": 0.09147496301744307,
+    "len_lo": 0.053293129453871664,
+    "len_hi": 0.6602490368186557,
+    "len_span": 0.606955907364784,
+    "len_center": 0.35677108313626366,
+    "hgt_lo": 0.2883194862352647,
+    "hgt_hi": 0.7793098935558247,
+    "hgt_span": 0.49099040732056,
+    "hgt_center": 0.5338146898955447,
+    "wid_span": 0.7933493414067845,
+    "wid_offset": 0.00465099813747849,
+    "thinness": 0.32536422628139716,
+    "fill": 0.2159808815902585
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.16015194455675327,
+    "faces": 114748,
+    "vertices": 62577,
+    "euler_number": 144,
+    "body_count": 218,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.16015194455675327,
+     "faces": 114748,
+     "vertices": 62577,
+     "euler_number": 144,
+     "body_count": 218,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.014340664119515378,
+    "bbox_mm": [
+     94.69183202602451,
+     59.4966500148888,
+     182.9377342069044
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_23",
+   "canonical_part": "Midsole Insert",
+   "confidence": 0.393,
+   "score": 0.715,
+   "margin": 0.0,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Midsole Carrier",
+     "score": 0.862
+    },
+    {
+     "canonical_part": "Sockliner Cover",
+     "score": 0.723
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.715
+    },
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.666
+    },
+    {
+     "canonical_part": "Vamp",
+     "score": 0.599
+    }
+   ],
+   "features": {
+    "area_share": 0.08313674897869089,
+    "len_lo": 5.521853392877488e-05,
+    "len_hi": 0.7494670133432848,
+    "len_span": 0.749411794809356,
+    "len_center": 0.3747611159386068,
+    "hgt_lo": 0.03923035804764551,
+    "hgt_hi": 0.34568875273774763,
+    "hgt_span": 0.3064583946901021,
+    "hgt_center": 0.19245955539269657,
+    "wid_span": 0.9662625937844818,
+    "wid_offset": 0.028883991428740208,
+    "thinness": 0.16447690847115834,
+    "fill": 0.17136788554879703
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.1455536200711567,
+    "faces": 206443,
+    "vertices": 107189,
+    "euler_number": 139,
+    "body_count": 181,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.1455536200711567,
+     "faces": 206443,
+     "vertices": 107189,
+     "euler_number": 139,
+     "body_count": 181,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.01303347007491575,
+    "bbox_mm": [
+     113.41590545112301,
+     40.58084576427166,
+     224.3072253499862
+    ],
+    "volume_m3": null,
+    "volume_status": "blocked:not watertight (열린 경계 존재)"
+   }
+  },
+  {
+   "segment_id": "seg_08",
+   "canonical_part": "Mudguard/Toe Overlay",
+   "confidence": 0.918,
+   "score": 0.918,
+   "margin": 0.325,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Mudguard/Toe Overlay",
+     "score": 0.918
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.619
+    },
+    {
+     "canonical_part": "Sockliner Cover",
+     "score": 0.614
+    },
+    {
+     "canonical_part": "Tongue Shell",
+     "score": 0.585
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.561
+    }
+   ],
+   "features": {
+    "area_share": 0.08130927385367567,
+    "len_lo": 0.5537237899003845,
+    "len_hi": 0.9847008086955698,
+    "len_span": 0.43097701879518524,
+    "len_center": 0.7692122992979771,
+    "hgt_lo": 0.27363507174937707,
+    "hgt_hi": 0.6563116204738384,
+    "hgt_span": 0.38267654872446133,
+    "hgt_center": 0.46497334611160773,
+    "wid_span": 0.8416181679670737,
+    "wid_offset": 0.03197694643572668,
+    "thinness": 0.3571343897091135,
+    "fill": 0.2735737966328501
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.14235412498259925,
+    "faces": 80743,
+    "vertices": 43135,
+    "euler_number": 112,
+    "body_count": 137,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.14235412498259925,
+     "faces": 80743,
+     "vertices": 43135,
+     "euler_number": 112,
+     "body_count": 137,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.012746974119190521,
+    "bbox_mm": [
+     100.85366484252236,
+     45.702052206913685,
+     128.9180885755302
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_14",
+   "canonical_part": "Tongue Shell",
+   "confidence": 0.44,
+   "score": 0.799,
+   "margin": 0.0,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Lace",
+     "score": 0.914
+    },
+    {
+     "canonical_part": "Collar Shell",
+     "score": 0.808
+    },
+    {
+     "canonical_part": "Tongue Shell",
+     "score": 0.799
+    },
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.512
+    },
+    {
+     "canonical_part": "Mudguard/Toe Overlay",
+     "score": 0.497
+    }
+   ],
+   "features": {
+    "area_share": 0.05710803699208996,
+    "len_lo": 0.37351981975131854,
+    "len_hi": 0.6826132766313344,
+    "len_span": 0.3090934568800159,
+    "len_center": 0.5280665481913265,
+    "hgt_lo": 0.5161896691703122,
+    "hgt_hi": 0.8875630859110271,
+    "hgt_span": 0.3713734167407149,
+    "hgt_center": 0.7018763775406696,
+    "wid_span": 0.6461629933193273,
+    "wid_offset": 0.11507496367992465,
+    "thinness": 0.4832534216570412,
+    "fill": 0.30717501213813075
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.09998323992061293,
+    "faces": 137140,
+    "vertices": 74157,
+    "euler_number": 199,
+    "body_count": 240,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.09998323992061293,
+     "faces": 137140,
+     "vertices": 74157,
+     "euler_number": 199,
+     "body_count": 240,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00895291072019625,
+    "bbox_mm": [
+     77.47390136380288,
+     47.40277733345399,
+     90.16542656500764
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_30",
+   "canonical_part": "Heel Overlay",
+   "confidence": 0.573,
+   "score": 0.948,
+   "margin": 0.03,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.948
+    },
+    {
+     "canonical_part": "Collar Shell",
+     "score": 0.919
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.711
+    },
+    {
+     "canonical_part": "Tongue Shell",
+     "score": 0.611
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.529
+    }
+   ],
+   "features": {
+    "area_share": 0.05106492579558169,
+    "len_lo": 0.04576840467960904,
+    "len_hi": 0.3876453772502973,
+    "len_span": 0.3418769725706883,
+    "len_center": 0.21670689096495316,
+    "hgt_lo": 0.30048947658290237,
+    "hgt_hi": 0.9393326582539225,
+    "hgt_span": 0.6388431816710202,
+    "hgt_center": 0.6199110674184125,
+    "wid_span": 0.4951471885408625,
+    "wid_offset": 0.00456443805213258,
+    "thinness": 0.5798722450676249,
+    "fill": 0.21911118509122282
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.08940312075610518,
+    "faces": 80810,
+    "vertices": 43145,
+    "euler_number": 56,
+    "body_count": 79,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.08940312075610518,
+     "faces": 80810,
+     "vertices": 43145,
+     "euler_number": 56,
+     "body_count": 79,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.008005523314426187,
+    "bbox_mm": [
+     57.47873530248257,
+     77.12814511785147,
+     105.82464271341075
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_02",
+   "canonical_part": "Mudguard/Toe Overlay",
+   "confidence": 0.918,
+   "score": 0.918,
+   "margin": 0.301,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Mudguard/Toe Overlay",
+     "score": 0.918
+    },
+    {
+     "canonical_part": "Sockliner Cover",
+     "score": 0.642
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.606
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.525
+    },
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.512
+    }
+   ],
+   "features": {
+    "area_share": 0.029894005798410058,
+    "len_lo": 0.7281933169353161,
+    "len_hi": 0.9790453183423677,
+    "len_span": 0.25085200140705166,
+    "len_center": 0.8536193176388419,
+    "hgt_lo": 0.3123725560254681,
+    "hgt_hi": 0.5545893047524352,
+    "hgt_span": 0.24221674872696708,
+    "hgt_center": 0.43348093038895164,
+    "wid_span": 0.6950397521262525,
+    "wid_offset": 0.020349291395155067,
+    "thinness": 0.35009072717160117,
+    "fill": 0.21832954447093342
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.052337634269316945,
+    "faces": 32812,
+    "vertices": 17469,
+    "euler_number": 18,
+    "body_count": 32,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.052337634269316945,
+     "faces": 32812,
+     "vertices": 17469,
+     "euler_number": 18,
+     "body_count": 32,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.004686527134863082,
+    "bbox_mm": [
+     83.24194545757719,
+     28.873358730963194,
+     74.20881661430987
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_05",
+   "canonical_part": "Midsole Insert",
+   "confidence": 0.394,
+   "score": 0.717,
+   "margin": 0.0,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Mudguard/Toe Overlay",
+     "score": 0.94
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.717
+    },
+    {
+     "canonical_part": "Sockliner Cover",
+     "score": 0.697
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.525
+    },
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.494
+    }
+   ],
+   "features": {
+    "area_share": 0.02578674634551282,
+    "len_lo": 0.6650156718477432,
+    "len_hi": 0.9752654831451908,
+    "len_span": 0.31024981129744755,
+    "len_center": 0.820140577496467,
+    "hgt_lo": 0.27505394633801117,
+    "hgt_hi": 0.5101623468307083,
+    "hgt_span": 0.2351084004926971,
+    "hgt_center": 0.3926081465843597,
+    "wid_span": 0.5275546427717029,
+    "wid_offset": 0.0008417664362476707,
+    "thinness": 0.30479690796187847,
+    "fill": 0.19901221711251071
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.04514675310924292,
+    "faces": 21413,
+    "vertices": 11592,
+    "euler_number": 17,
+    "body_count": 23,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.04514675310924292,
+     "faces": 21413,
+     "vertices": 11592,
+     "euler_number": 17,
+     "body_count": 23,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.004042626046272621,
+    "bbox_mm": [
+     62.94292671514638,
+     22.378703032687508,
+     93.59458957738445
+    ],
+    "volume_m3": null,
+    "volume_status": "blocked:not watertight (열린 경계 존재)"
+   }
+  },
+  {
+   "segment_id": "seg_20",
+   "canonical_part": "Collar Shell",
+   "confidence": 0.528,
+   "score": 0.874,
+   "margin": 0.03,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Collar Shell",
+     "score": 0.874
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.847
+    },
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.749
+    },
+    {
+     "canonical_part": "Tongue Shell",
+     "score": 0.548
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.477
+    }
+   ],
+   "features": {
+    "area_share": 0.024962149185016456,
+    "len_lo": 0.10224208566995256,
+    "len_hi": 0.4852759914450825,
+    "len_span": 0.3830339057751299,
+    "len_center": 0.2937590385575175,
+    "hgt_lo": 0.5368089163774991,
+    "hgt_hi": 0.9993105617400749,
+    "hgt_span": 0.4625016453625759,
+    "hgt_center": 0.768059739058787,
+    "wid_span": 0.5406632466168391,
+    "wid_offset": 0.1279639051242183,
+    "thinness": 0.4856573873774485,
+    "fill": 0.11378686840771127
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.04370307022189059,
+    "faces": 35104,
+    "vertices": 19091,
+    "euler_number": 63,
+    "body_count": 83,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.04370307022189059,
+     "faces": 35104,
+     "vertices": 19091,
+     "euler_number": 63,
+     "body_count": 83,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.0039133527399764535,
+    "bbox_mm": [
+     64.68253442592852,
+     52.93852696996103,
+     114.19723582082207
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_15",
+   "canonical_part": "Logo/Graphic",
+   "confidence": 0.844,
+   "score": 0.951,
+   "margin": 0.188,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.951
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.772
+    },
+    {
+     "canonical_part": "Tongue Shell",
+     "score": 0.618
+    },
+    {
+     "canonical_part": "Collar Shell",
+     "score": 0.579
+    },
+    {
+     "canonical_part": "Sockliner Cover",
+     "score": 0.545
+    }
+   ],
+   "features": {
+    "area_share": 0.01103946313082242,
+    "len_lo": 0.3064711742551955,
+    "len_hi": 0.7547858874461326,
+    "len_span": 0.44831471319093713,
+    "len_center": 0.5306285308506641,
+    "hgt_lo": 0.4796019402875781,
+    "hgt_hi": 0.7173701406656354,
+    "hgt_span": 0.23776820037805735,
+    "hgt_center": 0.5984860404766068,
+    "wid_span": 0.10281536811264891,
+    "wid_offset": 0.6661401912400529,
+    "thinness": 0.09182118576311597,
+    "fill": 0.14991797510992402
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.019327599913067595,
+    "faces": 14617,
+    "vertices": 8185,
+    "euler_number": 40,
+    "body_count": 53,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.019327599913067595,
+     "faces": 14617,
+     "vertices": 8185,
+     "euler_number": 40,
+     "body_count": 53,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.001730672826713357,
+    "bbox_mm": [
+     13.551764475953767,
+     33.33092262117003,
+     132.43409976374167
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_17",
+   "canonical_part": "Logo/Graphic",
+   "confidence": 0.444,
+   "score": 0.808,
+   "margin": 0.0,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Lace",
+     "score": 0.909
+    },
+    {
+     "canonical_part": "Collar Shell",
+     "score": 0.835
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.808
+    },
+    {
+     "canonical_part": "Tongue Shell",
+     "score": 0.625
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.569
+    }
+   ],
+   "features": {
+    "area_share": 0.0039021988325566694,
+    "len_lo": 0.368399585977381,
+    "len_hi": 0.5236741690649841,
+    "len_span": 0.1552745830876031,
+    "len_center": 0.44603687752118254,
+    "hgt_lo": 0.6568739106264083,
+    "hgt_hi": 0.8601821323884405,
+    "hgt_span": 0.20330822176203223,
+    "hgt_center": 0.7585280215074244,
+    "wid_span": 0.12170795329548878,
+    "wid_offset": 0.5606309795622464,
+    "thinness": 0.31382420808532435,
+    "fill": 0.14263144139683795
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.006831866452483554,
+    "faces": 6610,
+    "vertices": 3703,
+    "euler_number": 20,
+    "body_count": 21,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.006831866452483554,
+     "faces": 6610,
+     "vertices": 3703,
+     "euler_number": 20,
+     "body_count": 21,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.0006117534343751456,
+    "bbox_mm": [
+     14.206826774635825,
+     25.453405807778058,
+     46.21855070911466
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_12",
+   "canonical_part": "Outsole Rubber",
+   "confidence": 0.791,
+   "score": 0.89,
+   "margin": 0.188,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Outsole Rubber",
+     "score": 0.89
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.723
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.599
+    },
+    {
+     "canonical_part": "Mudguard/Toe Overlay",
+     "score": 0.527
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.512
+    }
+   ],
+   "features": {
+    "area_share": 0.0017040421642295653,
+    "len_lo": 0.5134406285514604,
+    "len_hi": 0.5745665210189038,
+    "len_span": 0.06112589246744338,
+    "len_center": 0.5440035747851821,
+    "hgt_lo": 0.04765955292700357,
+    "hgt_hi": 0.08068944907081965,
+    "hgt_span": 0.03302989614381608,
+    "hgt_center": 0.06417450099891162,
+    "wid_span": 0.22608041696712472,
+    "wid_offset": 0.2041365929380794,
+    "thinness": 0.14676765135083142,
+    "fill": 0.20010754906425418
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0029833919272098932,
+    "faces": 2041,
+    "vertices": 1175,
+    "euler_number": 6,
+    "body_count": 7,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0029833919272098932,
+     "faces": 2041,
+     "vertices": 1175,
+     "euler_number": 6,
+     "body_count": 7,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00026714518942246994,
+    "bbox_mm": [
+     27.132504726339818,
+     3.223210168229813,
+     17.81764324551449
+    ],
+    "volume_m3": null,
+    "volume_status": "blocked:not watertight (열린 경계 존재)"
+   }
+  },
+  {
+   "segment_id": "seg_22",
+   "canonical_part": "Outsole Rubber",
+   "confidence": 0.677,
+   "score": 0.813,
+   "margin": 0.157,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Outsole Rubber",
+     "score": 0.813
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.685
+    },
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.557
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.525
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.514
+    }
+   ],
+   "features": {
+    "area_share": 0.001328701096676637,
+    "len_lo": 0.2777850784463437,
+    "len_hi": 0.3613866299587043,
+    "len_span": 0.0836015515123606,
+    "len_center": 0.319585854202524,
+    "hgt_lo": 0.008798980636198621,
+    "hgt_hi": 0.0450789387804838,
+    "hgt_span": 0.03627995814428518,
+    "hgt_center": 0.02693895970834121,
+    "wid_span": 0.19130035265103862,
+    "wid_offset": 0.5950660169677835,
+    "thinness": 0.1745445834461418,
+    "fill": 0.13472984737986582
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.002326254718757055,
+    "faces": 2211,
+    "vertices": 1353,
+    "euler_number": 15,
+    "body_count": 17,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.002326254718757055,
+     "faces": 2211,
+     "vertices": 1353,
+     "euler_number": 15,
+     "body_count": 17,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00020830241974558603,
+    "bbox_mm": [
+     22.675970867894435,
+     3.659921340025821,
+     24.876328283918426
+    ],
+    "volume_m3": null,
+    "volume_status": "blocked:not watertight (열린 경계 존재)"
+   }
+  },
+  {
+   "segment_id": "seg_01",
+   "canonical_part": "Mudguard/Toe Overlay",
+   "confidence": 0.796,
+   "score": 0.844,
+   "margin": 0.218,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Mudguard/Toe Overlay",
+     "score": 0.844
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.66
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.613
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.603
+    },
+    {
+     "canonical_part": "Sockliner Cover",
+     "score": 0.566
+    }
+   ],
+   "features": {
+    "area_share": 0.001316778167935856,
+    "len_lo": 0.8700642941024548,
+    "len_hi": 0.9357076589557637,
+    "len_span": 0.0656433648533089,
+    "len_center": 0.9028859765291093,
+    "hgt_lo": 0.3460185814377333,
+    "hgt_hi": 0.40356533445604365,
+    "hgt_span": 0.05754675301831036,
+    "hgt_center": 0.37479195794688847,
+    "wid_span": 0.16803659080945488,
+    "wid_offset": 0.27645847786758804,
+    "thinness": 0.34403533037826256,
+    "fill": 0.1557573046792034
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0023053803706331475,
+    "faces": 1439,
+    "vertices": 836,
+    "euler_number": 2,
+    "body_count": 7,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0023053803706331475,
+     "faces": 1439,
+     "vertices": 836,
+     "euler_number": 2,
+     "body_count": 7,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00020643324471941135,
+    "bbox_mm": [
+     19.736740679247625,
+     5.619041750308115,
+     20.23671742740478
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_10",
+   "canonical_part": "Lace",
+   "confidence": 0.599,
+   "score": 0.757,
+   "margin": 0.134,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Lace",
+     "score": 0.757
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.655
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.642
+    },
+    {
+     "canonical_part": "Mudguard/Toe Overlay",
+     "score": 0.564
+    },
+    {
+     "canonical_part": "Tongue Shell",
+     "score": 0.526
+    }
+   ],
+   "features": {
+    "area_share": 0.0012674562958710483,
+    "len_lo": 0.5826565545437096,
+    "len_hi": 0.6277557375919118,
+    "len_span": 0.04509918304820226,
+    "len_center": 0.6052061460678106,
+    "hgt_lo": 0.5227796103315804,
+    "hgt_hi": 0.6508021997363531,
+    "hgt_span": 0.12802258940477274,
+    "hgt_center": 0.5867909050339668,
+    "wid_span": 0.1077271772182804,
+    "wid_offset": 0.6665907137728821,
+    "thinness": 0.8376307095765417,
+    "fill": 0.17313503955574008
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.002219028942222598,
+    "faces": 3738,
+    "vertices": 2147,
+    "euler_number": 12,
+    "body_count": 14,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.002219028942222598,
+     "faces": 3738,
+     "vertices": 2147,
+     "euler_number": 12,
+     "body_count": 14,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00019870098249491345,
+    "bbox_mm": [
+     12.856740512136923,
+     15.502010337693939,
+     13.18847985400986
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_04",
+   "canonical_part": "Mudguard/Toe Overlay",
+   "confidence": 0.781,
+   "score": 0.862,
+   "margin": 0.198,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Mudguard/Toe Overlay",
+     "score": 0.862
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.692
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.618
+    },
+    {
+     "canonical_part": "Sockliner Cover",
+     "score": 0.606
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.598
+    }
+   ],
+   "features": {
+    "area_share": 0.0012577068028454908,
+    "len_lo": 0.8511973285063981,
+    "len_hi": 0.9166404564432344,
+    "len_span": 0.06544312793683638,
+    "len_center": 0.8839188924748163,
+    "hgt_lo": 0.3374091201282539,
+    "hgt_hi": 0.38623228721799135,
+    "hgt_span": 0.04882316708973744,
+    "hgt_center": 0.36182070367312263,
+    "wid_span": 0.14908104562719138,
+    "wid_offset": 0.5640753257195852,
+    "thinness": 0.30006534110126737,
+    "fill": 0.1751761769391431
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.002201959787833459,
+    "faces": 1325,
+    "vertices": 782,
+    "euler_number": 8,
+    "body_count": 9,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.002201959787833459,
+     "faces": 1325,
+     "vertices": 782,
+     "euler_number": 8,
+     "body_count": 9,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00019717254017361492,
+    "bbox_mm": [
+     17.513061515949452,
+     4.825123589861964,
+     19.8269074747293
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_31",
+   "canonical_part": "Outsole Rubber",
+   "confidence": 0.762,
+   "score": 0.86,
+   "margin": 0.187,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Outsole Rubber",
+     "score": 0.86
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.699
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.618
+    },
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.592
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.428
+    }
+   ],
+   "features": {
+    "area_share": 0.0012158010026691853,
+    "len_lo": 0.024979007623314828,
+    "len_hi": 0.06602392938783012,
+    "len_span": 0.041044921764515296,
+    "len_center": 0.045501468505572476,
+    "hgt_lo": 0.03125676148906565,
+    "hgt_hi": 0.07011369668871452,
+    "hgt_span": 0.03885693519964887,
+    "hgt_center": 0.05068522908889009,
+    "wid_span": 0.15268561742389286,
+    "wid_offset": 0.4165126489372495,
+    "thinness": 0.2556562976716996,
+    "fill": 0.2624386259434502
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0021285922218344184,
+    "faces": 2032,
+    "vertices": 1129,
+    "euler_number": 2,
+    "body_count": 3,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0021285922218344184,
+     "faces": 2032,
+     "vertices": 1129,
+     "euler_number": 2,
+     "body_count": 3,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00019060290641630657,
+    "bbox_mm": [
+     18.22425162760675,
+     5.309122583433737,
+     11.880261484256225
+    ],
+    "volume_m3": null,
+    "volume_status": "blocked:not watertight (열린 경계 존재)"
+   }
+  },
+  {
+   "segment_id": "seg_27",
+   "canonical_part": "Outsole Rubber",
+   "confidence": 0.471,
+   "score": 0.713,
+   "margin": 0.061,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Outsole Rubber",
+     "score": 0.713
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.67
+    },
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.655
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.628
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.462
+    }
+   ],
+   "features": {
+    "area_share": 0.0011699471132652088,
+    "len_lo": 0.17252921801893847,
+    "len_hi": 0.19369549984394963,
+    "len_span": 0.021166281825011152,
+    "len_center": 0.18311235893144406,
+    "hgt_lo": 0.0002827028992579121,
+    "hgt_hi": 0.023385226014943417,
+    "hgt_span": 0.023102523115685506,
+    "hgt_center": 0.011833964457100664,
+    "wid_span": 0.335619619303175,
+    "wid_offset": 0.0630908067446565,
+    "thinness": 0.06915095063913403,
+    "fill": 0.24173949453877186
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0020483124456935216,
+    "faces": 1521,
+    "vertices": 899,
+    "euler_number": 4,
+    "body_count": 6,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0020483124456935216,
+     "faces": 1521,
+     "vertices": 899,
+     "euler_number": 4,
+     "body_count": 6,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00018341432492007312,
+    "bbox_mm": [
+     39.937060306822126,
+     2.546086907903663,
+     6.756874584768525
+    ],
+    "volume_m3": null,
+    "volume_status": "blocked:not watertight (열린 경계 존재)"
+   }
+  },
+  {
+   "segment_id": "seg_13",
+   "canonical_part": "Lace",
+   "confidence": 0.771,
+   "score": 0.836,
+   "margin": 0.207,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Lace",
+     "score": 0.836
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.663
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.635
+    },
+    {
+     "canonical_part": "Collar Shell",
+     "score": 0.6
+    },
+    {
+     "canonical_part": "Tongue Shell",
+     "score": 0.564
+    }
+   ],
+   "features": {
+    "area_share": 0.0010889985661892941,
+    "len_lo": 0.5150616277657403,
+    "len_hi": 0.5576962968328182,
+    "len_span": 0.04263466906707791,
+    "len_center": 0.5363789622992792,
+    "hgt_lo": 0.6030882399161157,
+    "hgt_hi": 0.7168283556644405,
+    "hgt_span": 0.11374011574832477,
+    "hgt_center": 0.659958297790278,
+    "wid_span": 0.11064709640530623,
+    "wid_offset": 0.6456835727879873,
+    "thinness": 0.9319557545833713,
+    "fill": 0.16454599503668285
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0019065898716075442,
+    "faces": 3180,
+    "vertices": 1774,
+    "euler_number": 13,
+    "body_count": 16,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0019065898716075442,
+     "faces": 3180,
+     "vertices": 1774,
+     "euler_number": 13,
+     "body_count": 16,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.0001707239024669139,
+    "bbox_mm": [
+     13.194325618681999,
+     13.76682819627648,
+     12.530243296192808
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_32",
+   "canonical_part": "Outsole Rubber",
+   "confidence": 0.789,
+   "score": 0.866,
+   "margin": 0.201,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Outsole Rubber",
+     "score": 0.866
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.692
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.641
+    },
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.588
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.43
+    }
+   ],
+   "features": {
+    "area_share": 0.0010112580241751793,
+    "len_lo": 0.023669175847982074,
+    "len_hi": 0.0621574487017482,
+    "len_span": 0.038488272853766124,
+    "len_center": 0.04291331227486514,
+    "hgt_lo": 0.031185544568639378,
+    "hgt_hi": 0.06996667354989522,
+    "hgt_span": 0.03878112898125584,
+    "hgt_center": 0.0505761090592673,
+    "wid_span": 0.1729237589148997,
+    "wid_offset": 0.265794768197926,
+    "thinness": 0.22529516024502316,
+    "fill": 0.20628122553708178
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0017704837878906002,
+    "faces": 1550,
+    "vertices": 899,
+    "euler_number": 2,
+    "body_count": 4,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0017704837878906002,
+     "faces": 1550,
+     "vertices": 899,
+     "euler_number": 2,
+     "body_count": 4,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00015853640367250704,
+    "bbox_mm": [
+     20.433255067810205,
+     5.292414665640829,
+     11.512803227123056
+    ],
+    "volume_m3": null,
+    "volume_status": "blocked:not watertight (열린 경계 존재)"
+   }
+  },
+  {
+   "segment_id": "seg_26",
+   "canonical_part": "Webbing/Pull Tab",
+   "confidence": 0.504,
+   "score": 0.873,
+   "margin": 0.015,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.873
+    },
+    {
+     "canonical_part": "Collar Shell",
+     "score": 0.861
+    },
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.777
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.747
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.619
+    }
+   ],
+   "features": {
+    "area_share": 0.0009258830655753443,
+    "len_lo": 0.14308799468903516,
+    "len_hi": 0.21115695010251723,
+    "len_span": 0.06806895541348207,
+    "len_center": 0.1771224723957762,
+    "hgt_lo": 0.667662953515159,
+    "hgt_hi": 0.8051148960783446,
+    "hgt_span": 0.1374519425631856,
+    "hgt_center": 0.7363889247967519,
+    "wid_span": 0.09766567094836143,
+    "wid_offset": 0.3954953007503259,
+    "thinness": 0.5744612068089691,
+    "fill": 0.09556939484489055
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0016210115696442956,
+    "faces": 2457,
+    "vertices": 1405,
+    "euler_number": 0,
+    "body_count": 5,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0016210115696442956,
+     "faces": 2457,
+     "vertices": 1405,
+     "euler_number": 0,
+     "body_count": 5,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00014515204619247946,
+    "bbox_mm": [
+     12.012826794905735,
+     17.51718164299526,
+     19.10718727320335
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_25",
+   "canonical_part": "Logo/Graphic",
+   "confidence": 0.428,
+   "score": 0.778,
+   "margin": 0.0,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.886
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.789
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.778
+    },
+    {
+     "canonical_part": "Sockliner Cover",
+     "score": 0.691
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.547
+    }
+   ],
+   "features": {
+    "area_share": 0.000869196811525384,
+    "len_lo": 0.15053205512395976,
+    "len_hi": 0.2191880357023589,
+    "len_span": 0.06865598057839914,
+    "len_center": 0.1848600454131593,
+    "hgt_lo": 0.3738983442550934,
+    "hgt_hi": 0.44726526484786877,
+    "hgt_span": 0.07336692059277539,
+    "hgt_center": 0.4105818045514811,
+    "wid_span": 0.0359676546421247,
+    "wid_offset": 0.7158613362204771,
+    "thinness": 0.2097498212759146,
+    "fill": 0.22397385550580012
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0015217667761371573,
+    "faces": 2968,
+    "vertices": 1599,
+    "euler_number": -3,
+    "body_count": 4,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0015217667761371573,
+     "faces": 2968,
+     "vertices": 1599,
+     "euler_number": -3,
+     "body_count": 4,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00013626525900275425,
+    "bbox_mm": [
+     4.618981237706895,
+     8.625031151182304,
+     20.50859230428474
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_24",
+   "canonical_part": "Heel Overlay",
+   "confidence": 0.682,
+   "score": 0.885,
+   "margin": 0.123,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.885
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.777
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.765
+    },
+    {
+     "canonical_part": "Sockliner Cover",
+     "score": 0.672
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.549
+    }
+   ],
+   "features": {
+    "area_share": 0.0008685184623988108,
+    "len_lo": 0.15913367217318394,
+    "len_hi": 0.22576415456982046,
+    "len_span": 0.06663048239663652,
+    "len_center": 0.19244891337150222,
+    "hgt_lo": 0.3692249465918241,
+    "hgt_hi": 0.4500462738948296,
+    "hgt_span": 0.08082132730300551,
+    "hgt_center": 0.40963561024332684,
+    "wid_span": 0.037228153637228145,
+    "wid_offset": 0.5696776986905578,
+    "thinness": 0.22370021128067993,
+    "fill": 0.21126629743546885
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0015205791404374483,
+    "faces": 2716,
+    "vertices": 1469,
+    "euler_number": 3,
+    "body_count": 4,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0015205791404374483,
+     "faces": 2716,
+     "vertices": 1469,
+     "euler_number": 3,
+     "body_count": 4,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00013615891321523972,
+    "bbox_mm": [
+     4.038937356144636,
+     10.460498700958823,
+     19.71757250160891
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_29",
+   "canonical_part": "Webbing/Pull Tab",
+   "confidence": 0.694,
+   "score": 0.912,
+   "margin": 0.117,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.912
+    },
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.806
+    },
+    {
+     "canonical_part": "Collar Shell",
+     "score": 0.758
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.654
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.62
+    }
+   ],
+   "features": {
+    "area_share": 0.0007965160711638597,
+    "len_lo": 0.09554182842534957,
+    "len_hi": 0.160743678840307,
+    "len_span": 0.06520185041495742,
+    "len_center": 0.1281427536328283,
+    "hgt_lo": 0.6126548514318255,
+    "hgt_hi": 0.7428719293535052,
+    "hgt_span": 0.1302170779216797,
+    "hgt_center": 0.6777633903926654,
+    "wid_span": 0.13833677753175022,
+    "wid_offset": 0.34473130149468734,
+    "thinness": 0.8032707639102715,
+    "fill": 0.07111462513119782
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0013945192592564667,
+    "faces": 1028,
+    "vertices": 633,
+    "euler_number": 0,
+    "body_count": 1,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0013945192592564667,
+     "faces": 1028,
+     "vertices": 633,
+     "euler_number": 0,
+     "body_count": 1,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.0001248709927346873,
+    "bbox_mm": [
+     16.84421864082251,
+     16.442336811401844,
+     18.651690284043713
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_03",
+   "canonical_part": "Mudguard/Toe Overlay",
+   "confidence": 0.866,
+   "score": 0.866,
+   "margin": 0.256,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Mudguard/Toe Overlay",
+     "score": 0.866
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.645
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.611
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.58
+    },
+    {
+     "canonical_part": "Sockliner Cover",
+     "score": 0.559
+    }
+   ],
+   "features": {
+    "area_share": 0.000784972262486358,
+    "len_lo": 0.8533174651502944,
+    "len_hi": 0.9014410555441765,
+    "len_span": 0.04812359039388214,
+    "len_center": 0.8773792603472355,
+    "hgt_lo": 0.33860811026555204,
+    "hgt_hi": 0.3777951863835404,
+    "hgt_span": 0.039187076117988384,
+    "hgt_center": 0.35820164832454626,
+    "wid_span": 0.11174081453607906,
+    "wid_offset": 0.4063231666141395,
+    "thinness": 0.32752071617223877,
+    "fill": 0.19237114592244248
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0013743086645067266,
+    "faces": 911,
+    "vertices": 538,
+    "euler_number": 2,
+    "body_count": 3,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0013743086645067266,
+     "faces": 911,
+     "vertices": 538,
+     "euler_number": 2,
+     "body_count": 3,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.0001230612529168922,
+    "bbox_mm": [
+     13.247785827755557,
+     3.7737443086782556,
+     14.770771393536942
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_18",
+   "canonical_part": "Outsole Rubber",
+   "confidence": 0.795,
+   "score": 0.843,
+   "margin": 0.219,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Outsole Rubber",
+     "score": 0.843
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.659
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.554
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.493
+    },
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.459
+    }
+   ],
+   "features": {
+    "area_share": 0.0007649777767082756,
+    "len_lo": 0.36808235256988847,
+    "len_hi": 0.414586048348522,
+    "len_span": 0.0465036957786335,
+    "len_center": 0.3913342004592052,
+    "hgt_lo": 0.023758740847975354,
+    "hgt_hi": 0.055296064203864355,
+    "hgt_span": 0.031537323355889005,
+    "hgt_center": 0.03952740252591985,
+    "wid_span": 0.17148149633194332,
+    "wid_offset": 0.1950493687993361,
+    "thinness": 0.18475391430032637,
+    "fill": 0.14569637088041756
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0013393028479188407,
+    "faces": 1136,
+    "vertices": 694,
+    "euler_number": 7,
+    "body_count": 11,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0013393028479188407,
+     "faces": 1136,
+     "vertices": 694,
+     "euler_number": 7,
+     "body_count": 11,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00011992668805534392,
+    "bbox_mm": [
+     20.386459966855394,
+     3.1056661541014825,
+     13.816536146790463
+    ],
+    "volume_m3": null,
+    "volume_status": "blocked:not watertight (열린 경계 존재)"
+   }
+  },
+  {
+   "segment_id": "seg_19",
+   "canonical_part": "Outsole Rubber",
+   "confidence": 0.835,
+   "score": 0.835,
+   "margin": 0.281,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Outsole Rubber",
+     "score": 0.835
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.6
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.563
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.493
+    },
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.456
+    }
+   ],
+   "features": {
+    "area_share": 0.0007318143107919683,
+    "len_lo": 0.37000127494953905,
+    "len_hi": 0.4164157661139504,
+    "len_span": 0.046414491164411376,
+    "len_center": 0.3932085205317447,
+    "hgt_lo": 0.023503287449884017,
+    "hgt_hi": 0.05552550751136424,
+    "hgt_span": 0.03202222006148022,
+    "hgt_center": 0.03951439748062413,
+    "wid_span": 0.13003629400684258,
+    "wid_offset": 0.20521112311845213,
+    "thinness": 0.24738475668552007,
+    "fill": 0.17602205300181972
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0012812411293945552,
+    "faces": 1138,
+    "vertices": 656,
+    "euler_number": 3,
+    "body_count": 5,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0012812411293945552,
+     "faces": 1138,
+     "vertices": 656,
+     "euler_number": 3,
+     "body_count": 5,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00011472760286244726,
+    "bbox_mm": [
+     15.529810047723265,
+     3.131506128376877,
+     13.884629718345174
+    ],
+    "volume_m3": null,
+    "volume_status": "blocked:not watertight (열린 경계 존재)"
+   }
+  },
+  {
+   "segment_id": "seg_28",
+   "canonical_part": "Outsole Rubber",
+   "confidence": 0.503,
+   "score": 0.736,
+   "margin": 0.074,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Outsole Rubber",
+     "score": 0.736
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.682
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.665
+    },
+    {
+     "canonical_part": "Heel Overlay",
+     "score": 0.655
+    },
+    {
+     "canonical_part": "Lace",
+     "score": 0.446
+    }
+   ],
+   "features": {
+    "area_share": 0.0007120096974059119,
+    "len_lo": 0.14783262667213887,
+    "len_hi": 0.1884553427656934,
+    "len_span": 0.04062271609355453,
+    "len_center": 0.16814398471891612,
+    "hgt_lo": 0.0008621363252705563,
+    "hgt_hi": 0.02442680901958586,
+    "hgt_span": 0.023564672694315305,
+    "hgt_center": 0.012644472672428209,
+    "wid_span": 0.18154799769167057,
+    "wid_offset": 0.5712227594694774,
+    "thinness": 0.13039352630783235,
+    "fill": 0.15671935615480323
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0012465677363660513,
+    "faces": 1194,
+    "vertices": 704,
+    "euler_number": 5,
+    "body_count": 7,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0012465677363660513,
+     "faces": 1194,
+     "vertices": 704,
+     "euler_number": 5,
+     "body_count": 7,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00011162280457428465,
+    "bbox_mm": [
+     21.664341448777684,
+     3.135581665303143,
+     12.087917670969793
+    ],
+    "volume_m3": null,
+    "volume_status": "blocked:not watertight (열린 경계 존재)"
+   }
+  },
+  {
+   "segment_id": "seg_00",
+   "canonical_part": "Sockliner Cover",
+   "confidence": 0.405,
+   "score": 0.737,
+   "margin": 0.0,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Mudguard/Toe Overlay",
+     "score": 0.811
+    },
+    {
+     "canonical_part": "Sockliner Cover",
+     "score": 0.737
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.735
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.643
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.533
+    }
+   ],
+   "features": {
+    "area_share": 0.0006970763692036497,
+    "len_lo": 0.9321168356298144,
+    "len_hi": 0.9631281287578314,
+    "len_span": 0.03101129312801698,
+    "len_center": 0.9476224821938228,
+    "hgt_lo": 0.2753786093873272,
+    "hgt_hi": 0.3175056983498415,
+    "hgt_span": 0.04212708896251427,
+    "hgt_center": 0.29644215386858436,
+    "wid_span": 0.21398428098313177,
+    "wid_offset": 0.03465870414586525,
+    "thinness": 0.19777238910996997,
+    "fill": 0.13332552612068538
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0012204228605289281,
+    "faces": 1197,
+    "vertices": 731,
+    "euler_number": 11,
+    "body_count": 12,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0012204228605289281,
+     "faces": 1197,
+     "vertices": 731,
+     "euler_number": 11,
+     "body_count": 12,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 0.00010928168480914967,
+    "bbox_mm": [
+     25.294447605370816,
+     4.671260923365542,
+     9.802379749582066
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_09",
+   "canonical_part": "Lace",
+   "confidence": 0.654,
+   "score": 0.758,
+   "margin": 0.174,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Lace",
+     "score": 0.758
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.626
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.609
+    },
+    {
+     "canonical_part": "Mudguard/Toe Overlay",
+     "score": 0.568
+    },
+    {
+     "canonical_part": "Tongue Shell",
+     "score": 0.516
+    }
+   ],
+   "features": {
+    "area_share": 0.0005348495514081841,
+    "len_lo": 0.5928711197332462,
+    "len_hi": 0.6232062815056958,
+    "len_span": 0.030335161772449548,
+    "len_center": 0.608038700619471,
+    "hgt_lo": 0.5448272506159466,
+    "hgt_hi": 0.6216113418657487,
+    "hgt_span": 0.07678409124980212,
+    "hgt_center": 0.5832192962408477,
+    "wid_span": 0.05020961017962833,
+    "wid_offset": 0.462571795821871,
+    "thinness": 0.650922852634183,
+    "fill": 0.21870425268260565
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0009364004409271436,
+    "faces": 1520,
+    "vertices": 861,
+    "euler_number": 1,
+    "body_count": 5,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0009364004409271436,
+     "faces": 1520,
+     "vertices": 861,
+     "euler_number": 1,
+     "body_count": 5,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 8.384914864360922e-05,
+    "bbox_mm": [
+     6.13545999029391,
+     9.301859001966479,
+     8.914383125417293
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  },
+  {
+   "segment_id": "seg_07",
+   "canonical_part": "Midsole Insert",
+   "confidence": 0.347,
+   "score": 0.63,
+   "margin": 0.0,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Mudguard/Toe Overlay",
+     "score": 0.891
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.687
+    },
+    {
+     "canonical_part": "Sockliner Cover",
+     "score": 0.668
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.63
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.572
+    }
+   ],
+   "features": {
+    "area_share": 0.0004714058855300751,
+    "len_lo": 0.7613164183954908,
+    "len_hi": 0.8151649112620468,
+    "len_span": 0.05384849286655602,
+    "len_center": 0.7882406648287688,
+    "hgt_lo": 0.3032999509740656,
+    "hgt_hi": 0.3381060740352034,
+    "hgt_span": 0.034806123061137784,
+    "hgt_center": 0.3207030125046345,
+    "wid_span": 0.14147226590490136,
+    "wid_offset": 0.5713683936710203,
+    "thinness": 0.24715558214457609,
+    "fill": 0.090890362104989
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0008253249496120984,
+    "faces": 640,
+    "vertices": 434,
+    "euler_number": 8,
+    "body_count": 8,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0008253249496120984,
+     "faces": 640,
+     "vertices": 434,
+     "euler_number": 8,
+     "body_count": 8,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 7.390299209041962e-05,
+    "bbox_mm": [
+     17.101632941934547,
+     3.2130614570217375,
+     16.096212696964212
+    ],
+    "volume_m3": null,
+    "volume_status": "blocked:not watertight (열린 경계 존재)"
+   }
+  },
+  {
+   "segment_id": "seg_06",
+   "canonical_part": "Mudguard/Toe Overlay",
+   "confidence": 0.879,
+   "score": 0.879,
+   "margin": 0.323,
+   "status": "engineer_confirmed",
+   "confirmed": true,
+   "alternatives": [
+    {
+     "canonical_part": "Mudguard/Toe Overlay",
+     "score": 0.879
+    },
+    {
+     "canonical_part": "Midsole Insert",
+     "score": 0.595
+    },
+    {
+     "canonical_part": "Webbing/Pull Tab",
+     "score": 0.544
+    },
+    {
+     "canonical_part": "Sockliner Cover",
+     "score": 0.541
+    },
+    {
+     "canonical_part": "Logo/Graphic",
+     "score": 0.538
+    }
+   ],
+   "features": {
+    "area_share": 0.0001811421266242107,
+    "len_lo": 0.8381427620636405,
+    "len_hi": 0.8671175278869745,
+    "len_span": 0.028974765823334026,
+    "len_center": 0.8526301449753075,
+    "hgt_lo": 0.33412567923515935,
+    "hgt_hi": 0.37044042798132376,
+    "hgt_span": 0.036314748746164416,
+    "hgt_center": 0.3522830536082415,
+    "wid_span": 0.050478949017654706,
+    "wid_offset": 0.6993148755433927,
+    "thinness": 0.5041004036324473,
+    "fill": 0.12311955245117435
+   },
+   "qa": {
+    "watertight": false,
+    "winding_consistent": true,
+    "is_volume": false,
+    "raw_volume": 0.0,
+    "raw_area": 0.0003171388417449384,
+    "faces": 321,
+    "vertices": 218,
+    "euler_number": 7,
+    "body_count": 7,
+    "blocked_reasons": [
+     "not watertight (열린 경계 존재)"
+    ]
+   },
+   "metrics": {
+    "qa": {
+     "watertight": false,
+     "winding_consistent": true,
+     "is_volume": false,
+     "raw_volume": 0.0,
+     "raw_area": 0.0003171388417449384,
+     "faces": 321,
+     "vertices": 218,
+     "euler_number": 7,
+     "body_count": 7,
+     "blocked_reasons": [
+      "not watertight (열린 경계 존재)"
+     ]
+    },
+    "surface_area_m2": 2.839791687390115e-05,
+    "bbox_mm": [
+     5.861946426520732,
+     3.9801586605625396,
+     8.789399249843148
+    ],
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part"
+   }
+  }
+ ],
+ "mapping_summary": {
+  "input_segments": 33,
+  "assigned_segments": 33,
+  "auto_accepted": 0,
+  "needs_review": 0,
+  "engineer_confirmed": 33,
+  "assignment_coverage": 1.0,
+  "review_rate": 0.0,
+  "note": "정답 데이터가 없으므로 정확도가 아니라 배정 커버리지다"
+ },
+ "repairs": {
+  "seg_11": {
+   "ok": true,
+   "canonical_part": "Midsole Carrier",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 0.0005164462100694445,
+   "volume_cm3": 516.4462100694445,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 0.018221160902572493,
+      "watertight": true,
+      "faces": 222600
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 0.019299300845896625,
+      "watertight": true,
+      "faces": 98996
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 0.020301227805314574,
+      "watertight": true,
+      "faces": 55908
+     }
+    ],
+    "mean": 0.019273896517927897,
+    "cv": 0.04406860517902457,
+    "verdict": "ok",
+    "note": "3개 해상도, CV 4.4%"
+   },
+   "usable": true,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
+   "confidence_penalty": 2
+  },
+  "seg_23": {
+   "ok": true,
+   "canonical_part": "Midsole Insert",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 8.270013368055556e-05,
+   "volume_cm3": 82.70013368055557,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 0.002743563234952328,
+      "watertight": true,
+      "faces": 85080
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 0.003082427321197779,
+      "watertight": true,
+      "faces": 37762
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 0.0034331759601275436,
+      "watertight": true,
+      "faces": 21340
+     }
+    ],
+    "mean": 0.003086388838759217,
+    "cv": 0.09122219083568422,
+    "verdict": "needs_review",
+    "note": "3개 해상도, CV 9.1%"
+   },
+   "usable": true,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
+   "confidence_penalty": 2
+  },
+  "seg_05": {
+   "ok": true,
+   "canonical_part": "Midsole Insert",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 1.8366406250000003e-05,
+   "volume_cm3": 18.366406250000004,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 0.000565888354454309,
+      "watertight": true,
+      "faces": 26752
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 0.0006815363919830866,
+      "watertight": true,
+      "faces": 12380
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 0.0008088913223035731,
+      "watertight": true,
+      "faces": 7288
+     }
+    ],
+    "mean": 0.0006854386895803229,
+    "cv": 0.14478889939694528,
+    "verdict": "blocked",
+    "note": "3개 해상도, CV 14.5%"
+   },
+   "usable": false,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
+   "confidence_penalty": 2
+  },
+  "seg_12": {
+   "ok": true,
+   "canonical_part": "Outsole Rubber",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 1.355850694444445e-06,
+   "volume_cm3": 1.355850694444445,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 4.161051261384688e-05,
+      "watertight": true,
+      "faces": 1904
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 5.100160676172885e-05,
+      "watertight": true,
+      "faces": 940
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 5.918990067392161e-05,
+      "watertight": true,
+      "faces": 576
+     }
+    ],
+    "mean": 5.0600673349832445e-05,
+    "cv": 0.14194183706622857,
+    "verdict": "blocked",
+    "note": "3개 해상도, CV 14.2%"
+   },
+   "usable": false,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
+   "confidence_penalty": 2
+  },
+  "seg_22": {
+   "ok": true,
+   "canonical_part": "Outsole Rubber",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 1.4197031250000002e-06,
+   "volume_cm3": 1.419703125,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 4.2579283844402064e-05,
+      "watertight": true,
+      "faces": 2112
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 5.407177963223834e-05,
+      "watertight": true,
+      "faces": 1048
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 6.229992067570395e-05,
+      "watertight": true,
+      "faces": 624
+     }
+    ],
+    "mean": 5.2983661384114783e-05,
+    "cv": 0.15264325900035383,
+    "verdict": "blocked",
+    "note": "3개 해상도, CV 15.3%"
+   },
+   "usable": false,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
+   "confidence_penalty": 2
+  },
+  "seg_31": {
+   "ok": true,
+   "canonical_part": "Outsole Rubber",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 8.265451388888888e-07,
+   "volume_cm3": 0.8265451388888888,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 2.554570429464016e-05,
+      "watertight": true,
+      "faces": 1348
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 3.147845620054021e-05,
+      "watertight": true,
+      "faces": 668
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 3.551642842035436e-05,
+      "watertight": true,
+      "faces": 396
+     }
+    ],
+    "mean": 3.0846862971844906e-05,
+    "cv": 0.13275118664592228,
+    "verdict": "blocked",
+    "note": "3개 해상도, CV 13.3%"
+   },
+   "usable": false,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
+   "confidence_penalty": 2
+  },
+  "seg_27": {
+   "ok": true,
+   "canonical_part": "Outsole Rubber",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 1.2399305555555562e-06,
+   "volume_cm3": 1.2399305555555562,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 3.213739168841781e-05,
+      "watertight": true,
+      "faces": 2348
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 4.332879866483165e-05,
+      "watertight": true,
+      "faces": 1192
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 6.335732747630993e-05,
+      "watertight": true,
+      "faces": 812
+     }
+    ],
+    "mean": 4.6274505943186466e-05,
+    "cv": 0.2790859660095086,
+    "verdict": "blocked",
+    "note": "3개 해상도, CV 27.9%"
+   },
+   "usable": false,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
+   "confidence_penalty": 2
+  },
+  "seg_32": {
+   "ok": true,
+   "canonical_part": "Outsole Rubber",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 6.29168402777778e-07,
+   "volume_cm3": 0.6291684027777781,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 1.8468853780584443e-05,
+      "watertight": true,
+      "faces": 1196
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 2.415727474009445e-05,
+      "watertight": true,
+      "faces": 608
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 2.7816018895941313e-05,
+      "watertight": true,
+      "faces": 348
+     }
+    ],
+    "mean": 2.3480715805540067e-05,
+    "cv": 0.16378696719623195,
+    "verdict": "blocked",
+    "note": "3개 해상도, CV 16.4%"
+   },
+   "usable": false,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
+   "confidence_penalty": 2
+  },
+  "seg_18": {
+   "ok": true,
+   "canonical_part": "Outsole Rubber",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 8.435815972222229e-07,
+   "volume_cm3": 0.8435815972222229,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 2.5116521534394225e-05,
+      "watertight": true,
+      "faces": 1312
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 3.441217694347151e-05,
+      "watertight": true,
+      "faces": 704
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 3.49193045800122e-05,
+      "watertight": true,
+      "faces": 376
+     }
+    ],
+    "mean": 3.148266768595931e-05,
+    "cv": 0.1431360128934924,
+    "verdict": "blocked",
+    "note": "3개 해상도, CV 14.3%"
+   },
+   "usable": false,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
+   "confidence_penalty": 2
+  },
+  "seg_19": {
+   "ok": true,
+   "canonical_part": "Outsole Rubber",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 7.18463541666667e-07,
+   "volume_cm3": 0.718463541666667,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 2.0924214571991612e-05,
+      "watertight": true,
+      "faces": 1060
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 2.6959791514200564e-05,
+      "watertight": true,
+      "faces": 544
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 3.2555689378657596e-05,
+      "watertight": true,
+      "faces": 356
+     }
+    ],
+    "mean": 2.681323182161659e-05,
+    "cv": 0.17713867784479312,
+    "verdict": "blocked",
+    "note": "3개 해상도, CV 17.7%"
+   },
+   "usable": false,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
+   "confidence_penalty": 2
+  },
+  "seg_28": {
+   "ok": true,
+   "canonical_part": "Outsole Rubber",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 1.1043697916666672e-06,
+   "volume_cm3": 1.1043697916666673,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 3.365508144928766e-05,
+      "watertight": true,
+      "faces": 1882
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 4.235788929552516e-05,
+      "watertight": true,
+      "faces": 964
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 4.7633066347298386e-05,
+      "watertight": true,
+      "faces": 592
+     }
+    ],
+    "mean": 4.1215345697370406e-05,
+    "cv": 0.13983612532632472,
+    "verdict": "blocked",
+    "note": "3개 해상도, CV 14.0%"
+   },
+   "usable": false,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
+   "confidence_penalty": 2
+  },
+  "seg_07": {
+   "ok": true,
+   "canonical_part": "Midsole Insert",
+   "tier": "R3",
+   "method": "메시 완성 후 복셀 3해상도 평균",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "volume_m3": 3.602065972222221e-07,
+   "volume_cm3": 0.36020659722222215,
+   "sensitivity": {
+    "results": [
+     {
+      "pitch_mm": 1.0,
+      "volume": 9.480895975433483e-06,
+      "watertight": true,
+      "faces": 1046
+     },
+     {
+      "pitch_mm": 1.5,
+      "volume": 1.4091306251825668e-05,
+      "watertight": true,
+      "faces": 528
+     },
+     {
+      "pitch_mm": 2.0,
+      "volume": 1.6756787769603253e-05,
+      "watertight": true,
+      "faces": 336
+     }
+    ],
+    "mean": 1.3442996665620801e-05,
+    "cv": 0.22357641780509632,
+    "verdict": "blocked",
+    "note": "3개 해상도, CV 22.4%"
+   },
+   "usable": false,
+   "note": "파트를 닫은 뒤 부피를 잰 값이다. 실제 제조 내부 구조를 보장하지 않으므로 C1 proxy 로만 쓴다.",
+   "confidence_penalty": 2
+  }
+ },
+ "bom": [
+  {
+   "line_id": "V-BT-008",
+   "part_id": "BT-008",
+   "canonical_part": "Midsole Carrier",
+   "assembly": "Bottom",
+   "visibility": "Visible",
+   "origin": "segmentation",
+   "segments": [
+    "seg_11"
+   ],
+   "qty_per_pair": 1,
+   "qty_basis": "volume",
+   "formula_family": "molded",
+   "material_spec": "MAT-EVA-COMP",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "geometry": {
+    "surface_area_m2": 0.03870405856098183,
+    "volume_m3": 0.0005164462100694445,
+    "volume_status": "repaired",
+    "method": "repaired"
+   },
+   "qa_blocked": [
+    "복구본 사용 (seg_11 메시 완성 후 복셀 3해상도 평균, 해상도 CV 4.4% 판정 ok). 승인 sole CAD 로 대체 권장"
+   ],
+   "rule_id": null,
+   "approval_status": "segment_confirmed",
+   "needs_confirm": []
+  },
+  {
+   "line_id": "V-BT-009",
+   "part_id": "BT-009",
+   "canonical_part": "Midsole Insert",
+   "assembly": "Bottom",
+   "visibility": "Hidden/Visible",
+   "origin": "segmentation",
+   "segments": [
+    "seg_23",
+    "seg_05",
+    "seg_07"
+   ],
+   "qty_per_pair": 1,
+   "qty_basis": "volume",
+   "formula_family": "molded",
+   "material_spec": "MAT-PEBA",
+   "geometry_role": "repaired_volume_proxy",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "geometry": {
+    "surface_area_m2": 0.01714999911327879,
+    "volume_m3": 8.270013368055556e-05,
+    "volume_status": "repaired",
+    "method": "repaired"
+   },
+   "qa_blocked": [
+    "복구본 사용 (seg_23 메시 완성 후 복셀 3해상도 평균, 해상도 CV 9.1% 판정 needs_review). 승인 sole CAD 로 대체 권장"
+   ],
+   "rule_id": null,
+   "approval_status": "segment_confirmed",
+   "needs_confirm": []
+  },
+  {
+   "line_id": "V-BT-010",
+   "part_id": "BT-010",
+   "canonical_part": "Outsole Rubber",
+   "assembly": "Bottom",
+   "visibility": "Visible",
+   "origin": "segmentation",
+   "segments": [
+    "seg_12",
+    "seg_22",
+    "seg_31",
+    "seg_27",
+    "seg_32",
+    "seg_18",
+    "seg_19",
+    "seg_28"
+   ],
+   "qty_per_pair": 1,
+   "qty_basis": "volume",
+   "formula_family": "molded",
+   "material_spec": "MAT-NR",
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "geometry": {
+    "surface_area_m2": 0.0013542783396690186,
+    "volume_m3": null,
+    "volume_status": "blocked:not watertight (열린 경계 존재)",
+    "method": "measured"
+   },
+   "qa_blocked": [
+    "not watertight (열린 경계 존재)"
+   ],
+   "rule_id": null,
+   "approval_status": "segment_confirmed",
+   "needs_confirm": []
+  },
+  {
+   "line_id": "V-BT-003",
+   "part_id": "BT-003",
+   "canonical_part": "Sockliner Cover",
+   "assembly": "Bottom",
+   "visibility": "Visible",
+   "origin": "segmentation",
+   "segments": [
+    "seg_00"
+   ],
+   "qty_per_pair": 1,
+   "qty_basis": "area",
+   "formula_family": "roll_sheet",
+   "material_spec": "MAT-LINING-MESH",
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "geometry": {
+    "surface_area_m2": 0.00010928168480914967,
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part",
+    "method": "measured"
+   },
+   "qa_blocked": [],
+   "rule_id": null,
+   "approval_status": "segment_confirmed",
+   "needs_confirm": []
+  },
+  {
+   "line_id": "H-R-001",
+   "part_id": "BT-001",
+   "canonical_part": "Strobel",
+   "assembly": "Bottom",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "area",
+   "formula_family": "roll_sheet",
+   "material_spec": "MAT-STROBEL",
+   "geometry": {
+    "surface_area_m2": 0.029525947633428837,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "proxy",
+    "source": "솔 평면투영 볼록껍질",
+    "note": "실제 라스트 바닥은 볼록하지 않아 약간 과대"
+   },
+   "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "R-001",
+   "rule_condition": "always",
+   "rule_parameters": {
+    "allowance": 1.05,
+    "yield": 0.85
+   },
+   "rule_evidence": "construction template",
+   "approval_role": "Engineer",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "H-R-014",
+   "part_id": "CH-003",
+   "canonical_part": "Cement/Adhesive",
+   "assembly": "Chemical",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "bond_area",
+   "formula_family": "chemical_coating",
+   "material_spec": "MAT-ADH-PU",
+   "geometry": {
+    "surface_area_m2": 0.03798692403907056,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "proxy",
+    "source": "라스트 바닥 + 둘레×12mm 물림",
+    "note": "승인 pattern 이 있으면 실제 접합면으로 대체"
+   },
+   "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "R-014",
+   "rule_condition": "cemented_sole==true",
+   "rule_parameters": {
+    "coats": 2.0,
+    "transfer": "factory"
+   },
+   "rule_evidence": "factory chemical recipe",
+   "approval_role": "Factory",
+   "factory_inputs_required": [
+    "transfer"
+   ],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "H-R-012",
+   "part_id": "CH-001",
+   "canonical_part": "Cleaner",
+   "assembly": "Chemical",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "bond_area",
+   "formula_family": "chemical_coating",
+   "material_spec": "MAT-CLEANER",
+   "geometry": {
+    "surface_area_m2": 0.03798692403907056,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "proxy",
+    "source": "라스트 바닥 + 둘레×12mm 물림",
+    "note": "승인 pattern 이 있으면 실제 접합면으로 대체"
+   },
+   "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "R-012",
+   "rule_condition": "cemented_sole==true",
+   "rule_parameters": {
+    "coat_kg_m2": "factory"
+   },
+   "rule_evidence": "factory chemical recipe",
+   "approval_role": "Factory",
+   "factory_inputs_required": [
+    "coat_kg_m2"
+   ],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "H-R-013",
+   "part_id": "CH-002",
+   "canonical_part": "Primer",
+   "assembly": "Chemical",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "bond_area",
+   "formula_family": "chemical_coating",
+   "material_spec": "MAT-PRIMER",
+   "geometry": {
+    "surface_area_m2": 0.03798692403907056,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "proxy",
+    "source": "라스트 바닥 + 둘레×12mm 물림",
+    "note": "승인 pattern 이 있으면 실제 접합면으로 대체"
+   },
+   "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "R-013",
+   "rule_condition": "cemented_sole==true",
+   "rule_parameters": {
+    "coat_kg_m2": "factory"
+   },
+   "rule_evidence": "factory chemical recipe",
+   "approval_role": "Factory",
+   "factory_inputs_required": [
+    "coat_kg_m2"
+   ],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "H-R-021",
+   "part_id": null,
+   "canonical_part": "Polybag",
+   "assembly": "Hidden",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "count",
+   "formula_family": null,
+   "material_spec": "MAT-LDPE",
+   "geometry": {
+    "surface_area_m2": null,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "count",
+    "source": "count",
+    "note": null
+   },
+   "qa_blocked": [],
+   "geometry_role": "fixed_quantity",
+   "max_class": "C2",
+   "quantity_basis": "per_pair",
+   "rule_id": "R-021",
+   "rule_condition": "market_requires_polybag",
+   "rule_parameters": {},
+   "rule_evidence": "market requirement",
+   "approval_role": "Sourcing",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "H-R-019",
+   "part_id": "PK-001",
+   "canonical_part": "Shoe Box",
+   "assembly": "Packaging",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "count",
+   "formula_family": "count",
+   "material_spec": "MAT-BOX",
+   "geometry": {
+    "surface_area_m2": null,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "count",
+    "source": "count",
+    "note": null
+   },
+   "qa_blocked": [],
+   "geometry_role": "fixed_quantity",
+   "max_class": "C2",
+   "quantity_basis": "per_pair",
+   "rule_id": "R-019",
+   "rule_condition": "always",
+   "rule_parameters": {},
+   "rule_evidence": "packaging standard",
+   "approval_role": "Sourcing",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "H-R-020",
+   "part_id": "PK-002",
+   "canonical_part": "Tissue/Stuffing",
+   "assembly": "Packaging",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "count_or_mass",
+   "formula_family": "count",
+   "material_spec": "MAT-PAPERBOARD",
+   "geometry": {
+    "surface_area_m2": null,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "count",
+    "source": "count",
+    "note": null
+   },
+   "qa_blocked": [],
+   "geometry_role": "fixed_quantity",
+   "max_class": "C2",
+   "quantity_basis": "per_pair",
+   "rule_id": "R-020",
+   "rule_condition": "always",
+   "rule_parameters": {},
+   "rule_evidence": "packaging standard",
+   "approval_role": "Sourcing",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "H-R-005",
+   "part_id": "HI-005",
+   "canonical_part": "Collar Foam",
+   "assembly": "Padding",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "area_or_volume",
+   "formula_family": "foam_sheet",
+   "material_spec": "MAT-PUFOAM-OPEN",
+   "geometry": {
+    "surface_area_m2": 0.0039133527399764535,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "measured",
+    "source": "Collar Shell 표면적",
+    "note": null
+   },
+   "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "R-005",
+   "rule_condition": "has_collar",
+   "rule_parameters": {
+    "thickness_mm": 6.0
+   },
+   "rule_evidence": "construction template",
+   "approval_role": "Engineer",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "H-R-004",
+   "part_id": "HI-004",
+   "canonical_part": "Tongue Foam",
+   "assembly": "Padding",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "area_or_volume",
+   "formula_family": "foam_sheet",
+   "material_spec": "MAT-PUFOAM-OPEN",
+   "geometry": {
+    "surface_area_m2": 0.00895291072019625,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "measured",
+    "source": "Tongue Shell 표면적",
+    "note": null
+   },
+   "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "R-004",
+   "rule_condition": "has_tongue",
+   "rule_parameters": {
+    "thickness_mm": 4.0
+   },
+   "rule_evidence": "style requirement",
+   "approval_role": "Engineer",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "H-R-008",
+   "part_id": "HI-008",
+   "canonical_part": "Eyelet Reinforcement",
+   "assembly": "Reinforcement",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "area",
+   "formula_family": "roll_sheet",
+   "material_spec": "MAT-MICROFIBER",
+   "geometry": {
+    "surface_area_m2": 0.015448642669530464,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "measured",
+    "source": "upper 길이 0.52–0.63 구간 (eyelet/lacing)",
+    "note": null
+   },
+   "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "R-008",
+   "rule_condition": "has_eyelets && lightweight_upper",
+   "rule_parameters": {
+    "coverage": 1.15
+   },
+   "rule_evidence": "manufacturing rule",
+   "approval_role": "Engineer",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "H-R-007",
+   "part_id": "HI-007",
+   "canonical_part": "Heel Counter",
+   "assembly": "Reinforcement",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "area",
+   "formula_family": "sheet_fraction",
+   "material_spec": "MAT-COUNTER",
+   "geometry": {
+    "surface_area_m2": 0.02461938836091977,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "measured",
+    "source": "upper 길이 0.00–0.30 구간 (heel)",
+    "note": null
+   },
+   "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "R-007",
+   "rule_condition": "heel_support_required==true",
+   "rule_parameters": {
+    "coverage": 0.8
+   },
+   "rule_evidence": "performance requirement",
+   "approval_role": "Engineer",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "H-R-009",
+   "part_id": "HI-009",
+   "canonical_part": "Hot-melt Backing/Film",
+   "assembly": "Reinforcement",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "area",
+   "formula_family": "roll_sheet",
+   "material_spec": "MAT-TPU-FILM",
+   "geometry": {
+    "surface_area_m2": 0.04294960407598548,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "measured",
+    "source": "overlay 세그먼트 12개",
+    "note": null
+   },
+   "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "R-009",
+   "rule_condition": "has_no_sew_overlay",
+   "rule_parameters": {
+    "pattern": 1.08,
+    "yield": 0.82
+   },
+   "rule_evidence": "manufacturing rule",
+   "approval_role": "Engineer",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "H-R-006",
+   "part_id": "HI-006",
+   "canonical_part": "Toe Puff",
+   "assembly": "Reinforcement",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "area",
+   "formula_family": "sheet_fraction",
+   "material_spec": "MAT-TOEPUFF",
+   "geometry": {
+    "surface_area_m2": 0.01817825609595833,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "measured",
+    "source": "upper 길이 0.72–1.00 구간 (toe)",
+    "note": null
+   },
+   "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "R-006",
+   "rule_condition": "closed_toe==true",
+   "rule_parameters": {
+    "coverage": 0.65
+   },
+   "rule_evidence": "construction template",
+   "approval_role": "Engineer",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "V-UP-011",
+   "part_id": "UP-011",
+   "canonical_part": "Lace",
+   "assembly": "Trim",
+   "visibility": "Visible",
+   "origin": "segmentation",
+   "segments": [
+    "seg_10",
+    "seg_13",
+    "seg_09"
+   ],
+   "qty_per_pair": 1,
+   "qty_basis": "count",
+   "formula_family": "count",
+   "material_spec": "MAT-LACE-POLY",
+   "geometry_role": "curve_or_trim",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "geometry": {
+    "surface_area_m2": 0.00045327403360543656,
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part",
+    "method": "measured"
+   },
+   "qa_blocked": [],
+   "rule_id": null,
+   "approval_status": "segment_confirmed",
+   "needs_confirm": []
+  },
+  {
+   "line_id": "V-UP-013",
+   "part_id": "UP-013",
+   "canonical_part": "Webbing/Pull Tab",
+   "assembly": "Trim",
+   "visibility": "Visible",
+   "origin": "segmentation",
+   "segments": [
+    "seg_26",
+    "seg_29"
+   ],
+   "qty_per_pair": 1,
+   "qty_basis": "length",
+   "formula_family": "length",
+   "material_spec": "MAT-ELASTIC",
+   "geometry_role": "curve_or_trim",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "geometry": {
+    "surface_area_m2": 0.00027002303892716676,
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part",
+    "method": "measured"
+   },
+   "qa_blocked": [],
+   "rule_id": null,
+   "approval_status": "segment_confirmed",
+   "needs_confirm": []
+  },
+  {
+   "line_id": "V-UP-008",
+   "part_id": "UP-008",
+   "canonical_part": "Collar Shell",
+   "assembly": "Upper External",
+   "visibility": "Visible",
+   "origin": "segmentation",
+   "segments": [
+    "seg_20"
+   ],
+   "qty_per_pair": 1,
+   "qty_basis": "area",
+   "formula_family": "roll_sheet",
+   "material_spec": "MAT-MESH-3D",
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "geometry": {
+    "surface_area_m2": 0.0039133527399764535,
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part",
+    "method": "measured"
+   },
+   "qa_blocked": [],
+   "rule_id": null,
+   "approval_status": "segment_confirmed",
+   "needs_confirm": []
+  },
+  {
+   "line_id": "V-UP-006",
+   "part_id": "UP-006",
+   "canonical_part": "Heel Overlay",
+   "assembly": "Upper External",
+   "visibility": "Visible",
+   "origin": "segmentation",
+   "segments": [
+    "seg_21",
+    "seg_30",
+    "seg_24"
+   ],
+   "qty_per_pair": 1,
+   "qty_basis": "area",
+   "formula_family": "roll_sheet",
+   "material_spec": "MAT-MICROFIBER",
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "geometry": {
+    "surface_area_m2": 0.022482346347156804,
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part",
+    "method": "measured"
+   },
+   "qa_blocked": [],
+   "rule_id": null,
+   "approval_status": "segment_confirmed",
+   "needs_confirm": []
+  },
+  {
+   "line_id": "V-UP-009",
+   "part_id": "UP-009",
+   "canonical_part": "Logo/Graphic",
+   "assembly": "Upper External",
+   "visibility": "Visible",
+   "origin": "segmentation",
+   "segments": [
+    "seg_15",
+    "seg_17",
+    "seg_25"
+   ],
+   "qty_per_pair": 1,
+   "qty_basis": "area_or_count",
+   "formula_family": "print_film_hardware",
+   "material_spec": null,
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "geometry": {
+    "surface_area_m2": 0.002478691520091257,
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part",
+    "method": "measured"
+   },
+   "qa_blocked": [],
+   "rule_id": null,
+   "approval_status": "segment_confirmed",
+   "needs_confirm": []
+  },
+  {
+   "line_id": "V-UP-005",
+   "part_id": "UP-005",
+   "canonical_part": "Mudguard/Toe Overlay",
+   "assembly": "Upper External",
+   "visibility": "Visible",
+   "origin": "segmentation",
+   "segments": [
+    "seg_08",
+    "seg_02",
+    "seg_01",
+    "seg_04",
+    "seg_03",
+    "seg_06"
+   ],
+   "qty_per_pair": 1,
+   "qty_basis": "area",
+   "formula_family": "roll_sheet",
+   "material_spec": "MAT-TPU-FILM",
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "geometry": {
+    "surface_area_m2": 0.017988566208737424,
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part",
+    "method": "measured"
+   },
+   "qa_blocked": [],
+   "rule_id": null,
+   "approval_status": "segment_confirmed",
+   "needs_confirm": []
+  },
+  {
+   "line_id": "V-UP-007",
+   "part_id": "UP-007",
+   "canonical_part": "Tongue Shell",
+   "assembly": "Upper External",
+   "visibility": "Visible",
+   "origin": "segmentation",
+   "segments": [
+    "seg_14"
+   ],
+   "qty_per_pair": 1,
+   "qty_basis": "area",
+   "formula_family": "roll_sheet",
+   "material_spec": "MAT-MESH-3D",
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "geometry": {
+    "surface_area_m2": 0.00895291072019625,
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part",
+    "method": "measured"
+   },
+   "qa_blocked": [],
+   "rule_id": null,
+   "approval_status": "segment_confirmed",
+   "needs_confirm": []
+  },
+  {
+   "line_id": "V-UP-001",
+   "part_id": "UP-001",
+   "canonical_part": "Vamp",
+   "assembly": "Upper External",
+   "visibility": "Visible",
+   "origin": "segmentation",
+   "segments": [
+    "seg_16"
+   ],
+   "qty_per_pair": 1,
+   "qty_basis": "area",
+   "formula_family": "roll_sheet",
+   "material_spec": "MAT-MESH-POLY",
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "geometry": {
+    "surface_area_m2": 0.04291468440287455,
+    "volume_m3": null,
+    "volume_status": "not_a_solid_part",
+    "method": "measured"
+   },
+   "qa_blocked": [],
+   "rule_id": null,
+   "approval_status": "segment_confirmed",
+   "needs_confirm": []
+  },
+  {
+   "line_id": "H-R-003",
+   "part_id": "HI-002",
+   "canonical_part": "Tongue Lining",
+   "assembly": "Upper Internal",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "area",
+   "formula_family": "roll_sheet",
+   "material_spec": "MAT-LINING-MESH",
+   "geometry": {
+    "surface_area_m2": 0.00895291072019625,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "measured",
+    "source": "Tongue Shell 표면적",
+    "note": null
+   },
+   "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "R-003",
+   "rule_condition": "has_tongue",
+   "rule_parameters": {
+    "ratio": 1.0
+   },
+   "rule_evidence": "construction template",
+   "approval_role": "Engineer",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed"
+  },
+  {
+   "line_id": "H-R-002",
+   "part_id": "HI-001",
+   "canonical_part": "Vamp/Quarter Lining",
+   "assembly": "Upper Internal",
+   "visibility": "Hidden",
+   "origin": "construction_rule",
+   "segments": [],
+   "qty_per_pair": 1,
+   "qty_basis": "area",
+   "formula_family": "roll_sheet",
+   "material_spec": "MAT-LINING-MESH",
+   "geometry": {
+    "surface_area_m2": 0.09625186041894147,
+    "length_m": null,
+    "volume_m3": null,
+    "volume_status": null,
+    "method": "measured",
+    "source": "upper 세그먼트 12개 표면적 합",
+    "note": null
+   },
+   "qa_blocked": [],
+   "geometry_role": "surface_region",
+   "max_class": "C1",
+   "quantity_basis": "per_shoe",
+   "rule_id": "R-002",
+   "rule_condition": "upper_contains_mesh",
+   "rule_parameters": {
+    "ratio": 0.85,
+    "pattern": 1.12
+   },
+   "rule_evidence": "approved similar style",
+   "approval_role": "Engineer",
+   "factory_inputs_required": [],
+   "approval_status": "rule_proposed"
+  }
+ ],
+ "cost": {
+  "rollup": {
+   "cost_status": "PARTIAL",
+   "sanity_warnings": [
+    "Midsole Carrier 부피 516 cm3/짝가 통상 상한 350 을 1.5배 초과. 복원 3D 과대(내부 공간 포함) 의심, 승인 sole CAD 필요",
+    "Midsole Insert 부피 83 cm3/짝가 통상 상한 80 을 1.0배 초과. 복원 3D 과대(내부 공간 포함) 의심, 승인 sole CAD 필요"
+   ],
+   "material_breakdown": {
+    "Sole": {
+     "p10": 0.4045073886312448,
+     "p50": 0.7669669625877551,
+     "p90": 1.1294265365442653,
+     "lines": 4
+    },
+    "Chemical": {
+     "p10": 0.067877866271273,
+     "p50": 0.07552418717534921,
+     "p90": 0.08317050807942541,
+     "lines": 3
+    },
+    "기타": {
+     "p10": 0.0058,
+     "p50": 0.006575,
+     "p90": 0.00735,
+     "lines": 1
+    },
+    "Packaging": {
+     "p10": 0.30341999999999997,
+     "p50": 1.15549,
+     "p90": 2.00756,
+     "lines": 2
+    },
+    "Upper": {
+     "p10": 0.6421178626827779,
+     "p50": 0.9165066704773464,
+     "p90": 1.1908954782719148,
+     "lines": 13
+    },
+    "Trim": {
+     "p10": 0.22,
+     "p50": 0.3,
+     "p90": 0.38,
+     "lines": 1
+    }
+   },
+   "buckets": [
+    {
+     "bucket": "Material",
+     "p10": 1.6437231175852955,
+     "p50": 3.2210628202404505,
+     "p90": 4.798402522895605,
+     "status": "Partial",
+     "coverage": "Quarterly snapshot",
+     "note": "3개 라인 차단"
+    },
+    {
+     "bucket": "Direct Labor",
+     "p10": null,
+     "p50": null,
+     "p90": null,
+     "status": "Blocked",
+     "coverage": "Factory data required",
+     "note": "OP-001 Material Inspection: SAM/효율/rate 미입력; OP-002 Cutting: SAM/효율/rate 미입력"
+    },
+    {
+     "bucket": "Machine",
+     "p10": null,
+     "p50": null,
+     "p90": null,
+     "status": "Blocked",
+     "coverage": "Factory data required",
+     "note": null
+    },
+    {
+     "bucket": "Tooling Amortization",
+     "p10": null,
+     "p50": null,
+     "p90": null,
+     "status": "Blocked",
+     "coverage": "Tool quote required",
+     "note": "TL-001 Midsole Mold: 금형 견적 미입력; TL-002 Outsole Mold: 금형 견적 미입력"
+    }
+   ],
+   "known_cost_subtotal": {
+    "p10": 1.6437231175852955,
+    "p50": 3.2210628202404505,
+    "p90": 4.798402522895605
+   },
+   "blocked_buckets": [
+    "Direct Labor",
+    "Machine",
+    "Tooling Amortization"
+   ],
+   "reject_allowance": null,
+   "factory_overhead": null,
+   "manufacturing_should_cost": null,
+   "supplier_margin": null,
+   "fob": null,
+   "direct_complete": false,
+   "fob_status": "산출 불가",
+   "coverage": {
+    "bom_lines": 27,
+    "priced_lines": 24,
+    "unpriced_lines": 3,
+    "priced_ratio": 0.8888888888888888
+   },
+   "blocked": [
+    "OP-001 Material Inspection: SAM/효율/rate 미입력",
+    "OP-002 Cutting: SAM/효율/rate 미입력",
+    "OP-003 Printing/Heat Transfer: SAM/효율/rate 미입력",
+    "OP-004 Skiving: SAM/효율/rate 미입력",
+    "OP-005 Lamination/No-sew: SAM/효율/rate 미입력",
+    "OP-006 Upper Stitching: SAM/효율/rate 미입력",
+    "OP-007 Strobel Stitching: SAM/효율/rate 미입력",
+    "OP-008 Counter Molding: SAM/효율/rate 미입력",
+    "OP-009 Lasting: SAM/효율/rate 미입력",
+    "OP-010 Roughing: SAM/효율/rate 미입력",
+    "OP-011 Priming/Cementing: SAM/효율/rate 미입력",
+    "OP-012 Sole Pressing: SAM/효율/rate 미입력",
+    "OP-013 Finishing: SAM/효율/rate 미입력",
+    "OP-014 Inspection: SAM/효율/rate 미입력",
+    "OP-015 Packing: SAM/효율/rate 미입력",
+    "TL-001 Midsole Mold: 금형 견적 미입력",
+    "TL-002 Outsole Mold: 금형 견적 미입력",
+    "TL-003 Cutting Die Set: 금형 견적 미입력",
+    "TL-004 Printing Screen/Plate: 금형 견적 미입력",
+    "TL-005 Last Set: 금형 견적 미입력",
+    "BOM V-BT-010",
+    "BOM V-UP-013",
+    "BOM V-UP-009"
+   ],
+   "labor_machine": {
+    "operations": [
+     {
+      "op_id": "OP-001",
+      "seq": 10,
+      "operation": "Material Inspection",
+      "target": "All",
+      "workcenter": "Inspection table",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": null,
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     },
+     {
+      "op_id": "OP-002",
+      "seq": 20,
+      "operation": "Cutting",
+      "target": "Upper/lining",
+      "workcenter": "Clicker/Laser",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": "pattern count·nesting에 따라",
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     },
+     {
+      "op_id": "OP-003",
+      "seq": 30,
+      "operation": "Printing/Heat Transfer",
+      "target": "Upper graphic",
+      "workcenter": "Press/Screen",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": null,
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     },
+     {
+      "op_id": "OP-004",
+      "seq": 40,
+      "operation": "Skiving",
+      "target": "Synthetic/Leather parts",
+      "workcenter": "Skiving machine",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": null,
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     },
+     {
+      "op_id": "OP-005",
+      "seq": 50,
+      "operation": "Lamination/No-sew",
+      "target": "Upper",
+      "workcenter": "Heat press/HF",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": null,
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     },
+     {
+      "op_id": "OP-006",
+      "seq": 60,
+      "operation": "Upper Stitching",
+      "target": "Upper",
+      "workcenter": "Sewing workcenters",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": "seam length·handling features",
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     },
+     {
+      "op_id": "OP-007",
+      "seq": 70,
+      "operation": "Strobel Stitching",
+      "target": "Upper/Bottom",
+      "workcenter": "Strobel machine",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": null,
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     },
+     {
+      "op_id": "OP-008",
+      "seq": 80,
+      "operation": "Counter Molding",
+      "target": "Heel",
+      "workcenter": "Counter molding",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": null,
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     },
+     {
+      "op_id": "OP-009",
+      "seq": 90,
+      "operation": "Lasting",
+      "target": "Upper/Last",
+      "workcenter": "Lasting line",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": null,
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     },
+     {
+      "op_id": "OP-010",
+      "seq": 100,
+      "operation": "Roughing",
+      "target": "Sole/Upper",
+      "workcenter": "Roughing",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": null,
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     },
+     {
+      "op_id": "OP-011",
+      "seq": 110,
+      "operation": "Priming/Cementing",
+      "target": "Sole/Upper",
+      "workcenter": "Chemical line",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": null,
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     },
+     {
+      "op_id": "OP-012",
+      "seq": 120,
+      "operation": "Sole Pressing",
+      "target": "Sole Assembly",
+      "workcenter": "Sole press",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": null,
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     },
+     {
+      "op_id": "OP-013",
+      "seq": 130,
+      "operation": "Finishing",
+      "target": "Whole Shoe",
+      "workcenter": "Finishing line",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": null,
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     },
+     {
+      "op_id": "OP-014",
+      "seq": 140,
+      "operation": "Inspection",
+      "target": "Whole Shoe",
+      "workcenter": "Inspection",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": null,
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     },
+     {
+      "op_id": "OP-015",
+      "seq": 150,
+      "operation": "Packing",
+      "target": "Packaging",
+      "workcenter": "Packing line",
+      "sam_min": 0.0,
+      "setup_min": 0.0,
+      "batch_qty": 1000.0,
+      "line_efficiency": 0.0,
+      "labor_rate_usd_hr": 0.0,
+      "machine_min": 0.0,
+      "machine_rate_usd_hr": 0.0,
+      "data_status": "TBD",
+      "note": null,
+      "labor_cost_pair": null,
+      "machine_cost_pair": null
+     }
+    ],
+    "labor_usd_pair": null,
+    "machine_usd_pair": null,
+    "blocked": [
+     "OP-001 Material Inspection: SAM/효율/rate 미입력",
+     "OP-002 Cutting: SAM/효율/rate 미입력",
+     "OP-003 Printing/Heat Transfer: SAM/효율/rate 미입력",
+     "OP-004 Skiving: SAM/효율/rate 미입력",
+     "OP-005 Lamination/No-sew: SAM/효율/rate 미입력",
+     "OP-006 Upper Stitching: SAM/효율/rate 미입력",
+     "OP-007 Strobel Stitching: SAM/효율/rate 미입력",
+     "OP-008 Counter Molding: SAM/효율/rate 미입력",
+     "OP-009 Lasting: SAM/효율/rate 미입력",
+     "OP-010 Roughing: SAM/효율/rate 미입력",
+     "OP-011 Priming/Cementing: SAM/효율/rate 미입력",
+     "OP-012 Sole Pressing: SAM/효율/rate 미입력",
+     "OP-013 Finishing: SAM/효율/rate 미입력",
+     "OP-014 Inspection: SAM/효율/rate 미입력",
+     "OP-015 Packing: SAM/효율/rate 미입력"
+    ],
+    "status": "blocked"
+   },
+   "tooling": {
+    "tools": [
+     {
+      "tool_id": "TL-001",
+      "tool_type": "Midsole Mold",
+      "part": "Midsole Carrier",
+      "cavity": 2.0,
+      "tool_cost_usd": 0.0,
+      "tool_life_pairs": 0.0,
+      "allocation_qty": 0.0,
+      "repair_allowance_pct": 0.0,
+      "status": "TBD",
+      "cost_per_pair": null
+     },
+     {
+      "tool_id": "TL-002",
+      "tool_type": "Outsole Mold",
+      "part": "Outsole",
+      "cavity": 2.0,
+      "tool_cost_usd": 0.0,
+      "tool_life_pairs": 0.0,
+      "allocation_qty": 0.0,
+      "repair_allowance_pct": 0.0,
+      "status": "TBD",
+      "cost_per_pair": null
+     },
+     {
+      "tool_id": "TL-003",
+      "tool_type": "Cutting Die Set",
+      "part": "Upper panels",
+      "cavity": 0.0,
+      "tool_cost_usd": 0.0,
+      "tool_life_pairs": 0.0,
+      "allocation_qty": 0.0,
+      "repair_allowance_pct": 0.0,
+      "status": "TBD",
+      "cost_per_pair": null
+     },
+     {
+      "tool_id": "TL-004",
+      "tool_type": "Printing Screen/Plate",
+      "part": "Logo/Graphic",
+      "cavity": 0.0,
+      "tool_cost_usd": 0.0,
+      "tool_life_pairs": 0.0,
+      "allocation_qty": 0.0,
+      "repair_allowance_pct": 0.0,
+      "status": "TBD",
+      "cost_per_pair": null
+     },
+     {
+      "tool_id": "TL-005",
+      "tool_type": "Last Set",
+      "part": "Whole Shoe",
+      "cavity": 0.0,
+      "tool_cost_usd": 0.0,
+      "tool_life_pairs": 0.0,
+      "allocation_qty": 0.0,
+      "repair_allowance_pct": 0.0,
+      "status": "TBD",
+      "cost_per_pair": null
+     }
+    ],
+    "usd_pair": null,
+    "blocked": [
+     "TL-001 Midsole Mold: 금형 견적 미입력",
+     "TL-002 Outsole Mold: 금형 견적 미입력",
+     "TL-003 Cutting Die Set: 금형 견적 미입력",
+     "TL-004 Printing Screen/Plate: 금형 견적 미입력",
+     "TL-005 Last Set: 금형 견적 미입력"
+    ],
+    "status": "blocked"
+   },
+   "material_blocked_lines": [
+    "V-BT-010",
+    "V-UP-013",
+    "V-UP-009"
+   ]
+  },
+  "grade": {
+   "class": "C1",
+   "blocked_reasons": {
+    "C1": [],
+    "C2": [
+     "부피 계산 파트가 watertight QA 통과",
+     "Hidden BOM 엔지니어 승인",
+     "승인 pattern/solid geometry (DXF 또는 sole CAD)",
+     "승인 Supplier SKU 견적",
+     "공장 routing·SAM 확정",
+     "Tooling 견적 확정",
+     "승인 Supplier 견적이 아닌 단가 20건 (분기 스냅샷/공개 리스팅)",
+     "공장 routing, SAM, tooling 미확정",
+     "C1 상한 지오메트리 27건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
+    ]
+   },
+   "downgraded_from": "C2"
+  },
+  "computed_at": "2026-08-24T12:53:03Z"
+ }
+}
