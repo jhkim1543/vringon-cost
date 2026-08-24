@@ -1,0 +1,51 @@
+{
+ "source_workbook": "신발_BOM_Cost_소재DB_최종_v2_2026-08-23.xlsx",
+ "extracted_at": "2026-08-24 12:09:24",
+ "sheets": {
+  "01_파트소재맵": {
+   "file": "part_material_map.json",
+   "header_row": 4,
+   "rows": 65
+  },
+  "02_단가관측": {
+   "file": "price_observations.json",
+   "header_row": 4,
+   "rows": 62
+  },
+  "03_원자재지수": {
+   "file": "raw_material_index.json",
+   "header_row": 4,
+   "rows": 131
+  },
+  "06_FX단위환산": {
+   "file": "fx.json",
+   "header_row": 4,
+   "rows": 9
+  },
+  "10_신발BOM마스터": {
+   "file": "bom_master.json",
+   "header_row": 4,
+   "rows": 52
+  },
+  "14_ConstructionRecipe": {
+   "file": "construction_recipes.json",
+   "header_row": 4,
+   "rows": 21
+  },
+  "15_공정인건비": {
+   "file": "routing.json",
+   "header_row": 4,
+   "rows": 15
+  },
+  "16_분기기준단가": {
+   "file": "quarterly_prices.json",
+   "header_row": 4,
+   "rows": 34
+  },
+  "17_Tooling마스터": {
+   "file": "tooling.json",
+   "header_row": 4,
+   "rows": 5
+  }
+ }
+}

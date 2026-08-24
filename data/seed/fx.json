@@ -1,0 +1,83 @@
+[
+ {
+  "통화": "USD",
+  "KRW per currency": 1386.5,
+  "기준일": "2026-08-21",
+  "소스": "https://english.mofe.go.kr/",
+  "단위": "sq ft → m²",
+  "환산계수": 0.092903,
+  "설명": "1 square foot = 0.092903 m²"
+ },
+ {
+  "통화": "KRW",
+  "KRW per currency": 1,
+  "기준일": "2026-08-21",
+  "소스": "대한민국 원화",
+  "단위": "yard → m",
+  "환산계수": 0.9144,
+  "설명": "1 yard = 0.9144 m"
+ },
+ {
+  "통화": "환산 및 사용 원칙",
+  "KRW per currency": null,
+  "기준일": null,
+  "소스": null,
+  "단위": null,
+  "환산계수": null,
+  "설명": null
+ },
+ {
+  "통화": "1",
+  "KRW per currency": "m 가격을 m² 가격으로 바꾸려면 usable width가 필요합니다.",
+  "기준일": null,
+  "소스": null,
+  "단위": null,
+  "환산계수": null,
+  "설명": null
+ },
+ {
+  "통화": "2",
+  "KRW per currency": "sheet 가격은 가로×세로·trim loss·nesting yield가 있어야 면적 환산할 수 있습니다.",
+  "기준일": null,
+  "소스": null,
+  "단위": null,
+  "환산계수": null,
+  "설명": null
+ },
+ {
+  "통화": "3",
+  "KRW per currency": "가죽 sq ft는 hide usable yield와 defect zone을 반영해야 실제 consumption이 됩니다.",
+  "기준일": null,
+  "소스": null,
+  "단위": null,
+  "환산계수": null,
+  "설명": null
+ },
+ {
+  "통화": "4",
+  "KRW per currency": "EVA/PU/PEBA kg 가격은 final density·expansion·runner·reject를 반영해야 부품 원가가 됩니다.",
+  "기준일": null,
+  "소스": null,
+  "단위": null,
+  "환산계수": null,
+  "설명": null
+ },
+ {
+  "통화": "5",
+  "KRW per currency": "시장지수·리스팅·소매·계약가격은 같은 모집단으로 평균내지 않습니다.",
+  "기준일": null,
+  "소스": null,
+  "단위": null,
+  "환산계수": null,
+  "설명": null
+ },
+ {
+  "통화": "6",
+  "KRW per currency": "환율은 cost scenario의 as-of date로 snapshot하여 과거 원가를 재현합니다.",
+  "기준일": null,
+  "소스": null,
+  "단위": null,
+  "환산계수": null,
+  "설명": null
+ }
+]
