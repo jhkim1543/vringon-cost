@@ -293,3 +293,20 @@ code{font-family:var(--mono); font-size:11px; background:var(--panel2);
   .pane-mid,.pane-right{height:auto; max-height:none}
   .pane-body{max-height:none}
 }
+
+/* 3D 를 못 켜는 환경(WebGL 차단)에서 뷰어 자리에 들어가는 안내.
+   3D 가 없어도 원가·BOM·근거는 그대로 쓸 수 있어야 한다. */
+.viewer-fallback {
+  display: flex; flex-direction: column; justify-content: center;
+  gap: 8px; height: 100%; padding: 24px; text-align: center;
+  color: var(--on-tint); background: var(--panel);
+  border: 1px dashed var(--line); border-radius: 10px;
+}
+.viewer-fallback b { font-size: 14px; }
+.viewer-fallback p { font-size: 12px; line-height: 1.6; margin: 0; }
+
+/* 키보드 초점이 보이지 않으면 키보드로 표를 쓸 수 없다. */
+tbody tr[role="button"]:focus-visible,
+.btn:focus-visible, #flow button:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: -2px;
+}
