@@ -31,7 +31,7 @@
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-24T13:59:36Z",
+   "at": "2026-08-25T03:31:39Z",
    "grade": "C1",
    "fob": "산출 불가"
   }
@@ -56,7 +56,7 @@
   "volume_parts_validated": true
  },
  "input_image": "DEMO-RUN-001.jpg",
- "updated_at": "2026-08-24T13:59:36Z",
+ "updated_at": "2026-08-25T03:31:39Z",
  "landmarks": {
   "axis": [
    0.09468265172295515,
@@ -2173,6 +2173,7 @@
     "p90": 5.313624262830219
    },
    "blocked_buckets": [
+    "Material",
     "Direct Labor",
     "Machine",
     "Tooling Amortization"
@@ -2193,17 +2194,29 @@
    "blocked": [
     "OP-001 Material Inspection: SAM/효율/rate 미입력",
     "OP-002 Cutting: SAM/효율/rate 미입력",
+    "OP-002 Cutting: 기계 시간·rate 미입력",
     "OP-003 Printing/Heat Transfer: SAM/효율/rate 미입력",
+    "OP-003 Printing/Heat Transfer: 기계 시간·rate 미입력",
     "OP-004 Skiving: SAM/효율/rate 미입력",
+    "OP-004 Skiving: 기계 시간·rate 미입력",
     "OP-005 Lamination/No-sew: SAM/효율/rate 미입력",
+    "OP-005 Lamination/No-sew: 기계 시간·rate 미입력",
     "OP-006 Upper Stitching: SAM/효율/rate 미입력",
+    "OP-006 Upper Stitching: 기계 시간·rate 미입력",
     "OP-007 Strobel Stitching: SAM/효율/rate 미입력",
+    "OP-007 Strobel Stitching: 기계 시간·rate 미입력",
     "OP-008 Counter Molding: SAM/효율/rate 미입력",
+    "OP-008 Counter Molding: 기계 시간·rate 미입력",
     "OP-009 Lasting: SAM/효율/rate 미입력",
+    "OP-009 Lasting: 기계 시간·rate 미입력",
     "OP-010 Roughing: SAM/효율/rate 미입력",
+    "OP-010 Roughing: 기계 시간·rate 미입력",
     "OP-011 Priming/Cementing: SAM/효율/rate 미입력",
+    "OP-011 Priming/Cementing: 기계 시간·rate 미입력",
     "OP-012 Sole Pressing: SAM/효율/rate 미입력",
+    "OP-012 Sole Pressing: 기계 시간·rate 미입력",
     "OP-013 Finishing: SAM/효율/rate 미입력",
+    "OP-013 Finishing: 기계 시간·rate 미입력",
     "OP-014 Inspection: SAM/효율/rate 미입력",
     "OP-015 Packing: SAM/효율/rate 미입력",
     "TL-001 Midsole Mold: 금형 견적 미입력",
@@ -2233,7 +2246,7 @@
       "data_status": "TBD",
       "note": null,
       "labor_cost_pair": null,
-      "machine_cost_pair": null
+      "machine_cost_pair": 0.0
      },
      {
       "op_id": "OP-002",
@@ -2467,7 +2480,7 @@
       "data_status": "TBD",
       "note": null,
       "labor_cost_pair": null,
-      "machine_cost_pair": null
+      "machine_cost_pair": 0.0
      },
      {
       "op_id": "OP-015",
@@ -2485,7 +2498,7 @@
       "data_status": "TBD",
       "note": null,
       "labor_cost_pair": null,
-      "machine_cost_pair": null
+      "machine_cost_pair": 0.0
      }
     ],
     "labor_usd_pair": null,
@@ -2493,17 +2506,29 @@
     "blocked": [
      "OP-001 Material Inspection: SAM/효율/rate 미입력",
      "OP-002 Cutting: SAM/효율/rate 미입력",
+     "OP-002 Cutting: 기계 시간·rate 미입력",
      "OP-003 Printing/Heat Transfer: SAM/효율/rate 미입력",
+     "OP-003 Printing/Heat Transfer: 기계 시간·rate 미입력",
      "OP-004 Skiving: SAM/효율/rate 미입력",
+     "OP-004 Skiving: 기계 시간·rate 미입력",
      "OP-005 Lamination/No-sew: SAM/효율/rate 미입력",
+     "OP-005 Lamination/No-sew: 기계 시간·rate 미입력",
      "OP-006 Upper Stitching: SAM/효율/rate 미입력",
+     "OP-006 Upper Stitching: 기계 시간·rate 미입력",
      "OP-007 Strobel Stitching: SAM/효율/rate 미입력",
+     "OP-007 Strobel Stitching: 기계 시간·rate 미입력",
      "OP-008 Counter Molding: SAM/효율/rate 미입력",
+     "OP-008 Counter Molding: 기계 시간·rate 미입력",
      "OP-009 Lasting: SAM/효율/rate 미입력",
+     "OP-009 Lasting: 기계 시간·rate 미입력",
      "OP-010 Roughing: SAM/효율/rate 미입력",
+     "OP-010 Roughing: 기계 시간·rate 미입력",
      "OP-011 Priming/Cementing: SAM/효율/rate 미입력",
+     "OP-011 Priming/Cementing: 기계 시간·rate 미입력",
      "OP-012 Sole Pressing: SAM/효율/rate 미입력",
+     "OP-012 Sole Pressing: 기계 시간·rate 미입력",
      "OP-013 Finishing: SAM/효율/rate 미입력",
+     "OP-013 Finishing: 기계 시간·rate 미입력",
      "OP-014 Inspection: SAM/효율/rate 미입력",
      "OP-015 Packing: SAM/효율/rate 미입력"
     ],
@@ -2605,7 +2630,7 @@
    },
    "downgraded_from": "C2"
   },
-  "computed_at": "2026-08-24T13:59:36Z"
+  "computed_at": "2026-08-25T03:31:39Z"
  },
  "mapping_summary": {
   "input_segments": 10,

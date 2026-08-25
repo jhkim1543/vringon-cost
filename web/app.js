@@ -50,7 +50,39 @@ const projImgUrl = pid => window.__staticDemo ? 'data/' + pid + '.jpg'
   : `${window.__apiBase || ''}/api/project/${pid}/image`;
 
 // ── 3D ────────────────────────────────────────────────────────────────
-const viewer = new Viewer($('#viewer'));
+// 3D 는 있으면 좋은 것이지, 원가 화면의 전제 조건이 아니다.
+// WebGL 이 막힌 환경(사내 보안 브라우저, 원격 데스크톱, GPU 제한)에서
+// Viewer 생성이 던지면 모듈 전체가 죽어 BOM·단가·원가까지 못 보게 된다.
+// 그래서 실패하면 아무 일도 하지 않는 대체 객체로 갈아끼우고 계속 간다.
+function makeViewerFallback(reason) {
+  const host = $('#viewer');
+  if (host) {
+    host.innerHTML = `<div class="viewer-fallback">
+      <b>3D 보기를 켤 수 없습니다</b>
+      <p>${reason}</p>
+      <p class="muted">원가 계산과 BOM, 단가, 근거는 그대로 확인할 수 있습니다.
+      3D 는 하드웨어 가속(WebGL)이 되는 브라우저에서 보입니다.</p></div>`;
+  }
+  return {
+    failed: true, reason,
+    load: async () => {}, applyColors: () => {},
+    select: () => {}, setLandmarks: () => {},
+    onPick: null, onLandmark: null,
+  };
+}
+
+let viewer;
+try {
+  // ?no3d=1 로 3D 없이 쓰는 상태를 재현할 수 있다. WebGL 이 막힌 환경을
+  // 흉내 내야 할 때(지원·검증)와, 3D 가 필요 없을 때 쓴다.
+  if (new URLSearchParams(location.search).get('no3d') === '1') {
+    throw new Error('3D 를 끈 상태로 열었습니다 (no3d=1)');
+  }
+  viewer = new Viewer($('#viewer'));
+} catch (e) {
+  console.warn('3D 초기화 실패, 2D 로 계속합니다:', e);
+  viewer = makeViewerFallback(e && e.message ? e.message : String(e));
+}
 viewer.onPick = name => { S.selected = name; renderEvidence(); render(); };
 viewer.onLandmark = async (which, pt) => {
   const lm = S.state.landmarks || {};
@@ -240,10 +272,14 @@ function stepDesign(el) {
     ${uploadPanel}`;
 
   // 예시 갤러리
+  // 비동기로 끝나므로, 그 사이 사용자가 다른 단계로 넘어가면 대상 요소가
+  // 이미 사라지고 없다. 매번 다시 찾아보고 없으면 조용히 그만둔다.
   (async () => {
+    const grid = () => $('#exGrid');
     try {
       const d = await api('/examples', null, 'GET');
-      $('#exGrid').innerHTML = (d.examples || []).map(ex => `
+      if (!grid()) return;
+      grid().innerHTML = (d.examples || []).map(ex => `
         <div class="ex-card ${ex.project === S.pid || ex.alt?.project === S.pid ? 'on' : ''}
                     ${ex.ready ? '' : 'notready'}" data-p="${ex.ready ? ex.project : ''}">
           <img src="${exImgUrl(ex.image)}" alt="${ex.title}">
@@ -253,14 +289,17 @@ function stepDesign(el) {
             ${ex.alt ? `<a class="ex-alt" data-p="${ex.alt.project}">${ex.alt.label}</a>` : ''}
           </div>
         </div>`).join('');
-      $('#exGrid').querySelectorAll('[data-p]').forEach(n => n.onclick = e => {
+      grid().querySelectorAll('[data-p]').forEach(n => n.onclick = e => {
         e.stopPropagation();
         const pid = n.dataset.p;
         if (!pid) return;
         if (pid === S.pid) { S.step = 'scale'; render(); return; }
         location.search = '?p=' + pid;
       });
-    } catch (e) { $('#exGrid').innerHTML = '<span class="muted">예시 목록을 불러오지 못했습니다</span>'; }
+    } catch (e) {
+      if (grid()) grid().innerHTML =
+        '<span class="muted">예시 목록을 불러오지 못했습니다</span>';
+    }
   })();
 
   const hasModel = !!(S.state.steps || {}).generate3d || (S.state.mapping || []).length;
@@ -526,7 +565,7 @@ function stepSegment(el) {
 function bomTable(lines, showCost) {
   return `<table><thead><tr>
     <th>파트</th><th>출처</th><th class="num">소요량</th><th>UOM</th>
-    ${showCost ? '<th class="num">P50 $</th>' : '<th>소재</th>'}
+    ${showCost ? '<th class="num">기준 $</th>' : '<th>소재</th>'}
     </tr></thead><tbody>
     ${lines.map(l => {
       const c = l.consumption || {};
@@ -546,11 +585,22 @@ function bomTable(lines, showCost) {
 }
 
 function wireBomRows(el) {
-  el.querySelectorAll('tbody tr').forEach(tr => tr.onclick = () => {
-    S.selected = tr.dataset.line;
-    const l = (S.cost?.lines || []).find(x => x.line_id === S.selected);
-    if (l?.segments?.length) viewer.select(l.segments[0]);
-    renderEvidence(); render();
+  el.querySelectorAll('tbody tr').forEach(tr => {
+    const pick = () => {
+      S.selected = tr.dataset.line;
+      const l = (S.cost?.lines || []).find(x => x.line_id === S.selected);
+      if (l?.segments?.length) viewer.select(l.segments[0]);
+      renderEvidence(); render();
+    };
+    tr.onclick = pick;
+    // 마우스로만 고를 수 있으면 키보드 사용자는 근거를 아예 못 본다.
+    if (tr.dataset.line) {
+      tr.tabIndex = 0;
+      tr.setAttribute('role', 'button');
+      tr.onkeydown = e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); }
+      };
+    }
   });
 }
 
@@ -599,7 +649,7 @@ function stepPricing(el) {
     <dl class="kv">${Object.entries(byBasis).map(([k, v]) => `<dt>${k}</dt><dd>${v}건</dd>`).join('')}</dl>
     <div class="row"><button class="btn" id="snapBtn">2026Q4 스냅샷 시뮬레이션</button></div>
     <div id="snapOut"></div>
-    <table style="margin-top:12px"><thead><tr><th>소재</th><th class="num">P50</th>
+    <table style="margin-top:12px"><thead><tr><th>소재</th><th class="num">기준</th>
       <th>UOM</th><th>자격</th><th>신뢰</th><th>출처</th></tr></thead><tbody>
       ${[...new Map(lines.filter(l => l.material_spec)
         .map(l => [l.material_spec, l])).values()].map(l => {
@@ -617,7 +667,7 @@ function stepPricing(el) {
       </tr>`; }).join('')}</tbody></table>
     <p class="muted" style="margin-top:8px">모든 단가는 워크북 16_분기기준단가 시트가 원본이며,
       출처 링크는 그 시트에 기록된 공개 리스팅·시장지수 페이지입니다. 근거 패널에서
-      라인별 P10/P50/P90 과 자격도 확인할 수 있습니다.</p>`;
+      라인별 낮음·기준·높음 값과 자격도 확인할 수 있습니다.</p>`;
   wireBomRows(el);
   $('#qtr').onchange = async e => {
     await api(`/project/${S.pid}/scenario`, { quarter: e.target.value });
@@ -667,7 +717,10 @@ function stepCost(el) {
     <div class="stat">
       <div class="lbl">표시 중인 값: 가격 확정된 BOM ${cov.priced_lines}/${cov.bom_lines}라인의 소재·부자재 소계 (켤레당)</div>
       <div class="big">${usd(r.known_cost_subtotal.p50)}</div>
-      <div class="sub">P10 ${usd(r.known_cost_subtotal.p10)} · P90 ${usd(r.known_cost_subtotal.p90)}</div>
+      <div class="sub">낮음 ${usd(r.known_cost_subtotal.p10)} · 높음 ${usd(r.known_cost_subtotal.p90)}</div>
+      <div class="sub muted">낮음·기준·높음은 단가 범위를 그대로 대입한 시나리오
+        값입니다. 분포를 모델링한 통계 백분위가 아니며, 라인 간 상관도 반영하지
+        않았으므로 합계 구간은 실제보다 넓게 나올 수 있습니다.</div>
       ${r.material_breakdown ? `<div class="sub" style="margin-top:8px">${
         Object.entries(r.material_breakdown).map(([k, v]) =>
           `${({Upper:'어퍼',Sole:'솔',Chemical:'접착·화학',Packaging:'포장',Trim:'부자재'})[k] || k} ${usd(v.p50)}`
@@ -699,8 +752,8 @@ function stepCost(el) {
       / 목표 ${mb.target_pair_g} g (${((mb.coverage || 0) * 100).toFixed(0)}%)
       판정 ${mb.verdict}<br>${mb.note}</div>` : ''}
 
-    <table class="buckets"><thead><tr><th>버킷</th><th class="num">P10</th>
-      <th class="num">P50</th><th class="num">P90</th></tr></thead><tbody>
+    <table class="buckets"><thead><tr><th>버킷</th><th class="num">낮음</th>
+      <th class="num">기준</th><th class="num">높음</th></tr></thead><tbody>
       ${r.buckets.map(b => b.p50 == null
         ? `<tr><td>${b.bucket}<div class="muted" style="font-size:11px">${b.coverage}</div></td>
            <td class="num blocked-cell" colspan="3">차단. ${b.note || b.coverage}</td></tr>`
@@ -810,7 +863,7 @@ function renderEvidence() {
     if (c.steps?.length) h += `<h4>소요량 계산</h4><div class="steps">${c.steps.join('\n')}</div>`;
 
     if (p.p50 != null) h += `<h4>단가</h4><dl class="kv">
-      <dt>P10/P50/P90</dt><dd>${fmt(p.p10, 3)} / ${fmt(p.p50, 3)} / ${fmt(p.p90, 3)} ${p.currency || ''}/${p.uom || ''}</dd>
+      <dt>낮음·기준·높음</dt><dd>${fmt(p.p10, 3)} / ${fmt(p.p50, 3)} / ${fmt(p.p90, 3)} ${p.currency || ''}/${p.uom || ''}</dd>
       <dt>근거</dt><dd>${p.basis}</dd>
       <dt>자격</dt><dd>${p.eligibility} (최대 ${p.max_class || ' '})</dd>
       <dt>신뢰도</dt><dd>${p.confidence}${p.stale ? ' · stale' : ''}</dd>

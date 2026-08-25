@@ -110,6 +110,13 @@ def main():
             '<script type="module" src="app.js"></script>',
             '<script src="static-api.js"></script>\n'
             '<script type="module" src="app.js"></script>')
+    # 정적 빌드 표시. 이게 없으면 shim 은 매니페스트를 찾지 않는다
+    # (실서버에서 data/index.json 을 찔러 404 가 찍히던 것을 없앤다).
+    if "__staticBuild" not in html:
+        html = html.replace(
+            '<script src="static-api.js"></script>',
+            '<script>window.__staticBuild=true;</script>' + chr(10) +
+            '<script src="static-api.js"></script>')
     # 백엔드 주소가 있으면 구워 넣는다. shim 이 부팅 때 살아있는지 확인하고,
     # 살아있으면 실서버 모드로, 죽어있으면 지금처럼 정적 모드로 동작한다.
     backend = ROOT / "deploy" / "backend.json"

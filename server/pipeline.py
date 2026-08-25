@@ -8,6 +8,7 @@
 각 단계는 앞 단계의 산출물을 파일로 남겨 다시 계산할 수 있게 한다.
 """
 import json
+import re as _re
 import shutil
 from datetime import datetime, timezone
 from pathlib import Path
@@ -63,11 +64,28 @@ def _decimate(mesh, budget):
         return mesh.submesh([idx], append=True)
 
 
+# 프로젝트 ID 는 파일 경로가 된다. 임의 문자열을 그대로 붙이면 상위 경로로
+# 빠져나갈 수 있고, mkdir(parents=True) 라 디렉터리까지 만들어진다.
+PID_RE = _re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")
+
+
+def safe_pid(pid):
+    """허용된 모양의 프로젝트 ID 만 통과시킨다."""
+    pid = (pid or "").strip()
+    if not PID_RE.match(pid):
+        raise ValueError(
+            "프로젝트 ID 는 영문·숫자로 시작하고 영문·숫자·하이픈·밑줄만 "
+            "쓸 수 있습니다 (최대 64자).")
+    return pid
+
+
 class Project:
     def __init__(self, pid):
-        self.pid = pid
+        self.pid = safe_pid(pid)
+        pid = self.pid
         self.dir = STORE / pid
-        self.dir.mkdir(parents=True, exist_ok=True)
+        # 조회만 해도 디렉터리가 생기면, 인증 없는 GET 으로 저장소를 늘릴 수
+        # 있다. 실제로 쓸 때만 만든다.
         self.state_path = self.dir / "state.json"
         self.state = self._load()
 
@@ -95,7 +113,12 @@ class Project:
             "gates": {},
         }
 
+    def ensure_dir(self):
+        self.dir.mkdir(parents=True, exist_ok=True)
+        return self.dir
+
     def save(self):
+        self.ensure_dir()
         self.state["updated_at"] = _now()
         self.state_path.write_text(
             json.dumps(self.state, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -158,6 +181,7 @@ class Project:
         out = self.dir / "viewer.glb"
         if out.exists() and not force:
             return out
+        self.ensure_dir()
         parts = self._parts()
         names = list(parts.keys())
 
@@ -466,6 +490,7 @@ class Project:
                   "mass_balance": mass, "computed_at": _now()}
         self.state["cost"] = {"rollup": rollup, "grade": gr,
                               "computed_at": result["computed_at"]}
+        self.ensure_dir()
         (self.dir / "cost.json").write_text(
             json.dumps(result, ensure_ascii=False, indent=1), encoding="utf-8")
         self._mark("cost", "calculated", grade=gr["class"],

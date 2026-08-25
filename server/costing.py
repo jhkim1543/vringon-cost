@@ -133,6 +133,10 @@ def cost_lines(bom, quarter, supplier_quotes=None):
     return out
 
 
+# 기계 없이 사람 손으로 하는 workcenter. 여기 없는 공정은 기계가 돈다고 본다.
+MANUAL_WORKCENTERS = {"Inspection", "Inspection table", "Packing line"}
+
+
 def labor_machine(order_qty):
     """15_공정인건비 에서 노무·기계비. 값이 TBD 면 Blocked."""
     ops, labor, machine, blocked = [], 0.0, 0.0, []
@@ -150,7 +154,15 @@ def labor_machine(order_qty):
             setup = (op["setup_min"] or 0.0) / max(op["batch_qty"] or 1, 1)
             lc = (sam / eff) * rate / 60.0 + setup * rate / 60.0
             labor += lc
-        mc = (mmin * mrate / 60.0) if (mmin > 0 and mrate > 0) else None
+        # 기계가 도는 공정인데 machine_min/rate 가 비어 있으면 0 원이 아니라
+        # '모른다'다. 조용히 빼면 기계비가 통째로 과소계상된다.
+        if op.get("workcenter") in MANUAL_WORKCENTERS:
+            mc = 0.0
+        elif mmin > 0 and mrate > 0:
+            mc = mmin * mrate / 60.0
+        else:
+            mc = None
+            blocked.append(f"{op['op_id']} {op['operation']}: 기계 시간·rate 미입력")
         if mc:
             machine += mc
         ops.append({**op, "labor_cost_pair": lc, "machine_cost_pair": mc})
@@ -364,8 +376,12 @@ def roll_up(lines, scenario):
                note="; ".join(tl["blocked"][:2]) if tl["blocked"] else None),
     ]
 
+    # 합계 숫자가 있다고 완성이 아니다. Material 은 일부 라인이 막혀도
+    # 나머지 합이 남아 p50 이 채워지므로, 이것만 보면 미가격 소재가 있는데도
+    # COMPLETE 로 넘어가 FOB 가 나가 버린다. 상태도 함께 본다.
     blocked_buckets = [b["bucket"] for b in buckets
-                       if b["bucket"] in REQUIRED_BUCKETS and b["p50"] is None]
+                       if b["bucket"] in REQUIRED_BUCKETS
+                       and (b["p50"] is None or b["status"] != "Calculated")]
     complete = not blocked_buckets
 
     # 아는 것만 더한 소계. 총원가가 아니라는 이름을 쓴다.

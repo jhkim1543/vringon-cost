@@ -640,3 +640,64 @@ def test_rule_geometry_scale_is_applied():
     blocked = {"value": 0.0, "unit": "", "method": "blocked", "source": "x"}
     assert bom_mod.apply_rule_scale(blocked, {"rule_id": "R-1",
                                               "parameters": {"coverage": 0.5}}) is blocked
+
+
+# ── 외부 감사 P0 대응 ────────────────────────────────────────────────────
+def test_material_partial_blocks_completion():
+    """소재 라인이 하나라도 미가격이면 COMPLETE 가 되면 안 된다.
+
+    Material 버킷은 막힌 라인이 있어도 나머지 합으로 p50 이 채워진다.
+    p50 만 보고 완성 판정을 하면, 노무·금형이 채워지는 순간 미가격 소재를
+    품은 채로 FOB 가 나가 버린다.
+    """
+    import costing
+    buckets = [
+        {"bucket": "Material", "p50": 3.5, "status": "Partial"},
+        {"bucket": "Direct Labor", "p50": 2.0, "status": "Calculated"},
+        {"bucket": "Machine", "p50": 1.0, "status": "Calculated"},
+        {"bucket": "Tooling Amortization", "p50": 0.5, "status": "Calculated"},
+    ]
+    blocked = [b["bucket"] for b in buckets
+               if b["bucket"] in costing.REQUIRED_BUCKETS
+               and (b["p50"] is None or b["status"] != "Calculated")]
+    assert blocked == ["Material"]
+
+
+def test_machine_missing_data_blocks_not_zero():
+    """기계가 도는 공정인데 기계 데이터가 없으면 0 이 아니라 차단이어야 한다."""
+    import costing
+    assert "Packing line" in costing.MANUAL_WORKCENTERS
+    assert "Sewing workcenters" not in costing.MANUAL_WORKCENTERS
+    out = costing.labor_machine(5000)
+    # 씨앗 라우팅은 전부 TBD 라 차단 상태이고, 기계비도 None 이어야 한다
+    assert out["status"] == "blocked"
+    assert out["machine_usd_pair"] is None
+    assert any("기계" in b for b in out["blocked"])
+
+
+def test_project_id_rejects_path_traversal():
+    """프로젝트 ID 가 그대로 파일 경로가 되므로 상위 경로 탈출을 막는다."""
+    from pipeline import safe_pid
+    for bad in ("../../etc", "..", "a/b", "", "x" * 70, "a;rm -rf /", "a b"):
+        try:
+            safe_pid(bad)
+            raise AssertionError(f"{bad!r} 이 통과했다")
+        except ValueError:
+            pass
+    assert safe_pid("DEMO-RUN-001") == "DEMO-RUN-001"
+
+
+def test_gates_require_actor_and_evidence():
+    """게이트는 등급을 좌우하므로 참/거짓만으로 바꿀 수 없어야 한다."""
+    import inspect
+    import app as app_mod
+    src = inspect.getsource(app_mod.post_gates)
+    assert "actor" in src and "evidence" in src
+    assert "gate_log" in src
+
+
+def test_reading_a_project_does_not_create_storage():
+    """조회만으로 저장소가 생기면 인증 없는 GET 으로 디스크를 늘릴 수 있다."""
+    from pipeline import Project
+    p = Project("NEVER-CREATED-BY-READ")
+    assert not p.dir.exists()

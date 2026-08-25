@@ -41,9 +41,22 @@ app.add_middleware(CORSMiddleware, allow_origins=_origins,
 JOBS = {}
 
 
+def _now_iso():
+    from datetime import datetime, timezone
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _dev_mode():
+    """EB 는 PORT 를 준다. 운영에서는 내부 정보를 내보내지 않는다."""
+    return os.environ.get("ALLOW_DEBUG") == "1" or not os.environ.get("PORT")
+
+
 def _err(e):
-    return JSONResponse(status_code=400,
-                        content={"error": str(e), "trace": traceback.format_exc()[-1200:]})
+    body = {"error": str(e)}
+    # 스택 트레이스에는 서버 경로와 내부 구조가 그대로 담긴다.
+    if _dev_mode():
+        body["trace"] = traceback.format_exc()[-1200:]
+    return JSONResponse(status_code=400, content=body)
 
 
 # ── 카탈로그 ──────────────────────────────────────────────────────────
@@ -211,11 +224,40 @@ def post_scenario(pid: str, payload: dict):
 
 @app.post("/api/project/{pid}/gates")
 def post_gates(pid: str, payload: dict):
-    """엔지니어 승인 게이트를 켜고 끈다 (계획서 §12)."""
-    p = Project(pid)
-    p.state.setdefault("gates", {}).update(payload or {})
-    p.save()
-    return p.state["gates"]
+    """엔지니어 승인 게이트를 켜고 끈다 (계획서 §12).
+
+    게이트는 등급(C1/C2)을 좌우한다. 참/거짓만 받아서 바꾸면 누가 무슨
+    근거로 올렸는지가 남지 않아, 승인 기록이 아니라 그냥 플래그가 된다.
+    그래서 승인자와 근거를 함께 요구하고 변경 이력을 남긴다.
+    """
+    from config import CLASS_REQUIREMENTS
+    try:
+        p = Project(pid)
+        known = {k for reqs in CLASS_REQUIREMENTS.values() for k, _ in reqs}
+        gates = p.state.setdefault("gates", {})
+        log = p.state.setdefault("gate_log", [])
+        changed = {}
+        for key, val in (payload or {}).items():
+            if key not in known:
+                raise ValueError(f"알 수 없는 게이트: {key}")
+            if not isinstance(val, dict):
+                raise ValueError(
+                    f"{key}: 승인자와 근거가 필요합니다 "
+                    '{"value": true, "actor": "...", "evidence": "..."}')
+            actor = str(val.get("actor") or "").strip()
+            evidence = str(val.get("evidence") or "").strip()
+            if not actor or not evidence:
+                raise ValueError(f"{key}: actor 와 evidence 는 비울 수 없습니다")
+            before = gates.get(key)
+            gates[key] = bool(val.get("value"))
+            changed[key] = gates[key]
+            log.append({"gate": key, "from": before, "to": gates[key],
+                        "actor": actor, "evidence": evidence,
+                        "note": val.get("note"), "at": _now_iso()})
+        p.save()
+        return {"gates": gates, "changed": changed, "log_entries": len(log)}
+    except Exception as e:
+        return _err(e)
 
 
 @app.post("/api/project/{pid}/cost")
@@ -254,9 +296,27 @@ async def provider_generate(image: UploadFile = File(...),
     except Exception as e:
         return _err(e)
 
-    pid = project_id.strip() or "RUN"
-    dst = ASSETS / f"{pid}{Path(image.filename).suffix.lower() or '.jpg'}"
-    dst.write_bytes(await image.read())
+    try:
+        from pipeline import safe_pid
+        pid = safe_pid(project_id)
+    except Exception as e:
+        return _err(e)
+
+    # 클라이언트 검증은 참고일 뿐이다. 확장자·크기·매직바이트를 서버가 본다.
+    ALLOWED = {".jpg": bytes.fromhex("ffd8ff"), ".jpeg": bytes.fromhex("ffd8ff"),
+               ".png": bytes.fromhex("89504e47"), ".webp": b"RIFF"}
+    MAX_BYTES = 20 * 1024 * 1024
+    ext = Path(image.filename or "").suffix.lower()
+    if ext not in ALLOWED:
+        return _err(ValueError("JPG, PNG, WEBP 만 올릴 수 있습니다."))
+    raw = await image.read(MAX_BYTES + 1)
+    if len(raw) > MAX_BYTES:
+        return _err(ValueError("이미지가 20MB 를 넘습니다."))
+    if not raw.startswith(ALLOWED[ext]):
+        return _err(ValueError("확장자와 실제 파일 형식이 다릅니다."))
+
+    dst = ASSETS / f"{pid}{ext}"
+    dst.write_bytes(raw)
 
     job = {"project_id": pid, "status": "queued", "progress": 0,
            "stage": "upload", "credits": None, "error": None}
@@ -266,6 +326,7 @@ async def provider_generate(image: UploadFile = File(...),
         try:
             c = MeshProvider()
             p = Project(pid)
+            p.ensure_dir()
             p.state["input_image"] = dst.name
             p.save()
 

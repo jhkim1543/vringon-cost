@@ -20,9 +20,13 @@
       .catch(() => { clearTimeout(t); return false; });
   };
 
-  const probeStatic = () => REAL('data/index.json', { cache: 'no-store' })
-    .then(r => r.ok ? r.json() : null)
-    .catch(() => null);
+  // 정적 빌드는 index.html 에 표시를 남긴다. 표시가 없는데 파일을 찔러보면
+  // 실서버에서 늘 404 가 찍혀, 콘솔에 없는 오류가 있는 것처럼 보인다.
+  const probeStatic = () => (window.__staticBuild
+    ? REAL('data/index.json', { cache: 'no-store' })
+        .then(r => r.ok ? r.json() : null)
+        .catch(() => null)
+    : Promise.resolve(null));
 
   const ready = probeLive().then(live => {
     if (live) {
