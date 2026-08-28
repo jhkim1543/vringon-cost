@@ -1,0 +1,109 @@
+{
+ "fetched_at": "2026-08-28T11:52:03Z",
+ "tier": "A0",
+ "tier_note": "웹 검색 조사치. 리스팅이지 협상가가 아니며 원가 계산의 단가를 바꾸지 않는다. benchmark_bridge 의 대조 가정에만 쓴다.",
+ "method": "독립 웹검색 LLM 2종 병합. URL 없는 숫자는 버림. 두 엔진이 모두 찾은 항목만 corroborated.",
+ "items": [
+  {
+   "key": "midsole_unit",
+   "usd_low": 1.8,
+   "usd_high": 3.8,
+   "unit": "pair",
+   "corroborated": true,
+   "engines": [
+    "engine_a",
+    "engine_b"
+   ],
+   "sources": [
+    "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvwgo9rGblNibwojC1hCxHKKQo0unShjn3ZqPYT_d2yu_t6yugCY1F9YB1mULL-JXcM7-WuPuzFDhJaN6dW3ZVcOpKvF6WbcAisqXrnZOt2Jkwxzsb",
+    "https://www.soleforgefootwear.com/blog/eva-phylon-midsole-guide"
+   ],
+   "notes": [
+    "engine_a: Trade-source benchmark for China EVA/phylon midsoles: sculpted phylon midsole for running-inspired upper at $1.80-$3.80/pair before outsole rubber; listing/benchmark only, not a negotiated quote.",
+    "engine_b: Wholesale pricing for EVA and PU sneaker/boot sole units from Foshan Guozu Shoes Material Co."
+   ]
+  },
+  {
+   "key": "outsole_unit",
+   "usd_low": 1.2,
+   "usd_high": 4.0,
+   "unit": "pair",
+   "corroborated": true,
+   "engines": [
+    "engine_a",
+    "engine_b"
+   ],
+   "sources": [
+    "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvwgo9rGblNibwojC1hCxHKKQo0unShjn3ZqPYT_d2yu_t6yugCY1F9YB1mULL-JXcM7-WuPuzFDhJaN6dW3ZVcOpKvF6WbcAisqXrnZOt2Jkwxzsb",
+    "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQVFvMl6sxMXmVXyQkFDGAHOM3ztxCZveSs-XshkvdYID-JDBSeisplVMEHSSXazMtM3XSYkTvQEkejrgBbx-uu-wqRH_mPFiEPjJBs9tsmXK5ig==",
+    "https://www.made-in-china.com/price/prodetail_Sole_AGXYiaTEqocN.html",
+    "https://www.tradewheel.com/soles/"
+   ],
+   "notes": [
+    "engine_a: Supplier listings: Made-in-China sports rubber outsole $1.50-$4.00/pair MOQ 500; Tradewheel Fujian rubber+EVA fashion running outsoles $1.20-$3.80/pair. Listings only, not negotiated quotes.",
+    "engine_b: Rubber outsoles for sneakers, boots, and casual shoes based on listings from Guangzhou Bangerfu and Foshan Guozu."
+   ]
+  },
+  {
+   "key": "engineered_mesh",
+   "usd_low": 0.6,
+   "usd_high": 18.0,
+   "unit": "m",
+   "corroborated": true,
+   "engines": [
+    "engine_a",
+    "engine_b"
+   ],
+   "sources": [
+    "https://apparel.alibaba.com/product/shoe-upper-polyester-mesh-fabric",
+    "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRqEE0gPk-oBBj6pW5i06ahin6ysVOIhBlhMowOmYOi9JN2IIoCByFsHN2sibLBVlKAAofn8Ev7mvPekZc2xBywZY3sQxerYxP5tEXOvFGcnT1id27k169oLD7a0ivetxBRCV5yU9HCHuqLD7z23rGWyipXu-VUQ=="
+   ],
+   "notes": [
+    "engine_a: Alibaba shoe-upper mesh fabric listings include polyester sport-shoe upper mesh at $0.60-$0.80/m and 330GSM breathable sports-shoe mesh at $3.50-$5.50/m; yard-denominated listings on same page excluded from this meter range. Listings only, not negotiated quotes.",
+    "engine_b: Pricing for specialty-engineered or recycled performance mesh fabric suitable for footwear uppers."
+   ]
+  },
+  {
+   "key": "sockliner_unit",
+   "usd_low": 0.35,
+   "usd_high": 2.75,
+   "unit": "pair",
+   "corroborated": true,
+   "engines": [
+    "engine_a",
+    "engine_b"
+   ],
+   "sources": [
+    "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEg46NTIV3F8sVLLfPGwjMUHLCbEusrVIl41MXwjlKGDUrxe4ZAV9FGMEKf6lQPjiLnQEmMuWlSfWaS0Jb2rtr0o-fHhZPEplJxySC2qDqbOexS3ejz2J-p4A==",
+    "https://www.alibaba.com/product-introduction/EVA-Sockliner-Soft-and-Comfortable-Fit_1601035717725.html",
+    "https://www.alibaba.com/search/page?SearchScene=imageTextSearch&productId=1601861341182",
+    "https://www.way-yeah.com/wholesale-custom-printed-logo-shoe-insole-product/"
+   ],
+   "notes": [
+    "engine_a: Bulk EVA/PU insole/sockliner listings: Alibaba sports PU insole $0.35-$0.55/pair, EVA sockliner bulk tier down to $1.86/pair at 5000+ pairs, Runtong EVA+PU custom insole $2.45-$2.75/pair. Listings only, not negotiated quotes.",
+    "engine_b: Range encompasses basic PU elastic sports insoles up to custom heat-moldable EVA orthotic insoles from Dongguan Lee-Mat."
+   ]
+  },
+  {
+   "key": "shoe_box",
+   "usd_low": 0.3,
+   "usd_high": 1.5,
+   "unit": "piece",
+   "corroborated": true,
+   "engines": [
+    "engine_a",
+    "engine_b"
+   ],
+   "sources": [
+    "https://aoliprinting.en.made-in-china.com/product/XGQrThqdsaWA/China-Wholesale-Custom-Design-Logo-Printed-Shoe-Box-Stackable-Fold-Shoe-Boxes-Kraft-Paper-Packaging-Boxes.html",
+    "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHmuZ3MNCbr4a4hSkC6SwgKdMdB1P-uUcOg8GgtXhVL73kLGwvOuh0I6YXf7u-f9dei96klQtbp1RwwPefV3sGW0eqVN3-EDb634ZhL2Ow-ldwqNHJX6GI32IuDlklMT2zGRZP8M3uz0VoDejfMglMccQ==",
+    "https://www.alibaba.com/product-introduction/Custom-shoe-boxes-packaging-black-cardboard_1600424103886.html",
+    "https://www.made-in-china.com/price/prodetail_Packaging-Boxes_tneYdvOxJGVE.html"
+   ],
+   "notes": [
+    "engine_a: Custom printed shoe box supplier listings at 5000-unit tier: Alibaba >=5000 pieces $0.30/piece; Made-in-China Unison 5000-49999 pieces $0.40/piece; AOLI 5000-9999 pieces $1.50/piece. Listings only, not negotiated quotes.",
+    "engine_b: Custom colorful printed corrugated cardboard packaging/mailing shoe boxes."
+   ]
+  }
+ ]
+}

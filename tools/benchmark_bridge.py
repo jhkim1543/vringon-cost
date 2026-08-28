@@ -27,12 +27,32 @@ BENCH = {
 BENCH_MAT = BENCH["upper"] + BENCH["leather"] + BENCH["outsole"]   # 9.60
 
 # 성형 부품은 원료 kg 단가가 아니라 성형·트리밍된 유닛 단가로 산다.
-# 범위는 공개 공급사 리스팅의 통상값이며 중앙값을 쓴다.
+# 기본값은 공개 리스팅 통상값. tools/research_component_prices.py 를 돌리면
+# 출처 URL 이 붙은 조사치(data/benchmarks/component_research.json)로 대체된다.
 MOLDED_UNIT_USD_PAIR = {
     "Midsole Carrier": (1.50, 2.50),
     "Outsole Rubber": (1.00, 2.00),
     "Midsole Insert": (0.40, 0.80),
 }
+RESEARCH_FILE = ROOT / "data" / "benchmarks" / "component_research.json"
+RESEARCH_KEY_MAP = {"midsole_unit": "Midsole Carrier",
+                    "outsole_unit": "Outsole Rubber",
+                    "sockliner_unit": "Midsole Insert"}
+
+
+def load_research():
+    """조사치가 있으면 다리의 가정을 그것으로 바꾼다. 출처 개수를 알려준다."""
+    if not RESEARCH_FILE.exists():
+        return None
+    d = json.loads(RESEARCH_FILE.read_text(encoding="utf-8"))
+    used = {}
+    for it in d.get("items", []):
+        part = RESEARCH_KEY_MAP.get(it.get("key"))
+        if part and it.get("usd_low") is not None:
+            MOLDED_UNIT_USD_PAIR[part] = (it["usd_low"], it["usd_high"])
+            used[part] = {"sources": len(it.get("sources") or []),
+                          "corroborated": it.get("corroborated")}
+    return {"fetched_at": d.get("fetched_at"), "used": used}
 # 어퍼 원단: 워크북의 $0.80/m 는 범용 메시 하한이다. 러닝화용 engineered mesh
 # 실구매는 야드당 $3~5 (= m 당 약 $3.3~5.5) 이므로 4배로 본다.
 UPPER_FABRIC_FACTOR = 4.0
@@ -57,7 +77,11 @@ def bridge(pid):
     f = ROOT / "data" / "projects" / pid / "cost.json"
     d = json.loads(f.read_text(encoding="utf-8"))
     lines = d["lines"]
-    base = d["rollup"]["known_cost_subtotal"]["p50"]
+    # 벤치마크는 전체 소재비이므로 우리도 전체(승인+미승인)로 비교한다.
+    # 승인 소계만 쓰면 미승인 숨은 파트가 빠져 비교가 왜곡된다.
+    ru = d["rollup"]
+    base = (ru["known_cost_subtotal"]["p50"]
+            + (ru.get("unapproved_material_subtotal") or {}).get("p50", 0.0))
 
     steps = []
     # 1) 성형 부품을 부품 단가로
@@ -86,7 +110,7 @@ def bridge(pid):
         steps.append(("신발 상자를 벌크 단가로 되돌림", BOX_REAL - box))
 
     print(f"\n== {pid} ==")
-    print(f"{'우리 계산 (원료 단가 기준, C1)':46} {base:8.2f}")
+    print(f"{'우리 계산 전체 소재비 (원료 단가, 승인+미승인)':42} {base:8.2f}")
     run = base
     for label, delta in steps:
         run += delta
@@ -101,6 +125,13 @@ def bridge(pid):
 if __name__ == "__main__":
     pids = sys.argv[1:] or ["DEMO-RUN-001"]
     print(f"기준: {BENCH['name']}  FOB ${BENCH['fob']:.2f}, 소재 합 ${BENCH_MAT:.2f}")
-    print("조정값은 공개 자료 기반 가정이다. 공장 견적이 아니다.")
+    research = load_research()
+    if research and research["used"]:
+        parts = ", ".join(f"{k}(출처 {v['sources']}개"
+                          f"{', 상호검증' if v['corroborated'] else ''})"
+                          for k, v in research["used"].items())
+        print(f"부품 단가: 웹 조사치 사용 ({research['fetched_at'][:10]}) - {parts}")
+    else:
+        print("조정값은 공개 자료 기반 가정이다. 공장 견적이 아니다.")
     for pid in pids:
         bridge(pid)

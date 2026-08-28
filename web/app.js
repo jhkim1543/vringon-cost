@@ -647,8 +647,10 @@ function stepPricing(el) {
       `<option ${q === S.state.scenario.quarter ? 'selected' : ''}>${q}</option>`).join('')}</select>
     <h4>가격 근거 분포</h4>
     <dl class="kv">${Object.entries(byBasis).map(([k, v]) => `<dt>${k}</dt><dd>${v}건</dd>`).join('')}</dl>
-    <div class="row"><button class="btn" id="snapBtn">2026Q4 스냅샷 시뮬레이션</button></div>
+    <div class="row"><button class="btn" id="snapBtn">2026Q4 스냅샷 시뮬레이션</button>
+      <button class="btn" id="benchBtn">시장 지수·조사치 보기</button></div>
     <div id="snapOut"></div>
+    <div id="benchOut"></div>
     <table style="margin-top:12px"><thead><tr><th>소재</th><th class="num">기준</th>
       <th>UOM</th><th>자격</th><th>신뢰</th><th>출처</th></tr></thead><tbody>
       ${[...new Map(lines.filter(l => l.material_spec)
@@ -674,6 +676,51 @@ function stepPricing(el) {
     await api(`/project/${S.pid}/cost`, null, 'POST'); await reload();
   };
   wizardNav(el, { nextLabel: '단가 확인, 원가로' });
+  $('#benchBtn').onclick = async () => {
+    let b;
+    try { b = await api('/benchmarks', null, 'GET'); }
+    catch (e) { $('#benchOut').innerHTML =
+      '<div class="note">이 배포본에는 벤치마크 데이터가 없습니다.</div>'; return; }
+    const idx = b.index, res = b.research;
+    if (!idx && !res) {
+      $('#benchOut').innerHTML = `<div class="note">아직 수집 전입니다.
+        서버에서 tools/fetch_benchmarks.py 를 실행하면 공개 시장 지수를 가져옵니다.</div>`;
+      return;
+    }
+    let html = `<div class="note"><b>참고 데이터입니다. 계산 단가를 바꾸지 않습니다.</b>
+      단가는 분기 스냅샷에서만 옵니다.</div>`;
+    if (idx && idx.snapshot_comparison?.length) {
+      html += `<h4>시장 지수 대조 (A1 · ${(idx.fetched_at || '').slice(0, 10)} 수집)</h4>
+        <table><thead><tr><th>소재</th><th class="num">스냅샷</th><th>지수</th>
+        <th class="num">지수 최신</th><th class="num">변동</th></tr></thead><tbody>
+        ${idx.snapshot_comparison.map(r => `<tr>
+          <td>${r.compare_spec}</td><td class="num">${fmt(r.snapshot_p50, 3)}</td>
+          <td>${r.index_name}</td>
+          <td class="num">${fmt(r.index_latest?.value, 3)} <span class="muted">${r.index_latest?.period || ''}</span></td>
+          <td class="num">${r.drift_pct == null ? '없음' : r.drift_pct + '%'}
+            ${r.action_needed ? ' <span class="tag bad">스냅샷 갱신 신호</span>' : ''}</td>
+        </tr>`).join('')}</tbody></table>
+        <p class="muted">지수는 원료 가격, 스냅샷은 배합·가공 소재라 절대값이 아니라
+        방향만 봅니다. 변동 ±10% 초과 시 다음 분기 스냅샷 갱신 신호입니다.</p>`;
+    }
+    if (res && res.items?.length) {
+      html += `<h4>부품 단가 웹 조사치 (A0 · ${(res.fetched_at || '').slice(0, 10)})</h4>
+        <table><thead><tr><th>항목</th><th class="num">범위 USD</th><th>단위</th>
+        <th>검증</th><th>출처</th></tr></thead><tbody>
+        ${res.items.map(it => `<tr><td>${it.key}</td>
+          <td class="num">${fmt(it.usd_low, 2)} ~ ${fmt(it.usd_high, 2)}</td>
+          <td>${it.unit || ''}</td>
+          <td>${it.corroborated ? '<span class="tag ok">검색엔진 2종 상호검증</span>'
+                                : '<span class="tag warn">단일 엔진</span>'}</td>
+          <td>${(it.sources || []).slice(0, 3).map(u => {
+            let h = ''; try { h = new URL(u).hostname.replace(/^www\./, ''); } catch (e) {}
+            return `<a href="${u}" target="_blank" rel="noopener">${h}</a>`;
+          }).join(' · ')}</td></tr>`).join('')}</tbody></table>
+        <p class="muted">리스팅 조사치이지 협상가가 아닙니다. 실측 대조 분석
+        (benchmark_bridge)의 가정에만 쓰입니다.</p>`;
+    }
+    $('#benchOut').innerHTML = html;
+  };
   $('#snapBtn').onclick = async () => {
     const r = await api('/prices/snapshot', { quarter: '2026Q4' });
     $('#snapOut').innerHTML = `<div class="note">2026Q4 에 신규 관측이 없다고 가정:

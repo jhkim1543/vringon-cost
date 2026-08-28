@@ -909,3 +909,41 @@ def test_consumption_method_is_explicit():
                for m in methods), methods
     for future in consumption.FUTURE_METHODS:
         assert future not in methods
+
+
+# ── 공개 지수·조사치 파이프라인 (네트워크 없이 검증) ─────────────────────
+def test_research_merge_drops_numbers_without_urls():
+    """URL 없는 숫자는 버리고, 두 엔진이 모두 찾은 항목만 상호검증이다."""
+    import importlib.util
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location(
+        "rcp", root / "tools" / "research_component_prices.py")
+    rcp = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rcp)
+    merged = rcp.merge({
+        "engine_a": {"items": [
+            {"key": "midsole_unit", "usd_low": 1.2, "usd_high": 2.0,
+             "unit": "pair", "sources": ["https://a.example/x"]},
+            {"key": "no_source", "usd_low": 9, "usd_high": 10,
+             "unit": "pair", "sources": []},
+        ]},
+        "engine_b": {"items": [
+            {"key": "midsole_unit", "usd_low": 1.5, "usd_high": 2.4,
+             "unit": "pair", "sources": ["https://b.example/y"]},
+        ]},
+    })
+    keys = {m["key"]: m for m in merged}
+    assert "no_source" not in keys, "URL 없는 숫자가 살아남았다"
+    m = keys["midsole_unit"]
+    assert m["corroborated"] is True
+    assert m["usd_low"] == 1.2 and m["usd_high"] == 2.4  # 범위는 넓게 합침
+    assert len(m["sources"]) == 2
+
+
+def test_benchmark_files_never_change_engine_prices():
+    """지수·조사치는 참고(A0/A1)일 뿐, 계산 단가는 분기 스냅샷에서만 온다."""
+    import pricing
+    p = pricing.select("MAT-NR", "2026Q3")
+    assert p["basis"] == "quarterly_snapshot"
+    assert p["p50"] == 2.39  # 지수 파일이 있어도 스냅샷 값 그대로

@@ -1,0 +1,230 @@
+{
+ "fetched_at": "2026-08-28T11:48:12Z",
+ "tier": "A1",
+ "tier_note": "시장 지수. 특정 SKU 구매가가 아니며 원가 단가를 바꾸지 않는다.",
+ "sources": {
+  "commodities": "World Bank Commodity Markets (Pink Sheet), 월간",
+  "fx": "ECB reference exchange rates"
+ },
+ "commodities": {
+  "Rubber, RSS3": {
+   "unit": "USD/kg",
+   "recent": [
+    [
+     "2026M02",
+     2.26
+    ],
+    [
+     "2026M03",
+     2.39
+    ],
+    [
+     "2026M04",
+     2.51
+    ],
+    [
+     "2026M05",
+     2.69
+    ],
+    [
+     "2026M06",
+     2.86
+    ],
+    [
+     "2026M07",
+     2.78
+    ]
+   ],
+   "latest": {
+    "period": "2026M07",
+    "value": 2.78
+   }
+  },
+  "Rubber, TSR20": {
+   "unit": "USD/kg",
+   "recent": [
+    [
+     "2026M02",
+     1.93
+    ],
+    [
+     "2026M03",
+     1.95
+    ],
+    [
+     "2026M04",
+     2.06
+    ],
+    [
+     "2026M05",
+     2.21
+    ],
+    [
+     "2026M06",
+     2.25
+    ],
+    [
+     "2026M07",
+     2.14
+    ]
+   ],
+   "latest": {
+    "period": "2026M07",
+    "value": 2.14
+   }
+  },
+  "Cotton, A Index": {
+   "unit": "USD/kg",
+   "recent": [
+    [
+     "2026M02",
+     1.63
+    ],
+    [
+     "2026M03",
+     1.7
+    ],
+    [
+     "2026M04",
+     1.9
+    ],
+    [
+     "2026M05",
+     2.03
+    ],
+    [
+     "2026M06",
+     1.9
+    ],
+    [
+     "2026M07",
+     1.96
+    ]
+   ],
+   "latest": {
+    "period": "2026M07",
+    "value": 1.96
+   }
+  }
+ },
+ "fx": {
+  "USD_per_EUR": {
+   "recent": [
+    [
+     "2026-05",
+     1.16732
+    ],
+    [
+     "2026-06",
+     1.1518
+    ],
+    [
+     "2026-07",
+     1.1417478260869562
+    ]
+   ],
+   "latest": {
+    "period": "2026-07",
+    "value": 1.1417478260869562
+   }
+  },
+  "KRW_per_EUR": {
+   "recent": [
+    [
+     "2026-05",
+     1740.2724999999998
+    ],
+    [
+     "2026-06",
+     1762.3236363636368
+    ],
+    [
+     "2026-07",
+     1702.158260869565
+    ]
+   ],
+   "latest": {
+    "period": "2026-07",
+    "value": 1702.158260869565
+   }
+  },
+  "KRW_per_USD": {
+   "latest": {
+    "period": "2026-07",
+    "value": 1490.8355610391393
+   }
+  },
+  "_note": "ECB reference rate. 정보 제공용이며 결제 환율이 아니다. 실제 원가 확정에는 송금·정산 환율이 필요하다."
+ },
+ "snapshot_comparison": [
+  {
+   "index_name": "Rubber, RSS3",
+   "index_latest": {
+    "period": "2026M07",
+    "value": 2.78
+   },
+   "index_unit": "USD/kg",
+   "quarter_start_value": 2.78,
+   "drift_basis": "분기 시작(2026M07) 대비",
+   "drift_pct": 0.0,
+   "index_data_current": true,
+   "compare_spec": "MAT-NR",
+   "snapshot_p50": 2.39,
+   "snapshot_uom": "kg",
+   "note": "지수는 원료 가격이고 스냅샷은 배합·가공 소재다. 절대값이 아니라 방향·변동률만 본다. 변동률이 ±10% 를 넘으면 다음 분기 스냅샷 갱신이 필요하다는 신호다.",
+   "action_needed": false
+  },
+  {
+   "index_name": "Rubber, TSR20",
+   "index_latest": {
+    "period": "2026M07",
+    "value": 2.14
+   },
+   "index_unit": "USD/kg",
+   "quarter_start_value": 2.14,
+   "drift_basis": "분기 시작(2026M07) 대비",
+   "drift_pct": 0.0,
+   "index_data_current": true,
+   "compare_spec": "MAT-SBR",
+   "snapshot_p50": 2.22,
+   "snapshot_uom": "kg",
+   "note": "지수는 원료 가격이고 스냅샷은 배합·가공 소재다. 절대값이 아니라 방향·변동률만 본다. 변동률이 ±10% 를 넘으면 다음 분기 스냅샷 갱신이 필요하다는 신호다.",
+   "action_needed": false
+  },
+  {
+   "index_name": "Rubber, TSR20",
+   "index_latest": {
+    "period": "2026M07",
+    "value": 2.14
+   },
+   "index_unit": "USD/kg",
+   "quarter_start_value": 2.14,
+   "drift_basis": "분기 시작(2026M07) 대비",
+   "drift_pct": 0.0,
+   "index_data_current": true,
+   "compare_spec": "MAT-BR",
+   "snapshot_p50": 2.645,
+   "snapshot_uom": "kg",
+   "note": "지수는 원료 가격이고 스냅샷은 배합·가공 소재다. 절대값이 아니라 방향·변동률만 본다. 변동률이 ±10% 를 넘으면 다음 분기 스냅샷 갱신이 필요하다는 신호다.",
+   "action_needed": false
+  },
+  {
+   "index_name": "Rubber, TSR20",
+   "index_latest": {
+    "period": "2026M07",
+    "value": 2.14
+   },
+   "index_unit": "USD/kg",
+   "quarter_start_value": 2.14,
+   "drift_basis": "분기 시작(2026M07) 대비",
+   "drift_pct": 0.0,
+   "index_data_current": true,
+   "compare_spec": "MAT-NBR",
+   "snapshot_p50": 2.55,
+   "snapshot_uom": "kg",
+   "note": "지수는 원료 가격이고 스냅샷은 배합·가공 소재다. 절대값이 아니라 방향·변동률만 본다. 변동률이 ±10% 를 넘으면 다음 분기 스냅샷 갱신이 필요하다는 신호다.",
+   "action_needed": false
+  }
+ ],
+ "errors": []
+}

@@ -68,6 +68,8 @@ def main():
     shutil.copytree(ROOT / "data" / "seed", data / "seed")
     shutil.copytree(ROOT / "data" / "examples", data / "examples")
     shutil.copytree(ROOT / "data" / "assets", data / "assets")  # 입력 이미지
+    if (ROOT / "data" / "benchmarks").exists():                  # 지수·조사치(A0/A1)
+        shutil.copytree(ROOT / "data" / "benchmarks", data / "benchmarks")
 
     for proj in sorted((ROOT / "data" / "projects").iterdir()):
         if not (proj / "cost.json").exists():

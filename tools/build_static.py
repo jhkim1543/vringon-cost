@@ -128,6 +128,19 @@ def main():
             '<script src="static-api.js"></script>')
     idx.write_text(html, encoding="utf-8")
 
+    # 시장 지수·조사치 (있으면). 정적에서도 '보기' 버튼이 동작하게 한다.
+    bench = {"index": None, "research": None,
+             "note": "지수·조사치는 A1/A0 참고 데이터다. 계산 단가는 분기 "
+                     "스냅샷에서만 온다."}
+    bf = ROOT / "data" / "benchmarks" / "latest.json"
+    if bf.exists():
+        bench["index"] = json.loads(bf.read_text(encoding="utf-8"))
+    rf = ROOT / "data" / "benchmarks" / "component_research.json"
+    if rf.exists():
+        bench["research"] = json.loads(rf.read_text(encoding="utf-8"))
+    (DOCS / "data" / "benchmarks.json").write_text(
+        json.dumps(bench, ensure_ascii=False), encoding="utf-8")
+
     # 예시 디자인 목록과 이미지
     ex_src = ROOT / "data" / "examples"
     if (ex_src / "examples.json").exists():
