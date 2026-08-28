@@ -21,7 +21,18 @@ STAGE = ROOT / "deploy" / "eb-stage"
 ZIP = ROOT / "deploy" / "eb-bundle.zip"
 
 # 공급자명이 파일명에 남은 과거 산출물(작업 기록 json)은 번들에 들어가면 안 된다
-BANNED_NAME_PARTS = ("tripo",)
+# 그 이름 자체를 리포에 적지 않으려고 로컬 설정에서 읽는다.
+def _banned_parts():
+    import sys as _s
+    _s.path.insert(0, str(ROOT / "server"))
+    try:
+        from config import banned_terms
+        return tuple(banned_terms())
+    except Exception:
+        return ()
+
+
+BANNED_NAME_PARTS = _banned_parts()
 
 PROJECT_KEEP = ("state.json", "cost.json", "viewer.glb", "model_mapping.json")
 PROJECT_KEEP_EXT = (".jpg", ".jpeg", ".png", ".webp")

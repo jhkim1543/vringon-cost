@@ -99,3 +99,23 @@ ELIGIBILITY_MAX_CLASS = {
     "Concept benchmark": "C1",
     "Concept only": "C1",
 }
+
+def banned_terms():
+    """배포물에 나가면 안 되는 단어. 리포에 적지 않고 로컬 설정에서 읽는다.
+
+    공급사명은 화면·저장소·문서 어디에도 남기지 않기로 했으므로, 그것을
+    검사하는 목록 자체도 리포에 두지 않는다. 설정이 없으면 빈 목록이라
+    검사가 느슨해지지만, 대신 키와 공급자 주소 검사는 그대로 동작한다.
+    """
+    import json
+    out = []
+    f = ROOT / ".provider.json"
+    if f.exists():
+        try:
+            out = [str(t).lower() for t in
+                   (json.loads(f.read_text(encoding="utf-8")).get("banned_terms") or [])]
+        except Exception:
+            out = []
+    env = os.environ.get("BANNED_TERMS", "")
+    out += [t.strip().lower() for t in env.split(",") if t.strip()]
+    return [t for t in out if len(t) >= 4]
