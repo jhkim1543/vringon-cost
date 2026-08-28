@@ -71,6 +71,7 @@
     if (method !== 'GET') return json(DISABLED);
 
     if (path === '/catalog') return REAL('data/catalog.json');
+    if (path === '/benchmarks') return REAL('data/benchmarks.json');
 
     if (path === '/examples') return REAL('data/examples.json');
     const exm = path.match(/^\/examples\/(.+)$/);
