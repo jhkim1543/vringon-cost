@@ -369,6 +369,10 @@ def main():
     n_map = export_part_material_map(money)
     n_spec = export_material_specs(money)
     n_rule = export_rules(money)
+    # 시장 지수(A1)와 웹 조사치(A0). 계산 단가를 바꾸지 않는 참고 데이터.
+    bdir = ROOT / "data" / "benchmarks"
+    if bdir.exists():
+        shutil.copytree(bdir, money / "시장지수_조사치_참고")
 
     demo = STAGE / "데모결과"
     demo.mkdir()
