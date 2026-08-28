@@ -42,7 +42,7 @@
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-28T05:45:33Z",
+   "at": "2026-08-28T11:21:27Z",
    "grade": "C1",
    "fob": "산출 불가"
   }
@@ -67,7 +67,7 @@
   "volume_parts_validated": false
  },
  "input_image": "LIVE-H100-001.jpg",
- "updated_at": "2026-08-28T05:45:33Z",
+ "updated_at": "2026-08-28T11:21:27Z",
  "landmarks": {
   "axis": [
    -0.02431963935677898,
@@ -5158,6 +5158,7 @@
   },
   "grade": {
    "class": "C1",
+   "label": "Concept should-cost (scale 확정 + 기준 단가)",
    "blocked_reasons": {
     "C1": [],
     "C2": [
@@ -5165,16 +5166,23 @@
      "Hidden BOM 엔지니어 승인",
      "승인 pattern/solid geometry (DXF 또는 sole CAD)",
      "승인 Supplier SKU 견적",
-     "공장 routing·SAM 확정",
-     "Tooling 견적 확정",
      "승인 Supplier 견적이 아닌 단가 22건 (분기 스냅샷/공개 리스팅)",
-     "공장 routing, SAM, tooling 미확정",
      "미승인 BOM 라인 18건 (세그먼트 미확정 또는 규칙 제안): Cement/Adhesive, Cleaner, Collar Foam, Eyelet Reinforcement…",
      "C1 상한 지오메트리 30건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
+    ],
+    "C3": [
+     "공장 routing·SAM 확정",
+     "Tooling 견적 확정",
+     "간접비 cost pool 과 배부 기준 승인",
+     "공장 SAM·효율·rate 미입력 (노무·기계 차단)"
+    ],
+    "C4": [
+     "Incoterm 과 named place 선언",
+     "PO·invoice·생산 실적과 대사"
     ]
    },
-   "downgraded_from": "C2"
+   "downgraded_from": "C4"
   },
-  "computed_at": "2026-08-28T05:45:33Z"
+  "computed_at": "2026-08-28T11:21:27Z"
  }
 }
