@@ -1,0 +1,286 @@
+{
+ "fetched_at": "2026-08-28T14:49:01Z",
+ "tier": "A1",
+ "note": "브랜드 공개 또는 취재 기반 실제 원가. 우리 계산의 정답지 대조용.",
+ "products": [
+  {
+   "brand": "Everlane",
+   "name": "Tread Trainer",
+   "corroborated": true,
+   "engines": [
+    "engine_a",
+    "engine_b"
+   ],
+   "reports": [
+    {
+     "engine": "engine_a",
+     "brand": "Everlane",
+     "name": "Tread Trainer",
+     "retail_usd": 98,
+     "cost_lines": [
+      {
+       "item": "Materials",
+       "usd": 22.04,
+       "is_material": true
+      },
+      {
+       "item": "Hardware",
+       "usd": 0.6,
+       "is_material": true
+      },
+      {
+       "item": "Labor",
+       "usd": 9.15,
+       "is_material": false
+      },
+      {
+       "item": "Duties",
+       "usd": 3.18,
+       "is_material": false
+      },
+      {
+       "item": "Transport",
+       "usd": 1.5,
+       "is_material": false
+      }
+     ],
+     "total_disclosed_usd": 36.47,
+     "materials_usd": 22.64,
+     "upper_material": "leather",
+     "image_url": null,
+     "sources": [
+      "https://www.gentlemanwithin.com/greats-vs-everlane-review/"
+     ]
+    },
+    {
+     "engine": "engine_b",
+     "brand": "Everlane",
+     "name": "Tread Trainer",
+     "retail_usd": 98,
+     "cost_lines": [
+      {
+       "item": "Materials",
+       "usd": 22.04,
+       "is_material": true
+      },
+      {
+       "item": "Hardware",
+       "usd": 0.6,
+       "is_material": true
+      },
+      {
+       "item": "Labor",
+       "usd": 9.15,
+       "is_material": false
+      },
+      {
+       "item": "Duties",
+       "usd": 3.18,
+       "is_material": false
+      },
+      {
+       "item": "Transport",
+       "usd": 1.5,
+       "is_material": false
+      }
+     ],
+     "total_disclosed_usd": 36.47,
+     "materials_usd": 22.64,
+     "upper_material": "leather",
+     "image_url": "https://www.gentlemanwithin.com/wp-content/uploads/2019/06/Greats-Royale-Knit-Sneaker-vs-Tread-By-Everlane-Hero-750x420.jpg",
+     "sources": [
+      "https://www.gentlemanwithin.com/review-greats-royale-vs-everlane-tread/ [2.4.3]",
+      "https://www.thedailybeast.com/everlane-launches-new-tread-trainer-sustainable-sneaker"
+     ]
+    }
+   ]
+  },
+  {
+   "brand": "Oliver Cabell",
+   "name": "Low 1 | White",
+   "corroborated": false,
+   "engines": [
+    "engine_a"
+   ],
+   "reports": [
+    {
+     "engine": "engine_a",
+     "brand": "Oliver Cabell",
+     "name": "Low 1 | White",
+     "retail_usd": 179.99,
+     "cost_lines": [
+      {
+       "item": "Leather",
+       "usd": 26.04,
+       "is_material": true
+      },
+      {
+       "item": "Lining",
+       "usd": 8.12,
+       "is_material": true
+      },
+      {
+       "item": "Outsoles",
+       "usd": 6.6,
+       "is_material": true
+      },
+      {
+       "item": "In-soles",
+       "usd": 3.8,
+       "is_material": true
+      },
+      {
+       "item": "Cutting/Manufacturing/Quality Control",
+       "usd": 34.88,
+       "is_material": false
+      },
+      {
+       "item": "Packaging",
+       "usd": 3.96,
+       "is_material": false
+      },
+      {
+       "item": "Transit",
+       "usd": 12.43,
+       "is_material": false
+      },
+      {
+       "item": "Duties",
+       "usd": 5.36,
+       "is_material": false
+      },
+      {
+       "item": "Shipping",
+       "usd": 11.5,
+       "is_material": false
+      }
+     ],
+     "total_disclosed_usd": 112.69,
+     "materials_usd": 44.56,
+     "upper_material": "leather",
+     "image_url": "https://olivercabell.com/cdn/shop/files/Low1White_1.jpg?v=1742224497&width=3000",
+     "sources": [
+      "https://hb.diva-portal.org/smash/get/diva2%3A1508116/FULLTEXT01.pdf",
+      "https://luxe.digital/style/oliver-cabell-review/",
+      "https://olivercabell.com/products/low-1-white-mens?variant=31286002057289"
+     ]
+    }
+   ]
+  },
+  {
+   "brand": "K-Swiss",
+   "name": "Court Pro Startup",
+   "corroborated": false,
+   "engines": [
+    "engine_a"
+   ],
+   "reports": [
+    {
+     "engine": "engine_a",
+     "brand": "K-Swiss",
+     "name": "Court Pro Startup",
+     "retail_usd": 59,
+     "cost_lines": [
+      {
+       "item": "Materials",
+       "usd": 12.38,
+       "is_material": true
+      },
+      {
+       "item": "Packing",
+       "usd": 1.47,
+       "is_material": false
+      },
+      {
+       "item": "Labor",
+       "usd": 5.5,
+       "is_material": false
+      },
+      {
+       "item": "Duties",
+       "usd": 4.33,
+       "is_material": false
+      },
+      {
+       "item": "Transport",
+       "usd": 2,
+       "is_material": false
+      }
+     ],
+     "total_disclosed_usd": 25.68,
+     "materials_usd": 12.38,
+     "upper_material": "leather",
+     "image_url": "https://i.shgcdn.com/cf15a74a-ef8a-4649-9612-aaba38a26f7b/-/format/auto/-/preview/3000x3000/-/quality/lighter/",
+     "sources": [
+      "https://kswiss.fr/pages/the-startup"
+     ]
+    }
+   ]
+  },
+  {
+   "brand": "Oliver Cabell",
+   "name": "Penny Loafer",
+   "corroborated": false,
+   "engines": [
+    "engine_b"
+   ],
+   "reports": [
+    {
+     "engine": "engine_b",
+     "brand": "Oliver Cabell",
+     "name": "Penny Loafer",
+     "retail_usd": 179.99,
+     "cost_lines": [
+      {
+       "item": "Upper",
+       "usd": 7.14,
+       "is_material": true
+      },
+      {
+       "item": "Interior Lining",
+       "usd": 3.72,
+       "is_material": true
+      },
+      {
+       "item": "Rubber Outsole",
+       "usd": 3.24,
+       "is_material": true
+      },
+      {
+       "item": "Labor (Cutting, Manufacture, QC)",
+       "usd": 17.88,
+       "is_material": false
+      },
+      {
+       "item": "Packaging",
+       "usd": 3.96,
+       "is_material": false
+      },
+      {
+       "item": "Transit",
+       "usd": 11.43,
+       "is_material": false
+      },
+      {
+       "item": "Customs/Duties",
+       "usd": 4.36,
+       "is_material": false
+      },
+      {
+       "item": "Shipping",
+       "usd": 11.5,
+       "is_material": false
+      }
+     ],
+     "total_disclosed_usd": 63.23,
+     "materials_usd": 14.1,
+     "upper_material": "leather",
+     "image_url": null,
+     "sources": [
+      "https://www.themodestman.com/oliver-cabell-penny-loafers/ [2.2.3]"
+     ]
+    }
+   ]
+  }
+ ]
+}

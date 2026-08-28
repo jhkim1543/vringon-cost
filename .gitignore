@@ -17,3 +17,6 @@ deploy/eb-bundle.zip
 # 공개 저장소에 두지 않는다. 재계산에는 필요 없다 (task_id 는 state.json 에 있다).
 data/projects/*/*_task.json
 deploy/package-stage/
+
+# 타 브랜드 제품 이미지 (대조 테스트용 로컬 전용. 저작권상 리포에 넣지 않는다)
+data/benchmarks/test_images/

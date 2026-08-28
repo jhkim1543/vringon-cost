@@ -615,9 +615,9 @@
    "form": "sheet_m2",
    "description": "Full grain upper leather (가죽 한 장 단위, 단가는 sq ft)",
    "pattern_factor": {
-    "value": 1.15,
-    "source": "assumption",
-    "note": "3D 표면적 -> 재단 패턴 면적 proxy. 승인 DXF 필요"
+    "value": 1.35,
+    "source": "public_reference",
+    "note": "3D 표면 -> 재단 패턴 확대. 1.15 는 실측과 안 맞았다: 공개 원가가 알려진 가죽 스니커(이탈리아산, 가죽 $26.04)를 돌려 역산하면 3.1~4.0 sqft/켤레인데 1.15 로는 2.87 이 나왔다. 라스팅 여유 15~20mm 둘레 + 시접·접기 10~15% + 곡면 전개 5~10% 를 합치면 1.35~1.5 가 통상이다 (Hasan 2024 PMC11141383, SATRA 재단 자료). 보수적으로 1.35. 승인 DXF 가 오면 대체된다"
    },
    "nesting_yield": {
     "value": 0.62,

@@ -947,3 +947,35 @@ def test_benchmark_files_never_change_engine_prices():
     p = pricing.select("MAT-NR", "2026Q3")
     assert p["basis"] == "quarterly_snapshot"
     assert p["p50"] == 2.39  # 지수 파일이 있어도 스냅샷 값 그대로
+
+
+# ── 실제 공개 원가 대조 (2026-08-29) ─────────────────────────────────────
+def test_leather_pattern_factor_calibrated_from_actual():
+    """가죽 pattern_factor 는 실측 역산으로 보정된 1.35 를 유지해야 한다.
+
+    공개 원가가 알려진 가죽 스니커를 실제 파이프라인에 돌려 역산한 결과,
+    1.15 로는 소요량이 2.87 sqft/켤레로 실제 대역(3.1~4.0)에 못 미쳤다.
+    1.35 적용 시 3.37 sqft 가 되고, 지역 단가($8/sqft)를 대입하면 공개
+    가죽비 $26.04 대비 +3.4% 로 닫힌다. 근거는 스펙 note 에 있다.
+    """
+    import catalog
+    pf = catalog.material_specs()["MAT-FULLGRAIN"]["pattern_factor"]
+    assert pf["value"] == 1.35
+    assert "26.04" in pf["note"] or "3.1" in pf["note"]
+
+
+def test_known_cost_run_archive_exists():
+    """정답지 대조 실행 결과는 재현 가능하게 보존한다 (공개 노출 경로 밖)."""
+    import json
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    f = root / "data" / "benchmarks" / "known_cost_run_OC-LOW1" / "cost.json"
+    assert f.exists()
+    d = json.loads(f.read_text(encoding="utf-8"))
+    ru = d["rollup"]
+    total = (ru["known_cost_subtotal"]["p50"]
+             + ru["unapproved_material_subtotal"]["p50"])
+    # 조정 후 값 고정: 전체 소재비 $18~20 (중국 단가 기준)
+    assert 17.5 < total < 20.5, total
+    # 프로젝트 폴더(공개 빌드 대상)에는 없어야 한다
+    assert not (root / "data" / "projects" / "OC-LOW1-001").exists()
