@@ -26,13 +26,13 @@
   },
   "bom": {
    "status": "built",
-   "at": "2026-08-28T11:18:43Z",
+   "at": "2026-08-28T15:02:38Z",
    "lines": 29,
    "hidden": 18
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-28T11:18:43Z",
+   "at": "2026-08-28T15:02:38Z",
    "grade": "C1",
    "fob": "산출 불가"
   }
@@ -57,7 +57,7 @@
   "volume_parts_validated": false
  },
  "input_image": "DEMO-MESH3-001.jpeg",
- "updated_at": "2026-08-28T11:18:43Z",
+ "updated_at": "2026-08-28T15:02:38Z",
  "landmarks": {
   "axis": [
    -0.02099068826857735,
@@ -3221,6 +3221,6 @@
    },
    "downgraded_from": "C4"
   },
-  "computed_at": "2026-08-28T11:18:43Z"
+  "computed_at": "2026-08-28T15:02:38Z"
  }
 }

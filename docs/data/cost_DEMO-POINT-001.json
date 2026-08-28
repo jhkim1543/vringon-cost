@@ -1654,7 +1654,7 @@
     "규칙 제안 BOM, Engineer 승인 필요"
    ],
    "geometry": {
-    "surface_area_m2": 0.026527144354049084,
+    "surface_area_m2": 0.02652714435404909,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -1663,9 +1663,9 @@
     "note": "3D 표면적 기준 구역 분할. 재단 패턴이 아니다 · 규칙 R-008 배율 coverage=1.15"
    },
    "consumption": {
-    "gross_qty": 0.05465712065323709,
+    "gross_qty": 0.05465712065323711,
     "uom": "m",
-    "net": 0.026527144354049084,
+    "net": 0.02652714435404909,
     "steps": [
      "순 표면적 = 0.026527 m²  [proxy]",
      "패턴 여유 = 1.15  [assumption]",
@@ -1727,9 +1727,9 @@
     "source_tier": "A0",
     "tier_label": "Estimated"
    },
-   "cost_p10": 0.22190790985214257,
-   "cost_p50": 0.24759675655916405,
-   "cost_p90": 0.27328560326618545,
+   "cost_p10": 0.22190790985214262,
+   "cost_p50": 0.2475967565591641,
+   "cost_p90": 0.27328560326618556,
    "blocked": [],
    "warnings": [],
    "status": "calculated",
@@ -3562,9 +3562,9 @@
    "p90": 1.399829498874904
   },
   "unapproved_material_subtotal": {
-   "p10": 0.9273479942069108,
+   "p10": 0.9273479942069109,
    "p50": 2.0248713267553597,
-   "p90": 3.1223946593038088
+   "p90": 3.122394659303809
   },
   "unapproved_lines": [
    {
@@ -3655,7 +3655,7 @@
     "line_id": "H-R-008",
     "canonical_part": "Eyelet Reinforcement",
     "approval_status": "rule_proposed",
-    "cost_p50": 0.24759675655916405,
+    "cost_p50": 0.2475967565591641,
     "reason": "규칙 제안 BOM, Engineer 승인 필요"
    },
    {
@@ -4315,5 +4315,5 @@
   "repairs": "01c9da3cb22d692f",
   "bom_approvals": "b58ca58dfcff0562"
  },
- "computed_at": "2026-08-28T11:18:53Z"
+ "computed_at": "2026-08-28T15:02:44Z"
 }

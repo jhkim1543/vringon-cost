@@ -31,13 +31,13 @@
   },
   "bom": {
    "status": "built",
-   "at": "2026-08-28T11:18:25Z",
+   "at": "2026-08-28T15:02:27Z",
    "lines": 27,
    "hidden": 19
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-28T11:18:25Z",
+   "at": "2026-08-28T15:02:27Z",
    "grade": "C1",
    "fob": "산출 불가"
   }
@@ -62,7 +62,7 @@
   "volume_parts_validated": true
  },
  "input_image": "DEMO-KNIT-001.jpg",
- "updated_at": "2026-08-28T11:18:25Z",
+ "updated_at": "2026-08-28T15:02:27Z",
  "landmarks": {
   "axis": [
    0.013956618619930703,
@@ -2634,6 +2634,6 @@
    },
    "downgraded_from": "C4"
   },
-  "computed_at": "2026-08-28T11:18:25Z"
+  "computed_at": "2026-08-28T15:02:27Z"
  }
 }

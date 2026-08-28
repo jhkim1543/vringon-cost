@@ -31,13 +31,13 @@
   },
   "bom": {
    "status": "built",
-   "at": "2026-08-28T11:18:53Z",
+   "at": "2026-08-28T15:02:44Z",
    "lines": 28,
    "hidden": 19
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-28T11:18:53Z",
+   "at": "2026-08-28T15:02:44Z",
    "grade": "C1",
    "fob": "산출 불가"
   }
@@ -62,7 +62,7 @@
   "volume_parts_validated": true
  },
  "input_image": "DEMO-POINT-001.jpg",
- "updated_at": "2026-08-28T11:18:53Z",
+ "updated_at": "2026-08-28T15:02:44Z",
  "landmarks": {
   "axis": [
    0.0007865460478390514,
@@ -1826,7 +1826,7 @@
    "material_approved": false,
    "material_source": "canonical part 기본값 (승인 안 됨)",
    "geometry": {
-    "surface_area_m2": 0.026527144354049084,
+    "surface_area_m2": 0.02652714435404909,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -2400,9 +2400,9 @@
     "p90": 1.399829498874904
    },
    "unapproved_material_subtotal": {
-    "p10": 0.9273479942069108,
+    "p10": 0.9273479942069109,
     "p50": 2.0248713267553597,
-    "p90": 3.1223946593038088
+    "p90": 3.122394659303809
    },
    "unapproved_lines": [
     {
@@ -2493,7 +2493,7 @@
      "line_id": "H-R-008",
      "canonical_part": "Eyelet Reinforcement",
      "approval_status": "rule_proposed",
-     "cost_p50": 0.24759675655916405,
+     "cost_p50": 0.2475967565591641,
      "reason": "규칙 제안 BOM, Engineer 승인 필요"
     },
     {
@@ -3042,6 +3042,6 @@
    },
    "downgraded_from": "C4"
   },
-  "computed_at": "2026-08-28T11:18:53Z"
+  "computed_at": "2026-08-28T15:02:44Z"
  }
 }

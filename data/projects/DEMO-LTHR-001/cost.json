@@ -2291,7 +2291,7 @@
     "규칙 제안 BOM, Engineer 승인 필요"
    ],
    "geometry": {
-    "surface_area_m2": 0.005516067272494076,
+    "surface_area_m2": 0.005516067272494078,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -2300,9 +2300,9 @@
     "note": "3D 표면적 기준 구역 분할. 재단 패턴이 아니다 · 규칙 R-006 배율 coverage=0.65"
    },
    "consumption": {
-    "gross_qty": 0.010917991902372443,
+    "gross_qty": 0.010917991902372444,
     "uom": "sheet",
-    "net": 0.005516067272494076,
+    "net": 0.005516067272494078,
     "steps": [
      "순 표면적 = 0.005516 m²  [proxy]",
      "패턴 여유 = 1.1  [assumption]",
@@ -2363,9 +2363,9 @@
     "source_tier": "A0",
     "tier_label": "Estimated"
    },
-   "cost_p10": 0.004367196760948977,
-   "cost_p50": 0.013101590282846931,
-   "cost_p90": 0.021835983804744885,
+   "cost_p10": 0.004367196760948978,
+   "cost_p50": 0.013101590282846933,
+   "cost_p90": 0.02183598380474489,
    "blocked": [],
    "warnings": [],
    "status": "calculated",
@@ -3717,7 +3717,7 @@
     "line_id": "H-R-006",
     "canonical_part": "Toe Puff",
     "approval_status": "rule_proposed",
-    "cost_p50": 0.013101590282846931,
+    "cost_p50": 0.013101590282846933,
     "reason": "규칙 제안 BOM, Engineer 승인 필요"
    },
    {
@@ -4354,5 +4354,5 @@
   "repairs": "aeb60bd7e070d390",
   "bom_approvals": "91830c922a2d9d26"
  },
- "computed_at": "2026-08-28T14:59:33Z"
+ "computed_at": "2026-08-28T15:02:32Z"
 }

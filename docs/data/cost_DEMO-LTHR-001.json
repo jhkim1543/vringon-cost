@@ -2291,7 +2291,7 @@
     "규칙 제안 BOM, Engineer 승인 필요"
    ],
    "geometry": {
-    "surface_area_m2": 0.005516067272494076,
+    "surface_area_m2": 0.005516067272494078,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -2300,9 +2300,9 @@
     "note": "3D 표면적 기준 구역 분할. 재단 패턴이 아니다 · 규칙 R-006 배율 coverage=0.65"
    },
    "consumption": {
-    "gross_qty": 0.010917991902372443,
+    "gross_qty": 0.010917991902372444,
     "uom": "sheet",
-    "net": 0.005516067272494076,
+    "net": 0.005516067272494078,
     "steps": [
      "순 표면적 = 0.005516 m²  [proxy]",
      "패턴 여유 = 1.1  [assumption]",
@@ -2363,9 +2363,9 @@
     "source_tier": "A0",
     "tier_label": "Estimated"
    },
-   "cost_p10": 0.004367196760948977,
-   "cost_p50": 0.013101590282846931,
-   "cost_p90": 0.021835983804744885,
+   "cost_p10": 0.004367196760948978,
+   "cost_p50": 0.013101590282846933,
+   "cost_p90": 0.02183598380474489,
    "blocked": [],
    "warnings": [],
    "status": "calculated",
@@ -2853,23 +2853,23 @@
     "method": "measured"
    },
    "consumption": {
-    "gross_qty": 0.007896148903058885,
+    "gross_qty": 0.009269392190547388,
     "uom": "m²",
     "net": 0.002022100740826819,
     "steps": [
      "순 표면적 = 0.002022 m²",
-     "패턴 여유 = 1.15  [assumption]",
+     "패턴 여유 = 1.35  [public_reference]",
      "네스팅 수율 = 0.62  [public_reference]",
      "공정 수율 = 0.95  [assumption]",
-     "총 소요 = 0.002022 × 1.15 / (0.62 × 0.95) = 0.003948 m²",
-     "켤레 환산 = 0.003948 × 2 = 0.007896 m²"
+     "총 소요 = 0.002022 × 1.35 / (0.62 × 0.95) = 0.004635 m²",
+     "켤레 환산 = 0.004635 × 2 = 0.009269 m²"
     ],
     "assumptions": [
      {
       "param": "pattern_factor",
-      "value": 1.15,
-      "source": "assumption",
-      "note": "3D 표면적 -> 재단 패턴 면적 proxy. 승인 DXF 필요"
+      "value": 1.35,
+      "source": "public_reference",
+      "note": "3D 표면 -> 재단 패턴 확대. 1.15 는 실측과 안 맞았다: 공개 원가가 알려진 가죽 스니커(이탈리아산, 가죽 $26.04)를 돌려 역산하면 3.1~4.0 sqft/켤레인데 1.15 로는 2.87 이 나왔다. 라스팅 여유 15~20mm 둘레 + 시접·접기 10~15% + 곡면 전개 5~10% 를 합치면 1.35~1.5 가 통상이다 (Hasan 2024 PMC11141383, SATRA 재단 자료). 보수적으로 1.35. 승인 DXF 가 오면 대체된다"
      },
      {
       "param": "nesting_yield",
@@ -2911,9 +2911,9 @@
     "uom_original": "sq ft",
     "uom_conversion_factor": 10.763910416709722
    },
-   "cost_p10": 0.36462185515266904,
-   "cost_p50": 0.38629518220719833,
-   "cost_p90": 0.4079685092617275,
+   "cost_p10": 0.4280343517009594,
+   "cost_p50": 0.45347695302584157,
+   "cost_p90": 0.4789195543507237,
    "blocked": [],
    "warnings": [],
    "status": "calculated",
@@ -2921,9 +2921,9 @@
    "assumptions": [
     {
      "param": "pattern_factor",
-     "value": 1.15,
-     "source": "assumption",
-     "note": "3D 표면적 -> 재단 패턴 면적 proxy. 승인 DXF 필요"
+     "value": 1.35,
+     "source": "public_reference",
+     "note": "3D 표면 -> 재단 패턴 확대. 1.15 는 실측과 안 맞았다: 공개 원가가 알려진 가죽 스니커(이탈리아산, 가죽 $26.04)를 돌려 역산하면 3.1~4.0 sqft/켤레인데 1.15 로는 2.87 이 나왔다. 라스팅 여유 15~20mm 둘레 + 시접·접기 10~15% + 곡면 전개 5~10% 를 합치면 1.35~1.5 가 통상이다 (Hasan 2024 PMC11141383, SATRA 재단 자료). 보수적으로 1.35. 승인 DXF 가 오면 대체된다"
     },
     {
      "param": "nesting_yield",
@@ -3048,23 +3048,23 @@
     "method": "measured"
    },
    "consumption": {
-    "gross_qty": 0.031410550686991404,
+    "gross_qty": 0.03687325515429426,
     "uom": "m²",
     "net": 0.00804383232810345,
     "steps": [
      "순 표면적 = 0.008044 m²",
-     "패턴 여유 = 1.15  [assumption]",
+     "패턴 여유 = 1.35  [public_reference]",
      "네스팅 수율 = 0.62  [public_reference]",
      "공정 수율 = 0.95  [assumption]",
-     "총 소요 = 0.008044 × 1.15 / (0.62 × 0.95) = 0.015705 m²",
-     "켤레 환산 = 0.015705 × 2 = 0.031411 m²"
+     "총 소요 = 0.008044 × 1.35 / (0.62 × 0.95) = 0.018437 m²",
+     "켤레 환산 = 0.018437 × 2 = 0.036873 m²"
     ],
     "assumptions": [
      {
       "param": "pattern_factor",
-      "value": 1.15,
-      "source": "assumption",
-      "note": "3D 표면적 -> 재단 패턴 면적 proxy. 승인 DXF 필요"
+      "value": 1.35,
+      "source": "public_reference",
+      "note": "3D 표면 -> 재단 패턴 확대. 1.15 는 실측과 안 맞았다: 공개 원가가 알려진 가죽 스니커(이탈리아산, 가죽 $26.04)를 돌려 역산하면 3.1~4.0 sqft/켤레인데 1.15 로는 2.87 이 나왔다. 라스팅 여유 15~20mm 둘레 + 시접·접기 10~15% + 곡면 전개 5~10% 를 합치면 1.35~1.5 가 통상이다 (Hasan 2024 PMC11141383, SATRA 재단 자료). 보수적으로 1.35. 승인 DXF 가 오면 대체된다"
      },
      {
       "param": "nesting_yield",
@@ -3106,9 +3106,9 @@
     "uom_original": "sq ft",
     "uom_conversion_factor": 10.763910416709722
    },
-   "cost_p10": 1.4504505175201277,
-   "cost_p50": 1.536666107722373,
-   "cost_p90": 1.6228816979246181,
+   "cost_p10": 1.7027027814366718,
+   "cost_p50": 1.8039123873262641,
+   "cost_p90": 1.9051219932158563,
    "blocked": [],
    "warnings": [],
    "status": "calculated",
@@ -3116,9 +3116,9 @@
    "assumptions": [
     {
      "param": "pattern_factor",
-     "value": 1.15,
-     "source": "assumption",
-     "note": "3D 표면적 -> 재단 패턴 면적 proxy. 승인 DXF 필요"
+     "value": 1.35,
+     "source": "public_reference",
+     "note": "3D 표면 -> 재단 패턴 확대. 1.15 는 실측과 안 맞았다: 공개 원가가 알려진 가죽 스니커(이탈리아산, 가죽 $26.04)를 돌려 역산하면 3.1~4.0 sqft/켤레인데 1.15 로는 2.87 이 나왔다. 라스팅 여유 15~20mm 둘레 + 시접·접기 10~15% + 곡면 전개 5~10% 를 합치면 1.35~1.5 가 통상이다 (Hasan 2024 PMC11141383, SATRA 재단 자료). 보수적으로 1.35. 승인 DXF 가 오면 대체된다"
     },
     {
      "param": "nesting_yield",
@@ -3172,23 +3172,23 @@
     "method": "measured"
    },
    "consumption": {
-    "gross_qty": 0.07237290802352139,
+    "gross_qty": 0.08495950072326426,
     "uom": "m²",
     "net": 0.01853375775037135,
     "steps": [
      "순 표면적 = 0.018534 m²",
-     "패턴 여유 = 1.15  [assumption]",
+     "패턴 여유 = 1.35  [public_reference]",
      "네스팅 수율 = 0.62  [public_reference]",
      "공정 수율 = 0.95  [assumption]",
-     "총 소요 = 0.018534 × 1.15 / (0.62 × 0.95) = 0.036186 m²",
-     "켤레 환산 = 0.036186 × 2 = 0.072373 m²"
+     "총 소요 = 0.018534 × 1.35 / (0.62 × 0.95) = 0.042480 m²",
+     "켤레 환산 = 0.042480 × 2 = 0.084960 m²"
     ],
     "assumptions": [
      {
       "param": "pattern_factor",
-      "value": 1.15,
-      "source": "assumption",
-      "note": "3D 표면적 -> 재단 패턴 면적 proxy. 승인 DXF 필요"
+      "value": 1.35,
+      "source": "public_reference",
+      "note": "3D 표면 -> 재단 패턴 확대. 1.15 는 실측과 안 맞았다: 공개 원가가 알려진 가죽 스니커(이탈리아산, 가죽 $26.04)를 돌려 역산하면 3.1~4.0 sqft/켤레인데 1.15 로는 2.87 이 나왔다. 라스팅 여유 15~20mm 둘레 + 시접·접기 10~15% + 곡면 전개 5~10% 를 합치면 1.35~1.5 가 통상이다 (Hasan 2024 PMC11141383, SATRA 재단 자료). 보수적으로 1.35. 승인 DXF 가 오면 대체된다"
      },
      {
       "param": "nesting_yield",
@@ -3230,9 +3230,9 @@
     "uom_original": "sq ft",
     "uom_conversion_factor": 10.763910416709722
    },
-   "cost_p10": 3.341976488830794,
-   "cost_p50": 3.5406254409640927,
-   "cost_p90": 3.739274393097391,
+   "cost_p10": 3.9231897912361497,
+   "cost_p50": 4.156386387218718,
+   "cost_p90": 4.3895829832012865,
    "blocked": [],
    "warnings": [],
    "status": "calculated",
@@ -3240,9 +3240,9 @@
    "assumptions": [
     {
      "param": "pattern_factor",
-     "value": 1.15,
-     "source": "assumption",
-     "note": "3D 표면적 -> 재단 패턴 면적 proxy. 승인 DXF 필요"
+     "value": 1.35,
+     "source": "public_reference",
+     "note": "3D 표면 -> 재단 패턴 확대. 1.15 는 실측과 안 맞았다: 공개 원가가 알려진 가죽 스니커(이탈리아산, 가죽 $26.04)를 돌려 역산하면 3.1~4.0 sqft/켤레인데 1.15 로는 2.87 이 나왔다. 라스팅 여유 15~20mm 둘레 + 시접·접기 10~15% + 곡면 전개 5~10% 를 합치면 1.35~1.5 가 통상이다 (Hasan 2024 PMC11141383, SATRA 재단 자료). 보수적으로 1.35. 승인 DXF 가 오면 대체된다"
     },
     {
      "param": "nesting_yield",
@@ -3560,18 +3560,18 @@
     "lines": 1
    },
    "Upper": {
-    "p10": 5.191217152219409,
-    "p50": 5.610168698064522,
-    "p90": 6.0291202439096345,
+    "p10": 6.088095215089599,
+    "p50": 6.560357694741681,
+    "p90": 7.032620174393764,
     "lines": 4
    }
   },
   "buckets": [
    {
     "bucket": "Material",
-    "p10": 6.06118084205898,
-    "p50": 6.828696549180491,
-    "p90": 7.596212256302001,
+    "p10": 6.95805890492917,
+    "p50": 7.7788855458576505,
+    "p90": 8.599712186786132,
     "status": "Partial",
     "coverage": "Quarterly snapshot",
     "note": "20개 라인 차단"
@@ -3605,9 +3605,9 @@
    }
   ],
   "known_cost_subtotal": {
-   "p10": 6.06118084205898,
-   "p50": 6.828696549180491,
-   "p90": 7.596212256302001
+   "p10": 6.95805890492917,
+   "p50": 7.7788855458576505,
+   "p90": 8.599712186786132
   },
   "unapproved_material_subtotal": {
    "p10": 0.8627127830160081,
@@ -3717,7 +3717,7 @@
     "line_id": "H-R-006",
     "canonical_part": "Toe Puff",
     "approval_status": "rule_proposed",
-    "cost_p50": 0.013101590282846931,
+    "cost_p50": 0.013101590282846933,
     "reason": "규칙 제안 BOM, Engineer 승인 필요"
    },
    {
@@ -4314,8 +4314,8 @@
   "geometry_measured": 10,
   "geometry_proxy": 13,
   "material_params_total": 75,
-  "material_params_assumed": 53,
-  "assumed_param_ratio": 0.7066666666666667,
+  "material_params_assumed": 52,
+  "assumed_param_ratio": 0.6933333333333334,
   "note": "승인 공급사 견적 비율과 가정 파라미터 비율이 이 원가의 신뢰 한계를 정한다. 견적 비율 0 이면 개념 단계다."
  },
  "version_key": {
@@ -4354,5 +4354,5 @@
   "repairs": "aeb60bd7e070d390",
   "bom_approvals": "91830c922a2d9d26"
  },
- "computed_at": "2026-08-28T11:18:34Z"
+ "computed_at": "2026-08-28T15:02:32Z"
 }

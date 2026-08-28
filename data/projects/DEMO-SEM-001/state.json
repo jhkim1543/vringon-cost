@@ -21,13 +21,13 @@
   },
   "bom": {
    "status": "built",
-   "at": "2026-08-28T11:19:05Z",
+   "at": "2026-08-28T15:02:52Z",
    "lines": 26,
    "hidden": 18
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-28T11:19:05Z",
+   "at": "2026-08-28T15:02:52Z",
    "grade": "C1",
    "fob": "산출 불가"
   }
@@ -52,7 +52,7 @@
   "volume_parts_validated": false
  },
  "input_image": "DEMO-SEM-001.jpg",
- "updated_at": "2026-08-28T11:19:05Z",
+ "updated_at": "2026-08-28T15:02:52Z",
  "landmarks": {
   "axis": [
    0.08599203391453152,
@@ -2329,6 +2329,6 @@
    },
    "downgraded_from": "C4"
   },
-  "computed_at": "2026-08-28T11:19:05Z"
+  "computed_at": "2026-08-28T15:02:52Z"
  }
 }

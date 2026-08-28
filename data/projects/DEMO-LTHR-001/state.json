@@ -31,13 +31,13 @@
   },
   "bom": {
    "status": "built",
-   "at": "2026-08-28T14:59:33Z",
+   "at": "2026-08-28T15:02:32Z",
    "lines": 29,
    "hidden": 18
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-28T14:59:33Z",
+   "at": "2026-08-28T15:02:32Z",
    "grade": "C1",
    "fob": "산출 불가"
   },
@@ -67,7 +67,7 @@
   "volume_parts_validated": true
  },
  "input_image": "DEMO-LTHR-001.jpg",
- "updated_at": "2026-08-28T14:59:33Z",
+ "updated_at": "2026-08-28T15:02:32Z",
  "landmarks": {
   "axis": [
    -0.046449447112688245,
@@ -2289,7 +2289,7 @@
    "material_approved": false,
    "material_source": "canonical part 기본값 (승인 안 됨)",
    "geometry": {
-    "surface_area_m2": 0.005516067272494076,
+    "surface_area_m2": 0.005516067272494078,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -2821,7 +2821,7 @@
      "line_id": "H-R-006",
      "canonical_part": "Toe Puff",
      "approval_status": "rule_proposed",
-     "cost_p50": 0.013101590282846931,
+     "cost_p50": 0.013101590282846933,
      "reason": "규칙 제안 BOM, Engineer 승인 필요"
     },
     {
@@ -3347,7 +3347,7 @@
    },
    "downgraded_from": "C4"
   },
-  "computed_at": "2026-08-28T14:59:33Z"
+  "computed_at": "2026-08-28T15:02:32Z"
  },
  "material_log": [
   {
