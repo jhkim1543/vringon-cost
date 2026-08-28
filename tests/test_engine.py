@@ -815,3 +815,97 @@ def test_evidence_coverage_reports_what_the_cost_rests_on():
     assert ec["geometry_proxy"] > 0
     vk = d["version_key"]
     assert vk["comparable"] is False and vk["undeclared"]
+
+
+# ── 2차 외부 검토 대응 ───────────────────────────────────────────────────
+def test_material_approved_propagates_to_cost_lines():
+    """소재 승인 플래그가 원가 라인까지 와야 한다.
+
+    bom 이 만들었는데 costing 이 복사하지 않아 CSV 의 '소재승인됨' 이
+    항상 '아니오' 였다 (2차 검토 1순위 오류).
+    """
+    import json
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    d = json.loads((root / "data" / "projects" / "DEMO-LTHR-001" / "cost.json")
+                   .read_text(encoding="utf-8"))
+    lth = [l for l in d["lines"] if l.get("material_spec") == "MAT-FULLGRAIN"]
+    assert lth, "가죽 라인이 있어야 한다 (소재 선택이 걸려 있음)"
+    assert all(l.get("material_approved") is True for l in lth)
+    assert all("승인" in (l.get("material_source") or "") for l in lth)
+
+
+def test_input_change_marks_cost_stale():
+    """입력이 바뀌면 기존 원가는 낡았다고 말해야 한다 (2차 검토 1순위 오류)."""
+    import json
+    from pipeline import Project
+    p = Project("DEMO-RUN-001")
+    stored = json.loads((p.dir / "cost.json").read_text(encoding="utf-8"))
+    fp = stored.get("inputs_fingerprint")
+    assert fp, "cost.json 에 입력 지문이 있어야 한다"
+    # 바뀐 것이 없으면 낡지 않았다
+    st = p.staleness(fp)
+    assert st["is_stale"] is False
+    # 시나리오를 바꾸면 낡았다고, 어디가 바뀌었는지까지 말한다
+    orig = p.state["scenario"]["order_quantity"]
+    try:
+        p.state["scenario"]["order_quantity"] = orig + 1
+        st2 = p.staleness(fp)
+        assert st2["is_stale"] is True
+        assert any("시나리오" in c for c in st2["changed_sections"])
+    finally:
+        p.state["scenario"]["order_quantity"] = orig
+    # 구버전 파일(지문 없음)은 오류가 아니라 '모름' 이다
+    st3 = p.staleness(None)
+    assert st3["is_stale"] is None
+
+
+def test_grade_ladder_c0_to_c4():
+    """등급 사다리: routing·tooling 은 C3, Incoterm·실적 대사는 C4 조건이다."""
+    import costing
+    from config import CLASS_REQUIREMENTS
+    all_gates = {k: True for reqs in CLASS_REQUIREMENTS.values() for k, _ in reqs}
+    line = {"line_id": "A", "canonical_part": "Vamp", "status": "calculated",
+            "approved": True, "material_spec": "MAT-X", "max_class": "C2",
+            "cost_p50": 1.0, "price": {"eligibility": "Engineering"}}
+    ru_ok = {"direct_complete": True}
+    g = costing.grade([line], ru_ok, all_gates)
+    assert g["class"] == "C4", g
+    # routing 게이트가 빠지면 C2 에서 멈춘다 (소재 원가는 말할 수 있다)
+    gates2 = {**all_gates, "routing_confirmed": False}
+    g2 = costing.grade([line], ru_ok, gates2)
+    assert g2["class"] == "C2", g2
+    # 노무 데이터가 없으면 C3 사유가 생긴다
+    g3 = costing.grade([line], {"direct_complete": False}, all_gates)
+    assert g3["class"] == "C2"
+    assert any("SAM" in r for r in g3["blocked_reasons"]["C3"])
+
+
+def test_price_tier_labels():
+    """가격 신뢰도 A0~A4: 공개 리스팅은 Estimated, 시장지수는 Benchmark,
+    승인 견적은 Quoted. Actual 은 송장이 있어야만 한다."""
+    import pricing
+    assert pricing.source_tier("approved_supplier_quote") == ("A2", "Quoted")
+    assert pricing.source_tier("quarterly_snapshot", "Public listing") == ("A0", "Estimated")
+    assert pricing.source_tier("quarterly_snapshot", "시장지수") == ("A1", "Benchmark")
+    assert pricing.source_tier("price_proxy", None) == ("A0", "Estimated")
+    p = pricing.select("MAT-MESH-POLY", "2026Q3")
+    assert p["source_tier"] == "A0" and p["tier_label"] == "Estimated"
+
+
+def test_consumption_method_is_explicit():
+    """소요량을 어떻게 구했는지 라인마다 명시한다. 생산용 방법 이름
+    (dxf_marker 등)은 데이터가 없는 지금 절대 나타나면 안 된다."""
+    import json
+    from pathlib import Path
+    import consumption
+    root = Path(__file__).resolve().parents[1]
+    d = json.loads((root / "data" / "projects" / "DEMO-RUN-001" / "cost.json")
+                   .read_text(encoding="utf-8"))
+    methods = {l["consumption"].get("consumption_method") for l in d["lines"]
+               if l["consumption"].get("gross_qty") is not None}
+    assert methods, "산출 방법이 기록돼야 한다"
+    assert all(m and m.endswith(("_proxy_3d", "fixed_count", "fixed_mass"))
+               for m in methods), methods
+    for future in consumption.FUTURE_METHODS:
+        assert future not in methods

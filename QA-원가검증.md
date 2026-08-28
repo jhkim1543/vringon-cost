@@ -428,3 +428,75 @@ version·Incoterm 을 결과에 stamp 하고, **선언되지 않은 항목을 �
 포지셔닝은 "이미지 기반 C1 concept should-cost 와 cost-driver 탐색" 이다.
 C2 는 승인 BOM·DXF/CAD·supplier quote·routing·tooling 이 모두 연결된
 스타일에만 열린다.
+
+---
+
+# 2차 외부 검토 반영 (2026-08-28, 6차)
+
+AI 모델 구조까지 다룬 2차 검토를 반영했다. 핵심 명제는 "가격을 맞히는 거대
+모델이 아니라, 제안·검증·계산·승인을 분리한 여러 개의 작은 전문 모델"이고,
+이 데모의 설계 방향과 같다. 코드로 가능한 것을 반영하고, 나머지는 데이터
+로드맵으로 남긴다.
+
+## 21. 검토가 지적한 오류 2건 (둘 다 사실, 수정)
+
+1. **material_approved 전파 누락.** bom 이 소재 승인 플래그를 만들었는데
+   costing 이 원가 라인으로 복사하지 않아, CSV 의 '소재승인됨' 이 **항상
+   '아니오'** 였다. 가죽을 승인 지정한 라인조차 미승인으로 보였다.
+2. **변경 무효화 부재.** 수량·분기·소재·게이트를 바꿔도 기존 cost.json 이
+   아무 표시 없이 그대로 보였다. 실측: 수량을 5000→99999 로 바꿔도 화면은
+   5000 기준 결과를 계속 보여줬다. 이제 계산 시점의 **입력 지문**(시나리오·
+   소재 선택·게이트·매핑·복구·BOM 승인, 각각 해시)을 결과에 남기고, 읽을 때
+   현재 상태와 비교해 "이 결과는 낡았습니다. 바뀐 것: 시나리오" 를 표시한다.
+
+## 22. 등급 사다리 C0~C4 재정의
+
+검토안의 사다리를 그대로 채택했다. routing·tooling 은 소재 원가의 조건이
+아니라 **공장 제조원가(C3)** 의 조건이므로 C2 에서 C3 로 옮겼다.
+
+| 등급 | 이름 | 필수 근거 |
+|---|---|---|
+| C0 | Visual Concept | 단일 이미지 (BOM·소재 후보만) |
+| C1 | Concept should-cost | scale 확정 + 기준 단가 |
+| C2 | Material should-cost | 승인 패턴/CAD + 승인 소재 SKU 견적 |
+| C3 | Factory manufacturing cost | routing·SMV·rate·tooling·간접비 정책 |
+| C4 | EXW/FOB | Incoterm 선언 + PO·invoice·실적 대사 |
+
+등급 표시에 이름이 붙고, 미충족 사유가 등급별로 나온다. 데모 7종은 전부
+C1 이 맞다. 검토의 결론대로 **C3 자료 없이 임의 상수로 총액을 만드는 것은
+사실성을 떨어뜨리므로 하지 않는다.**
+
+## 23. 가격 신뢰도 계층 A0~A4
+
+| 계층 | 뜻 | 현재 보유 |
+|---|---|--:|
+| A4 Actual | 송장·입고·실제 결제 | 0 |
+| A3 Committed | 승인 PO·계약단가 | 0 |
+| A2 Quoted | 유효한 공급사 견적 | 0 |
+| A1 Benchmark | 원자재·시장 지수 | 7 (고무 4종·EVA·LDPE·판지) |
+| A0 Estimated | 공개 리스팅·카탈로그 | 27 |
+
+라인마다 계층이 붙고, 증거 패널이 "가격 신뢰도 계층: Estimated 22건 ·
+Benchmark 4건 (Actual 과 Quoted 가 없으면 전부 추정 기반입니다)" 로 집계한다.
+공개 시세를 정답이 아닌 benchmark 로 격하하라는 검토 원칙 그대로다.
+
+## 24. 소요량 산출방법 명시
+
+라인마다 `consumption_method` 가 붙는다. 현재는 전부 3D proxy 계열
+(`surface_proxy_3d`, `volume_proxy_3d`, `bond_area_proxy_3d`,
+`seam_length_proxy_3d`, `fixed_count`, `fixed_mass`)이다. 생산용 방법
+(`dxf_marker`, `leather_hide_nesting`, `cad_volume`, `supplier_unit_quote`)은
+이름만 예약해 두고, 해당 데이터가 없는 지금은 **절대 나타나지 않는 것**을
+테스트로 고정했다. 3D 표면적에 일률 waste 를 더하는 방식과 nesting 을 겹치면
+이중계산이 된다는 경고도 이 분리로 지킬 수 있다.
+
+## 25. 코드로 안 되는 것 (검토안 로드맵 순서대로)
+
+1. DXF/marker 기반 consumption 엔진 — 승인 패턴·grading·nesting 데이터 필요
+2. supplier quote·PO·invoice Price Fact — 실거래 문서 필요 (A2~A4 가 비어 있다)
+3. routing·SMV 엔진 — 공정별 표준시간과 공장 rate 필요
+4. leather hide scan·품질구역 nesting — hide 데이터 필요
+5. multiview 3D·소재 retrieval 파인튜닝 — 신발 정답 데이터셋 필요
+6. actual 대비 residual calibration — 실제 cost sheet 필요
+
+검증 67건, 감사 0건.

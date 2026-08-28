@@ -31,13 +31,13 @@
   },
   "bom": {
    "status": "built",
-   "at": "2026-08-28T04:56:45Z",
+   "at": "2026-08-28T11:18:25Z",
    "lines": 27,
    "hidden": 19
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-28T04:56:45Z",
+   "at": "2026-08-28T11:18:25Z",
    "grade": "C1",
    "fob": "산출 불가"
   }
@@ -62,7 +62,7 @@
   "volume_parts_validated": true
  },
  "input_image": "DEMO-KNIT-001.jpg",
- "updated_at": "2026-08-28T04:56:45Z",
+ "updated_at": "2026-08-28T11:18:25Z",
  "landmarks": {
   "axis": [
    0.013956618619930703,
@@ -1450,7 +1450,7 @@
    "material_approved": false,
    "material_source": "canonical part 기본값 (승인 안 됨)",
    "geometry": {
-    "surface_area_m2": 0.04043829593417803,
+    "surface_area_m2": 0.04043829593417804,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
@@ -1994,7 +1994,7 @@
    "unapproved_material_subtotal": {
     "p10": 1.106324572220874,
     "p50": 2.1640936852494357,
-    "p90": 3.221862798277997
+    "p90": 3.2218627982779973
    },
    "unapproved_lines": [
     {
@@ -2085,7 +2085,7 @@
      "line_id": "H-R-008",
      "canonical_part": "Eyelet Reinforcement",
      "approval_status": "rule_proposed",
-     "cost_p50": 0.37743945524064015,
+     "cost_p50": 0.37743945524064026,
      "reason": "규칙 제안 BOM, Engineer 승인 필요"
     },
     {
@@ -2610,22 +2610,30 @@
   },
   "grade": {
    "class": "C1",
+   "label": "Concept should-cost (scale 확정 + 기준 단가)",
    "blocked_reasons": {
     "C1": [],
     "C2": [
      "Hidden BOM 엔지니어 승인",
      "승인 pattern/solid geometry (DXF 또는 sole CAD)",
      "승인 Supplier SKU 견적",
-     "공장 routing·SAM 확정",
-     "Tooling 견적 확정",
      "승인 Supplier 견적이 아닌 단가 20건 (분기 스냅샷/공개 리스팅)",
-     "공장 routing, SAM, tooling 미확정",
      "미승인 BOM 라인 19건 (세그먼트 미확정 또는 규칙 제안): Cement/Adhesive, Cleaner, Collar Foam, Eyelet Reinforcement…",
      "C1 상한 지오메트리 27건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
+    ],
+    "C3": [
+     "공장 routing·SAM 확정",
+     "Tooling 견적 확정",
+     "간접비 cost pool 과 배부 기준 승인",
+     "공장 SAM·효율·rate 미입력 (노무·기계 차단)"
+    ],
+    "C4": [
+     "Incoterm 과 named place 선언",
+     "PO·invoice·생산 실적과 대사"
     ]
    },
-   "downgraded_from": "C2"
+   "downgraded_from": "C4"
   },
-  "computed_at": "2026-08-28T04:56:45Z"
+  "computed_at": "2026-08-28T11:18:25Z"
  }
 }

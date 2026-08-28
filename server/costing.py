@@ -148,6 +148,10 @@ def cost_lines(bom, quarter, supplier_quotes=None):
             "approval_role": line.get("approval_role"),
             "factory_inputs_required": line.get("factory_inputs_required"),
             "approval_status": line.get("approval_status"),
+            # 소재 승인 여부. bom 이 만들었는데 여기서 안 옮겨 CSV 의
+            # '소재승인됨' 이 항상 '아니오' 였다 (외부 검토 1순위 오류).
+            "material_approved": bool(line.get("material_approved")),
+            "material_source": line.get("material_source"),
             "approved": line.get("approval_status") not in UNAPPROVED_STATUSES,
             "needs_confirm": line.get("needs_confirm") or [],
             "approval_blocked": ([] if line.get("approval_status") not in
@@ -490,11 +494,12 @@ def grade(lines, rollup, gates):
 
     gates: {gate_key: bool} — 사용자가 확정한 것만 True.
     """
-    from config import CLASS_REQUIREMENTS
+    from config import CLASS_REQUIREMENTS, CLASS_LABELS
 
-    reasons = {"C1": [], "C2": []}
-    for cls in ("C1", "C2"):
-        for key, label in CLASS_REQUIREMENTS[cls]:
+    ladder = ("C1", "C2", "C3", "C4")
+    reasons = {c: [] for c in ladder}
+    for cls in ladder:
+        for key, label in CLASS_REQUIREMENTS.get(cls, []):
             if not gates.get(key):
                 reasons[cls].append(label)
 
@@ -505,8 +510,9 @@ def grade(lines, rollup, gates):
     if non_eng:
         reasons["C2"].append(
             f"승인 Supplier 견적이 아닌 단가 {len(non_eng)}건 (분기 스냅샷/공개 리스팅)")
+    # 노무·기계 데이터가 없으면 공장 제조원가(C3) 를 말할 수 없다.
     if not rollup["direct_complete"]:
-        reasons["C2"].append("공장 routing, SAM, tooling 미확정")
+        reasons["C3"].append("공장 SAM·효율·rate 미입력 (노무·기계 차단)")
 
     # 라인이 미승인인 채로 게이트만 켜서 C2 로 올라가지 못하게 한다.
     unappr_parts = sorted({l["canonical_part"] for l in lines
@@ -524,12 +530,15 @@ def grade(lines, rollup, gates):
             f"C1 상한 지오메트리 {len(capped)}건 (복구 부피 또는 표면 proxy): "
             + ", ".join(capped[:4]) + ("…" if len(capped) > 4 else ""))
 
-    if not reasons["C1"]:
-        cls = "C2" if not reasons["C2"] else "C1"
-    else:
-        cls = "C0"
-    return {"class": cls, "blocked_reasons": reasons,
-            "downgraded_from": "C2" if cls != "C2" else None}
+    # 아래에서 위로, 사유가 없는 가장 높은 연속 등급까지 올라간다.
+    cls = "C0"
+    for c in ladder:
+        if reasons[c]:
+            break
+        cls = c
+    return {"class": cls, "label": CLASS_LABELS.get(cls),
+            "blocked_reasons": reasons,
+            "downgraded_from": None if cls == ladder[-1] else ladder[-1]}
 
 def evidence_coverage(lines):
     """이 원가가 무엇에 기대고 있는지 한 장으로 보여준다.
@@ -562,7 +571,13 @@ def evidence_coverage(lines):
     def ratio(a, b):
         return (a / b) if b else None
 
+    tiers = {}
+    for l in priced:
+        tl = (l.get("price") or {}).get("tier_label") or "미표기"
+        tiers[tl] = tiers.get(tl, 0) + 1
+
     return {
+        "price_tiers": tiers,
         "lines_total": len(lines),
         "lines_approved": approved,
         "approved_ratio": ratio(approved, len(lines)),

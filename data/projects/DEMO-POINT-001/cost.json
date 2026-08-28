@@ -38,6 +38,8 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": true,
    "needs_confirm": [],
    "approval_blocked": [],
@@ -74,7 +76,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "volume_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-PEBA",
@@ -93,7 +96,9 @@
     "region": "China",
     "price_basis": "Public listing midpoint",
     "source_url": "https://www.made-in-china.com/price/prodetail_Plastic-Materials_EgarODtVumhz.html",
-    "note": "performance grade RFQ 필요"
+    "note": "performance grade RFQ 필요",
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.12636842875816995,
    "cost_p50": 0.2233235163398693,
@@ -147,6 +152,8 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -202,7 +209,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-LINING-MESH",
@@ -221,7 +229,9 @@
     "region": "China",
     "price_basis": "Public listing",
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Shoes_Mesh_Fabric_Price.html",
-    "note": null
+    "note": null,
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.004566766998093198,
    "cost_p50": 0.007924683908455842,
@@ -283,6 +293,8 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -338,7 +350,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-PUFOAM-OPEN",
@@ -357,7 +370,9 @@
     "region": "China",
     "price_basis": "Public listing",
     "source_url": "https://www.alibaba.com/product-detail/Shoes-insole-materials-breathable-ortholaite-foam_1600929816875.html",
-    "note": null
+    "note": null,
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.007415039719295239,
    "cost_p50": 0.007583563349279221,
@@ -419,6 +434,8 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -473,7 +490,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-STROBEL",
@@ -492,7 +510,9 @@
     "region": "China",
     "price_basis": "Public listing",
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Strobel_Insole_Board.html",
-    "note": null
+    "note": null,
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.005814786848298821,
    "cost_p50": 0.005814786848298821,
@@ -556,6 +576,8 @@
     "transfer"
    ],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -600,7 +622,8 @@
      "MAT-ADH-PU.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)",
      "MAT-ADH-PU.transfer_efficiency 는 공장 확인 필요 (C2 차단)"
     ],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "bond_area_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-ADH-PU",
@@ -619,7 +642,9 @@
     "region": "China",
     "price_basis": "Public listing midpoint",
     "source_url": "https://cnmaydos.en.made-in-china.com/product-group/beiJZNCMkYUo/PU-adhesive-1.html",
-    "note": "primer/hardener 별도"
+    "note": "primer/hardener 별도",
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.008229732905017708,
    "cost_p50": 0.009156797678903102,
@@ -673,6 +698,8 @@
     "coat_kg_m2"
    ],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -723,7 +750,8 @@
      "MAT-CLEANER.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)",
      "MAT-CLEANER.transfer_efficiency 는 공장 확인 필요 (C2 차단)"
     ],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "bond_area_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-CLEANER",
@@ -742,7 +770,9 @@
     "region": "China",
     "price_basis": "Public listing midpoint",
     "source_url": "https://cnmaydos.en.made-in-china.com/product-group/beiJZNCMkYUo/PU-adhesive-1.html",
-    "note": "MAT-ADH-PU 단가 × 0.45 (자체 단가 없음, 워크북에 별도 분기단가 없음)"
+    "note": "MAT-ADH-PU 단가 × 0.45 (자체 단가 없음, 워크북에 별도 분기단가 없음)",
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.0009258449518144923,
    "cost_p50": 0.0010301397388765992,
@@ -802,6 +832,8 @@
     "ratio"
    ],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -852,7 +884,8 @@
      "MAT-HARDENER.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)",
      "MAT-HARDENER.transfer_efficiency 는 공장 확인 필요 (C2 차단)"
     ],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "bond_area_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-HARDENER",
@@ -864,7 +897,9 @@
     "max_class": null,
     "confidence": "F",
     "stale": true,
-    "note": "2026Q3 및 이전 분기에 단가 없음 -> RFQ 필요"
+    "note": "2026Q3 및 이전 분기에 단가 없음 -> RFQ 필요",
+    "source_tier": null,
+    "tier_label": null
    },
    "cost_p10": null,
    "cost_p50": null,
@@ -926,6 +961,8 @@
     "coat_kg_m2"
    ],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -976,7 +1013,8 @@
      "MAT-PRIMER.wet_coat_kg_m2 는 공장 확인 필요 (C2 차단)",
      "MAT-PRIMER.transfer_efficiency 는 공장 확인 필요 (C2 차단)"
     ],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "bond_area_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-PRIMER",
@@ -995,7 +1033,9 @@
     "region": "China",
     "price_basis": "Public listing midpoint",
     "source_url": "https://cnmaydos.en.made-in-china.com/product-group/beiJZNCMkYUo/PU-adhesive-1.html",
-    "note": "MAT-ADH-PU 단가 × 0.8 (자체 단가 없음, )"
+    "note": "MAT-ADH-PU 단가 × 0.8 (자체 단가 없음, )",
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.0017427669681213973,
    "cost_p50": 0.001939086567297128,
@@ -1051,6 +1091,8 @@
    "approval_role": "Sourcing",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -1082,7 +1124,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 1.0
+    "pair_factor": 1.0,
+    "consumption_method": "fixed_mass"
    },
    "price": {
     "spec_id": "MAT-LDPE",
@@ -1101,7 +1144,9 @@
     "region": "NE Asia",
     "price_basis": "Market index range",
     "source_url": "https://businessanalytiq.com/procurementanalytics/index/ldpe-price-index/",
-    "note": "finished bag quote 우선"
+    "note": "finished bag quote 우선",
+    "source_tier": "A1",
+    "tier_label": "Benchmark"
    },
    "cost_p10": 0.0058,
    "cost_p50": 0.006575,
@@ -1142,6 +1187,8 @@
    "approval_role": "Sourcing",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -1165,7 +1212,8 @@
     ],
     "assumptions": [],
     "blocked": [],
-    "pair_factor": 1.0
+    "pair_factor": 1.0,
+    "consumption_method": "fixed_count"
    },
    "price": {
     "spec_id": "MAT-BOX",
@@ -1184,7 +1232,9 @@
     "region": "China",
     "price_basis": "Public listing midpoint",
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Shoe_Box_Price.html",
-    "note": "freight cube 별도"
+    "note": "freight cube 별도",
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.3,
    "cost_p50": 1.15,
@@ -1218,6 +1268,8 @@
    "approval_role": "Sourcing",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -1249,7 +1301,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 1.0
+    "pair_factor": 1.0,
+    "consumption_method": "fixed_mass"
    },
    "price": {
     "spec_id": "MAT-PAPERBOARD",
@@ -1268,7 +1321,9 @@
     "region": "NE Asia",
     "price_basis": "Market index range",
     "source_url": "https://businessanalytiq.com/procurementanalytics/index/paperboard-price-index/",
-    "note": "conversion cost 별도"
+    "note": "conversion cost 별도",
+    "source_tier": "A1",
+    "tier_label": "Benchmark"
    },
    "cost_p10": 0.00342,
    "cost_p50": 0.005489999999999999,
@@ -1311,6 +1366,8 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -1366,7 +1423,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-PUFOAM-OPEN",
@@ -1385,7 +1443,9 @@
     "region": "China",
     "price_basis": "Public listing",
     "source_url": "https://www.alibaba.com/product-detail/Shoes-insole-materials-breathable-ortholaite-foam_1600929816875.html",
-    "note": null
+    "note": null,
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.029231642272229193,
    "cost_p50": 0.029895997778416217,
@@ -1446,6 +1506,8 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -1501,7 +1563,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-PUFOAM-OPEN",
@@ -1520,7 +1583,9 @@
     "region": "China",
     "price_basis": "Public listing",
     "source_url": "https://www.alibaba.com/product-detail/Shoes-insole-materials-breathable-ortholaite-foam_1600929816875.html",
-    "note": null
+    "note": null,
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.06296492295607578,
    "cost_p50": 0.06439594393235022,
@@ -1581,6 +1646,8 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -1636,7 +1703,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-MICROFIBER",
@@ -1655,7 +1723,9 @@
     "region": "China",
     "price_basis": "Public listing",
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Wholesale_Men%2527s_Shoes_Leather.html",
-    "note": null
+    "note": null,
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.22190790985214257,
    "cost_p50": 0.24759675655916405,
@@ -1716,6 +1786,8 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -1770,7 +1842,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-COUNTER",
@@ -1789,7 +1862,9 @@
     "region": "China",
     "price_basis": "Public listing range midpoint",
     "source_url": "https://wodetex.en.made-in-china.com/product/zmxrevbBbtcO/China-Thermoplastic-Sheet-Ping-Pong-Hot-Melt-Sheet-for-Shoes-Stifener-Toe-Puff-and-Counter-Protection.html",
-    "note": null
+    "note": null,
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.034139654395935484,
    "cost_p50": 0.0853491359898387,
@@ -1851,6 +1926,8 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -1906,7 +1983,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-TPU-FILM",
@@ -1925,7 +2003,9 @@
     "region": "China",
     "price_basis": "Public listing",
     "source_url": "https://www.made-in-china.com/manufacturers/tpu-film-for-shoes.html",
-    "note": "두께·폭 확인"
+    "note": "두께·폭 확인",
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.03004477426902225,
    "cost_p50": 0.0360537291228267,
@@ -1986,6 +2066,8 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -2040,7 +2122,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-TOEPUFF",
@@ -2059,7 +2142,9 @@
     "region": "China",
     "price_basis": "Public listing range midpoint",
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Toe_Puff_Materials_Price.html",
-    "note": "sheet size 확인"
+    "note": "sheet size 확인",
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.013538951772768003,
    "cost_p50": 0.040616855318304,
@@ -2120,6 +2205,8 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": true,
    "needs_confirm": [],
    "approval_blocked": [],
@@ -2138,7 +2225,8 @@
     ],
     "assumptions": [],
     "blocked": [],
-    "pair_factor": 1.0
+    "pair_factor": 1.0,
+    "consumption_method": "fixed_count"
    },
    "price": {
     "spec_id": "MAT-LACE-POLY",
@@ -2157,7 +2245,9 @@
     "region": "China",
     "price_basis": "Public listing midpoint",
     "source_url": "https://www.alibaba.com/showroom/shoe-laces-wholesale.html",
-    "note": null
+    "note": null,
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.22,
    "cost_p50": 0.3,
@@ -2193,6 +2283,8 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -2241,7 +2333,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "seam_length_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-THREAD-POLY",
@@ -2260,7 +2353,9 @@
     "region": "China",
     "price_basis": "Public listing midpoint",
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Shoe_Sewing_Thread_Price.html",
-    "note": "denier 별도"
+    "note": "denier 별도",
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.024573329972415327,
    "cost_p50": 0.02518766322172571,
@@ -2315,6 +2410,8 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": true,
    "needs_confirm": [],
    "approval_blocked": [],
@@ -2331,7 +2428,8 @@
      "Webbing/Pull Tab: 길이 없음"
     ],
     "assumptions": [],
-    "pair_factor": null
+    "pair_factor": null,
+    "consumption_method": "length_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-ELASTIC",
@@ -2350,7 +2448,9 @@
     "region": "China",
     "price_basis": "Public listing midpoint",
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Jacquard_Elastic_Webbing_Price.html",
-    "note": null
+    "note": null,
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": null,
    "cost_p50": null,
@@ -2388,6 +2488,8 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": true,
    "needs_confirm": [],
    "approval_blocked": [],
@@ -2438,7 +2540,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-MESH-3D",
@@ -2457,7 +2560,9 @@
     "region": "China",
     "price_basis": "Public listing range midpoint",
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Shoes_Mesh_Fabric_Price.html",
-    "note": "spec 혼재"
+    "note": "spec 혼재",
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.013854600835947424,
    "cost_p50": 0.05943623758621445,
@@ -2519,6 +2624,8 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": true,
    "needs_confirm": [],
    "approval_blocked": [],
@@ -2569,7 +2676,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-MICROFIBER",
@@ -2588,7 +2696,9 @@
     "region": "China",
     "price_basis": "Public listing",
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Wholesale_Men%2527s_Shoes_Leather.html",
-    "note": null
+    "note": null,
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.2098737745208363,
    "cost_p50": 0.23416950703925826,
@@ -2651,6 +2761,8 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": true,
    "needs_confirm": [],
    "approval_blocked": [],
@@ -2667,7 +2779,8 @@
      "Logo/Graphic: 소재가 배정되지 않음"
     ],
     "assumptions": [],
-    "pair_factor": null
+    "pair_factor": null,
+    "consumption_method": "unknown"
    },
    "price": {
     "basis": "missing",
@@ -2718,6 +2831,8 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": true,
    "needs_confirm": [],
    "approval_blocked": [],
@@ -2768,7 +2883,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-TPU-FILM",
@@ -2787,7 +2903,9 @@
     "region": "China",
     "price_basis": "Public listing",
     "source_url": "https://www.made-in-china.com/manufacturers/tpu-film-for-shoes.html",
-    "note": "두께·폭 확인"
+    "note": "두께·폭 확인",
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.0022280021015028957,
    "cost_p50": 0.0026736025218034747,
@@ -2848,6 +2966,8 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": true,
    "needs_confirm": [],
    "approval_blocked": [],
@@ -2898,7 +3018,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-MESH-3D",
@@ -2917,7 +3038,9 @@
     "region": "China",
     "price_basis": "Public listing range midpoint",
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Shoes_Mesh_Fabric_Price.html",
-    "note": "spec 혼재"
+    "note": "spec 혼재",
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.029842793849847126,
    "cost_p50": 0.12802558561584418,
@@ -2978,6 +3101,8 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": true,
    "needs_confirm": [],
    "approval_blocked": [],
@@ -3028,7 +3153,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-MESH-POLY",
@@ -3047,7 +3173,9 @@
     "region": "China",
     "price_basis": "Public listing",
     "source_url": "https://wodetex.en.made-in-china.com/product/hFYtGxaAFncH/China-Shoe-Upper-Material-Mesh-Fabric.html",
-    "note": "폭·GSM 확인"
+    "note": "폭·GSM 확인",
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.06404412044113711,
    "cost_p50": 0.08539216058818283,
@@ -3108,6 +3236,8 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -3163,7 +3293,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-LINING-MESH",
@@ -3182,7 +3313,9 @@
     "region": "China",
     "price_basis": "Public listing",
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Shoes_Mesh_Fabric_Price.html",
-    "note": null
+    "note": null,
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.03767080676445595,
    "cost_p50": 0.06536992938537943,
@@ -3244,6 +3377,8 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "material_approved": false,
+   "material_source": "canonical part 기본값 (승인 안 됨)",
    "approved": false,
    "needs_confirm": [],
    "approval_blocked": [
@@ -3299,7 +3434,8 @@
      }
     ],
     "blocked": [],
-    "pair_factor": 2.0
+    "pair_factor": 2.0,
+    "consumption_method": "surface_proxy_3d"
    },
    "price": {
     "spec_id": "MAT-LINING-MESH",
@@ -3318,7 +3454,9 @@
     "region": "China",
     "price_basis": "Public listing",
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Shoes_Mesh_Fabric_Price.html",
-    "note": null
+    "note": null,
+    "source_tier": "A0",
+    "tier_label": "Estimated"
    },
    "cost_p10": 0.1353610635612255,
    "cost_p50": 0.2348912573562442,
@@ -4042,21 +4180,29 @@
  },
  "grade": {
   "class": "C1",
+  "label": "Concept should-cost (scale 확정 + 기준 단가)",
   "blocked_reasons": {
    "C1": [],
    "C2": [
     "Hidden BOM 엔지니어 승인",
     "승인 pattern/solid geometry (DXF 또는 sole CAD)",
     "승인 Supplier SKU 견적",
-    "공장 routing·SAM 확정",
-    "Tooling 견적 확정",
     "승인 Supplier 견적이 아닌 단가 20건 (분기 스냅샷/공개 리스팅)",
-    "공장 routing, SAM, tooling 미확정",
     "미승인 BOM 라인 19건 (세그먼트 미확정 또는 규칙 제안): Cement/Adhesive, Cleaner, Collar Foam, Eyelet Reinforcement…",
     "C1 상한 지오메트리 28건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
+   ],
+   "C3": [
+    "공장 routing·SAM 확정",
+    "Tooling 견적 확정",
+    "간접비 cost pool 과 배부 기준 승인",
+    "공장 SAM·효율·rate 미입력 (노무·기계 차단)"
+   ],
+   "C4": [
+    "Incoterm 과 named place 선언",
+    "PO·invoice·생산 실적과 대사"
    ]
   },
-  "downgraded_from": "C2"
+  "downgraded_from": "C4"
  },
  "mass_balance": {
   "finished_pair_mass_g": 314.3320403252978,
@@ -4116,6 +4262,10 @@
   "note": "완제품 질량은 순질량 기준이다. 부피 파트는 부피 x 밀도, 면적 파트는 순면적 x 면밀도, 접착제는 건조 고형분 50%, 포장재는 제외."
  },
  "evidence_coverage": {
+  "price_tiers": {
+   "Estimated": 24,
+   "Benchmark": 2
+  },
   "lines_total": 28,
   "lines_approved": 9,
   "approved_ratio": 0.32142857142857145,
@@ -4157,5 +4307,13 @@
   "comparable": false,
   "note": "선언되지 않은 항목이 있으면 다른 원가와 같은 조건에서 비교했다고 말할 수 없다."
  },
- "computed_at": "2026-08-28T04:57:26Z"
+ "inputs_fingerprint": {
+  "scenario": "d548b20e027be621",
+  "materials": "44136fa355b3678a",
+  "gates": "314499b88a135bd8",
+  "mapping": "3fad6b845822e0ea",
+  "repairs": "01c9da3cb22d692f",
+  "bom_approvals": "b58ca58dfcff0562"
+ },
+ "computed_at": "2026-08-28T11:18:53Z"
 }

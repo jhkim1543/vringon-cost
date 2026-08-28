@@ -476,6 +476,55 @@ class Project:
         self._mark("materials", "confirmed", selected=len(cur))
         return cur
 
+    def inputs_fingerprint(self):
+        """원가에 들어가는 입력의 단면 지문.
+
+        시나리오·소재 선택·게이트·매핑·복구 중 하나라도 바뀌면 기존
+        cost.json 은 낡은 것이다. 외부 검토가 이것을 1순위 오류로 지적했다:
+        입력을 바꿔도 이전 결과가 아무 표시 없이 그대로 보였다.
+        """
+        import hashlib
+
+        def h(obj):
+            return hashlib.sha256(
+                json.dumps(obj, sort_keys=True, ensure_ascii=False,
+                           default=str).encode()).hexdigest()[:16]
+
+        st = self.state
+        mapping = [(m.get("segment_id"), m.get("canonical_part"),
+                    bool(m.get("confirmed")))
+                   for m in (st.get("mapping") or [])]
+        repairs = {k: (v.get("volume_m3"), v.get("usable"))
+                   for k, v in (st.get("repairs") or {}).items()}
+        approvals = [(l.get("line_id"), l.get("approval_status"))
+                     for l in (st.get("bom") or [])]
+        return {
+            "scenario": h(st.get("scenario") or {}),
+            "materials": h(st.get("materials") or {}),
+            "gates": h(st.get("gates") or {}),
+            "mapping": h(mapping),
+            "repairs": h(repairs),
+            "bom_approvals": h(approvals),
+        }
+
+    def staleness(self, stored):
+        """저장된 원가의 입력 지문과 현재 상태를 비교한다."""
+        if not stored:
+            return {"is_stale": None, "changed_sections": [],
+                    "note": "이 결과에는 입력 지문이 없다 (구버전 파일)"}
+        cur = self.inputs_fingerprint()
+        changed = sorted(k for k in cur if cur[k] != stored.get(k))
+        names = {"scenario": "시나리오(수량·분기·마진 등)",
+                 "materials": "소재 선택", "gates": "승인 게이트",
+                 "mapping": "세그먼트 매핑", "repairs": "부피 복구",
+                 "bom_approvals": "BOM 승인 상태"}
+        return {
+            "is_stale": bool(changed),
+            "changed_sections": [names.get(c, c) for c in changed],
+            "note": ("입력이 바뀌어 이 결과는 낡았습니다. 다시 계산하세요."
+                     if changed else None),
+        }
+
     def version_key(self):
         """이 원가가 어떤 전제 위에서 나왔는지 못박는다.
 
@@ -603,6 +652,7 @@ class Project:
         result = {"scenario": sc, "lines": cl, "rollup": rollup, "grade": gr,
                   "mass_balance": mass, "evidence_coverage": coverage,
                   "version_key": self.version_key(),
+                  "inputs_fingerprint": self.inputs_fingerprint(),
                   "computed_at": _now()}
         self.state["cost"] = {"rollup": rollup, "grade": gr,
                               "computed_at": result["computed_at"]}

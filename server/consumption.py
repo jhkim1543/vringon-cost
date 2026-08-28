@@ -221,6 +221,24 @@ def pair_factor(line, spec_id):
     return float(sp.get("units_per_pair", 1.0))
 
 
+# 소요량을 "어떻게" 구했는지 라인마다 명시한다 (외부 검토 요구).
+# 현재 구현된 방법은 전부 3D proxy 계열이다. 생산용 방법(dxf_marker,
+# leather_hide_nesting, cad_volume, supplier_unit_quote)은 승인 패턴·CAD·
+# 견적 데이터가 들어와야 열리며, 그 전에는 이 이름을 쓰지 않는다.
+CONSUMPTION_METHODS = {
+    "roll": "surface_proxy_3d",
+    "sheet": "surface_proxy_3d",
+    "sheet_m2": "surface_proxy_3d",
+    "molded": "volume_proxy_3d",
+    "chemical": "bond_area_proxy_3d",
+    "thread": "seam_length_proxy_3d",
+    "length": "length_proxy_3d",
+    "count": "fixed_count",
+    "mass": "fixed_mass",
+}
+FUTURE_METHODS = ("dxf_marker", "leather_hide_nesting", "cad_volume",
+                  "supplier_unit_quote")
+
 def compute(line, price_uom=None):
     """켤레 기준 총 구매 수량.
 
@@ -229,8 +247,11 @@ def compute(line, price_uom=None):
     """
     r = _compute_one(line, price_uom)
     spec = line.get("material_spec")
+    import catalog as _cat
+    form = (_cat.material_specs().get(spec) or {}).get("form") if spec else None
+    method = CONSUMPTION_METHODS.get(form, "unknown")
     if not spec or r.get("gross_qty") is None:
-        return {**r, "pair_factor": None}
+        return {**r, "pair_factor": None, "consumption_method": method}
     f = pair_factor(line, spec)
     if f != 1.0:
         r = dict(r)
@@ -238,4 +259,4 @@ def compute(line, price_uom=None):
             f"켤레 환산 = {r['gross_qty']:.6f} × {f:g} = {r['gross_qty']*f:.6f} {r.get('uom','')}"
         ]
         r["gross_qty"] = r["gross_qty"] * f
-    return {**r, "pair_factor": f}
+    return {**r, "pair_factor": f, "consumption_method": method}

@@ -167,7 +167,7 @@ function renderFlow() {
   const g = S.cost?.grade?.class;
   const gc = $('#gradeChip');
   gc.textContent = '등급 ' + (g || '확인중');
-  gc.className = 'chip ' + (g === 'C2' ? 'ok' : g === 'C1' ? 'warn' : '');
+  gc.className = 'chip ' + (['C2','C3','C4'].includes(g) ? 'ok' : g === 'C1' ? 'warn' : '');
   const cs = S.cost?.rollup?.cost_status;
   const fc = $('#fobChip');
   fc.textContent = cs === 'COMPLETE' ? '원가 산출됨'
@@ -696,6 +696,7 @@ function stepCost(el) {
     return;
   }
   const partial = r.cost_status !== 'COMPLETE';
+  const stale = S.cost.stale;
   const cov = r.coverage || {};
   const mb = S.cost.mass_balance;
   const row = (label, o, cls = '') => o ? `<tr class="${cls}"><td>${label}</td>
@@ -703,6 +704,9 @@ function stepCost(el) {
     <td class="num">${usd(o.p90)}</td></tr>` : '';
 
   el.innerHTML = `
+    ${stale && stale.is_stale ? `<div class="note bad"><b>이 결과는 낡았습니다.</b>
+      계산 후 입력이 바뀌었습니다: ${(stale.changed_sections || []).join(', ')}.
+      아래 '원가 다시 계산'을 누르면 현재 입력으로 다시 계산합니다.</div>` : ''}
     <div class="grid2">
       <div><label>주문 수량 (pairs)</label>
         <input type="number" id="oq" value="${sc.order_quantity}"></div>
@@ -786,6 +790,9 @@ function stepCost(el) {
           <dd>${ec.lines_approved}/${ec.lines_total} (${pct(ec.approved_ratio)})</dd>
           <dt>지오메트리</dt>
           <dd>실측 ${ec.geometry_measured}건 · 대체값 ${ec.geometry_proxy}건</dd>
+          ${ec.price_tiers ? `<dt>가격 신뢰도 계층</dt>
+          <dd>${Object.entries(ec.price_tiers).map(([k, v]) => `${k} ${v}건`).join(' · ')}
+            <span class="muted">(Actual과 Quoted가 없으면 전부 추정 기반입니다)</span></dd>` : ''}
           <dt>가정 파라미터</dt>
           <dd>${ec.material_params_assumed}/${ec.material_params_total}
             (${pct(ec.assumed_param_ratio)}) 가정 또는 공장 확인 필요</dd>
@@ -795,8 +802,8 @@ function stepCost(el) {
         </dl>`;
     })()}
 
-    <h4>등급 ${g.class}</h4>
-    ${['C1', 'C2'].map(c => g.blocked_reasons[c].length ? `
+    <h4>등급 ${g.class}${g.label ? ` <span class="muted" style="font-weight:400;font-size:12px">${g.label}</span>` : ''}</h4>
+    ${['C1', 'C2', 'C3', 'C4'].map(c => (g.blocked_reasons[c] || []).length ? `
       <div class="note"><b>${c} 미충족</b><ul style="margin:4px 0 0 16px;padding:0">
         ${g.blocked_reasons[c].map(x => `<li>${x}</li>`).join('')}</ul></div>` : '').join('')}
 

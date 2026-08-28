@@ -303,10 +303,14 @@ def post_cost(pid: str):
 
 @app.get("/api/project/{pid}/cost")
 def get_cost(pid: str):
-    f = Project(pid).dir / "cost.json"
+    p = Project(pid)
+    f = p.dir / "cost.json"
     if not f.exists():
         raise HTTPException(404, "아직 계산되지 않았습니다")
-    return json.loads(f.read_text(encoding="utf-8"))
+    d = json.loads(f.read_text(encoding="utf-8"))
+    # 입력이 바뀌었으면 낡은 결과라고 함께 알려준다. 파일은 건드리지 않는다.
+    d["stale"] = p.staleness(d.get("inputs_fingerprint"))
+    return d
 
 
 # ── 3D 생성 엔진 실호출 ──────────────────────────────────────────────────────

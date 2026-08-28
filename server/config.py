@@ -67,6 +67,17 @@ def provider_api_key():
 # 계획서 §2. 상위 등급일수록 요구 입력이 많다.
 COST_CLASSES = ["C0", "C1", "C2", "C3", "C4"]
 
+# 외부 검토(2026-08-28)의 사다리를 따른다. 등급마다 "무엇을 말할 수 있는가"가
+# 다르다. routing·tooling 은 소재 원가(C2)가 아니라 공장 제조원가(C3)의
+# 조건이므로 C3 로 옮겼다.
+CLASS_LABELS = {
+    "C0": "Visual Concept (BOM·소재 후보만)",
+    "C1": "Concept should-cost (scale 확정 + 기준 단가)",
+    "C2": "Material should-cost (승인 패턴 + 승인 소재 SKU 견적)",
+    "C3": "Factory manufacturing cost (routing·SMV·rate·tooling)",
+    "C4": "EXW/FOB (Incoterm 선언 + 실적 대사)",
+}
+
 CLASS_REQUIREMENTS = {
     "C1": [
         ("metric_calibrated", "사용자 확인된 toe–heel 길이로 metric scale 확정"),
@@ -79,8 +90,15 @@ CLASS_REQUIREMENTS = {
         ("hidden_bom_approved", "Hidden BOM 엔지니어 승인"),
         ("pattern_approved", "승인 pattern/solid geometry (DXF 또는 sole CAD)"),
         ("supplier_price", "승인 Supplier SKU 견적"),
+    ],
+    "C3": [
         ("routing_confirmed", "공장 routing·SAM 확정"),
         ("tooling_confirmed", "Tooling 견적 확정"),
+        ("overhead_policy_set", "간접비 cost pool 과 배부 기준 승인"),
+    ],
+    "C4": [
+        ("incoterm_declared", "Incoterm 과 named place 선언"),
+        ("actuals_reconciled", "PO·invoice·생산 실적과 대사"),
     ],
 }
 

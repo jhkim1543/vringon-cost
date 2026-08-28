@@ -16,7 +16,34 @@ UOM_ALIAS = {
 }
 
 
+
+# 가격 신뢰도 계층 (외부 검토 2026-08-28).
+#   A4 Actual     송장·입고·실제 결제
+#   A3 Committed  승인 PO·유효 계약단가
+#   A2 Quoted     유효한 공급사 견적
+#   A1 Benchmark  원자재·환율·운임·시장 지수
+#   A0 Estimated  AI 추정·웹 판매가·공개 카탈로그 리스팅
+# 현재 데이터는 전부 A0/A1 이다. 견적이 들어와야 A2 가 생긴다.
+def source_tier(basis, price_basis=None):
+    if basis == "approved_supplier_quote":
+        return "A2", "Quoted"
+    if basis in ("quarterly_snapshot", "carried_forward", "price_proxy"):
+        pb = (price_basis or "").lower()
+        if "지수" in (price_basis or "") or "index" in pb:
+            return "A1", "Benchmark"
+        return "A0", "Estimated"
+    return None, None
+
+
 def select(spec_id, quarter, supplier_quotes=None):
+    out = _select(spec_id, quarter, supplier_quotes)
+    tier, label = source_tier(out.get("basis"), out.get("price_basis"))
+    out.setdefault("source_tier", tier)
+    out.setdefault("tier_label", label)
+    return out
+
+
+def _select(spec_id, quarter, supplier_quotes=None):
     """한 소재의 단가를 우선순위에 따라 고른다.
 
     승인 Supplier Quote > 과거승인+지수 에스컬레이션 > 유사 승인견적
