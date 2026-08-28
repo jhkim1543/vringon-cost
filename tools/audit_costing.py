@@ -138,11 +138,25 @@ def audit(pid):
     check(not bad, "소요량 독립 재계산", "; ".join(bad[:3]))
 
     # 3 합계 무결성
+    # 계약: 확인된 소계 = 승인된 라인의 합. 미승인분은 따로 잡고, 둘을
+    # 더하면 전체 라인 합이 되어야 한다 (금액이 사라지지 않았다는 검사).
+    appr = [l for l in lines if l.get("approved", True)]
+    unappr = [l for l in lines if not l.get("approved", True)]
     for k in ("p10", "p50", "p90"):
         want = ru["known_cost_subtotal"][k]
-        got = sum(l.get(f"cost_{k}") or 0.0 for l in lines)
-        check(abs(got - want) < 1e-6, f"소계 {k} = 라인 합",
+        got = sum(l.get(f"cost_{k}") or 0.0 for l in appr)
+        check(abs(got - want) < 1e-6, f"소계 {k} = 승인 라인 합",
               f"{got:.6f} != {want:.6f}")
+    un = ru.get("unapproved_material_subtotal") or {}
+    if un:
+        for k in ("p10", "p50", "p90"):
+            got = sum(l.get(f"cost_{k}") or 0.0 for l in unappr)
+            check(abs(got - (un.get(k) or 0.0)) < 1e-6,
+                  f"미승인 소계 {k} = 미승인 라인 합", f"{got:.6f}")
+        total = sum(l.get("cost_p50") or 0.0 for l in lines)
+        check(abs((ru["known_cost_subtotal"]["p50"] + (un.get("p50") or 0.0))
+                  - total) < 1e-6, "승인 + 미승인 = 전체 라인 합",
+              f"{total:.6f}")
     bd = ru.get("material_breakdown") or {}
     got = sum(v["p50"] for v in bd.values())
     check(abs(got - ru["known_cost_subtotal"]["p50"]) < 1e-6,
@@ -156,6 +170,12 @@ def audit(pid):
         if not spec or p.get("p50") is None:
             continue
         row = snap.get((q, spec))
+        # 단가 단위가 수량 단위와 다르면 엔진이 환산해 저장한다
+        # (예: USD/sq ft -> USD/m²). 원본과 비교하려면 되돌려야 한다.
+        f = p.get("uom_conversion_factor") or 1.0
+        if f and f != 1.0:
+            p = {**p, "p10": (p["p10"] or 0) / f, "p50": (p["p50"] or 0) / f,
+                 "p90": (p["p90"] or 0) / f}
         if p["basis"] == "quarterly_snapshot":
             if row is None:
                 bad.append(f"{spec}: 스냅샷 원본 없음")

@@ -59,26 +59,57 @@ def normalize(uom):
     return d[1] if d else uom
 
 
+# 같은 차원이라도 단위가 다르면 그냥 곱하면 안 된다. 면적을 m² 로 재고
+# 단가가 USD/sq ft 면 10.76 배 틀린다. 차원만 보던 예전 검사는 이 구멍을
+# 열어 두고 있었다(가죽이 sq ft 로 팔리므로 실제로 물릴 자리였다).
+# 여기서 단위를 명시적으로 환산하고, 환산 계수를 계산 근거에 남긴다.
+_TO_BASE = {
+    "m": 1.0, "yd": 0.9144,                      # length -> m
+    "m²": 1.0, "sq ft": 0.09290304,              # area -> m²
+    "m³": 1.0,                                   # volume -> m³
+    "kg": 1.0, "g": 0.001,                       # mass -> kg
+}
+
+
+def convert_factor(from_uom, to_uom):
+    """from_uom 으로 잰 값을 to_uom 기준으로 바꾸는 계수. 모르면 None."""
+    a, b = normalize(from_uom), normalize(to_uom)
+    if a == b:
+        return 1.0
+    fa, fb = _TO_BASE.get(a), _TO_BASE.get(b)
+    if fa is None or fb is None or fb == 0:
+        return None
+    return fa / fb
+
+
 def check_multiply(qty_uom, price_uom):
     """수량과 단가를 곱해도 되는지 본다.
 
-    반환 (ok, 사유). 모르는 UOM 은 통과시키지 않는다. 모르면 막는 쪽이 안전하다.
+    반환 (ok, 사유, 단가환산계수). 모르는 UOM 은 통과시키지 않는다.
+    단가환산계수는 '단가를 수량 단위 기준으로 바꾸는 수'다. 예를 들어
+    수량이 m² 이고 단가가 USD/sq ft 면 1 m² 당 단가는 USD/sq ft x 10.7639 이다.
     """
     qd, pd = dimension(qty_uom), dimension(price_uom)
     if qd is None:
-        return False, f"알 수 없는 소요량 단위 '{qty_uom}'"
+        return False, f"알 수 없는 소요량 단위 '{qty_uom}'", None
     if pd is None:
-        return False, f"알 수 없는 단가 단위 '{price_uom}'"
+        return False, f"알 수 없는 단가 단위 '{price_uom}'", None
     if qd != pd:
         return False, (f"차원 불일치. 소요량 {normalize(qty_uom)}({qd}) 와 "
-                       f"단가 {normalize(price_uom)}({pd})")
-    # 같은 차원이라도 개수 계열은 단위가 정확히 같아야 한다.
-    # sheet 수량에 piece 단가를 곱하면 안 된다.
+                       f"단가 {normalize(price_uom)}({pd})"), None
+    a, b = normalize(qty_uom), normalize(price_uom)
+    # 개수 계열은 환산이라는 것이 없다. 정확히 같아야 한다.
     if qd == "count":
-        a, b = normalize(qty_uom), normalize(price_uom)
         if a != b and {a, b} != {"piece", "pair"}:
-            return False, f"수량 단위 불일치. {a} 와 {b}"
-    return True, None
+            return False, f"수량 단위 불일치. {a} 와 {b}", None
+        return True, None, 1.0
+    if a == b:
+        return True, None, 1.0
+    # 단가 1 단위(b)가 수량 단위(a) 로 몇 개인지 = 단가에 곱할 수
+    f = convert_factor(a, b)
+    if f is None:
+        return False, f"단위 환산 계수를 모른다. {a} 와 {b}", None
+    return True, f"단가 환산 {b} -> {a} 계수 {f:.6g}", f
 
 
 def check_formula(form, qty_uom, geometry_unit=None):

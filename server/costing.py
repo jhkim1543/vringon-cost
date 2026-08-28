@@ -60,6 +60,20 @@ def volume_warnings(line):
     return []
 
 
+# 엔지니어가 아직 승인하지 않은 라인의 상태. 이 라인들의 금액은 계산은
+# 되지만 '확인된 소계' 에 들어가지 않는다. 실측: 데모 두 종에서 미승인분이
+# 소계의 56~61% 를 차지하면서 아무 표시 없이 섞여 있었다.
+UNAPPROVED_STATUSES = {"unconfirmed", "rule_proposed"}
+
+
+def _approval_reason(line):
+    st = line.get("approval_status")
+    if st == "unconfirmed":
+        segs = ", ".join(line.get("needs_confirm") or [])
+        return f"세그먼트 매핑 미확정{': ' + segs if segs else ''}"
+    return (f"규칙 제안 BOM, {line.get('approval_role') or '엔지니어'} 승인 필요")
+
+
 def cost_lines(bom, quarter, supplier_quotes=None):
     """BOM -> 원가 라인. 각 라인에 근거와 차단 사유를 붙인다."""
     out = []
@@ -74,15 +88,18 @@ def cost_lines(bom, quarter, supplier_quotes=None):
 
         blocked = list(cons.get("blocked") or [])
         blocked += list(line.get("qa_blocked") or [])
+        assumptions = list(cons.get("assumptions") or [])
         if price.get("p50") is None:
             blocked.append(f"단가 없음: {spec or '(소재 미배정)'}")
         if price.get("stale"):
             blocked.append(f"단가 stale ({price.get('note')})")
 
         ok_uom, uom_note = (True, None)
+        uom_factor = 1.0
         if cons.get("gross_qty") is not None and price.get("p50") is not None:
-            # 차원 검사. 모르는 단위는 통과시키지 않는다.
-            ok_uom, uom_note = units.check_multiply(cons.get("uom"), price.get("uom"))
+            # 차원 검사와 단위 환산. 모르는 단위는 통과시키지 않는다.
+            ok_uom, uom_note, uom_factor = units.check_multiply(
+                cons.get("uom"), price.get("uom"))
             if not ok_uom:
                 blocked.append(uom_note)
             else:
@@ -91,8 +108,20 @@ def cost_lines(bom, quarter, supplier_quotes=None):
                 if not ok_f:
                     ok_uom = False
                     blocked.append(f_note)
+                elif uom_note:
+                    # 환산이 실제로 일어났으면 근거에 남긴다. 조용히 곱하면
+                    # 나중에 왜 이 금액이 나왔는지 되짚을 수 없다.
+                    assumptions.append(uom_note)
 
         qty = cons.get("gross_qty") if ok_uom else None
+        # 단가를 수량 단위 기준으로 맞춘다 (예: USD/sq ft -> USD/m²)
+        if qty is not None and uom_factor and uom_factor != 1.0:
+            price = {**price, "p10": _mul(price.get("p10"), uom_factor),
+                     "p50": _mul(price.get("p50"), uom_factor),
+                     "p90": _mul(price.get("p90"), uom_factor),
+                     "uom_original": price.get("uom"),
+                     "uom": units.normalize(cons.get("uom")),
+                     "uom_conversion_factor": uom_factor}
         c10, c50, c90 = (_mul(qty, price.get("p10")),
                          _mul(qty, price.get("p50")),
                          _mul(qty, price.get("p90")))
@@ -119,6 +148,11 @@ def cost_lines(bom, quarter, supplier_quotes=None):
             "approval_role": line.get("approval_role"),
             "factory_inputs_required": line.get("factory_inputs_required"),
             "approval_status": line.get("approval_status"),
+            "approved": line.get("approval_status") not in UNAPPROVED_STATUSES,
+            "needs_confirm": line.get("needs_confirm") or [],
+            "approval_blocked": ([] if line.get("approval_status") not in
+                                 UNAPPROVED_STATUSES else
+                                 [_approval_reason(line)]),
             "geometry": line.get("geometry"),
             "consumption": cons,
             "price": price,
@@ -128,7 +162,7 @@ def cost_lines(bom, quarter, supplier_quotes=None):
                                         {**line, "consumption": cons}),
             "status": "calculated" if c50 is not None else "blocked",
             "max_class": _min_class(line.get("max_class"), price.get("max_class")),
-            "assumptions": cons.get("assumptions", []),
+            "assumptions": assumptions,
         })
     return out
 
@@ -322,6 +356,9 @@ def bucket_breakdown(lines):
     for l in lines:
         if l.get("cost_p50") is None:
             continue
+        # 버킷 합이 확인된 소계와 맞아야 한다. 미승인분은 따로 보여준다.
+        if not l.get("approved", True):
+            continue
         a = l.get("assembly") or "기타"
         key = ("Packaging" if a in PACKAGING_ASSEMBLIES else
                "Chemical" if a in CHEMICAL_ASSEMBLIES else
@@ -348,8 +385,16 @@ def roll_up(lines, scenario):
     소재비뿐이라 숫자가 조용히 왜곡된다.
     """
     order_qty = scenario.get("order_quantity") or 0
-    mat = {k: sum(l[f"cost_{k}"] or 0.0 for l in lines) for k in ("p10", "p50", "p90")}
-    mat_blocked = [l["line_id"] for l in lines if l["status"] == "blocked"]
+    # 승인된 것과 아닌 것을 나눈다. 금액을 지우는 것이 아니라 어디에
+    # 합산되는지를 바꾼다. 미승인분은 따로 보여주되 확인된 소계와 FOB 에는
+    # 넣지 않는다.
+    appr = [l for l in lines if l.get("approved", True)]
+    unappr = [l for l in lines if not l.get("approved", True)]
+    mat = {k: sum(l[f"cost_{k}"] or 0.0 for l in appr) for k in ("p10", "p50", "p90")}
+    mat_unapproved = {k: sum(l[f"cost_{k}"] or 0.0 for l in unappr)
+                      for k in ("p10", "p50", "p90")}
+    mat_blocked = ([l["line_id"] for l in lines if l["status"] == "blocked"]
+                   + [l["line_id"] for l in unappr if l["status"] != "blocked"])
 
     lm = labor_machine(order_qty)
     tl = tooling(order_qty)
@@ -412,6 +457,13 @@ def roll_up(lines, scenario):
         "material_breakdown": bucket_breakdown(lines),
         "buckets": buckets,
         "known_cost_subtotal": known,
+        "unapproved_material_subtotal": mat_unapproved,
+        "unapproved_lines": [
+            {"line_id": l["line_id"], "canonical_part": l.get("canonical_part"),
+             "approval_status": l.get("approval_status"),
+             "cost_p50": l.get("cost_p50"),
+             "reason": (l.get("approval_blocked") or [""])[0]}
+            for l in unappr],
         "blocked_buckets": blocked_buckets,
         "reject_allowance": reject,
         "factory_overhead": overhead,
@@ -456,6 +508,14 @@ def grade(lines, rollup, gates):
     if not rollup["direct_complete"]:
         reasons["C2"].append("공장 routing, SAM, tooling 미확정")
 
+    # 라인이 미승인인 채로 게이트만 켜서 C2 로 올라가지 못하게 한다.
+    unappr_parts = sorted({l["canonical_part"] for l in lines
+                           if not l.get("approved", True)})
+    if unappr_parts:
+        reasons["C2"].append(
+            f"미승인 BOM 라인 {len(unappr_parts)}건 (세그먼트 미확정 또는 규칙 제안): "
+            + ", ".join(unappr_parts[:4]) + ("…" if len(unappr_parts) > 4 else ""))
+
     # 복구 부피나 표면 proxy 로 잡힌 라인은 C2 로 올라갈 수 없다.
     capped = sorted({l["canonical_part"] for l in lines
                      if (l.get("max_class") or "C2") != "C2"})
@@ -470,3 +530,50 @@ def grade(lines, rollup, gates):
         cls = "C0"
     return {"class": cls, "blocked_reasons": reasons,
             "downgraded_from": "C2" if cls != "C2" else None}
+
+def evidence_coverage(lines):
+    """이 원가가 무엇에 기대고 있는지 한 장으로 보여준다.
+
+    외부 검토가 "승인 견적 단가 0/34, 가정 파라미터 66.4%" 를 직접 세어서
+    지적했다. 그 숫자는 결과물이 스스로 말해야 하는 것이지 남이 세어 줘야
+    하는 것이 아니다.
+    """
+    specs = catalog.material_specs()
+    used = {l.get("material_spec") for l in lines if l.get("material_spec")}
+    param_total = param_soft = 0
+    for spec in used:
+        for k, v in (specs.get(spec) or {}).items():
+            if k in ("form", "description") or k.startswith("_"):
+                continue
+            if isinstance(v, dict) and "value" in v:
+                param_total += 1
+                if v.get("source") in ("assumption", "factory_required"):
+                    param_soft += 1
+
+    priced = [l for l in lines if (l.get("price") or {}).get("p50") is not None]
+    eng = [l for l in priced
+           if (l.get("price") or {}).get("eligibility") == "Engineering"]
+    geo_measured = sum(1 for l in lines
+                       if (l.get("geometry") or {}).get("method") == "measured")
+    geo_proxy = sum(1 for l in lines
+                    if (l.get("geometry") or {}).get("method") == "proxy")
+    approved = sum(1 for l in lines if l.get("approved", True))
+
+    def ratio(a, b):
+        return (a / b) if b else None
+
+    return {
+        "lines_total": len(lines),
+        "lines_approved": approved,
+        "approved_ratio": ratio(approved, len(lines)),
+        "priced_lines": len(priced),
+        "supplier_quote_lines": len(eng),
+        "supplier_quote_ratio": ratio(len(eng), len(priced)),
+        "geometry_measured": geo_measured,
+        "geometry_proxy": geo_proxy,
+        "material_params_total": param_total,
+        "material_params_assumed": param_soft,
+        "assumed_param_ratio": ratio(param_soft, param_total),
+        "note": ("승인 공급사 견적 비율과 가정 파라미터 비율이 이 원가의 "
+                 "신뢰 한계를 정한다. 견적 비율 0 이면 개념 단계다."),
+    }

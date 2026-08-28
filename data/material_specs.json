@@ -610,6 +610,33 @@
     "source": "factory_required"
    },
    "_price_note": "워크북 part·material 표에서 RFQ 로 단가 미정. 프록시를 쓰지 않는다."
+  },
+  "MAT-FULLGRAIN": {
+   "form": "sheet_m2",
+   "description": "Full grain upper leather (가죽 한 장 단위, 단가는 sq ft)",
+   "pattern_factor": {
+    "value": 1.15,
+    "source": "assumption",
+    "note": "3D 표면적 -> 재단 패턴 면적 proxy. 승인 DXF 필요"
+   },
+   "nesting_yield": {
+    "value": 0.62,
+    "source": "public_reference",
+    "note": "가죽은 외곽이 불규칙하고 결점 부위를 피해야 해 롤 원단(0.82~0.85)보다 수율이 낮다. 신발 갑피용 통상 55~70%"
+   },
+   "process_yield": {
+    "value": 0.95,
+    "source": "assumption"
+   },
+   "areal_density_gsm": {
+    "value": 1030,
+    "source": "public_reference",
+    "note": "두께 1.2mm, 밀도 약 0.86 g/cm3 기준"
+   },
+   "thickness_mm": {
+    "value": 1.2,
+    "source": "public_reference"
+   }
   }
  },
  "_part_defaults_note": "Strobel Cemented + mesh upper MVP 의 파트->소재 기본 배정. 사용자가 UI에서 바꿀 수 있고, 바꾸면 근거가 user_override 로 기록된다.",

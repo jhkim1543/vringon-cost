@@ -701,3 +701,117 @@ def test_reading_a_project_does_not_create_storage():
     from pipeline import Project
     p = Project("NEVER-CREATED-BY-READ")
     assert not p.dir.exists()
+
+
+def test_same_dimension_different_unit_is_converted_not_ignored():
+    """차원만 같고 단위가 다르면 그냥 곱하면 안 된다.
+
+    면적을 m² 로 재고 단가가 USD/sq ft 면 10.76 배 틀린다. 가죽이 sq ft 로
+    팔리므로 실제로 물릴 자리였다. 환산 계수를 돌려주고 근거에 남긴다.
+    """
+    import units
+    ok, note, f = units.check_multiply("m²", "sq ft")
+    assert ok and f is not None
+    assert abs(f - 10.7639) < 0.01, f
+    assert note and "환산" in note
+    # 같은 단위면 계수 1, 안내 없음
+    ok, note, f = units.check_multiply("m²", "m²")
+    assert ok and f == 1.0 and note is None
+    # 계수는 '단가를 수량 단위 기준으로 올리는 수' 다.
+    # 수량이 m 이고 단가가 USD/yd 면 1m 당 단가는 USD/yd x 1.09361 이다.
+    assert abs(units.check_multiply("m", "yard")[2] - 1.0936133) < 1e-6
+    assert abs(units.check_multiply("kg", "g")[2] - 1000.0) < 1e-9
+    # 실제 사례: 가죽 0.05 m2 를 USD/sq ft 4.545 로 사면 2.446 달러
+    f = units.check_multiply("m²", "sq ft")[2]
+    assert abs(0.05 * 4.545 * f - 2.4463) < 0.001
+    # 개수 계열은 환산 없음. 다르면 막는다
+    assert not units.check_multiply("sheet", "piece")[0]
+    # 차원이 다르면 여전히 막는다
+    assert not units.check_multiply("kg", "m")[0]
+
+
+# ── 외부 개선안(PDF) 대응 ────────────────────────────────────────────────
+def test_unapproved_lines_are_not_in_confirmed_subtotal():
+    """엔지니어가 승인하지 않은 라인은 '확인된 소계' 에 들어가면 안 된다.
+
+    실측: 규칙이 제안한 숨은 BOM 이 소계의 56~61% 를 차지하면서 아무 표시
+    없이 섞여 있었다. 금액을 지우지 않되 어디에 합산되는지를 나눈다.
+    """
+    import costing
+    lines = [
+        {"line_id": "A", "canonical_part": "Vamp", "status": "calculated",
+         "approved": True, "cost_p10": 1.0, "cost_p50": 1.0, "cost_p90": 1.0,
+         "assembly": "Upper External"},
+        {"line_id": "B", "canonical_part": "Strobel", "status": "calculated",
+         "approved": False, "cost_p10": 2.0, "cost_p50": 2.0, "cost_p90": 2.0,
+         "assembly": "Bottom"},
+    ]
+    ru = costing.roll_up(lines, {"order_quantity": 5000,
+                                 "reject_allowance_pct": 3.0,
+                                 "factory_overhead_pct": 8.0,
+                                 "supplier_margin_pct": 10.0})
+    assert ru["known_cost_subtotal"]["p50"] == 1.0
+    assert ru["unapproved_material_subtotal"]["p50"] == 2.0
+    assert len(ru["unapproved_lines"]) == 1
+    # 미승인이 있으면 Material 버킷이 차단되어 FOB 가 나가지 않는다
+    assert "Material" in ru["blocked_buckets"]
+    assert ru["fob"] is None
+    # 버킷 분해도 승인분만 잡아 소계와 맞는다
+    assert abs(sum(v["p50"] for v in ru["material_breakdown"].values())
+               - ru["known_cost_subtotal"]["p50"]) < 1e-9
+
+
+def test_unapproved_lines_block_c2_even_with_gates_on():
+    """게이트만 켜서 C2 로 올라가지 못하게 한다."""
+    import costing
+    from config import CLASS_REQUIREMENTS
+    gates = {k: True for reqs in CLASS_REQUIREMENTS.values() for k, _ in reqs}
+    lines = [{"line_id": "A", "canonical_part": "Vamp", "status": "calculated",
+              "approved": False, "material_spec": "MAT-MESH-POLY",
+              "max_class": "C2", "cost_p50": 1.0,
+              "price": {"eligibility": "Engineering"}}]
+    ru = {"direct_complete": True}
+    g = costing.grade(lines, ru, gates)
+    assert g["class"] != "C2"
+    assert any("미승인" in r for r in g["blocked_reasons"]["C2"])
+
+
+def test_material_choice_changes_cost_for_leather():
+    """가죽 스타일에 가죽을 지정하면 갑피 원가가 실제로 오른다.
+
+    canonical part 하나에 소재 하나를 고정해 두면 가죽 신발도 메시 단가로
+    계산된다. 실측: 가죽 데모에 가죽 소재가 한 번도 쓰이지 않았다.
+    """
+    import bom as bom_mod
+    import catalog
+    # 기본값은 메시, 지정하면 가죽
+    d = catalog.part_defaults()
+    assert d.get("Vamp") == "MAT-MESH-POLY"
+    assert "MAT-FULLGRAIN" in catalog.material_specs(), "가죽 공학 스펙이 있어야 한다"
+    sp = catalog.material_specs()["MAT-FULLGRAIN"]
+    # 가죽은 결점을 피해 재단하므로 롤 원단보다 수율이 낮다
+    assert sp["nesting_yield"]["value"] < \
+        catalog.material_specs()["MAT-MESH-POLY"]["nesting_yield"]["value"]
+
+
+def test_upper_area_is_labelled_proxy_not_measured():
+    """3D 외피 표면적을 measured 로 부르면 실측한 것처럼 보인다."""
+    import inspect
+    import measures
+    src = inspect.getsource(measures.GeometryContext.upper_proxy_area)
+    assert '"proxy"' in src and '"measured"' not in src
+
+
+def test_evidence_coverage_reports_what_the_cost_rests_on():
+    """승인 견적 비율과 가정 파라미터 비율을 결과가 스스로 말해야 한다."""
+    import json
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    d = json.loads((root / "data" / "projects" / "DEMO-RUN-001" / "cost.json")
+                   .read_text(encoding="utf-8"))
+    ec = d["evidence_coverage"]
+    assert ec["supplier_quote_lines"] == 0, "지금은 승인 견적이 하나도 없다"
+    assert 0 < ec["assumed_param_ratio"] < 1
+    assert ec["geometry_proxy"] > 0
+    vk = d["version_key"]
+    assert vk["comparable"] is False and vk["undeclared"]

@@ -124,7 +124,7 @@ def eval_condition(expr, flags):
 
 
 def build(mapping, geo_ctx, cal, parts, flags=None, construction="Strobel Cemented",
-          repairs=None):
+          repairs=None, materials=None):
     """확정 매핑 + 레시피 -> BOM 라인 목록.
 
     repairs: {segment_id: {volume_m3, method, confidence_penalty, ...}}
@@ -133,7 +133,20 @@ def build(mapping, geo_ctx, cal, parts, flags=None, construction="Strobel Cement
     flags = {**CONSTRUCTION_FLAGS, **(flags or {})}
     master = catalog.bom_master()
     defaults = catalog.part_defaults()
+    # 소재 선택. canonical part 하나에 소재 하나를 고정해 두면 가죽 신발도
+    # 메시 단가로 계산된다(실측: 가죽 데모에 가죽 소재가 한 번도 안 쓰였다).
+    # 사용자가 파트별로 고른 소재를 우선하고, 안 고르면 기본값을 쓰되
+    # '미승인 기본값' 이라고 표시해 등급 상한을 건다.
+    chosen = dict(materials or {})
     lines = []
+
+    def pick_material(cp, segment_id=None):
+        """(소재ID, 승인여부, 사유)"""
+        for key in (segment_id, cp):
+            if key and key in chosen:
+                return chosen[key], True, "사용자 승인 소재"
+        d = defaults.get(cp) or defaults.get(cp.split("/")[0])
+        return d, False, "canonical part 기본값 (승인 안 됨)"
 
     # ── 1) 보이는 파트 (실측) ────────────────────────────────────────
     seen = {}
@@ -189,7 +202,9 @@ def build(mapping, geo_ctx, cal, parts, flags=None, construction="Strobel Cement
             "qty_per_pair": 1,
             "qty_basis": info.get("qty_basis"),
             "formula_family": info.get("formula_family"),
-            "material_spec": defaults.get(cp),
+            "material_spec": pick_material(cp, segs[0] if segs else None)[0],
+            "material_approved": pick_material(cp, segs[0] if segs else None)[1],
+            "material_source": pick_material(cp, segs[0] if segs else None)[2],
             "geometry_role": role,
             "max_class": ROLE_MAX_CLASS.get(role, "C1"),
             "quantity_basis": "per_shoe",
@@ -255,7 +270,9 @@ def build(mapping, geo_ctx, cal, parts, flags=None, construction="Strobel Cement
             "qty_per_pair": qty_per_pair,
             "qty_basis": info.get("qty_basis") or rule["qty_method"],
             "formula_family": info.get("formula_family"),
-            "material_spec": defaults.get(cp) or defaults.get(cp.split("/")[0]),
+            "material_spec": pick_material(cp)[0],
+            "material_approved": pick_material(cp)[1],
+            "material_source": pick_material(cp)[2],
             "geometry": {
                 "surface_area_m2": meas["value"] if meas["unit"] == "m2" else None,
                 "length_m": meas["value"] if meas["unit"] == "m" else None,

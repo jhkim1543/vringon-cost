@@ -73,8 +73,11 @@ class GeometryContext:
         a, n = self.area_m2(UPPER_PARTS)
         if n == 0:
             return _m(0, "m2", "blocked", "upper 세그먼트 없음")
-        # 외피 표면적은 안쪽 면까지 포함될 수 있어 그대로는 패턴 면적이 아니다.
-        return _m(a, "m2", "measured", f"upper 세그먼트 {n}개 표면적 합")
+        # 3D 외피 표면적은 재단 패턴 면적이 아니다. 곡면을 펴면 늘어나고,
+        # 시접·겹침·마커 배치가 빠져 있다. measured 로 표기하면 실측한
+        # 것처럼 보여 과신을 부른다. 승인 DXF 가 오면 그것으로 대체한다.
+        return _m(a, "m2", "proxy", f"upper 세그먼트 {n}개 3D 표면적 합",
+                  "재단 패턴 면적이 아니다. 승인 DXF/marker 로 대체 필요")
 
     def outer_proxy_area(self):
         return self.upper_proxy_area()
@@ -117,8 +120,9 @@ class GeometryContext:
             h = self._norm(m)[:, 0]
             fh = h[m.faces].mean(axis=1)
             raw += float(m.area_faces[(fh >= lo) & (fh <= hi)].sum())
-        return _m(to_si(raw, "area", self.cal), "m2", "measured",
-                  f"upper 길이 {lo:.2f}–{hi:.2f} 구간 ({label})")
+        return _m(to_si(raw, "area", self.cal), "m2", "proxy",
+                  f"upper 길이 {lo:.2f}–{hi:.2f} 구간 ({label})",
+                  "3D 표면적 기준 구역 분할. 재단 패턴이 아니다")
 
     def toe_proxy_area(self):
         return self._upper_zone_area(0.72, 1.00, "toe")

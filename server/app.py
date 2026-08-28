@@ -205,6 +205,39 @@ def post_repair(pid: str, payload: dict = None):
         return _err(e)
 
 
+@app.get("/api/project/{pid}/materials")
+def get_materials(pid: str):
+    """파트별 소재 후보와 현재 선택."""
+    try:
+        p = Project(pid)
+        return {"selected": p.state.get("materials") or {},
+                "options": p.material_options(),
+                "defaults": catalog.part_defaults()}
+    except Exception as e:
+        return _err(e)
+
+
+@app.post("/api/project/{pid}/materials")
+def post_materials(pid: str, payload: dict):
+    """파트 또는 세그먼트별 소재를 승인한다. {"Vamp": "MAT-FULLGRAIN"}"""
+    try:
+        p = Project(pid)
+        return {"materials": p.set_materials(payload or {})}
+    except Exception as e:
+        return _err(e)
+
+
+@app.post("/api/project/{pid}/bom/approve")
+def post_bom_approve(pid: str, payload: dict):
+    """규칙 제안 BOM 라인을 승인한다. {"actor": "...", "evidence": "..."}"""
+    try:
+        p = Project(pid)
+        return p.approve_bom(payload.get("actor"), payload.get("evidence"),
+                             payload.get("line_ids"))
+    except Exception as e:
+        return _err(e)
+
+
 @app.post("/api/project/{pid}/bom")
 def post_bom(pid: str, payload: dict = None):
     try:

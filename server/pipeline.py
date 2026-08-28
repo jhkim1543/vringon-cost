@@ -18,6 +18,7 @@ import trimesh
 
 import bom as bom_mod
 import canonical
+import catalog
 import costing
 import geometry as geo
 import measures
@@ -446,6 +447,117 @@ class Project:
                    repaired=ok_n, attempted=len(out))
         return out
 
+    def set_materials(self, choices):
+        """파트 또는 세그먼트별 소재를 승인한다.
+
+        canonical part 하나에 소재 하나를 고정하면 가죽 신발도 메시 단가로
+        계산된다. 승인된 선택만 '사용자 승인' 으로 표시하고, 나머지는
+        기본값이라고 밝혀 등급 상한을 걸어 둔다.
+        """
+        specs = catalog.material_specs()
+        prices = catalog.quarterly_prices()
+        q = self.state["scenario"]["quarter"]
+        cur = dict(self.state.get("materials") or {})
+        log = self.state.setdefault("material_log", [])
+        for key, spec in (choices or {}).items():
+            if spec is None:
+                cur.pop(key, None)
+                log.append({"target": key, "material_spec": None, "at": _now()})
+                continue
+            if spec not in specs:
+                raise ValueError(f"알 수 없는 소재: {spec}")
+            if (q, spec) not in prices and not specs[spec].get("price_proxy"):
+                raise ValueError(f"{spec} 는 {q} 분기 단가가 없어 선택할 수 없습니다")
+            before = cur.get(key)
+            cur[key] = spec
+            log.append({"target": key, "from": before, "material_spec": spec,
+                        "at": _now()})
+        self.state["materials"] = cur
+        self._mark("materials", "confirmed", selected=len(cur))
+        return cur
+
+    def version_key(self):
+        """이 원가가 어떤 전제 위에서 나왔는지 못박는다.
+
+        한 값이라도 바뀌면 다른 원가다. 무엇이 선언됐고 무엇이 아직 없는지를
+        함께 남겨야, 나중에 이 숫자를 다시 볼 때 비교 가능한지 알 수 있다.
+        """
+        sc = self.state.get("scenario") or {}
+        key = {
+            "style_id": sc.get("style_id") or self.pid,
+            "colorway": sc.get("colorway"),
+            "size_range": sc.get("size_range"),
+            "reference_size_label": sc.get("reference_size_label"),
+            "factory": sc.get("factory"),
+            "country": sc.get("country"),
+            "order_quantity": sc.get("order_quantity"),
+            "quarter": sc.get("quarter"),
+            "currency": sc.get("currency"),
+            "supplier": sc.get("supplier"),
+            "quote_version": sc.get("quote_version"),
+            "incoterm": sc.get("incoterm"),
+            "construction": sc.get("construction"),
+        }
+        missing = sorted(k for k, v in key.items() if v in (None, ""))
+        return {"key": key, "undeclared": missing,
+                "comparable": not missing,
+                "note": ("선언되지 않은 항목이 있으면 다른 원가와 같은 조건에서 "
+                         "비교했다고 말할 수 없다.")}
+
+    def approve_bom(self, actor, evidence, line_ids=None):
+        """규칙이 제안한 숨은 BOM 라인을 엔지니어가 승인한다.
+
+        승인 전에는 그 금액이 '확인된 소계' 에 들어가지 않는다. 누가 무슨
+        근거로 올렸는지 남기지 않으면 승인이 아니라 그냥 플래그가 된다.
+        """
+        actor = (actor or "").strip()
+        evidence = (evidence or "").strip()
+        if not actor or not evidence:
+            raise ValueError("승인자(actor)와 근거(evidence)가 필요합니다.")
+        lines = self.state.get("bom") or []
+        if not lines:
+            raise ValueError("BOM 이 없습니다. 먼저 BOM 을 생성하세요.")
+        log = self.state.setdefault("bom_approval_log", [])
+        n = 0
+        for l in lines:
+            if line_ids and l.get("line_id") not in line_ids:
+                continue
+            if l.get("approval_status") != "rule_proposed":
+                continue
+            l["approval_status"] = "engineer_approved"
+            l["approved_by"] = actor
+            l["approved_evidence"] = evidence
+            l["approved_at"] = _now()
+            n += 1
+        log.append({"actor": actor, "evidence": evidence, "lines": n,
+                    "at": _now()})
+        self.state["gates"]["hidden_bom_approved"] = bool(lines) and not any(
+            l.get("approval_status") == "rule_proposed" for l in lines)
+        self.save()
+        return {"approved_lines": n,
+                "hidden_bom_approved": self.state["gates"]["hidden_bom_approved"]}
+
+    def material_options(self):
+        """파트별로 고를 수 있는 소재 후보. 단가가 있는 것만 준다."""
+        specs = catalog.material_specs()
+        prices = catalog.quarterly_prices()
+        q = self.state["scenario"]["quarter"]
+        out = []
+        for spec, d in sorted(specs.items()):
+            row = prices.get((q, spec))
+            if not row and not d.get("price_proxy"):
+                continue
+            out.append({
+                "material_spec": spec, "description": d.get("description"),
+                "form": d.get("form"),
+                "uom": (row or {}).get("uom"),
+                "p50": (row or {}).get("p50"),
+                "eligibility": (row or {}).get("eligibility"),
+                "confidence": (row or {}).get("confidence"),
+                "source_url": (row or {}).get("source_url"),
+            })
+        return out
+
     # ── 5) BOM ───────────────────────────────────────────────────────
     def _context(self):
         cal = self.state.get("calibration")
@@ -465,7 +577,8 @@ class Project:
         lines = bom_mod.build(mapping, ctx, cal, parts,
                               flags=flags,
                               construction=self.state["scenario"]["construction"],
-                              repairs=self.state.get("repairs"))
+                              repairs=self.state.get("repairs"),
+                              materials=self.state.get("materials"))
         self.state["bom"] = lines
         self.state["gates"]["mbom_built"] = True
         # 부피가 필요한 라인이 전부 QA를 통과했는지
@@ -486,8 +599,11 @@ class Project:
         rollup = costing.roll_up(cl, sc)
         gr = costing.grade(cl, rollup, self.state.get("gates", {}))
         mass = costing.mass_balance(cl, sc.get("target_pair_weight_g"))
+        coverage = costing.evidence_coverage(cl)
         result = {"scenario": sc, "lines": cl, "rollup": rollup, "grade": gr,
-                  "mass_balance": mass, "computed_at": _now()}
+                  "mass_balance": mass, "evidence_coverage": coverage,
+                  "version_key": self.version_key(),
+                  "computed_at": _now()}
         self.state["cost"] = {"rollup": rollup, "grade": gr,
                               "computed_at": result["computed_at"]}
         self.ensure_dir()
