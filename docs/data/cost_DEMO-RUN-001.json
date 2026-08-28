@@ -37,6 +37,9 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "approved": true,
+   "needs_confirm": [],
+   "approval_blocked": [],
    "geometry": {
     "surface_area_m2": 0.031029273788701562,
     "volume_m3": 0.0003887984270833333,
@@ -143,6 +146,9 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "approved": true,
+   "needs_confirm": [],
+   "approval_blocked": [],
    "geometry": {
     "surface_area_m2": 0.008072117312453254,
     "volume_m3": 5.490479513888888e-05,
@@ -246,6 +252,9 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "approved": true,
+   "needs_confirm": [],
+   "approval_blocked": [],
    "geometry": {
     "surface_area_m2": 0.011369406043312743,
     "volume_m3": 0.00011595786979166666,
@@ -350,6 +359,11 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Engineer 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": 0.03234746293163465,
     "length_m": null,
@@ -481,6 +495,11 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Engineer 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": 0.03142324970501652,
     "length_m": null,
@@ -612,6 +631,11 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Engineer 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": 0.03234746293163465,
     "length_m": null,
@@ -744,6 +768,11 @@
     "transfer"
    ],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Factory 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": 0.03935453835286804,
     "length_m": null,
@@ -856,6 +885,11 @@
     "coat_kg_m2"
    ],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Factory 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": 0.03935453835286804,
     "length_m": null,
@@ -980,6 +1014,11 @@
     "ratio"
    ],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Factory 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": 0.03935453835286804,
     "length_m": null,
@@ -1099,6 +1138,11 @@
     "coat_kg_m2"
    ],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Factory 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": 0.03935453835286804,
     "length_m": null,
@@ -1219,6 +1263,11 @@
    "approval_role": "Sourcing",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Sourcing 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": null,
     "length_m": null,
@@ -1305,6 +1354,11 @@
    "approval_role": "Sourcing",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Sourcing 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": null,
     "length_m": null,
@@ -1376,6 +1430,11 @@
    "approval_role": "Sourcing",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Sourcing 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": null,
     "length_m": null,
@@ -1464,6 +1523,11 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Engineer 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": 0.028249942644783536,
     "length_m": null,
@@ -1594,6 +1658,11 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Engineer 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": 0.007000774548172867,
     "length_m": null,
@@ -1724,21 +1793,26 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Engineer 승인 필요"
+   ],
    "geometry": {
-    "surface_area_m2": 0.02966458095033111,
+    "surface_area_m2": 0.029664580950331098,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
-    "method": "measured",
+    "method": "proxy",
     "source": "upper 길이 0.34–0.69 구간 (eyelet/lacing)",
-    "note": "규칙 R-008 배율 coverage=1.15"
+    "note": "3D 표면적 기준 구역 분할. 재단 패턴이 아니다 · 규칙 R-008 배율 coverage=1.15"
    },
    "consumption": {
-    "gross_qty": 0.06112156508404869,
+    "gross_qty": 0.061121565084048673,
     "uom": "m",
-    "net": 0.02966458095033111,
+    "net": 0.029664580950331098,
     "steps": [
-     "순 표면적 = 0.029665 m²  [measured]",
+     "순 표면적 = 0.029665 m²  [proxy]",
      "패턴 여유 = 1.15  [assumption]",
      "유효 폭(m) = 1.37  [assumption]",
      "네스팅 수율 = 0.84  [assumption]",
@@ -1795,9 +1869,9 @@
     "source_url": "https://www.made-in-china.com/products-search/hot-china-products/Wholesale_Men%2527s_Shoes_Leather.html",
     "note": null
    },
-   "cost_p10": 0.24815355424123764,
-   "cost_p50": 0.27688068983074055,
-   "cost_p90": 0.30560782542024345,
+   "cost_p10": 0.24815355424123758,
+   "cost_p50": 0.2768806898307405,
+   "cost_p90": 0.30560782542024334,
    "blocked": [],
    "warnings": [],
    "status": "calculated",
@@ -1854,21 +1928,26 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Engineer 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": 0.022749176707218256,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
-    "method": "measured",
+    "method": "proxy",
     "source": "upper 길이 0.00–0.30 구간 (heel)",
-    "note": "규칙 R-007 배율 coverage=0.8"
+    "note": "3D 표면적 기준 구역 분할. 재단 패턴이 아니다 · 규칙 R-007 배율 coverage=0.8"
    },
    "consumption": {
     "gross_qty": 0.04621254732768252,
     "uom": "sheet",
     "net": 0.022749176707218256,
     "steps": [
-     "순 표면적 = 0.022749 m²  [measured]",
+     "순 표면적 = 0.022749 m²  [proxy]",
      "패턴 여유 = 1.1  [assumption]",
      "시트 면적(m²) = 1.5  [assumption]",
      "네스팅 수율 = 0.76  [assumption]",
@@ -1984,6 +2063,11 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Engineer 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": 0.005516839862000584,
     "length_m": null,
@@ -2114,21 +2198,26 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Engineer 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": 0.005758199723615224,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
-    "method": "measured",
+    "method": "proxy",
     "source": "upper 길이 0.72–1.00 구간 (toe)",
-    "note": "규칙 R-006 배율 coverage=0.65"
+    "note": "3D 표면적 기준 구역 분할. 재단 패턴이 아니다 · 규칙 R-006 배율 coverage=0.65"
    },
    "consumption": {
     "gross_qty": 0.011397246416512364,
     "uom": "sheet",
     "net": 0.005758199723615224,
     "steps": [
-     "순 표면적 = 0.005758 m²  [measured]",
+     "순 표면적 = 0.005758 m²  [proxy]",
      "패턴 여유 = 1.1  [assumption]",
      "시트 면적(m²) = 1.5  [assumption]",
      "네스팅 수율 = 0.78  [assumption]",
@@ -2243,6 +2332,9 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "approved": true,
+   "needs_confirm": [],
+   "approval_blocked": [],
    "geometry": {
     "surface_area_m2": 0.011423935629927837,
     "volume_m3": null,
@@ -2313,6 +2405,11 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Engineer 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": null,
     "length_m": 14.66958921167884,
@@ -2430,6 +2527,9 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "approved": true,
+   "needs_confirm": [],
+   "approval_blocked": [],
    "geometry": {
     "surface_area_m2": 0.0026655915619050205,
     "volume_m3": null,
@@ -2500,6 +2600,9 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "approved": true,
+   "needs_confirm": [],
+   "approval_blocked": [],
    "geometry": {
     "surface_area_m2": 0.028249942644783536,
     "volume_m3": null,
@@ -2627,6 +2730,9 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "approved": true,
+   "needs_confirm": [],
+   "approval_blocked": [],
    "geometry": {
     "surface_area_m2": 0.005113112038704881,
     "volume_m3": null,
@@ -2754,6 +2860,9 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "approved": true,
+   "needs_confirm": [],
+   "approval_blocked": [],
    "geometry": {
     "surface_area_m2": 0.000403727823295703,
     "volume_m3": null,
@@ -2818,6 +2927,9 @@
    "approval_role": null,
    "factory_inputs_required": null,
    "approval_status": "segment_confirmed",
+   "approved": true,
+   "needs_confirm": [],
+   "approval_blocked": [],
    "geometry": {
     "surface_area_m2": 0.03664469079824024,
     "volume_m3": null,
@@ -2945,6 +3057,11 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Engineer 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": 0.007000774548172867,
     "length_m": null,
@@ -3076,21 +3193,26 @@
    "approval_role": "Engineer",
    "factory_inputs_required": [],
    "approval_status": "rule_proposed",
+   "approved": false,
+   "needs_confirm": [],
+   "approval_blocked": [
+    "규칙 제안 BOM, Engineer 승인 필요"
+   ],
    "geometry": {
     "surface_area_m2": 0.05950658365946936,
     "length_m": null,
     "volume_m3": null,
     "volume_status": null,
-    "method": "measured",
-    "source": "upper 세그먼트 3개 표면적 합",
-    "note": "규칙 R-002 배율 ratio=0.85"
+    "method": "proxy",
+    "source": "upper 세그먼트 3개 3D 표면적 합",
+    "note": "재단 패턴 면적이 아니다. 승인 DXF/marker 로 대체 필요 · 규칙 R-002 배율 ratio=0.85"
    },
    "consumption": {
     "gross_qty": 0.11198260711567626,
     "uom": "m",
     "net": 0.05950658365946936,
     "steps": [
-     "순 표면적 = 0.059507 m²  [measured]",
+     "순 표면적 = 0.059507 m²  [proxy]",
      "패턴 여유 = 1.15  [assumption]",
      "유효 폭(m) = 1.5  [assumption]",
      "네스팅 수율 = 0.84  [assumption]",
@@ -3189,51 +3311,33 @@
   ],
   "material_breakdown": {
    "Sole": {
-    "p10": 1.1626713622606513,
-    "p50": 1.4612694042092231,
-    "p90": 1.759867446157795,
-    "lines": 6
-   },
-   "Chemical": {
-    "p10": 0.07032162142784071,
-    "p50": 0.07824322700370419,
-    "p90": 0.08616483257956768,
+    "p10": 1.0013608310047117,
+    "p50": 1.2679947785379022,
+    "p90": 1.5346287260710927,
     "lines": 3
    },
-   "기타": {
-    "p10": 0.0058,
-    "p50": 0.006575,
-    "p90": 0.00735,
+   "Trim": {
+    "p10": 0.22,
+    "p50": 0.3,
+    "p90": 0.38,
     "lines": 1
    },
-   "Packaging": {
-    "p10": 0.30341999999999997,
-    "p50": 1.15549,
-    "p90": 2.00756,
-    "lines": 2
-   },
    "Upper": {
-    "p10": 0.5565927315193909,
-    "p50": 0.8081311015989598,
-    "p90": 1.0596694716785287,
-    "lines": 11
-   },
-   "Trim": {
-    "p10": 0.2323928689660263,
-    "p50": 0.3127026906901769,
-    "p90": 0.3930125124143276,
-    "lines": 2
+    "p10": 0.1149018564446904,
+    "p50": 0.22857019106131352,
+    "p90": 0.34223852567793667,
+    "lines": 3
    }
   },
   "buckets": [
    {
     "bucket": "Material",
-    "p10": 2.331198584173909,
-    "p50": 3.822411423502064,
-    "p90": 5.313624262830219,
+    "p10": 1.3362626874494024,
+    "p50": 1.7965649695992159,
+    "p90": 2.2568672517490294,
     "status": "Partial",
     "coverage": "Quarterly snapshot",
-    "note": "3개 라인 차단"
+    "note": "21개 라인 차단"
    },
    {
     "bucket": "Direct Labor",
@@ -3264,10 +3368,150 @@
    }
   ],
   "known_cost_subtotal": {
-   "p10": 2.331198584173909,
-   "p50": 3.822411423502064,
-   "p90": 5.313624262830219
+   "p10": 1.3362626874494024,
+   "p50": 1.7965649695992159,
+   "p90": 2.2568672517490294
   },
+  "unapproved_material_subtotal": {
+   "p10": 0.9949358967245068,
+   "p50": 2.025846453902848,
+   "p90": 3.0567570110811895
+  },
+  "unapproved_lines": [
+   {
+    "line_id": "H-S-002",
+    "canonical_part": "Sockliner Cover",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.0718303177846968,
+    "reason": "규칙 제안 BOM, Engineer 승인 필요"
+   },
+   {
+    "line_id": "H-S-001",
+    "canonical_part": "Sockliner Foam",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.06873835872972363,
+    "reason": "규칙 제안 BOM, Engineer 승인 필요"
+   },
+   {
+    "line_id": "H-R-001",
+    "canonical_part": "Strobel",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.05270594915690032,
+    "reason": "규칙 제안 BOM, Engineer 승인 필요"
+   },
+   {
+    "line_id": "H-R-014",
+    "canonical_part": "Cement/Adhesive",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.05908428024710588,
+    "reason": "규칙 제안 BOM, Factory 승인 필요"
+   },
+   {
+    "line_id": "H-R-012",
+    "canonical_part": "Cleaner",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.006646981527799412,
+    "reason": "규칙 제안 BOM, Factory 승인 필요"
+   },
+   {
+    "line_id": "H-R-015",
+    "canonical_part": "Hardener",
+    "approval_status": "rule_proposed",
+    "cost_p50": null,
+    "reason": "규칙 제안 BOM, Factory 승인 필요"
+   },
+   {
+    "line_id": "H-R-013",
+    "canonical_part": "Primer",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.012511965228798893,
+    "reason": "규칙 제안 BOM, Factory 승인 필요"
+   },
+   {
+    "line_id": "H-R-021",
+    "canonical_part": "Polybag",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.006575,
+    "reason": "규칙 제안 BOM, Sourcing 승인 필요"
+   },
+   {
+    "line_id": "H-R-019",
+    "canonical_part": "Shoe Box",
+    "approval_status": "rule_proposed",
+    "cost_p50": 1.15,
+    "reason": "규칙 제안 BOM, Sourcing 승인 필요"
+   },
+   {
+    "line_id": "H-R-020",
+    "canonical_part": "Tissue/Stuffing",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.005489999999999999,
+    "reason": "규칙 제안 BOM, Sourcing 승인 필요"
+   },
+   {
+    "line_id": "H-R-005",
+    "canonical_part": "Collar Foam",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.06179674953546398,
+    "reason": "규칙 제안 BOM, Engineer 승인 필요"
+   },
+   {
+    "line_id": "H-R-004",
+    "canonical_part": "Tongue Foam",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.015314194324128146,
+    "reason": "규칙 제안 BOM, Engineer 승인 필요"
+   },
+   {
+    "line_id": "H-R-008",
+    "canonical_part": "Eyelet Reinforcement",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.2768806898307405,
+    "reason": "규칙 제안 BOM, Engineer 승인 필요"
+   },
+   {
+    "line_id": "H-R-007",
+    "canonical_part": "Heel Counter",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.05776568415960315,
+    "reason": "규칙 제안 BOM, Engineer 승인 필요"
+   },
+   {
+    "line_id": "H-R-009",
+    "canonical_part": "Hot-melt Backing/Film",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.00644159983886844,
+    "reason": "규칙 제안 BOM, Engineer 승인 필요"
+   },
+   {
+    "line_id": "H-R-006",
+    "canonical_part": "Toe Puff",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.013676695699814837,
+    "reason": "규칙 제안 BOM, Engineer 승인 필요"
+   },
+   {
+    "line_id": "H-S-004",
+    "canonical_part": "Thread",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.012702690690176946,
+    "reason": "규칙 제안 BOM, Engineer 승인 필요"
+   },
+   {
+    "line_id": "H-R-003",
+    "canonical_part": "Tongue Lining",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.015545820752529176,
+    "reason": "규칙 제안 BOM, Engineer 승인 필요"
+   },
+   {
+    "line_id": "H-R-002",
+    "canonical_part": "Vamp/Quarter Lining",
+    "approval_status": "rule_proposed",
+    "cost_p50": 0.13213947639649798,
+    "reason": "규칙 제안 BOM, Engineer 승인 필요"
+   }
+  ],
   "blocked_buckets": [
    "Material",
    "Direct Labor",
@@ -3284,7 +3528,7 @@
   "coverage": {
    "bom_lines": 28,
    "priced_lines": 25,
-   "unpriced_lines": 3,
+   "unpriced_lines": 21,
    "priced_ratio": 0.8928571428571429
   },
   "blocked": [
@@ -3322,7 +3566,25 @@
    "TL-005 Last Set: 금형 견적 미입력",
    "BOM H-R-015",
    "BOM V-UP-013",
-   "BOM V-UP-009"
+   "BOM V-UP-009",
+   "BOM H-S-002",
+   "BOM H-S-001",
+   "BOM H-R-001",
+   "BOM H-R-014",
+   "BOM H-R-012",
+   "BOM H-R-013",
+   "BOM H-R-021",
+   "BOM H-R-019",
+   "BOM H-R-020",
+   "BOM H-R-005",
+   "BOM H-R-004",
+   "BOM H-R-008",
+   "BOM H-R-007",
+   "BOM H-R-009",
+   "BOM H-R-006",
+   "BOM H-S-004",
+   "BOM H-R-003",
+   "BOM H-R-002"
   ],
   "labor_machine": {
    "operations": [
@@ -3706,7 +3968,25 @@
   "material_blocked_lines": [
    "H-R-015",
    "V-UP-013",
-   "V-UP-009"
+   "V-UP-009",
+   "H-S-002",
+   "H-S-001",
+   "H-R-001",
+   "H-R-014",
+   "H-R-012",
+   "H-R-013",
+   "H-R-021",
+   "H-R-019",
+   "H-R-020",
+   "H-R-005",
+   "H-R-004",
+   "H-R-008",
+   "H-R-007",
+   "H-R-009",
+   "H-R-006",
+   "H-S-004",
+   "H-R-003",
+   "H-R-002"
   ]
  },
  "grade": {
@@ -3721,6 +4001,7 @@
     "Tooling 견적 확정",
     "승인 Supplier 견적이 아닌 단가 22건 (분기 스냅샷/공개 리스팅)",
     "공장 routing, SAM, tooling 미확정",
+    "미승인 BOM 라인 19건 (세그먼트 미확정 또는 규칙 제안): Cement/Adhesive, Cleaner, Collar Foam, Eyelet Reinforcement…",
     "C1 상한 지오메트리 28건 (복구 부피 또는 표면 proxy): Cement/Adhesive, Cleaner, Collar Foam, Collar Shell…"
    ]
   },
@@ -3769,7 +4050,7 @@
    },
    {
     "canonical_part": "Eyelet Reinforcement",
-    "grams": 24.91824799827813,
+    "grams": 24.918247998278122,
     "via": "gsm"
    },
    {
@@ -3783,5 +4064,47 @@
   "verdict": "fail_over_estimate",
   "note": "완제품 질량은 순질량 기준이다. 부피 파트는 부피 x 밀도, 면적 파트는 순면적 x 면밀도, 접착제는 건조 고형분 50%, 포장재는 제외. 질량 미산정 3건이 남았는데 이미 목표의 115%다. 부피 과대추정."
  },
- "computed_at": "2026-08-25T03:31:39Z"
+ "evidence_coverage": {
+  "lines_total": 28,
+  "lines_approved": 9,
+  "approved_ratio": 0.32142857142857145,
+  "priced_lines": 26,
+  "supplier_quote_lines": 0,
+  "supplier_quote_ratio": 0.0,
+  "geometry_measured": 8,
+  "geometry_proxy": 14,
+  "material_params_total": 76,
+  "material_params_assumed": 55,
+  "assumed_param_ratio": 0.7236842105263158,
+  "note": "승인 공급사 견적 비율과 가정 파라미터 비율이 이 원가의 신뢰 한계를 정한다. 견적 비율 0 이면 개념 단계다."
+ },
+ "version_key": {
+  "key": {
+   "style_id": "DEMO-RUN-001",
+   "colorway": null,
+   "size_range": null,
+   "reference_size_label": 260,
+   "factory": null,
+   "country": null,
+   "order_quantity": 5000,
+   "quarter": "2026Q3",
+   "currency": "USD",
+   "supplier": null,
+   "quote_version": null,
+   "incoterm": null,
+   "construction": "Strobel Cemented"
+  },
+  "undeclared": [
+   "colorway",
+   "country",
+   "factory",
+   "incoterm",
+   "quote_version",
+   "size_range",
+   "supplier"
+  ],
+  "comparable": false,
+  "note": "선언되지 않은 항목이 있으면 다른 원가와 같은 조건에서 비교했다고 말할 수 없다."
+ },
+ "computed_at": "2026-08-28T04:57:42Z"
 }

@@ -160,7 +160,12 @@ def export_project_lines(pid, cost, dst):
             p.get("eligibility"),
             l.get("cost_p10"), l.get("cost_p50"), l.get("cost_p90"),
             l.get("status"), l.get("max_class"),
+            "예" if l.get("approved", True) else "아니오",
+            l.get("approval_status"),
+            "예" if l.get("material_approved") else "아니오",
+            p.get("uom_original") or "", p.get("uom_conversion_factor") or "",
             " | ".join(l.get("blocked") or []),
+            " | ".join(l.get("approval_blocked") or []),
             " | ".join(l.get("warnings") or []),
         ])
     w_csv(dst / (pid + "_원가라인.csv"),
@@ -168,7 +173,8 @@ def export_project_lines(pid, cost, dst):
            "면적(m2/짝)", "부피(cm3/짝)", "측정방법", "소요량", "단위",
            "단가낮음", "단가기준", "단가높음", "단가근거", "원가자격",
            "금액낮음", "금액기준", "금액높음", "상태", "등급상한",
-           "차단사유", "경고"], rows)
+           "승인됨", "승인상태", "소재승인됨", "단가원단위", "단가환산계수",
+           "차단사유", "미승인사유", "경고"], rows)
 
 
 def scan_secrets(stage):
@@ -226,6 +232,29 @@ def readme(n_proj, n_price, n_map, n_spec, n_rule):
 데이터가 없어 차단(Blocked)되어 있고, 그래서 FOB 와 전체 제조원가는 계산되지
 않습니다. 데이터가 없을 때 0 으로 채우지 않고 차단으로 세우는 것이 이 도구의
 핵심 설계입니다.
+
+금액은 두 갈래로 나뉩니다.
+
+- **승인 소계** 엔지니어가 확인한 라인만 더한 값. 최종 원가로 올라갈 수 있다
+- **미승인 소계** 규칙이 제안했지만 아직 승인되지 않은 라인. 계산은 되어
+  있으나 승인 소계와 FOB 에는 **들어가지 않는다**
+
+지금 데모는 승인 라인이 전체의 30% 안팎이라 승인 소계가 작아 보입니다. 숫자가
+틀린 것이 아니라, 승인되지 않은 것을 확인된 것처럼 더하지 않기 때문입니다.
+`데모결과/프로젝트_요약.csv` 에 두 값과 전체 소재비가 함께 있습니다.
+
+## 이 원가가 무엇에 기대고 있는가
+
+`프로젝트_요약.csv` 의 증거 지표를 먼저 보십시오.
+
+- **승인견적라인 / 가격확정라인** 지금은 0 입니다. 모든 단가가 공개 시세라
+  개념 단계라는 뜻입니다
+- **가정파라미터비율** 약 0.7 입니다. 소재 공학 파라미터의 70% 가 가정이거나
+  공장 확인이 필요합니다
+- **지오메트리실측 대 대체** 3D 표면적은 재단 패턴 면적이 아니므로 대체값
+  (proxy)으로 표기됩니다
+- **버전키비교가능** 아니오 입니다. 공장·국가·supplier·Incoterm 등이 선언되지
+  않아 다른 원가와 같은 조건에서 비교했다고 말할 수 없습니다
 
 - 유효: 디자인 초기에 원가 영향이 큰 부품 찾기, 대안 비교, RFQ 준비
 - 불가: 실제 양산원가·FOB 산출, 바이어·공장 제출용 공식 코스팅 시트
@@ -361,25 +390,40 @@ def main():
             shutil.copy2(ROOT / "data" / "assets" / img, pdir / ("입력이미지_" + img))
         r = cost["rollup"]
         mb = cost.get("mass_balance") or {}
+        ec = cost.get("evidence_coverage") or {}
+        vk = cost.get("version_key") or {}
+        un = r.get("unapproved_material_subtotal") or {}
         summary.append([
             proj.name, cost["scenario"].get("quarter"),
             r["known_cost_subtotal"]["p10"], r["known_cost_subtotal"]["p50"],
             r["known_cost_subtotal"]["p90"],
-            r["coverage"]["priced_lines"], r["coverage"]["bom_lines"],
+            un.get("p50"),
+            (r["known_cost_subtotal"]["p50"] + (un.get("p50") or 0.0)),
+            ec.get("lines_approved"), ec.get("lines_total"),
+            ec.get("supplier_quote_lines"), ec.get("priced_lines"),
+            ec.get("assumed_param_ratio"),
+            ec.get("geometry_measured"), ec.get("geometry_proxy"),
             r["cost_status"], cost["grade"]["class"],
             ", ".join(r.get("blocked_buckets") or []),
             r.get("manufacturing_should_cost"), r.get("fob"),
             round(mb.get("finished_pair_mass_g") or 0, 1), mb.get("verdict"),
             len(r.get("sanity_warnings") or []),
+            "예" if vk.get("comparable") else "아니오",
+            ", ".join(vk.get("undeclared") or []),
         ])
         print("  {:16} ${:.3f}  {}/{}라인".format(
             proj.name, r["known_cost_subtotal"]["p50"],
             r["coverage"]["priced_lines"], r["coverage"]["bom_lines"]))
 
     w_csv(demo / "프로젝트_요약.csv",
-          ["프로젝트", "분기", "소계낮음", "소계기준", "소계높음",
-           "가격확정라인", "전체라인", "원가상태", "등급", "차단버킷",
-           "제조원가", "FOB", "완제품질량(g/켤레)", "질량판정", "경고수"],
+          ["프로젝트", "분기",
+           "승인소계낮음", "승인소계기준", "승인소계높음",
+           "미승인소계기준", "전체소재비기준",
+           "승인라인", "전체라인", "승인견적라인", "가격확정라인",
+           "가정파라미터비율", "지오메트리실측", "지오메트리대체",
+           "원가상태", "등급", "차단버킷",
+           "제조원가", "FOB", "완제품질량(g/켤레)", "질량판정", "경고수",
+           "버전키비교가능", "버전키미선언항목"],
           summary)
 
     (STAGE / "README.md").write_text(

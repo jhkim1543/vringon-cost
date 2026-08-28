@@ -758,7 +758,9 @@ function stepCost(el) {
         ? `<tr><td>${b.bucket}<div class="muted" style="font-size:11px">${b.coverage}</div></td>
            <td class="num blocked-cell" colspan="3">차단. ${b.note || b.coverage}</td></tr>`
         : row(b.bucket, b)).join('')}
-      ${row('확인된 소계', r.known_cost_subtotal, 'total-row')}
+      ${row('확인된 소계 (승인분)', r.known_cost_subtotal, 'total-row')}
+      ${r.unapproved_material_subtotal && r.unapproved_material_subtotal.p50
+        ? row('미승인 소계 (합계에 넣지 않음)', r.unapproved_material_subtotal) : ''}
       ${row('Reject Allowance', r.reject_allowance)}
       ${row('Factory Overhead', r.factory_overhead)}
       ${row('Manufacturing Should Cost', r.manufacturing_should_cost)}
@@ -770,6 +772,28 @@ function stepCost(el) {
       <b>${r.fob_status}</b> 노무, 기계, 금형 입력이 없으면 0 으로 감추지 않고 차단합니다.
       ${r.blocked.length ? `<br>차단 ${r.blocked.length}건. ${r.blocked.slice(0, 3).join('; ')}` : ''}
     </div>
+
+    ${(() => {
+      const ec = S.cost.evidence_coverage, vk = S.cost.version_key;
+      if (!ec) return '';
+      const pct = v => v == null ? '없음' : (v * 100).toFixed(0) + '%';
+      return `<h4>이 원가가 기대고 있는 것</h4>
+        <dl class="kv">
+          <dt>승인 공급사 견적 단가</dt>
+          <dd>${ec.supplier_quote_lines}/${ec.priced_lines}라인 (${pct(ec.supplier_quote_ratio)})
+            ${ec.supplier_quote_lines === 0 ? ' 전부 공개 시세 기준입니다' : ''}</dd>
+          <dt>엔지니어 승인 라인</dt>
+          <dd>${ec.lines_approved}/${ec.lines_total} (${pct(ec.approved_ratio)})</dd>
+          <dt>지오메트리</dt>
+          <dd>실측 ${ec.geometry_measured}건 · 대체값 ${ec.geometry_proxy}건</dd>
+          <dt>가정 파라미터</dt>
+          <dd>${ec.material_params_assumed}/${ec.material_params_total}
+            (${pct(ec.assumed_param_ratio)}) 가정 또는 공장 확인 필요</dd>
+          ${vk && vk.undeclared && vk.undeclared.length ? `<dt>원가 버전</dt>
+            <dd>미선언 ${vk.undeclared.length}항목: ${vk.undeclared.join(', ')}.
+              같은 조건에서 비교했다고 말할 수 없습니다.</dd>` : ''}
+        </dl>`;
+    })()}
 
     <h4>등급 ${g.class}</h4>
     ${['C1', 'C2'].map(c => g.blocked_reasons[c].length ? `
