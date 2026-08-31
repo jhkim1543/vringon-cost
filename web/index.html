@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VRINGON Cost 신발 Design to Should Cost</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="styles.css">
 <script type="importmap">
 { "imports": {
@@ -14,27 +16,29 @@
 </head>
 <body>
 
-<header class="topbar">
-  <div class="brand">VRING<span>:</span>ON <b>Cost</b></div>
-  <nav class="flow" id="flow"></nav>
-  <div class="topright">
+<!-- GNB: VRINGON-WEB 의 상단 헤더(48px) 패턴 -->
+<header class="gnb">
+  <div class="gnb-brand">VRING<span class="gnb-colon">:</span>ON
+    <b class="gnb-product">Cost</b></div>
+  <nav class="flow" id="flow" aria-label="원가 산출 단계"></nav>
+  <div class="gnb-right">
     <span class="chip" id="gradeChip">등급 확인중</span>
- <span class="chip" id="fobChip">원가 상태 확인중</span>
- </div>
+    <span class="chip" id="fobChip">원가 상태 확인중</span>
+  </div>
 </header>
 
 <main class="layout">
 
   <section class="pane pane-3d">
     <div class="pane-head">
- <h2>3D 파트</h2>
- <div class="seg-toggle" id="viewMode">
+      <h2>3D 파트</h2>
+      <div class="seg-toggle" id="viewMode">
         <button data-mode="parts" class="on">파트</button>
- <button data-mode="qa">메시 검사</button>
- <button data-mode="cost">원가 기여</button>
- </div>
- </div>
- <div id="viewer"></div>
+        <button data-mode="qa">메시 검사</button>
+        <button data-mode="cost">원가 기여</button>
+      </div>
+    </div>
+    <div id="viewer"></div>
     <div class="viewer-foot">
       <div id="landmarkBar" class="landmark-bar"></div>
       <div class="legend" id="legend"></div>
@@ -43,15 +47,15 @@
 
   <section class="pane pane-mid">
     <div class="pane-head"><h2 id="stepTitle">프로젝트</h2></div>
- <div class="pane-body" id="stepBody"></div>
+    <div class="pane-body" id="stepBody"></div>
   </section>
 
   <section class="pane pane-right">
     <div class="pane-head"><h2>근거</h2></div>
- <div class="pane-body" id="evidence">
+    <div class="pane-body" id="evidence">
       <p class="muted">BOM 행이나 파트를 선택하면 계산 근거가 여기에 표시됩니다.</p>
- </div>
- </section>
+    </div>
+  </section>
 
 </main>
 

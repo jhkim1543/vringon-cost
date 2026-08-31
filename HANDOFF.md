@@ -271,3 +271,21 @@ EB 대신(AWS 세션 만료) 사내 GPU 서버의 jhkim 계정 영역에 백엔�
 
 월간 점검: `python tools/fetch_benchmarks.py` 를 매월 1회 돌리면 된다.
 Pink Sheet 주소는 매월 바뀌므로 랜딩 페이지에서 자동 해석한다.
+
+## VRINGON 정합 재구성 (2026-08-29)
+
+RebuilderAI 의 VRINGON 저장소(BE·WEB·design-system·ai-workers)를 분석해 같은
+구조로 재구성했다. 분석과 매핑의 정본은 `ARCHITECTURE.md`.
+
+- 백엔드: `server/app.py` 는 starter(조립만), 업무 API 는
+  `server/modules/<도메인>_api.py` 9개(project·geometry·segmentation·
+  material·bom·costing·pricing·generation·devtools). 오류는
+  `server/core/errors.py` 의 VC-<도메인>-NNN 코드로 나간다. 엔진(평면 모듈)은
+  HTTP 를 모르며, `tests/test_architecture.py` 가 임포트 경계를 지킨다.
+- 프런트: `web/tokens.css` 가 VRINGON 디자인 시스템의 시맨틱 토큰 부분집합
+  (Pretendard, surface 01~05, blue primary, radius·spacing 스케일)이고,
+  `styles.css` 는 토큰 변수만 쓴다. 레이아웃은 VRINGON-WEB 의 상단 GNB(48px)
+  패턴. 단계 플로우는 3그룹(디자인 | 검토·확정 | 원가) 구분선으로 묶인다.
+- 로컬 데모: `run.cmd` 또는 `.claude/launch.json` 의 vringon-cost →
+  http://127.0.0.1:5270
+- RebuilderAI 조직 저장소에는 아무것도 쓰지 않았다 (읽기 전용 분석).

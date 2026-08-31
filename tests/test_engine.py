@@ -690,8 +690,8 @@ def test_project_id_rejects_path_traversal():
 def test_gates_require_actor_and_evidence():
     """게이트는 등급을 좌우하므로 참/거짓만으로 바꿀 수 없어야 한다."""
     import inspect
-    import app as app_mod
-    src = inspect.getsource(app_mod.post_gates)
+    from modules import costing_api
+    src = inspect.getsource(costing_api.post_gates)
     assert "actor" in src and "evidence" in src
     assert "gate_log" in src
 
