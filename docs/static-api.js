@@ -113,7 +113,7 @@
           '3D 생성·재계산·매핑 확정은 로컬 실행(run.cmd)에서 동작합니다.';
       }
       b.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:60;' +
-        'background:#0d1420;color:#9dbbd8;border-top:1px solid #26456b;' +
+        'background:#0f1217;color:#c5c9cf;border-top:1px solid #353d43;' +
         'font-size:11.5px;padding:5px 14px;text-align:center';
       document.body.appendChild(b);
       document.querySelector('.layout').style.paddingBottom = '26px';

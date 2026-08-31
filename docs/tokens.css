@@ -1,0 +1,104 @@
+/* VRINGON 디자인 시스템 토큰 — 다크 테마 시맨틱 부분집합.
+ *
+ * RebuilderAI design-system 의 승인 토큰(팔레트·시맨틱·타이포·radius·spacing)
+ * 이름 규칙을 따르고, 이 앱이 쓰는 부분집합만 선언한다. 원본 JSON·아이콘·
+ * 브랜드 자산은 사유 저장소이므로 복제하지 않는다. 색 값 자체는 VRINGON
+ * 공개 웹 산출물의 CSS 에 노출되는 값과 동일하다.
+ *
+ * 규칙: 컴포넌트 CSS 는 팔레트 원색이 아니라 시맨틱 변수만 쓴다.
+ */
+:root {
+  /* 팔레트 — grayscale */
+  --gray00: #f9fafb; --gray01: #f3f5f8; --gray02: #c5c9cf; --gray03: #aaafb5;
+  --gray04: #898f95; --gray05: #7d8389; --gray06: #676e74; --gray07: #565d63;
+  --gray08: #353d43; --gray09: #282d32; --gray10: #181c20; --gray11: #0f1217;
+  --gray12: #05070e;
+
+  /* 팔레트 — brand blue (primary = blue06) */
+  --blue02: #e9eaff; --blue03: #a7b1ff; --blue04: #8793ff; --blue05: #5d6cfa;
+  --blue06: #444ae8; --blue07: #232bc1; --blue08: #0e0ea6; --blue10: #000045;
+
+  /* 팔레트 — status */
+  --red04: #ff7474; --red05: #ff4550; --red06: #e32f3f; --red08: #ad001d;
+  --green02: #2aeea8; --green06: #009966;
+  --orange03: #ffab5c; --orange05: #fa7500;
+
+  /* 시맨틱 (dark) — surface 위계 */
+  --surface-01: var(--gray12);
+  --surface-02: var(--gray11);
+  --surface-03: var(--gray10);
+  --surface-04: var(--gray09);
+  --surface-05: var(--gray07);
+  --surface-accent01: var(--blue10);
+  --canvas-default: var(--gray12);
+  --canvas-contrast: var(--gray10);
+
+  /* 시맨틱 — text */
+  --text-primary: var(--gray01);
+  --text-secondary: var(--gray02);
+  --text-tertiary: var(--gray04);
+  --text-placeholder: var(--gray04);
+  --text-disabled: var(--gray08);
+  --text-accent: var(--blue05);
+  --text-success: var(--green02);
+  --text-warning: var(--orange03);
+  --text-failed: var(--red04);
+
+  /* 시맨틱 — border */
+  --border-default: var(--gray08);
+  --border-light: var(--gray10);
+  --border-dim: #ffffff1a;
+  --border-accent: var(--blue05);
+  --border-fail: var(--red04);
+  --border-success: var(--green02);
+  --border-warning: var(--orange03);
+  --border-selected: var(--gray02);
+
+  /* 시맨틱 — button */
+  --btn-primary: var(--blue05);
+  --btn-primary-hover: var(--blue06);
+  --btn-primary-pressed: var(--blue08);
+  --btn-primary-disabled: var(--blue10);
+  --btn-secondary: var(--gray09);
+  --btn-secondary-hover: var(--gray08);
+  --btn-secondary-pressed: var(--gray07);
+  --btn-alert: var(--red05);
+  --btn-alert-hover: var(--red06);
+
+  /* radius — 컴포넌트별 지정값 */
+  --radius-4: 4px; --radius-6: 6px; --radius-8: 8px; --radius-12: 12px;
+  --radius-16: 16px; --radius-full: 999px;
+  --radius-button: var(--radius-4);
+  --radius-button-lg: var(--radius-6);
+  --radius-input: var(--radius-6);
+  --radius-card: var(--radius-8);
+  --radius-modal: var(--radius-16);
+  --radius-tag: var(--radius-full);
+  --radius-chip: var(--radius-4);
+
+  /* spacing 스케일 */
+  --sp-2: 2px; --sp-4: 4px; --sp-8: 8px; --sp-12: 12px; --sp-16: 16px;
+  --sp-20: 20px; --sp-24: 24px; --sp-32: 32px; --sp-40: 40px; --sp-48: 48px;
+
+  /* 타이포 — Pretendard 역할 스케일 (Title/Body/Label/Caption) */
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system,
+               "Segoe UI", "Malgun Gothic", sans-serif;
+  --type-title-lg: 600 20px/1.4 var(--font-sans);
+  --type-title-md: 600 18px/1.4 var(--font-sans);
+  --type-title-sm: 600 16px/1.5 var(--font-sans);
+  --type-body-lg: 400 16px/1.5 var(--font-sans);
+  --type-body-md: 400 14px/1.5 var(--font-sans);
+  --type-body-sm: 400 12px/1.5 var(--font-sans);
+  --type-label-lg: 600 14px/1.5 var(--font-sans);
+  --type-label-md: 600 13px/1.5 var(--font-sans);
+  --type-caption: 500 11px/1 var(--font-sans);
+  --type-button-md: 500 13px/1 var(--font-sans);
+  --type-button-lg: 500 14px/1 var(--font-sans);
+
+  /* 레이아웃 */
+  --gnb-height: 48px;
+
+  /* 그림자 (dark) */
+  --shadow-1: 0 0 0 1px #ffffff14;
+  --shadow-2: 0 4px 16px #00000080;
+}

@@ -979,7 +979,7 @@ async function renderProjectSwitcher() {
     const r = await api('/projects', null, 'GET');
     const pids = (r.projects || []).map(p => p.project_id).filter(Boolean);
     if (pids.length < 2) return;
-    const host = document.querySelector('.topright');
+    const host = document.querySelector('.gnb-right');
     const sel = document.createElement('select');
     sel.style.cssText = 'width:auto;font-size:12px;padding:4px 8px';
     sel.innerHTML = pids.map(p =>
