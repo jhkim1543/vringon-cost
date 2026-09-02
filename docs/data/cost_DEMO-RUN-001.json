@@ -9,7 +9,8 @@
   "reject_allowance_pct": 3.0,
   "factory_overhead_pct": 8.0,
   "supplier_margin_pct": 10.0,
-  "target_pair_weight_g": 600
+  "target_pair_weight_g": 600,
+  "length_measure_type": "external_outsole"
  },
  "lines": [
   {
@@ -4257,12 +4258,12 @@
   "note": "선언되지 않은 항목이 있으면 다른 원가와 같은 조건에서 비교했다고 말할 수 없다."
  },
  "inputs_fingerprint": {
-  "scenario": "3e8b46599383c0dd",
+  "scenario": "eea6ea62d54f1148",
   "materials": "44136fa355b3678a",
   "gates": "314499b88a135bd8",
   "mapping": "a56a6ec51c3dc059",
   "repairs": "ab50a9251b614485",
   "bom_approvals": "7f142e6fedb19efd"
  },
- "computed_at": "2026-08-28T15:02:50Z"
+ "computed_at": "2026-09-02T10:37:53Z"
 }

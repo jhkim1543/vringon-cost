@@ -29,12 +29,16 @@ body {
   border-bottom: 1px solid var(--border-light);
 }
 .gnb-brand {
-  font: 700 16px/1 var(--font-sans);
-  letter-spacing: .04em; white-space: nowrap;
-  color: var(--text-primary);
+  display: flex; align-items: center; gap: var(--sp-8);
+  white-space: nowrap;
+  color: var(--text-primary);   /* Logo 규칙: currentColor = icon.primary */
 }
-.gnb-colon { color: var(--text-accent); }
-.gnb-product { color: var(--text-accent); font-weight: 600; margin-left: 2px; }
+.logo { display: inline-block; flex: none; }
+.logo svg { display: block; width: 100%; height: 100%; }
+.logo-symbol { width: calc(20px * 178 / 92); height: 20px; }
+.logo-word { width: calc(13px * 652 / 92); height: 13px; }
+.gnb-product { font: 600 14px/1 var(--font-sans);
+  color: var(--text-accent); margin-left: 2px; }
 .gnb-right {
   margin-left: auto; display: flex; align-items: center; gap: var(--sp-8);
 }
@@ -68,9 +72,10 @@ body {
   width: 7px; height: 7px; border-radius: var(--radius-full);
   background: var(--surface-05); flex: none;
 }
-.flow .dot.done { background: var(--text-success); }
+.flow .dot.done { background: var(--blue05); }  /* DS ProgressSteps 완료색 */
 .flow .dot.review { background: var(--text-warning); }
 .flow .dot.blocked { background: var(--text-warning); }
+.flow button.on .dot { box-shadow: 0 0 0 1px var(--border-accent); }
 
 .chip {
   font: var(--type-caption); padding: 5px 10px;
@@ -108,8 +113,8 @@ body {
 .pane-body { padding: var(--sp-16); overflow-y: auto; min-height: 0; }
 
 .seg-toggle {
-  display: flex; background: var(--surface-03);
-  border-radius: var(--radius-button); padding: 2px; gap: 2px;
+  display: flex; background: var(--surface-04);   /* DS SegmentedControl */
+  border-radius: var(--radius-8); padding: 2px; gap: 2px;
 }
 .seg-toggle button {
   appearance: none; border: 0; cursor: pointer;
@@ -117,7 +122,8 @@ body {
   background: transparent; padding: 5px 10px;
   border-radius: var(--radius-chip);
 }
-.seg-toggle button.on { background: var(--surface-05); color: var(--text-primary); }
+.seg-toggle button.on { background: var(--border-default);
+  color: var(--text-primary); }   /* DS 선택 thumb = border.default */
 
 /* 3D */
 #viewer { flex: 1; min-height: 0; position: relative; background: var(--surface-01); }
@@ -167,18 +173,20 @@ input:focus, select:focus { outline: none; border-color: var(--border-accent); }
 /* 버튼: 디자인 시스템 primary/secondary 상태값 */
 .btn {
   appearance: none; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 32px; padding: 0 12px;              /* DS Button md */
   font: var(--type-button-md); color: var(--text-primary);
   background: var(--btn-secondary);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-button);
-  padding: 8px 14px;
 }
 .btn:hover { background: var(--btn-secondary-hover); }
 .btn:active { background: var(--btn-secondary-pressed); }
 .btn.primary {
+  height: 40px; padding: 0 16px;              /* DS Button lg */
   font: var(--type-button-lg);
   background: var(--btn-primary); border-color: transparent;
-  color: #fff; padding: 9px 18px;
+  color: #fff;
   border-radius: var(--radius-button-lg);
 }
 .btn.primary:hover { background: var(--btn-primary-hover); }
