@@ -8,7 +8,7 @@
   },
   "scale": {
    "status": "confirmed",
-   "at": "2026-08-24T09:59:17Z",
+   "at": "2026-09-02T10:33:38Z",
    "scale": 299.0063670599571
   },
   "segment": {
@@ -31,7 +31,7 @@
   },
   "cost": {
    "status": "calculated",
-   "at": "2026-08-28T15:02:50Z",
+   "at": "2026-09-02T10:37:53Z",
    "grade": "C1",
    "fob": "산출 불가"
   }
@@ -46,7 +46,8 @@
   "reject_allowance_pct": 3.0,
   "factory_overhead_pct": 8.0,
   "supplier_margin_pct": 10.0,
-  "target_pair_weight_g": 600
+  "target_pair_weight_g": 600,
+  "length_measure_type": "external_outsole"
  },
  "gates": {
   "metric_calibrated": true,
@@ -56,7 +57,7 @@
   "volume_parts_validated": true
  },
  "input_image": "DEMO-RUN-001.jpg",
- "updated_at": "2026-08-28T15:02:50Z",
+ "updated_at": "2026-09-02T10:37:53Z",
  "landmarks": {
   "axis": [
    0.09468265172295515,
@@ -2853,7 +2854,7 @@
    },
    "downgraded_from": "C4"
   },
-  "computed_at": "2026-08-28T15:02:50Z"
+  "computed_at": "2026-09-02T10:37:53Z"
  },
  "mapping_summary": {
   "input_segments": 10,
